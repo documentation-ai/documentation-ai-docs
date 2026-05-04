@@ -575,6 +575,17 @@
             "icon": "globe"
           }
         ]
+      },
+      {
+        "tab": "API Reference",
+        "icon": "settings2",
+        "groups": [
+          {
+            "group": "API's",
+            "pages": [],
+            "openapi": "api-reference/openapi.yaml"
+          }
+        ]
       }
     ]
   },

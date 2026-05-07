@@ -28,35 +28,37 @@ For example, on the Professional plan (500 credits), your users can ask up to **
 
 ## AI Documentation Agent
 
-The [AI Documentation Agent](/ai/ai-documentation-agent) helps you create, edit, and organize documentation. Credit usage varies based on what the agent does.
+The [AI Documentation Agent](/ai/ai-documentation-agent) helps you create, edit, and organize documentation. Documentation.AI recently upgraded the writer and code analysis model stack, so more capable models can improve output quality, but complex tasks may use more credits as a result.
 
 ### What determines credit cost
 
-Three factors affect how many credits a task uses:
+Four practical factors affect how many credits a task uses:
 
-1. **Number of steps** — Each action the agent takes (reading a file, editing, searching) is a step. Simple tasks take 2–3 steps. Complex tasks take 5–12 steps.
+1. **Number of steps** — Each action the agent takes, such as reading files, searching, editing, or validating, adds to the total. A small change may take 2–3 steps, while a broader task can take many more.
 
-2. **Amount of content processed** — Larger files and longer conversations mean more tokens processed. A small edit on a short page costs less than restructuring a large navigation file.
+2. **Amount of content processed** — Larger files, more pages, and longer conversations require the agent to read and work through more content. A short page edit costs less than updating a large section of your docs.
 
-3. **Type of operation** — Reading and searching are cheap. Writing and editing content costs more because the agent generates new text.
+3. **Type of operation** — Reading and searching usually cost less than writing, rewriting, or validating content. Tasks that create new pages or update multiple files generally use more credits.
+
+4. **Model usage and task complexity** — Some tasks require deeper planning, code-aware analysis, or background validation. When the system uses more capable models to complete a more complex task, credit usage can be higher.
 
 ### Typical credit usage
 
-These are real-world examples based on actual agent runs. Your usage may vary slightly depending on document size and conversation length.
+These examples reflect current agent behavior. If you saw older examples elsewhere, complex code-aware or background tasks may now be roughly **2x to 3x higher** because the agent can do more planning, analysis, and validation during a request.
 
 | Task                        | Steps | Approx. credits | Example                                                                                                                         |
 | --------------------------- | ----- | --------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| **Quick edit**              | 2–3   | 0.3 – 0.5       | Fix a typo, change a heading, update a link                                                                                     |
-| **Single page edit**        | 3–4   | 0.5 – 0.8       | Rewrite a section, add a callout, update a code example                                                                         |
-| **Navigation change**       | 3–4   | 0.5 – 0.8       | Add a tab, move a page to a different group, add a nav icon                                                                     |
-| **Structural edit**         | 4–6   | 0.8 – 1.5       | Reorganize navigation groups, add access roles, update site config                                                              |
-| **Create new page**         | 3–5   | 0.8 – 1.2       | Create a new MDX page with frontmatter, sections, and components                                                                |
-| **Multi-page task**         | 8–15  | 1.5 – 3.0       | Create 5+ pages, update navigation, validate structure                                                                          |
-| **Large or iterative task** | 15–30 | 3.0 – 8.0       | Import 10+ pages from external source, restructure entire navigation, long back-and-forth conversations with multiple revisions |
+| **Quick edit**              | 2–3   | 0.4 – 0.7       | Fix a typo, change a heading, update a link                                                                                     |
+| **Single page edit**        | 3–4   | 0.8 – 1.3       | Rewrite a section, add a callout, update a code example                                                                         |
+| **Navigation change**       | 3–4   | 0.8 – 1.3       | Add a tab, move a page to a different group, add a nav icon                                                                     |
+| **Structural edit**         | 4–6   | 1.5 – 2.8       | Reorganize navigation groups, add access roles, update site config                                                              |
+| **Create new page**         | 3–5   | 1.2 – 2.2       | Create a new MDX page with frontmatter, sections, and components                                                                |
+| **Multi-page task**         | 8–15  | 3.0 – 6.5       | Create 5+ pages, update navigation, validate structure                                                                          |
+| **Large or iterative task** | 15–30 | 7.0 – 18.0      | Import 10+ pages from external source, restructure entire navigation, long back-and-forth conversations with multiple revisions |
 
 ### Worked example: "Check the latest commits and update the documentation"
 
-This is a common task where you connect a GitHub repository and ask the agent to review recent code changes and update docs accordingly.
+This is a common task where you connect a GitHub repository and ask the agent to review recent code changes and update docs accordingly. The system may analyze connected repositories and may use different models during planning, code analysis, writing, and validation behind the scenes, which is why this kind of request often costs more than a basic edit.
 
 | Step | What the agent does                | Why                                              |
 | ---- | ---------------------------------- | ------------------------------------------------ |
@@ -70,9 +72,9 @@ This is a common task where you connect a GitHub repository and ask the agent to
 | 11   | Marks tasks complete               | Tracks progress through the plan                 |
 | 12   | Responds to you                    | Summarizes all changes made                      |
 
-**Total: ~3–8 credits** ($0.30–$0.80) depending on how many pages need updating
+**Total: ~8–18 credits** ($0.80–$1.80) depending on how many pages need updating
 
-This task costs more because the agent needs to read from GitHub, search your docs, and then edit multiple pages. If only 1–2 pages need updating, it will be closer to 3 credits. If the commits affect many areas of your docs, it can reach 8+ credits.
+This task costs more because the agent needs to read from GitHub, search your docs, and then edit multiple pages. If only 1–2 pages need updating, it will usually land near the lower end of the range. If the commits affect many areas of your docs, it can move well beyond 10 credits.
 
 <Callout kind="warning" collapsed="false">
   Tasks that involve many files, long conversations, or multiple revisions can
@@ -90,7 +92,7 @@ Here is a step-by-step breakdown of a simple edit task — asking the agent to c
 | 2    | Edits the file      | Makes the requested change                      |
 | 3    | Responds to you     | Confirms what was changed                       |
 
-**Total: ~0.4 credits** ($0.04)
+**Total: ~0.6 credits** ($0.06)
 
 ### Worked example: "Create 5 new pages from our API docs"
 
@@ -106,7 +108,7 @@ Here is a step-by-step breakdown of a complex, multi-page creation task.
 | 10   | Validates structure      | Checks JSON and MDX are valid       |
 | 11   | Responds to you          | Summarizes everything that was done |
 
-**Total: ~2.0 credits** ($0.20)
+**Total: ~4.5 credits** ($0.45)
 
 ### Multi-turn conversations
 

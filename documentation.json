@@ -387,6 +387,11 @@
                 "icon": "stars-icon"
               },
               {
+                "title": "Workflows",
+                "path": "ai/workflows",
+                "icon": "workflow"
+              },
+              {
                 "title": "AI Assistant",
                 "path": "ai/ai-assistant",
                 "icon": "settings"

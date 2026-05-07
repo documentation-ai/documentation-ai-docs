@@ -2,6 +2,36 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-05-07" description="Background workflows, assistant settings, search, previews, and metering fixes" tags={["feature","improvement","fix"]}>
+  ## New features
+
+  - Background documentation workflows can now run asynchronously with run history, detailed status, cancellation, and handoff back into chat. Learn more in [AI Documentation Agent](/ai/ai-documentation-agent).
+
+  - Workflow automation now supports scheduled runs, connected-repository triggers, and templates for recurring documentation maintenance. See [GitHub integration](/integrations/github) and [Code Editor](/write-and-publish/code-editor).
+
+  - Workflow notifications now surface completed, failed, and human-review-needed runs so teams know when to review or publish changes.
+
+  - AI Assistant settings now include expanded controls for fallback behavior, custom instructions, starter questions, follow-up prompts, enabled and default-open behavior, style, position, and captcha. Configure them in [AI Assistant](/ai/ai-assistant).
+
+  ## Updates
+
+  - Assistant settings persist more reliably after deploys.
+
+  - Workflow scheduling is more flexible, with timing and timezone controls for recurring runs.
+
+  - Branch preview URLs are more reliable when reviewing documentation changes.
+
+  - Workflow summaries and errors are clearer when a run needs attention.
+
+  - Title-based search relevance is improved so readers can find exact page matches faster.
+
+  ## Bug fixes
+
+  - Usage metering now records AI activity correctly. See [AI Credits](/ai/ai-credits).
+
+  - Background runs now surface preview deployment failures more accurately.
+</Update>
+
 <Update label="2026-04-10" description="Collections, container pages, JWT/OAuth access control, and cookie consent" tags={["feature"]}>
   ## CollectionList and CollectionContent components
 

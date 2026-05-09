@@ -1,6 +1,8 @@
 ---
 title: Code Editor
-description: Use Git-based workflows and MDX in your preferred code editor to write, organize, and publish documentation with Documentation.AI.
+description: >-
+  Use Git-based workflows and MDX in your preferred code editor to write,
+  organize, and publish documentation with Documentation.AI.
 ---
 
 ## Overview
@@ -286,6 +288,12 @@ Documentation.AI uses your Git repository as the single source of truth. A typic
 
   Then open a pull request in your Git provider. Documentation.AI automatically builds a preview for the PR so reviewers can see the rendered docs.
 
+  <Callout kind="info">
+
+  Preview URLs are based on the branch name and your documentation subdomain. Documentation.AI normalizes that combination into a URL-safe hostname, so the preview URL may not exactly match the original branch name when it contains punctuation, spaces, or special characters.
+
+  </Callout>
+
   </Step>
 
   <Step title="Review and merge" icon="check-circle">
@@ -346,6 +354,7 @@ If something looks wrong after a change:
 
 - **Page builds but content is broken**  
   - Look for invalid MDX (for example, unclosed components or unescaped `{` in prose).  
+  - To write literal braces, wrap the text in inline code, such as `{customerId}`, or escape braces as `&#123;` and `&#125;` when they should render as normal text.  
   - Ensure all components use valid props (for example, `kind="info"` on `<Callout>`).
 
 - **Deployment did not update**  

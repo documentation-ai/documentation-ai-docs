@@ -1,6 +1,8 @@
 ---
 title: Workflows
-description: Automate documentation tasks with AI workflows, including setup requirements, templates, triggers, run history, and current limitations.
+description: >-
+  Automate documentation tasks with AI workflows, including setup requirements,
+  templates, triggers, run history, and current limitations.
 ---
 
 ## Automate recurring documentation work with workflows
@@ -25,17 +27,19 @@ Workflows are currently in beta. Expect the feature set to expand, and review wo
 
 ## Before you start
 
-Workflows depend on your plan and repository connection setup. Confirm these requirements before you try to create one.
+Workflows depend on your plan and repository connection setup. Confirm these requirements before you try to create or run a saved workflow.
 
 <Callout kind="alert">
 
-You need all of the following before Workflows are available:
+You need all of the following to create, edit, delete, or manually trigger saved workflows:
 
 - A **Standard** plan or higher
 - A documentation site synced to a **connected GitHub repository**
 - Any repository you want to use as a trigger repo or context repo connected in Documentation.AI
 
 </Callout>
+
+Lower plans may still be able to open the Workflows area, view workflow templates, and review run history. Saved-workflow actions such as creating, editing, deleting, or manually triggering a workflow require Standard or higher.
 
 If your repositories are not connected, you can still explore the Workflows area, but repo-based workflow setup and repository selection will be limited.
 
@@ -162,6 +166,9 @@ When a run finishes, the result can include:
 - A downloadable report
 - A commit link when the run produced a commit
 - An option to open the completed run in chat
+- A workflow notification email with a structured summary
+
+Notification emails can include task counts, what changed, items that need review, failures, and validation issues. Use the email summary as a quick triage view, then open the run history when you need the full report, commit, or chat context.
 
 Those outputs help you decide whether to accept the result, investigate further, or continue the task in a conversational workflow.
 

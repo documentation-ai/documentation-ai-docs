@@ -1,6 +1,8 @@
 ---
 title: Page Configuration
-description: Reference for configuring page-level metadata using MDX front matter, including title, description, SEO properties, and structured data.
+description: >-
+  Reference for configuring page-level metadata using MDX front matter,
+  including title, description, SEO properties, and structured data.
 type: reference
 ---
 
@@ -45,7 +47,7 @@ jsonLd:
 </ParamField>
 
 <ParamField path="description" param-type="string" required="false" showLocation="false">
-  A brief summary of the page content (120-160 characters). Used for SEO meta descriptions and social sharing cards.
+  A brief summary of the page content (120-160 characters). Used for SEO meta descriptions and social sharing cards. Metadata descriptions are decoded before they render, so escaped braces and common entities such as `&#123;`, `&#125;`, and `&amp;` display cleanly in SEO and social previews. Prefer plain, readable text whenever possible.
 </ParamField>
 
 <ParamField path="ogImage" param-type="string" required="false" showLocation="false">

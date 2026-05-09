@@ -1,22 +1,22 @@
 ---
 title: AI Assistant
 description: >-
-  AI Assistant helps users get accurate, docs‑aware answers with reliable
+  AI Assistant helps users get accurate, docs-aware answers with reliable
   citations.
 ---
 ## Overview
 
-The AI Assistant helps readers, customers, and internal teams get fast, accurate answers based on your published documentation. When someone clicks **Ask AI**, the assistant searches your docs, reasons over the content it finds, and returns grounded answers with citations.
+The AI Assistant helps readers, customers, and internal teams get fast, accurate answers based on your published documentation. Readers can open **Ask AI** directly, hand off a search query to the assistant from the search modal, or start from the starter questions you configure. The assistant searches your docs, reasons over the content it finds, and returns grounded answers with citations.
 
 Unlike a generic chatbot, the assistant is:
 
-- **Docs‑aware** – it relies on your published documentation as its source of truth.
+- **Docs-aware** – it relies on your published documentation as its source of truth.
 
-- **Agentic** – it plans how to answer, not just reply turn‑by‑turn.
+- **Agentic** – it plans how to answer, not just reply turn-by-turn.
 
 - **Cited** – it shows where each answer came from in your docs.
 
-<Callout kind="info" collapsed="false">
+<Callout kind="info">
   The AI Assistant (Ask AI) is separate from the AI Documentation Agent. The **Assistant** answers questions for end users and internal teams.
   The **Documentation Agent** helps you write and edit content. See [AI Documentation Agent](/ai/ai-documentation-agent) for details.
 </Callout>
@@ -35,13 +35,13 @@ The AI Assistant:
 
 - **Retrieves first, then answers** – it searches your docs and uses the retrieved content as grounding.
 
-- **Plans actions, not just replies** – it reasons about which docs to consult, when to ask follow‑up questions, and how to structure multi‑step answers.
+- **Plans actions, not just replies** – it reasons about which docs to consult, when to ask follow-up questions, and how to structure multi-step answers.
 
 - **Stays within your content** – it is designed to prefer your docs over general model knowledge.
 
 - **Signals uncertainty** – when it can’t find reliable content, it avoids making confident but unsupported claims.
 
-This makes it safer to use in support and customer‑facing workflows.
+This makes it safer to use in support and customer-facing workflows.
 
 ## Citations: how they work and why they matter
 
@@ -71,22 +71,56 @@ If an answer cannot be strongly supported by what’s in your docs, the assistan
 
 ## Where users access the assistant
 
-The assistant appears in your documentation as an **Ask AI** entry point.
+The assistant appears in your documentation as an **Ask AI** entry point. You can keep the assistant closed until a reader opens it, or configure it to open automatically when the page loads.
 
-1. They click **Ask AI**.
+<Steps>
+  <Step title="Open Ask AI">
 
-2. They type a question in natural language.
+  Readers open the assistant from the Ask AI entry point in your documentation. If `ai-assistant:default-open` is enabled, the assistant opens automatically on page load.
 
-3. The assistant searches your docs, reasons over the results, and responds with:
+  </Step>
 
-   - A concise answer or explanation
+  <Step title="Ask a question or choose a starter question">
 
-   - Optional step‑by‑step guidance
+  Readers can type a question in natural language. Starter questions give them suggested prompts before they write their first message, which helps guide common support and onboarding flows.
 
-   - Citations and links to relevant pages or sections
+  </Step>
 
-<Callout kind="alert" collapsed="false">
-  Currently, the AI Assistant is enabled for all documentation sites. If you would like to disable it, please contact us.
+  <Step title="Review the grounded answer">
+
+  The assistant searches your docs, reasons over the results, and responds with a concise answer, optional step-by-step guidance, and citations to relevant pages or sections.
+
+  </Step>
+</Steps>
+
+## Search handoff
+
+The search modal can hand a reader's query to Ask AI when regular search results are not enough. After a reader types a search query, the modal can show an **Ask AI assistant** option.
+
+When the reader selects that option, Documentation.AI closes the search modal, opens the assistant, and sends the search text as the first message. If an assistant response is already running, the current run is reset before the new search query is submitted.
+
+<Callout kind="info">
+  The search handoff only appears when the assistant is enabled and the reader has entered a non-empty search query.
+</Callout>
+
+## Configure the assistant experience
+
+Use the dashboard AI settings or the `ai` section in `documentation.json` to control how Ask AI appears on your deployed site.
+
+- **Enable or disable Ask AI** with `ai-assistant:enabled`. The assistant is enabled by default when this setting is omitted, but you can turn it off without contacting support.
+
+- **Open Ask AI automatically** with `ai-assistant:default-open`. The assistant starts closed by default; set this to `true` for docs that rely on conversational onboarding or support.
+
+- **Add starter questions** with `ai-assistant:starter-questions`. Keep starter questions short, specific, and written in the reader's language, such as `How do I import existing docs?`.
+
+- **Choose the assistant style** with `ai-assistant:style`. Use `default` for the template's built-in assistant panel, or `floating` for a chat window anchored near the bottom-right of the page on desktop.
+
+- **Adjust floating placement** with `ai-assistant:position`. Use `default` for the standard floating position or `bottom-spaced` to move the floating assistant higher above the bottom edge, which helps avoid overlap with cookie banners or support widgets.
+
+- **Protect Ask AI with captcha** using `ai-assistant:captcha-enabled`. When this setting is `true` and hCaptcha is configured for your deployment, Ask AI runs an invisible anti-bot check before sending a question.
+
+<Callout kind="tip">
+  Captcha protection usually does not add a visible checkbox. Most readers will only notice it if hCaptcha decides to show an additional challenge.
 </Callout>
 
 ## Benefits for admins and doc owners
@@ -97,9 +131,6 @@ The AI Assistant can:
 
 - **Reduce support tickets** – many basic “where is…” and “how do I…” questions are handled directly in the docs.
 
-- **Make customer‑facing teams faster** – support and AM/CS teams can use the same assistant to pull accurate, cited answers during conversations.
+- **Make customer-facing teams faster** – support and AM/CS teams can use the same assistant to pull accurate, cited answers during conversations.
 
 - **Expose documentation gaps** – repeated questions without good citations highlight where your docs need better coverage or structure.
-
-
-

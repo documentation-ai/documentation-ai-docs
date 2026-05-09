@@ -1314,6 +1314,60 @@ You can view and manage your OpenAPI specifications from the Documentation.AI da
   </Step>
 </Steps>
 
+## AI Configuration
+
+Configure the reader-facing AI Assistant with the `ai` object in `documentation.json`. These settings control whether Ask AI appears, how it opens, which starter questions readers see, the assistant presentation style, and optional captcha protection.
+
+```json
+{
+  "ai": {
+    "ai-assistant:enabled": true,
+    "ai-assistant:default-open": false,
+    "ai-assistant:starter-questions": [
+      "How do I import existing docs?",
+      "How do I configure a custom domain?"
+    ],
+    "ai-assistant:style": "default",
+    "ai-assistant:position": "default",
+    "ai-assistant:captcha-enabled": false
+  }
+}
+```
+
+<Callout kind="info">
+
+Dashboard AI settings are applied into the deployed `documentation.json` during deployment. If you configure the assistant from the dashboard, the deployed site receives the corresponding `ai` values even when you do not edit the file by hand.
+
+</Callout>
+
+<ParamField path="ai" param-type="object" required="false" deprecated="false">
+  AI Assistant configuration for the published documentation site. Omit the object to use the default assistant behavior.
+</ParamField>
+
+<ParamField path="ai-assistant:enabled" param-type="boolean" required="false" deprecated="false">
+  Controls whether the Ask AI entry point appears on the documentation site. Defaults to `true` when omitted.
+</ParamField>
+
+<ParamField path="ai-assistant:default-open" param-type="boolean" required="false" deprecated="false">
+  Opens the assistant automatically when a reader loads the page. Defaults to `false`.
+</ParamField>
+
+<ParamField path="ai-assistant:starter-questions" param-type="array" required="false" deprecated="false">
+  Suggested questions shown before the reader sends their first message. Use an array of short strings. Defaults to an empty list.
+</ParamField>
+
+<ParamField path="ai-assistant:style" param-type="string" required="false" deprecated="false">
+  Assistant presentation style. Accepted values: `"default"` for the template's built-in assistant panel or `"floating"` for a floating chat window. Defaults to `"default"`.
+</ParamField>
+
+<ParamField path="ai-assistant:position" param-type="string" required="false" deprecated="false">
+  Floating assistant placement. Accepted values: `"default"` or `"bottom-spaced"`. Defaults to `"default"`.
+</ParamField>
+
+<ParamField path="ai-assistant:captcha-enabled" param-type="boolean" required="false" deprecated="false">
+  Runs captcha protection before sending assistant questions when captcha is configured for the deployment. Defaults to `false`.
+</ParamField>
+
 ## Integrations
 
 Connect analytics platforms and chat widgets to your documentation site. Each integration is a key under the `integrations` object. Only include the providers you want to enable.

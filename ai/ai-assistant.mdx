@@ -1,47 +1,30 @@
 ---
 title: AI Assistant
 description: >-
-  AI Assistant helps users get accurate, docs‑aware answers with reliable
-  citations.
+  AI Assistant helps users get docs-aware answers with citations, follow-up
+  prompts, customization controls, analytics, and bot protection.
 ---
 ## Overview
 
-The AI Assistant helps readers, customers, and internal teams get fast, accurate answers based on your published documentation. When someone clicks **Ask AI**, the assistant searches your docs, reasons over the content it finds, and returns grounded answers with citations.
+The AI Assistant helps readers, customers, and internal teams get fast, accurate answers based on your published documentation. When someone clicks **Ask AI**, the assistant searches your docs and returns grounded answers with citations to the relevant pages and sections.
 
 Unlike a generic chatbot, the assistant is:
 
-- **Docs‑aware** – it relies on your published documentation as its source of truth.
-
-- **Agentic** – it plans how to answer, not just reply turn‑by‑turn.
+- **Docs-aware** – it relies on your published documentation as its source of truth.
 
 - **Cited** – it shows where each answer came from in your docs.
 
+- **Configurable** – you can enable it, control how it appears, and tailor how it responds from a dedicated settings area.
+
 <Callout kind="info" collapsed="false">
-  The AI Assistant (Ask AI) is separate from the AI Documentation Agent. The **Assistant** answers questions for end users and internal teams.
-  The **Documentation Agent** helps you write and edit content. See [AI Documentation Agent](/ai/ai-documentation-agent) for details.
+  The AI Assistant (Ask AI) is separate from the AI Documentation Agent. The **Assistant** answers questions for end users and internal teams. The **Documentation Agent** helps you write and edit content. See [AI Documentation Agent](/ai/ai-documentation-agent) for details.
 </Callout>
 
-## More than just AI Search – it’s Agentic
+## How it works
 
-Most chatbots:
+Users open **Ask AI**, enter a question in natural language, and get an answer grounded in your documentation. The assistant can also suggest starter questions to help users begin and follow-up questions to help them continue after each answer.
 
-- Don’t know your docs structure
-
-- Freely improvise when they’re unsure
-
-- Make it hard to see where an answer came from
-
-The AI Assistant:
-
-- **Retrieves first, then answers** – it searches your docs and uses the retrieved content as grounding.
-
-- **Plans actions, not just replies** – it reasons about which docs to consult, when to ask follow‑up questions, and how to structure multi‑step answers.
-
-- **Stays within your content** – it is designed to prefer your docs over general model knowledge.
-
-- **Signals uncertainty** – when it can’t find reliable content, it avoids making confident but unsupported claims.
-
-This makes it safer to use in support and customer‑facing workflows.
+When the assistant cannot confidently answer from your docs, you can route users to another support channel instead of leaving them at a dead end. You can send them to a support email address or a support URL, depending on how you want your fallback experience to work.
 
 ## Citations: how they work and why they matter
 
@@ -51,7 +34,7 @@ What users see:
 
 - A short answer and explanation in the chat
 
-- One or more citations linked to specific pages (often down to the section)
+- One or more citations linked to specific pages or sections
 
 - The ability to click through to read the full context
 
@@ -61,45 +44,87 @@ Why this is important:
 
 - **Reusability** – support and account teams can safely reuse answers with links in tickets, chats, or emails.
 
-- **Maintainability** – updating your docs improves future answers automatically; you can trace bad answers back to specific content.
+- **Maintainability** – updating your docs improves future answers automatically, and you can trace weak answers back to specific content.
 
-If an answer cannot be strongly supported by what’s in your docs, the assistant will either:
+If an answer cannot be strongly supported by your docs, the assistant can ask for clarification or fall back to the support path you configured.
 
-- Ask for clarification, or
+## Customization
 
-- Indicate that it doesn’t have enough information, instead of fabricating details.
+Configure the AI Assistant from its dedicated settings area. You can control whether it appears, how it opens, how it is positioned, and how it guides users through a conversation.
+
+### Availability and display
+
+- **Enable AI Assistant** – turn the assistant on or off for your site.
+
+- **Open by Default** – choose whether the assistant starts open when a page loads.
+
+- **Display Mode** – show the assistant as either:
+
+  - **Side Panel**
+
+  - **Floating**
+
+- **Floating position** – when you use Floating mode, position the assistant at the bottom and add extra bottom spacing when needed.
+
+### Conversation behavior
+
+- **Custom Instructions** – add assistant-specific guidance to shape tone, scope, or response behavior. Custom instructions are limited to **200 words**.
+
+- **Starter Questions** – add up to **3** suggested questions to help users begin. Each starter question can be up to **200 characters**.
+
+- **Follow-up Questions** – show **3** suggested follow-up prompts after each answer to help users continue the conversation.
+
+### Fallback and protection
+
+- **Fallback to support** – route users to support when the assistant cannot answer confidently. You can configure fallback to a support email address or a support URL.
+
+- **Invisible CAPTCHA bot protection** – protect the assistant from automated abuse without adding a visible challenge for most users.
 
 ## Where users access the assistant
 
-The assistant appears in your documentation as an **Ask AI** entry point.
+The assistant appears as an **Ask AI** entry point in your documentation when enabled.
 
-1. They click **Ask AI**.
+1. Users click **Ask AI**.
 
-2. They type a question in natural language.
+2. They type a question in natural language or choose a starter question.
 
-3. The assistant searches your docs, reasons over the results, and responds with:
+3. The assistant responds with:
 
    - A concise answer or explanation
 
-   - Optional step‑by‑step guidance
-
    - Citations and links to relevant pages or sections
 
-<Callout kind="alert" collapsed="false">
-  Currently, the AI Assistant is enabled for all documentation sites. If you would like to disable it, please contact us.
-</Callout>
+   - Suggested follow-up questions after the answer
+
+How the assistant opens depends on the settings you choose. You can present it as a side panel or as a floating interface, and you can decide whether it opens by default.
+
+## Analytics
+
+Admins can review [Ask AI Analytics](/analytics/overview#ask-ai-analytics) to understand how people use the AI Assistant and where your documentation may need improvement.
+
+Available analytics include:
+
+- **Total questions** – overall question volume
+
+- **Unique sessions** – how many distinct assistant sessions users started
+
+- **Recent questions** – the latest questions asked through the assistant
+
+- **Page context** – where users were in the docs when they asked
+
+- **Export capability** – export analytics data for deeper review and reporting
 
 ## Benefits for admins and doc owners
 
-The AI Assistant can:
+The AI Assistant helps teams do more than answer one-off questions. It can:
 
-- **Improve onboarding** – new users reach first value faster by asking concrete “how do I…” questions.
+- **Help users reach answers faster** – readers can ask natural-language questions instead of hunting across multiple pages.
 
-- **Reduce support tickets** – many basic “where is…” and “how do I…” questions are handled directly in the docs.
+- **Improve onboarding and adoption** – new users can get quick, cited guidance while learning your product or API.
 
-- **Make customer‑facing teams faster** – support and AM/CS teams can use the same assistant to pull accurate, cited answers during conversations.
+- **Reduce repetitive support volume** – common documentation questions can be answered directly inside your docs.
 
-- **Expose documentation gaps** – repeated questions without good citations highlight where your docs need better coverage or structure.
+- **Support customer-facing teams** – support, success, and sales teams can reuse grounded answers with citations during live conversations.
 
-
+- **Highlight content gaps** – repeated questions and weak answer coverage show where your docs need clearer explanations or new pages.
 

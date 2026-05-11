@@ -74,6 +74,11 @@
                 "icon": "code"
               },
               {
+                "title": "Branches and previews",
+                "path": "write-and-publish/branches-and-previews",
+                "icon": "lucide-text-cursor"
+              },
+              {
                 "group": "Components",
                 "path": "components/components",
                 "pages": [
@@ -171,14 +176,14 @@
                 "icon": "component"
               },
               {
-                "title": "Branches and Previews",
-                "path": "write-and-publish/cursor",
-                "icon": "lucide-text-cursor"
-              },
-              {
                 "title": "Using Claude Code",
                 "path": "write-and-publish/claude-code",
                 "icon": "a-large-small-icon"
+              },
+              {
+                "title": "Using Cursor",
+                "path": "write-and-publish/cursor",
+                "icon": "lucide-text-cursor"
               },
               {
                 "title": "Helpful Prompts",

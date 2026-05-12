@@ -171,9 +171,14 @@
                 "icon": "component"
               },
               {
-                "title": "Branches and Previews",
-                "path": "write-and-publish/cursor",
+                "title": "Branches & Previews",
+                "path": "write-and-publish/branches-and-previews",
                 "icon": "git-branch"
+              },
+              {
+                "title": "Using Cursor",
+                "path": "write-and-publish/cursor",
+                "icon": "lucide-text-cursor"
               },
               {
                 "title": "Using Claude Code",

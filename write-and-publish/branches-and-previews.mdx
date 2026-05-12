@@ -1,20 +1,18 @@
 ---
 title: Branches and previews
 description: >-
-  Work safely in separate branches, review preview deployments, and merge or
-  publish changes with the right workflow for your team.
+  Work safely in separate branches, review preview versions of your site, and
+  merge or publish changes with the right workflow for your team.
 ---
 ## Overview
 
-Branches let you make changes without affecting your live documentation. Draft updates, review them on a preview deployment, and then merge or publish only when the changes are ready.
+Branches let you make changes without affecting your live documentation. Draft updates, review them on a preview version of your site, and then merge or publish only when the changes are ready.
 
 This workflow works for both technical and non-technical teams. If you use Git every day, branches map cleanly to familiar branch and pull request workflows. If you do not, you can still use branches from the editor to separate draft work from what visitors see on your live site.
 
 <Callout kind="info" collapsed="false">
   The **Live** branch is your deployment branch. In the dashboard, these terms refer to the same branch.
 </Callout>
-
-If you prefer to work directly in files and Git, see the [Code Editor](/write-and-publish/code-editor).
 
 ## Who this workflow is for
 
@@ -36,7 +34,7 @@ A few terms appear throughout the editor and branch menu.
 
 - **Deployment branch** — The branch that deploys your site. In most workflows, this is the same branch labeled **Live** in the editor.
 
-- **Preview deployment** — A separate deployed version of a non-live branch with its own preview URL.
+- **Preview site** — A separate preview version of a non-live branch with its own preview URL.
 
 - **Unsaved changes** — Local edits in your current browser that you have not saved or published yet.
 
@@ -53,7 +51,7 @@ Branch names may be normalized into a valid Git branch format. If you enter a na
 Unsaved changes behave differently from saved branch content. Local edits stay only in your current browser until you save, publish, merge, or clear them.
 
 <Callout kind="tip" collapsed="false">
-  Use branches for any change that needs review, coordination, or a preview deployment. Stay on the Live branch for small, urgent edits that should go live immediately.
+  Use branches for any change that needs review, coordination, or a preview link. Stay on the Live branch for small, urgent edits that should go live immediately.
 </Callout>
 
 ## Create and work on a branch
@@ -100,40 +98,40 @@ The action buttons change depending on which branch you are on.
 
 That distinction matters because saving a branch and publishing the live site are different actions. A saved branch can be reviewed privately before anything reaches your public documentation.
 
-## Preview deployments
+## Preview sites
 
-Preview deployments let you review a non-live branch on its own URL before merging or publishing changes. This is the safest way to check larger edits, page structure changes, or updates that need approval.
+Preview sites let you review a non-live branch on its own URL before merging or publishing changes. This is the safest way to check larger edits, page structure changes, or updates that need approval.
 
-Preview deployments are available only on eligible plans. They require the **Standard** plan or higher.
+Preview sites are available only on eligible plans. They require the **Standard** plan or higher.
 
 <Steps>
   <Step title="Save changes on a non-live branch" icon="save" title-type="p">
     Work on a non-live branch, then save your changes from that branch.
 
-    On eligible plans, saving changes can create a preview deployment for that branch.
+    On eligible plans, saving changes can create a preview site for that branch.
   </Step>
 
   <Step title="Wait for the preview to become available" icon="clock" title-type="p">
-    A preview link appears only when a preview deployment exists and is ready.
+    A preview link appears only when a preview site is available and ready.
 
-    If you do not see a preview link yet, the deployment may still be processing, or your plan may not include preview deployments.
+    If you do not see a preview link yet, the preview may still be processing, or your plan may not include preview sites.
   </Step>
 
   <Step title="Open the preview URL" icon="external-link" title-type="p">
     When the preview is ready, open the branch's **Preview** link.
 
-    Each preview deployment uses its own preview URL or subdomain, so reviewers can inspect that branch without affecting the live site.
+    Each preview site uses its own preview URL or subdomain, so reviewers can inspect that branch without affecting the live site.
   </Step>
 
   <Step title="Review and iterate" icon="check-circle" title-type="p">
-    Use the preview deployment to confirm that pages render as expected and that navigation, links, and wording look right.
+    Use the preview site to confirm that pages render as expected and that navigation, links, and wording look right.
 
     If you find issues, return to the same branch, make updates, and save again before merging or creating a pull request.
   </Step>
 </Steps>
 
 <Callout kind="info" collapsed="false">
-  If your plan does not include preview deployments, the dashboard shows an upgrade prompt instead of a working preview flow.
+  If your plan does not include preview sites, the dashboard shows an upgrade prompt instead of a working preview flow.
 </Callout>
 
 ## Merge, publish, and pull requests
@@ -150,35 +148,35 @@ Once your branch looks correct, choose the action that matches how your team shi
 
 ### Use Save & Merge to send a branch to Live
 
-**Save & Merge** saves the current branch and merges it into the deployment branch. After a successful merge, the dashboard switches you back to the deployment branch automatically.
+**Save & Merge** saves the current branch and merges it into the Live branch. After a successful merge, the dashboard switches you back to the Live branch automatically.
 
 <Steps>
   <Step title="Finish edits on the branch" icon="edit" title-type="p">
-    Confirm that the branch contains the exact content you want to send to the deployment branch.
+    Confirm that the branch contains the exact content you want to send to the Live branch.
 
-    If a preview deployment is available, review it before merging.
+    If a preview site is available, review it before merging.
   </Step>
 
   <Step title="Run Save & Merge" icon="arrow-right" title-type="p">
     Choose **Save & Merge** from the non-live branch.
 
-    Documentation.AI saves the branch and merges it into the deployment branch in one action.
+    Documentation.AI saves the branch and merges it into the Live branch in one action.
   </Step>
 
-  <Step title="Continue on the deployment branch" icon="check-circle" title-type="p">
-    After the merge succeeds, the editor switches you back to the deployment branch automatically.
+  <Step title="Continue on the Live branch" icon="check-circle" title-type="p">
+    After the merge succeeds, the editor switches you back to the Live branch automatically.
 
     You can then continue reviewing or publish from the Live branch if your workflow requires that final step.
   </Step>
 </Steps>
 
 <Callout kind="alert" collapsed="false">
-  If the deployment branch has unsaved local changes, merge is blocked until you publish those changes or clear them. This prevents local browser-only edits on the deployment branch from conflicting with the merge.
+  If the Live branch has unsaved local changes, merge is blocked until you publish those changes or clear them. This prevents local browser-only edits on the Live branch from conflicting with the merge.
 </Callout>
 
 ### Use Save & Create PR for review in Git
 
-**Save & Create PR** creates a pull request from the current branch into the deployment branch. This is the best fit when your team reviews changes through Git before merging.
+**Save & Create PR** creates a pull request from the current branch into the Live branch. This is the best fit when your team reviews changes through Git before merging.
 
 <Steps>
   <Step title="Save the branch" icon="save" title-type="p">
@@ -188,9 +186,9 @@ Once your branch looks correct, choose the action that matches how your team shi
   </Step>
 
   <Step title="Open the pull request" icon="github" title-type="p">
-    Documentation.AI creates a pull request from your current branch into the deployment branch.
+    Documentation.AI creates a pull request from your current branch into the Live branch.
 
-    Reviewers can use the pull request for code review, approval, or discussion alongside any preview deployment that exists for the branch.
+    Reviewers can use the pull request for code review, approval, or discussion alongside any preview site that exists for the branch.
   </Step>
 
   <Step title="Track review status" icon="check-circle" title-type="p">
@@ -202,23 +200,23 @@ Once your branch looks correct, choose the action that matches how your team shi
 
 ## Change the live branch
 
-You can change which branch acts as the deployment branch when your team's default publishing branch changes.
+You can change which branch acts as the Live branch when your team's default publishing branch changes.
 
-This setting lives in the GitHub integration, not in the editor branch menu.
+This setting lives in the GitHub integration, not in the branch menu in the editor.
 
 <Steps>
   <Step title="Open your GitHub integration settings" icon="github" title-type="p">
     Go to [GitHub](/integrations/github), then open the **Source Repository** settings for your connected repository.
   </Step>
 
-  <Step title="Select a new deployment branch" icon="settings" title-type="p">
-    Choose the branch that should become the new deployment branch.
+  <Step title="Select a new Live branch" icon="settings" title-type="p">
+    Choose the branch that should become the new Live branch.
 
     After you save the change, that branch becomes the branch the editor treats as Live.
   </Step>
 
   <Step title="Wait for redeployment" icon="refresh-cw" title-type="p">
-    Changing the deployment branch triggers a full redeployment from the newly selected branch.
+    Changing the Live branch triggers a full redeployment from the newly selected branch.
 
     Plan this change carefully so your team knows which branch is now responsible for the live site.
   </Step>
@@ -228,9 +226,9 @@ This setting lives in the GitHub integration, not in the editor branch menu.
 
 <ExpandableGroup>
   <Expandable title="Choose branches based on review risk, not only team role" default-open="true">
-    Use a branch whenever a change needs review, coordinated approval, or visual verification in a preview deployment.
+    Use a branch whenever a change needs review, coordinated approval, or visual verification in a preview site.
 
-    For example, a writer updating a single paragraph on an urgent deadline might publish directly on Live, while a developer changing navigation structure or a non-developer rewriting multiple pages should usually work on a branch first.
+    For example, a writer updating a single paragraph on an urgent deadline might publish directly on the Live branch, while a developer changing navigation structure or a non-developer rewriting multiple pages should usually work on a branch first.
   </Expandable>
 
   <Expandable title="Remember that unsaved edits stay in one browser" default-open="false">
@@ -242,7 +240,7 @@ This setting lives in the GitHub integration, not in the editor branch menu.
   <Expandable title="Do not expect every branch to have a preview immediately" default-open="false">
     A branch can show a **Preview** link only when a preview deployment is available and ready.
 
-    If no preview appears yet, save the branch first and give the deployment time to complete. On plans below Standard, preview deployments are not included.
+    If no preview appears yet, save the branch first and give the preview time to finish building. On plans below Standard, preview sites are not included.
   </Expandable>
 
   <Expandable title="Know when you cannot delete a branch" default-open="false">
@@ -254,12 +252,12 @@ This setting lives in the GitHub integration, not in the editor branch menu.
   <Expandable title="Use pull requests when your process requires external review" default-open="false">
     Developers often prefer **Save & Create PR** because it fits an existing Git review workflow.
 
-    Non-developers often prefer **Save & Merge** after reviewing a preview deployment, because it keeps the workflow inside the editor while still avoiding direct edits on the Live branch.
+    Non-developers often prefer **Save & Merge** after reviewing a preview site, because it keeps the workflow inside the editor while still avoiding direct edits on the Live branch.
   </Expandable>
 </ExpandableGroup>
 
 ## Summary
 
-Branches give you a safer way to work than editing directly on the Live branch. You can create a branch from the editor top bar, choose whether to carry local unsaved changes, review a preview deployment when available, and then merge to Live, publish from Live, or create a pull request.
+Branches give you a safer way to work than editing directly on the Live branch. You can create a branch from the editor top bar, choose whether to carry local unsaved changes, review a preview site when available, and then merge to Live, publish from Live, or create a pull request.
 
-For file-based Git workflows, see the [Code Editor](/write-and-publish/code-editor). To change which branch is treated as Live, update the deployment branch in [GitHub integration settings](/integrations/github).
+For file-based Git workflows, see the [Code Editor](/write-and-publish/code-editor). To change which branch is treated as Live, update the Live branch setting in [GitHub integration settings](/integrations/github).

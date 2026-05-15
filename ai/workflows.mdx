@@ -1,8 +1,9 @@
 ---
 title: Workflows
-description: Automate documentation tasks with AI workflows, including setup requirements, templates, triggers, run history, and current limitations.
+description: >-
+  Automate documentation tasks with AI workflows, including setup requirements,
+  templates, triggers, run history, and current limitations.
 ---
-
 ## Automate recurring documentation work with workflows
 
 Workflows run AI-powered documentation tasks in the background so you can catch issues, sync docs from code, and generate updates without repeating the same manual process.
@@ -13,28 +14,28 @@ Workflows automate common documentation jobs inside Documentation.AI. You can us
 
 Each workflow starts from a template or a custom setup. After you create it, the workflow can run on a trigger such as a pull request merge or a schedule, and you can also run it manually when you need an on-demand result.
 
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1778841367200-cbu621qwgpp-workflows.png?fm=auto&auto=compress%2Cformat" width="2148" height="1212" alt="" />
+
 ## Where to find workflows
 
 Open the dashboard, then go to **AI Agents** → **Workflows**. The Workflows area is where you create workflows, review previous runs, and inspect results.
 
-<Callout kind="info">
-
-Workflows are currently in beta. Expect the feature set to expand, and review workflow output before you merge or publish changes.
-
+<Callout kind="info" collapsed="false">
+  Workflows are currently in beta. Expect the feature set to expand, and review workflow output before you merge or publish changes.
 </Callout>
 
 ## Before you start
 
 Workflows depend on your plan and repository connection setup. Confirm these requirements before you try to create one.
 
-<Callout kind="alert">
+<Callout kind="alert" collapsed="false">
+  You need all of the following before Workflows are available:
 
-You need all of the following before Workflows are available:
+  - A **Standard** plan or higher
 
-- A **Standard** plan or higher
-- A documentation site synced to a **connected GitHub repository**
-- Any repository you want to use as a trigger repo or context repo connected in Documentation.AI
+  - A documentation site synced to a **connected GitHub repository**
 
+  - Any repository you want to use as a trigger repo or context repo connected in Documentation.AI
 </Callout>
 
 If your repositories are not connected, you can still explore the Workflows area, but repo-based workflow setup and repository selection will be limited.
@@ -43,29 +44,36 @@ If your repositories are not connected, you can still explore the Workflows area
 
 Start with a built-in template when you want a focused workflow for a common task. Choose **Custom** when none of the preset templates matches your process.
 
-<Columns cols={2}>
-  <Card title="Broken Link Audit" icon="external-link">
+<Columns cols="2">
+  <Card title="Broken Link Audit" icon="external-link" horizontal="false">
     Scan your documentation for broken links and review the results in the workflow run history.
   </Card>
-  <Card title="Grammar and Typo Check" icon="check-circle">
+
+  <Card title="Grammar and Typo Check" icon="check-circle" horizontal="false">
     Find writing issues across your documentation and generate suggested fixes.
   </Card>
-  <Card title="Style Guide Enforcement" icon="book-open">
+
+  <Card title="Style Guide Enforcement" icon="book-open" horizontal="false">
     Check content against your documentation standards and highlight places that need revision.
   </Card>
-  <Card title="Documentation Update from Code" icon="code">
+
+  <Card title="Documentation Update from Code" icon="code" horizontal="false">
     Use connected repository context to update docs when code changes affect product behavior.
   </Card>
-  <Card title="API Sync from Code" icon="database">
+
+  <Card title="API Sync from Code" icon="database" horizontal="false">
     Review code-aware changes that affect API documentation and generate updates from repository context.
   </Card>
-  <Card title="Changelog Generation" icon="edit">
+
+  <Card title="Changelog Generation" icon="edit" horizontal="false">
     Create changelog content based on recent repository activity and documentation context.
   </Card>
-  <Card title="Navigation Audit" icon="folder">
+
+  <Card title="Navigation Audit" icon="folder" horizontal="false">
     Check documentation structure for navigation issues and identify areas that need cleanup.
   </Card>
-  <Card title="Custom" icon="settings">
+
+  <Card title="Custom" icon="settings" horizontal="false">
     Create a workflow for a task that does not fit one of the built-in templates.
   </Card>
 </Columns>
@@ -77,51 +85,45 @@ The best template depends on the job you want to automate. Content-only checks s
 Create your first workflow from the Workflows page in a few steps. The setup flow asks you to choose a template, define how it should run, and select repository context when needed.
 
 <Steps>
-  <Step title="Open the Workflows page" icon="home">
+  <Step title="Open the Workflows page" icon="home" title-type="p">
+    In the dashboard, go to **AI Agents** → **Workflows**.
 
-  In the dashboard, go to **AI Agents** → **Workflows**.
-
-  If your account and documentation site meet the requirements, you can start a new workflow from this page.
-
+    If your account and documentation site meet the requirements, you can start a new workflow from this page.
   </Step>
-  <Step title="Choose a template" icon="plus">
 
-  Select one of the built-in templates or choose **Custom**.
+  <Step title="Choose a template" icon="plus" title-type="p">
+    Select one of the built-in templates or choose **Custom**.
 
-  Pick the template that matches the task you want to automate. For example, choose **Broken Link Audit** for content health checks or **Documentation Update from Code** when documentation changes depend on repository activity.
-
+    Pick the template that matches the task you want to automate. For example, choose **Broken Link Audit** for content health checks or **Documentation Update from Code** when documentation changes depend on repository activity.
   </Step>
-  <Step title="Configure the trigger" icon="play-circle">
 
-  Choose how the workflow should start:
+  <Step title="Configure the trigger" icon="play-circle" title-type="p">
+    Choose how the workflow should start:
 
-  - **Pull request merge** to run after merges in the selected trigger repository
-  - **Schedule** to run daily, weekly, or monthly
-  - **Manual run** after creation when you want to start the workflow yourself
+    - **Pull request merge** to run after merges in the selected trigger repository
 
-  After you save the workflow, it becomes available in your Workflows list.
+    - **Schedule** to run daily, weekly, or monthly
 
+    - **Manual run** after creation when you want to start the workflow yourself
+
+    After you save the workflow, it becomes available in your Workflows list.
   </Step>
-  <Step title="Select repositories" icon="github">
 
-  Choose one **trigger repository** for repo-based runs. This repository determines where the workflow watches for repository-driven activity.
+  <Step title="Select repositories" icon="github" title-type="p">
+    Choose one **trigger repository** for repo-based runs. This repository determines where the workflow watches for repository-driven activity.
 
-  You can also add **additional context repositories**. These repositories give the workflow more source material to reference while planning and executing the task.
-
+    You can also add **additional context repositories**. These repositories give the workflow more source material to reference while planning and executing the task.
   </Step>
-  <Step title="Save and verify the workflow" icon="check-circle">
 
-  Finish the setup and save the workflow.
+  <Step title="Save and verify the workflow" icon="check-circle" title-type="p">
+    Finish the setup and save the workflow.
 
-  A saved workflow appears in the Workflows list. From there, you can wait for its trigger or run it manually to confirm the configuration works.
-
+    A saved workflow appears in the Workflows list. From there, you can wait for its trigger or run it manually to confirm the configuration works.
   </Step>
 </Steps>
 
-<Callout kind="tip">
-
-Run the workflow manually after creation if you want to verify the setup before waiting for the next merge or scheduled window.
-
+<Callout kind="tip" collapsed="false">
+  Run the workflow manually after creation if you want to verify the setup before waiting for the next merge or scheduled window.
 </Callout>
 
 ## Triggers and repository context
@@ -133,7 +135,9 @@ Triggers control **when** a workflow runs. Repository selection controls **what 
 Use the trigger that matches how often the task should happen:
 
 - **On pull request merge** for workflows that should react to repository changes
+
 - **On a schedule** for recurring checks such as audits or maintenance tasks
+
 - **Manual run** after creation when you want to start a run on demand
 
 If you schedule a workflow monthly, pick a day from **1** through **28**. Monthly scheduling does not support days later in the month.
@@ -144,10 +148,8 @@ The **trigger repo** is the single repository tied to the workflow's repo-based 
 
 **Additional context repos** do not trigger runs. They expand the repository context available to the workflow so it can produce better updates, checks, or summaries across related code and docs.
 
-<Callout kind="info">
-
-You can only select repositories that are already connected in Documentation.AI.
-
+<Callout kind="info" collapsed="false">
+  You can only select repositories that are already connected in Documentation.AI.
 </Callout>
 
 ## Review workflow runs
@@ -159,8 +161,11 @@ Run history shows the state of each run as it moves through the workflow lifecyc
 When a run finishes, the result can include:
 
 - A summary of what the workflow found or changed
+
 - A downloadable report
+
 - A commit link when the run produced a commit
+
 - An option to open the completed run in chat
 
 Those outputs help you decide whether to accept the result, investigate further, or continue the task in a conversational workflow.
@@ -175,14 +180,17 @@ Simple checks usually use fewer credits than repo-aware or multi-step workflows.
 
 The current Workflows experience covers the most common user-facing automation paths, but a few constraints affect setup and scheduling today.
 
-<Callout kind="alert">
+<Callout kind="alert" collapsed="false">
+  Current limitations include:
 
-Current limitations include:
+  - Workflows are in **beta**
 
-- Workflows are in **beta**
-- Workflows require a documentation site synced to a **connected GitHub repository**
-- You can only choose from **connected repositories** for trigger and context selection
-- **Monthly schedules** are limited to days **1** through **28**
-- Not every backend workflow capability is exposed in the current UI
+  - Workflows require a documentation site synced to a **connected GitHub repository**
 
+  - You can only choose from **connected repositories** for trigger and context selection
+
+  - **Monthly schedules** are limited to days **1** through **28**
+
+  - Not every backend workflow capability is exposed in the current UI
 </Callout>
+

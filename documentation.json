@@ -402,9 +402,16 @@
                 "icon": "settings"
               },
               {
-                "title": "MCP Server",
+                "group": "MCP Server",
                 "path": "ai/mcp-server",
-                "icon": "server-cog"
+                "icon": "server-cog",
+                "pages": [
+                  {
+                    "title": "Dashboard MCP Server",
+                    "path": "ai/mcp-dashboard",
+                    "icon": "key-round"
+                  }
+                ]
               },
               {
                 "title": "Page Actions",
@@ -543,6 +550,29 @@
                 "icon": "bar-chart4-icon"
               }
             ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "icon": "code",
+        "groups": [
+          {
+            "group": "Content API",
+            "icon": "info",
+            "pages": [
+              {
+                "title": "Overview",
+                "path": "api-reference/overview",
+                "icon": "info"
+              }
+            ]
+          },
+          {
+            "group": "Endpoints",
+            "icon": "server",
+            "openapi": "api-reference/openapi.json",
+            "pages": []
           }
         ]
       },

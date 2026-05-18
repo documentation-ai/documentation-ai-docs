@@ -7,6 +7,8 @@ description: Programmatic access to read and update your documentation via REST 
 
 The Content API provides programmatic access to your documentation project through a standard REST interface. You can read pages, search content, manage branches, and push file changes — the same operations available in the dashboard, accessible from your own scripts, CI/CD pipelines, or backend services.
 
+The Content API and the [Authoring MCP Server](/ai/authoring-mcp-server) cover largely the same documentation-management actions through different interfaces. Use the Content API when you need direct REST access from scripts, backends, or CI/CD, and use the Authoring MCP Server when you are working from an MCP-compatible AI client or agent.
+
 ## Prerequisites
 
 Before using the Content API, make sure you have the following:
@@ -26,6 +28,12 @@ Before using the Content API, make sure you have the following:
 
 <Callout kind="alert">
   Store your API key securely. Do not commit it to version control or expose it in client-side code. Use environment variables or a secrets manager.
+</Callout>
+
+<Callout kind="info">
+
+If you want AI-assisted authoring instead of direct HTTP requests, use the [Authoring MCP Server](/ai/authoring-mcp-server). This page covers the REST API.
+
 </Callout>
 
 ## Base URL

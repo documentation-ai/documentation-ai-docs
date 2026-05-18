@@ -406,15 +406,17 @@
                 "pages": [
                   {
                     "title": "Docs MCP Server",
-                    "path": "ai/docs-mcp-server"
+                    "path": "ai/docs-mcp-server",
+                    "icon": "book-open"
                   },
                   {
                     "title": "Authoring MCP Server",
                     "path": "ai/authoring-mcp-server",
-                    "icon": "key-round"
+                    "icon": "square-pen"
                   }
                 ],
-                "path": "ai/mcp-server"
+                "path": "ai/mcp-server",
+                "icon": "terminal"
               },
               {
                 "title": "Page Actions",

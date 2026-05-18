@@ -7,9 +7,11 @@ description: Connect AI tools to Documentation.AI for read/write documentation w
 
 Use the Authoring MCP Server to let an MCP-compatible AI client work directly in your documentation project. It provides read and write access for editing pages, updating `documentation.json`, managing branches, reviewing changes, and deploying through your normal documentation workflow.
 
+The Authoring MCP Server and the Content API cover largely the same documentation-management tasks, but they expose them through different interfaces. Choose the Authoring MCP Server when you want an MCP-compatible AI client or agent to do the work for you, and choose the Content API when you want direct REST API access from your own scripts, services, or CI/CD. For endpoint details, see the [API reference overview](/api-reference/overview).
+
 <Callout kind="info">
 
-Use this server for authoring and documentation operations. If your AI tool only needs read-only access to published content, use the [Docs MCP Server](/ai/docs-mcp-server).
+Use this server for authoring and documentation operations through an MCP client. If you need direct REST API access instead, use the Content API. If your AI tool only needs read-only access to published content, use the [Docs MCP Server](/ai/docs-mcp-server).
 
 </Callout>
 
@@ -30,7 +32,7 @@ https://api.documentationai.app/mcp
 <Steps>
   <Step title="Start the connection from your MCP client" icon="terminal">
 
-Open your MCP-compatible client and add the Dashboard MCP Server using the URL in the next section.
+Open your MCP-compatible client and add the Authoring MCP Server using the URL in the next section.
 
   </Step>
   <Step title="Sign in with your Documentation.AI account" icon="lock">
@@ -219,7 +221,7 @@ Maximum results from 1 to 50. Defaults to 10.
 
 ### Write tools
 
-Require editor or admin role. These tools make the Dashboard MCP Server the right choice for authoring, automation, and deployment workflows.
+Require editor or admin role. These tools make the Authoring MCP Server the right choice for authoring, automation, and deployment workflows.
 
 <Expandable title="update_documentation">
 

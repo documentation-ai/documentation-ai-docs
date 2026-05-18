@@ -1,65 +1,44 @@
 ---
 title: MCP Server
 description: >-
-  Documentation.AI provides MCP Servers so external AI tools can read, search,
-  and manage your documentation.
+  Documentation.AI provides an MCP Server so external AI tools can retrieve and
+  ground responses in your documentation.
 ---
-
 ## Overview
 
-Documentation.AI provides two MCP Servers for different use cases:
+The **MCP Server** exposes your documentation hosted in Documentation.AI to external AI tools. It provides a single tool, `searchDocumentation`, which performs grounded search across your content using the same relevance ranking as your in-product AI Assistant.
 
-| | Public MCP | Dashboard MCP |
-| --- | --- | --- |
-| **Purpose** | Let external AI tools reference your published documentation | Give documentation owners full read/write access from AI coding tools |
-| **Access** | Read-only | Read and write |
-| **Authentication** | None (public) | OAuth via your Documentation.AI account |
-| **URL** | `https://yourdomain.com/docs/_mcp` | `https://api.documentationai.app/mcp` |
-| **Available on** | All plans | Standard and above |
+This allows AI tools such as ChatGPT, Claude, Cursor, and other MCP‑compatible IDE or CLI clients to query and reference **your documentation**. Most MCP clients will automatically call `searchDocumentation` when the model needs additional context.
 
-## Public MCP Server
-
-The public MCP server exposes your published documentation to external AI tools. It provides a single tool, `searchDocumentation`, which performs grounded search across your content using the same relevance ranking as your in-product AI Assistant.
-
-This allows AI tools such as ChatGPT, Claude, Cursor, and other MCP-compatible clients to query and reference **your documentation**. Most MCP clients will automatically call `searchDocumentation` when the model needs additional context.
-
-### What the public MCP server provides
+## What the MCP Server provides
 
 - The `searchDocumentation` tool for querying your indexed documentation
-- Unified search across pages, headings, API reference, and snippets
-- The same ranking and grounding used by the in-app AI Assistant
-- Read-only retrieval access (no content modification)
 
-<Callout kind="alert">
-  The public MCP server becomes available automatically when you publish the first version of your documentation.
+- Unified search across pages, headings, API reference, and snippets
+
+- The same ranking and grounding used by the in‑app AI Assistant
+
+- Read‑only retrieval access (no content modification)
+
+<Callout kind="alert" collapsed="false">
+  MCP Server becomes available automatically when you publish the first version of your documentation.
 </Callout>
 
-### Where to access the public MCP server
+## Where to access the MCP Server
 
 You can find your MCP endpoint in the dashboard, under the **MCP Server** section in the sidebar.
 
-Your MCP server URL typically follows one of these formats:
+Your MCP Server URL typically follows one of these formats when you add the custom domain
 
 - `https://docs.yourdomain.com/_mcp`
+
 - `https://yourdomain.com/docs/_mcp`
 
 <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1764859320855-pzuc976fquo-mcp-server.png" width="2770" height="1316" alt="MCP server overview diagram" />
 
-<Callout kind="alert">
-  Only published documentation is available via the public MCP server. For private documentation access, use the Dashboard MCP Server with OAuth authentication.
+The screenshot above shows the MCP Server URL for our own documentation at `https://documentation.ai/docs` which is `https://documentation.ai/docs/_mcp`
+
+<Callout kind="alert" collapsed="false">
+  Only the public documentation is available to access via MCP server. If you would like to configure even private documentation to be available via MCP server, please contact us via chat.&#x20;
 </Callout>
 
-## Dashboard MCP Server
-
-The Dashboard MCP Server authenticates you via your Documentation.AI account and gives you full access to your documentation projects from AI coding tools like Claude Desktop, Claude Code, and Cursor.
-
-With the Dashboard MCP Server you can:
-
-- Read pages, search content, and view site configuration
-- Create, update, and delete documentation files
-- Manage branches, merge changes, and trigger deployments
-- Switch between multiple organizations and documentation projects
-
-<Card title="Dashboard MCP Server Reference" icon="server-cog" href="/ai/mcp-dashboard">
-  Full setup instructions, tool reference, and connection guides for Claude Desktop, Claude Code, and Cursor.
-</Card>

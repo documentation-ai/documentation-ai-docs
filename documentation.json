@@ -563,7 +563,7 @@
         "icon": "code",
         "groups": [
           {
-            "group": "Rest API",
+            "group": "REST API",
             "icon": "info",
             "pages": [
               {

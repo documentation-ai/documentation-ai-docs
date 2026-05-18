@@ -403,15 +403,18 @@
               },
               {
                 "group": "MCP Server",
-                "path": "ai/mcp-server",
-                "icon": "server-cog",
                 "pages": [
                   {
-                    "title": "Dashboard MCP Server",
-                    "path": "ai/mcp-dashboard",
+                    "title": "Docs MCP Server",
+                    "path": "ai/docs-mcp-server"
+                  },
+                  {
+                    "title": "Authoring MCP Server",
+                    "path": "ai/authoring-mcp-server",
                     "icon": "key-round"
                   }
-                ]
+                ],
+                "path": "ai/mcp-server"
               },
               {
                 "title": "Page Actions",

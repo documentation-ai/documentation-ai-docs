@@ -1,0 +1,66 @@
+---
+title: Docs MCP Server
+description: Connect AI tools to Documentation.AI docs for read-only access to published documentation.
+---
+
+## Expose published documentation to AI tools
+
+The Docs MCP Server gives MCP-compatible tools read-only access to your published documentation. Use it when you want tools like ChatGPT, Claude, or Cursor to search, retrieve, and reference docs content without gaining permission to change anything.
+
+<Callout kind="info">
+
+The Docs MCP Server does not allow authoring, branch management, deployments, or dashboard actions. For those workflows, use the [Authoring MCP Server](/ai/authoring-mcp-server).
+
+</Callout>
+
+## Core capabilities
+
+The Docs MCP Server exposes your published documentation through a single retrieval tool, `searchDocumentation`. Connected clients can use it to find the most relevant pages, headings, API reference sections, and snippets from your docs.
+
+Because the server is read-only, it works well when you want grounded answers from trusted documentation while keeping editing controls separate. It can support customer-facing docs, private customer documentation, and internal knowledge bases, as long as that content is available through your published documentation experience.
+
+### What it can access
+
+The Docs MCP Server reflects the same documentation your site serves in its published state. In simple terms, if a reader can access content through the docs site, an MCP client connected in that same context can retrieve that content through the Docs MCP Server.
+
+## Best-fit use cases
+
+Choose the Docs MCP Server when the goal is documentation retrieval, not documentation management.
+
+- **Customer-facing documentation** — Let customers connect AI tools to your published docs for product questions, onboarding, and API lookup.
+- **Private customer documentation** — Expose account-specific or workspace-specific published docs without extending access to authoring workflows.
+- **Internal knowledge bases** — Let employees, support teams, and solution engineers query internal documentation from MCP-compatible tools.
+- **Support and success workflows** — Help teams answer from the same published docs customers use.
+- **AI assistants and copilots** — Add a retrieval layer over your docs so responses stay tied to current published content.
+
+## Find the endpoint and understand access
+
+You can find your MCP endpoint in the dashboard under **MCP Server** in the sidebar.
+
+Your Docs MCP Server URL typically follows one of these formats:
+
+- `https://docs.yourdomain.com/_mcp`
+- `https://yourdomain.com/docs/_mcp`
+
+Access works the same way your docs site does. The Docs MCP Server sits in front of published documentation, not your authoring environment, so it only exposes content available in that published context.
+
+<Callout kind="alert">
+
+The Docs MCP Server becomes available when you publish documentation. It does not create, update, delete, or reorganize content.
+
+</Callout>
+
+## Use Authoring MCP Server when you need write access
+
+Use the Authoring MCP Server when the AI tool needs to work with projects, files, branches, reviews, or deployments. That server is for authoring and operational workflows, while the Docs MCP Server is for read-only retrieval from published docs.
+
+## What to use next
+
+<Columns cols={2}>
+  <Card title="MCP Server overview" icon="book-open" href="/ai/mcp-server" cta="Open overview">
+    See how the Docs MCP Server and Authoring MCP Server fit together.
+  </Card>
+  <Card title="Authoring MCP Server" icon="settings" href="/ai/authoring-mcp-server" cta="Open reference">
+    Setup instructions, supported tools, and the full read and write tool reference.
+  </Card>
+</Columns>

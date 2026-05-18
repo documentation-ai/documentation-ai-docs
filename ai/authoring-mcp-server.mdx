@@ -1,0 +1,329 @@
+---
+title: Authoring MCP Server
+description: Connect AI tools to Documentation.AI for read/write documentation workflows, authoring, review, and deployment tasks.
+---
+
+## Overview
+
+Use the Authoring MCP Server to let an MCP-compatible AI client work directly in your documentation project. It provides read and write access for editing pages, updating `documentation.json`, managing branches, reviewing changes, and deploying through your normal documentation workflow.
+
+<Callout kind="info">
+
+Use this server for authoring and documentation operations. If your AI tool only needs read-only access to published content, use the [Docs MCP Server](/ai/docs-mcp-server).
+
+</Callout>
+
+<Callout kind="alert">
+
+This server uses your Documentation.AI account permissions and can modify live documentation. Connect it only to AI tools and workflows you trust, and use branches when you want review before deployment.
+
+</Callout>
+
+## Setup and authentication
+
+Connect your MCP client to the server URL, then sign in with OAuth 2.1 through your Documentation.AI account.
+
+```text
+https://api.documentationai.app/mcp
+```
+
+<Steps>
+  <Step title="Start the connection from your MCP client" icon="terminal">
+
+Open your MCP-compatible client and add the Dashboard MCP Server using the URL in the next section.
+
+  </Step>
+  <Step title="Sign in with your Documentation.AI account" icon="lock">
+
+Your client discovers the OAuth endpoints and opens a browser window for authentication.
+
+  </Step>
+  <Step title="Approve access" icon="check-circle">
+
+After you approve the consent screen, the client receives tokens and completes the connection.
+
+A successful connection shows the server as available in your MCP client.
+
+  </Step>
+</Steps>
+
+No API keys or manual token management are required.
+
+## Configure your MCP client
+
+### Claude Desktop
+
+Add this to your Claude Desktop MCP configuration, `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "documentationai": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://api.documentationai.app/mcp",
+        "--timeout",
+        "120000"
+      ]
+    }
+  }
+}
+```
+
+### Claude Code
+
+Add the server from your terminal:
+
+```bash
+claude mcp add documentationai \
+  --transport http \
+  --url https://api.documentationai.app/mcp
+```
+
+Or add a `.mcp.json` file to your project root:
+
+```json
+{
+  "mcpServers": {
+    "documentationai": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://api.documentationai.app/mcp",
+        "--timeout",
+        "120000"
+      ]
+    }
+  }
+}
+```
+
+### Cursor
+
+In Cursor settings, add a new MCP server:
+
+- **Name:** `documentationai`
+- **Type:** `command`
+- **Command:** `npx mcp-remote https://api.documentationai.app/mcp --timeout 120000`
+
+## Select a project
+
+After authentication, select the documentation project you want to work on before using any documentation tools.
+
+<Steps>
+  <Step title="List available projects" icon="folder">
+
+Call `list_projects` to see every organization and documentation project your account can access.
+
+  </Step>
+  <Step title="Set the active project" icon="settings">
+
+Call `select_project` with the organization and documentation IDs returned by `list_projects`.
+
+  </Step>
+  <Step title="Run read or write operations" icon="edit">
+
+Once a project is selected, use the tools below to inspect files, update content, manage branches, and deploy changes.
+
+A successful selection makes the current project available for subsequent tool calls in the same session.
+
+  </Step>
+</Steps>
+
+You can switch projects at any time by calling `select_project` again.
+
+## Tools and capabilities
+
+The server exposes project selection, read, and write tools for repository workflows.
+
+### Project selection
+
+These tools are available immediately after authentication.
+
+<Expandable title="list_projects">
+
+Lists all organizations and documentation projects you have access to, along with your role in each.
+
+**Parameters:** None
+
+**Returns:** A list of organizations, each containing their documentation projects and your role, such as admin, editor, or viewer.
+
+</Expandable>
+
+<Expandable title="select_project">
+
+Sets the active organization and documentation project for the current session.
+
+<ParamField body="organizationId" param-type="string" required="true" show-location="false">
+Organization ID from `list_projects`
+</ParamField>
+
+<ParamField body="documentationId" param-type="string" required="true" show-location="false">
+Documentation ID from `list_projects`
+</ParamField>
+
+</Expandable>
+
+### Read tools
+
+Available to all roles, including viewer, editor, and admin. Use these when your workflow needs repository context, source files, or project configuration.
+
+<Expandable title="get_site_config">
+
+Returns the complete `documentation.json`, including navigation, branding, SEO, and integrations.
+
+<ParamField body="branch" param-type="string" required="false" show-location="false">
+Branch name. Defaults to the deployment branch.
+</ParamField>
+
+</Expandable>
+
+<Expandable title="list_pages">
+
+Lists all files in the documentation repository with their paths and sizes.
+
+<ParamField body="branch" param-type="string" required="false" show-location="false">
+Branch name. Defaults to the deployment branch.
+</ParamField>
+
+</Expandable>
+
+<Expandable title="get_page">
+
+Returns the full content of a documentation page.
+
+<ParamField body="path" param-type="string" required="true" show-location="false">
+File path relative to repository root, for example `getting-started/introduction.mdx`
+</ParamField>
+
+<ParamField body="branch" param-type="string" required="false" show-location="false">
+Branch name. Defaults to the deployment branch.
+</ParamField>
+
+</Expandable>
+
+<Expandable title="search_documentation">
+
+Performs a hybrid search that combines semantic understanding and keyword matching.
+
+<ParamField body="query" param-type="string" required="true" show-location="false">
+Search query
+</ParamField>
+
+<ParamField body="limit" param-type="integer" required="false" show-location="false">
+Maximum results from 1 to 50. Defaults to 10.
+</ParamField>
+
+</Expandable>
+
+### Write tools
+
+Require editor or admin role. These tools make the Dashboard MCP Server the right choice for authoring, automation, and deployment workflows.
+
+<Expandable title="update_documentation">
+
+Creates, updates, or deletes documentation files in a single Git commit. Supports up to 20 operations per request.
+
+<ParamField body="operations" param-type="array" required="true" show-location="false">
+Array of file operations. Each operation includes `type`, `path`, and `content`. `content` is required for create and update operations.
+</ParamField>
+
+<ParamField body="commitMessage" param-type="string" required="true" show-location="false">
+Git commit message with a maximum length of 500 characters
+</ParamField>
+
+<ParamField body="branch" param-type="string" required="false" show-location="false">
+Target branch. Defaults to the deployment branch.
+</ParamField>
+
+</Expandable>
+
+<Expandable title="create_branch">
+
+Creates a new Git branch.
+
+<ParamField body="branchName" param-type="string" required="true" show-location="false">
+Name for the new branch
+</ParamField>
+
+<ParamField body="sourceBranch" param-type="string" required="false" show-location="false">
+Branch to create from. Defaults to the deployment branch.
+</ParamField>
+
+</Expandable>
+
+<Expandable title="list_branches">
+
+Lists all branches in the repository.
+
+**Parameters:** None
+
+</Expandable>
+
+<Expandable title="delete_branch">
+
+Deletes a branch. The deployment branch cannot be deleted.
+
+<ParamField body="branchName" param-type="string" required="true" show-location="false">
+Branch name to delete
+</ParamField>
+
+</Expandable>
+
+<Expandable title="merge_branches">
+
+Merges one branch into another. Merging into the deployment branch triggers a live deployment.
+
+<ParamField body="base" param-type="string" required="true" show-location="false">
+Target branch to merge into
+</ParamField>
+
+<ParamField body="head" param-type="string" required="true" show-location="false">
+Source branch to merge from
+</ParamField>
+
+<ParamField body="commitMessage" param-type="string" required="false" show-location="false">
+Merge commit message
+</ParamField>
+
+</Expandable>
+
+<Expandable title="list_pull_requests">
+
+Lists pull requests in the repository.
+
+<ParamField body="state" param-type="string" required="false" show-location="false">
+Filter by state: `open`, `closed`, or `all`. Defaults to `open`.
+</ParamField>
+
+</Expandable>
+
+## Resources
+
+The MCP server also exposes reference resources for automation and authoring workflows:
+
+| Resource | URI | Description |
+| --- | --- | --- |
+| Components Reference | `docs://components` | All available MDX components with props and usage examples |
+| Config Schema | `docs://config-schema` | Complete `documentation.json` schema reference |
+| Project Config | `docs://project/config` | The current project's `documentation.json` |
+
+## Role-based access
+
+Your access level is determined by your role in the selected organization.
+
+| Role | Permissions |
+| --- | --- |
+| **Viewer** | Read tools only: `get_site_config`, `list_pages`, `get_page`, `search_documentation` |
+| **Editor** | Read and write tools, including `update_documentation`, branch operations, merges, and pull requests |
+| **Admin** | All tools |
+
+If your team wants an AI client to read documentation without any ability to change it, use the [Docs MCP Server](/ai/docs-mcp-server) instead.
+
+## Related resources
+
+<Columns cols={2}>
+  <Card title="Docs MCP Server" href="/ai/docs-mcp-server" icon="book-open" cta="Open the read-only server guide" />
+  <Card title="MCP overview" href="/ai/mcp-server" icon="terminal" cta="See server options and when to use them" />
+</Columns>

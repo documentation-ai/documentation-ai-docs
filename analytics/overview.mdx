@@ -30,37 +30,43 @@ Use these metrics to understand how readers move through your docs, where they g
 
 ## Traffic
 
-Traffic analytics provides an at-a-glance view of how readers interact with your documentation over time, including:
+Traffic analytics gives you a date-filtered view of how readers discover and engage with your documentation.
 
-- Pageviews and unique sessions
+You can track:
 
-- Average session duration
+- **Total Page Views** and **Total Sessions**
 
-- Bounce rate and other engagement indicators
+- **Average Session Duration** and **Bounce Rate**
 
-- Top content by traffic source and popularity
+- **Page Views Over Time**, including unique visitors for the selected period
 
-<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1774542469414-i1x2pk25x7l-analytics.jpg?q=85&fm=auto&auto=compress%2Cformat" width="1444" height="825" alt="Traffic analytics dashboard in Documentation.AI showing pageviews, sessions, bounce rate, and top content metrics over time" />
+- **Most Popular Pages** based on traffic volume
 
-## &#x20;Feedback
+- **Traffic Sources** so you can see where visitors are coming from
 
-Feedback analytics shows how users feel about your content and individual pages. You can monitor:
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1774542469414-i1x2pk25x7l-analytics.jpg?q=85&fm=auto&auto=compress%2Cformat" width="1444" height="825" alt="Traffic analytics dashboard in Documentation.AI showing summary metrics, page views over time, popular pages, and traffic sources" />
 
-- Page-level satisfaction trends
+## Feedback
 
-- Likes and dislikes
+Feedback analytics shows how users feel about your content at both the summary and page level.
 
-- Pages where users most often express confusion or frustration
+You can monitor:
 
-After a thumbs up or thumbs down reaction, you can optionally prompt readers for additional context using a short follow-up survey. This captures free-text reasons or comments so you understand why they reacted the way they did. To configure feedback settings, in the Editor, click **Site Config** in the top toolbar, then select **Feedback**.
+- **Total Feedback**, **Total Likes**, **Total Dislikes**, **Total Comments**, and **Satisfaction Rate**
 
-<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1772803253407-vc3dpoocfdl-feedback-settings-background.png?q=85&fm=auto&auto=compress%2Cformat" width="800" height="433" alt="Feedback configuration in Site Config showing follow-up survey options for thumbs up and thumbs down reactions" />
+- A searchable and sortable page-level feedback table
 
-When you configure feedback routing to GitHub in your project configuration, you can also let users open an issue directly in a specified public repository. This turns in-product feedback into actionable items in your existing issue tracker.
+- Which pages receive the most positive or negative reactions
 
-<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1774543103002-peufkfykrcb-feedback.jpg?q=85&fm=auto&auto=compress%2Cformat" width="1444" height="825" alt="Screenshot of documentation feedback analytics overview" />
+- Individual feedback entries for a specific page, including the feedback type, reason, comment, and timestamp
 
+Feedback analytics also supports **CSV export** for both page-level feedback data and page-specific feedback details, making it easier to review trends outside the dashboard or share findings with your team.
 
+After a thumbs up or thumbs down reaction, you can optionally prompt readers for additional context using a short follow-up prompt. This captures free-text reasons or comments so you understand why they reacted the way they did. To configure feedback settings, in the Editor, click **Site Config** in the top toolbar, then select **Feedback**.
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1772803253407-vc3dpoocfdl-feedback-settings-background.png?q=85&fm=auto&auto=compress%2Cformat" width="800" height="433" alt="Feedback configuration in Site Config showing follow-up feedback options after thumbs up and thumbs down reactions" />
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1774543103002-peufkfykrcb-feedback.jpg?q=85&fm=auto&auto=compress%2Cformat" width="1444" height="825" alt="Feedback analytics dashboard showing summary metrics and page-level feedback insights" />
 
 <Callout kind="tip" collapsed="false">
   User feedback is a powerful signal for prioritizing updates, refining unclear topics, and validating whether recent changes are helping readers.
@@ -68,19 +74,45 @@ When you configure feedback routing to GitHub in your project configuration, you
 
 ## Ask AI Analytics
 
-Ask AI Analytics helps you understand how readers use the AI assistant alongside your docs. You can see:
+Ask AI Analytics gives you a dedicated view into how readers use the AI assistant across your documentation. You can use it to understand usage volume, answer quality, and which conversations may need follow-up improvements in your docs.
 
-- The total volume of questions asked over time
+You can filter the AI Assistant view by date range and review four summary metrics:
 
-- How many unique sessions interact with the assistant
+- **Total Questions** — the total number of Ask AI questions in the selected period
 
-- A list of recent questions, including the page where each question was asked and the timestamp
+- **Unique Sessions** — how many assistant sessions included at least one question
 
-- Trends in question volume that highlight spikes in interest or confusion
+- **Low Confidence** — answers scored below 50% confidence
 
-The recent questions view supports pagination so you can load more history, and you can export the underlying data to CSV for deeper analysis or sharing with your team.
+- **Answer Satisfaction** — the percentage of positive answer ratings when feedback exists
 
-<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1772803233852-ymq3dkh2wd8-analytics-ask-ai.png?q=85&fm=auto&auto=compress%2Cformat" width="800" height="459" alt="Ask AI Analytics dashboard showing question volume, sessions, and recent questions list" />
+Below the summary cards, Ask AI data is grouped into **AI Assistant Sessions** so you can review conversations instead of only scanning individual questions. For each session, you can see:
+
+- The first question in the session
+
+- The total number of messages in that session
+
+- A confidence breakdown across answers in the session: **High**, **Medium**, and **Low**
+
+You can also filter sessions by confidence level to quickly focus on conversations where the assistant may have struggled.
+
+When you open a session, you can drill into the full conversation history for that session and review:
+
+- Each question
+
+- The AI-generated answer
+
+- The confidence level for that answer
+
+- The timestamp for each message
+
+Ask AI Analytics also supports **CSV export** with a custom export date range, so you can analyze question and answer data outside the dashboard or share it with your team. The sessions table also supports **Load more** pagination for browsing additional history.
+
+<Callout kind="info">
+Confidence levels are grouped as **High** (80% and above), **Medium** (50% to under 80%), and **Low** (below 50%).
+</Callout>
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1772803233852-ymq3dkh2wd8-analytics-ask-ai.png?q=85&fm=auto&auto=compress%2Cformat" width="800" height="459" alt="Ask AI Analytics dashboard showing summary metrics, AI assistant sessions, confidence breakdowns, and session drill-downs" />
 
 ## Third-party analytics
 

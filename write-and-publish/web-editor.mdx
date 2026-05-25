@@ -35,8 +35,6 @@ If you need a Git-based workflow, local previews, or tight integration with your
   switch browsers, devices, or clear your cache, these changes may be lost.\
   Changes published by other team members may not appear until your local\
   changes are published or cleared.
-
-
 </Callout>
 
 ## Getting started with the web editor
@@ -301,6 +299,20 @@ The web editor is built for teams:
 
 Use your team’s review process (for example, checklists, issue trackers, or comments in your existing tools) around the web editor to keep changes controlled and traceable.
 
+### Review changes in the editor
+
+Use the **Changes** view to review all the changes visually
+
+- **AI changes** — Review agent-suggested changes file by file, then accept or reject individual suggestions or all suggestions at once.
+
+- **Saved changes** — Compare saved changes on your current branch against the default branch.
+
+- **Unsaved changes** — Review local unpublished edits before you publish.
+
+For content pages, the editor shows a visual diff with highlighted additions and deletions. For other file types, the Changes view uses a code diff.
+
+From the unsaved changes review flow, you can revert a single page or revert all pending changes when you want to discard local edits.
+
 ## Publishing workflow
 
 The web editor separates editing from publishing so you can work safely before sending changes live.
@@ -341,13 +353,21 @@ The Editor includes a built-in **Site Config** panel for managing documentation 
 From Site Config you can manage:
 
 - **General** — site title and description
+
 - **Brand & Theme** — template, logos, and theme colors
+
 - **Header & Routing** — navbar actions, links, and initial route
+
 - **SEO** — robots indexing, llms.txt generation, and sitemap
+
 - **Integrations** — analytics and chat providers ([learn more](/integrations/overview))
+
 - **Custom Scripts** — third-party JavaScript injection ([learn more](/customize/custom-scripts))
+
 - **AI Agent** — AI assistant settings and Page Actions
+
 - **Feedback** — page-level reactions and follow-up surveys
+
 - **Redirects** — URL forwarding rules
 
 Changes you make in Site Config appear in the **Changes** panel just like content edits, and they are deployed when you click **Publish**. For the full configuration reference, see [site configuration](/customize/site-configuration).
@@ -381,3 +401,4 @@ To bring your site back online, open the Editor and click **Publish** again. You
 <Callout kind="info" collapsed="false">
   Unpublishing removes public access but does not delete content or configuration. You can republish at any time.
 </Callout>
+

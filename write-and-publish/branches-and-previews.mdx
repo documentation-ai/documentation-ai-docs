@@ -52,6 +52,8 @@ Branch names may be normalized into a valid Git branch format. If you enter a na
 
 Unsaved changes behave differently from saved branch content. Local edits stay only in your current browser until you save, publish, merge, or clear them.
 
+Use the **Changes** view to review both types of work: saved branch changes(if any) to check all the changes saved to that branch, while unsaved changes let you inspect local unpublished edits before you save, merge, or publish.
+
 <Callout kind="tip" collapsed="false">
   Use branches for any change that needs review, coordination, or a preview link. Stay on the Live branch for small, urgent edits that should go live immediately.
 </Callout>
@@ -255,6 +257,12 @@ This setting lives in the GitHub integration, not in the branch menu in the edit
     Developers often prefer **Save & Create PR** because it fits an existing Git review workflow.
 
     Non-developers often prefer **Save & Merge** after reviewing a preview site, because it keeps the workflow inside the editor while still avoiding direct edits on the Live branch.
+  </Expandable>
+
+  <Expandable title="Review pending Agent suggestions before switching branches" default-open="false">
+    If the Agent has suggested changes that you have not reviewed yet, switching branches can discard those pending suggestions.
+
+    Review, accept, or reject them before switching branches if you want to keep that work.
   </Expandable>
 </ExpandableGroup>
 

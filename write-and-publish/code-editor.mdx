@@ -1,6 +1,8 @@
 ---
 title: Code Editor
-description: Use Git-based workflows and MDX in your preferred code editor to write, organize, and publish documentation with Documentation.AI.
+description: >-
+  Use Git-based workflows and MDX in your preferred code editor to write,
+  organize, and publish documentation with Documentation.AI.
 ---
 
 ## Overview
@@ -221,6 +223,29 @@ Component references:
 - [Headings and Text](/components/heading-and-text)
 - [Code and Groups](/components/code-blocks-and-groups)
 - [Callout](/components/callout)
+
+### Component prop syntax
+
+Use quoted string props for stable, readable MDX:
+
+```mdx
+<Callout kind="info">
+
+Tokens expire after 24 hours.
+
+</Callout>
+```
+
+Documentation.AI also normalizes common authoring mistakes so pages keep rendering while you fix them:
+
+- Simple bare identifier props, such as `kind=info`, are treated as string values.
+- Brace-wrapped kebab-case tokens, such as `{release-notes}`, render as literal text instead of breaking the page.
+
+<Callout kind="tip">
+
+Treat this tolerance as a safety net, not a style guide. Prefer explicit quoted props in committed docs because they are easier to review, search, and reuse across MDX tooling.
+
+</Callout>
 
 ### Internal links
 

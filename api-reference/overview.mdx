@@ -1,6 +1,8 @@
 ---
 title: REST API
-description: Programmatic access to read and update your documentation through the Documentation.AI REST API.
+description: >-
+  Programmatic access to read and update your documentation through the
+  Documentation.AI REST API.
 ---
 
 ## Overview
@@ -48,10 +50,10 @@ All requests require an API key passed as a Bearer token in the `Authorization` 
 
 ```bash
 curl https://api.documentationai.app/api/v1/pages \
-  -H "Authorization: Bearer dai_your_api_key"
+  -H "Authorization: Bearer dai_example_9xmk7q2r"
 ```
 
-API keys are generated from the dashboard under **Settings → API Keys**. Each key is scoped to a single documentation project.
+API keys are generated from the dashboard under **Settings → API Keys**. Each key is scoped to a single documentation project and uses the role selected when the key was created.
 
 ## Roles and Permissions
 
@@ -67,41 +69,43 @@ Write endpoints return `403 Forbidden` if the API key role does not have suffici
 
 ## Rate Limiting
 
-Each API key has a per-minute request limit configured at creation time. Rate limit information is included in every response via headers:
+REST API requests are rate limited per API key. Unless a different custom limit is configured for the key, the default limit is **60 requests per minute**.
+
+Rate limit information is included in responses via headers:
 
 | Header | Description |
 | --- | --- |
 | `x-ratelimit-limit` | Maximum requests per minute |
 | `x-ratelimit-remaining` | Requests remaining in the current window |
 | `x-ratelimit-reset` | Unix timestamp when the window resets |
-| `retry-after` | Seconds to wait before retrying (only on 429 responses) |
+| `retry-after` | Seconds to wait before retrying. Present only on `429 Too Many Requests` responses. |
 
-When the limit is exceeded, the API returns `429 Too Many Requests`.
+When the limit is exceeded, the API returns `429 Too Many Requests`. Wait for the number of seconds in the `retry-after` header before retrying the request.
 
 ## Quick Example
 
 List all pages in your documentation:
 
-<CodeGroup>
-```bash cURL
+<CodeGroup tabs="cURL,Node.js,Python">
+```bash
 curl https://api.documentationai.app/api/v1/pages \
-  -H "Authorization: Bearer dai_your_api_key"
+  -H "Authorization: Bearer dai_example_9xmk7q2r"
 ```
 
-```javascript Node.js
+```javascript
 const response = await fetch('https://api.documentationai.app/api/v1/pages', {
-  headers: { 'Authorization': 'Bearer dai_your_api_key' }
+  headers: { 'Authorization': 'Bearer dai_example_9xmk7q2r' }
 });
 const data = await response.json();
 console.log(data.pages);
 ```
 
-```python Python
+```python
 import requests
 
 response = requests.get(
     'https://api.documentationai.app/api/v1/pages',
-    headers={'Authorization': 'Bearer dai_your_api_key'}
+    headers={'Authorization': 'Bearer dai_example_9xmk7q2r'}
 )
 print(response.json()['pages'])
 ```
@@ -113,7 +117,7 @@ Create, update, or delete files in a single commit:
 
 ```bash
 curl -X POST https://api.documentationai.app/api/v1/push \
-  -H "Authorization: Bearer dai_your_api_key" \
+  -H "Authorization: Bearer dai_example_9xmk7q2r" \
   -H "Content-Type: application/json" \
   -d '{
     "commitMessage": "Update getting started guide",
@@ -128,8 +132,17 @@ curl -X POST https://api.documentationai.app/api/v1/push \
 ```
 
 <Callout kind="info">
-  Pushing to the deployment branch (usually `main`) triggers a live deployment. Use a feature branch for draft changes, then merge when ready.
+  Pushing to the deployment branch saves changes to the branch that powers the live site. Use a feature branch for draft changes, then merge when ready.
 </Callout>
+
+## Merge behavior
+
+Branch merges affect deployment based on the target branch:
+
+- **Merging into the deployment branch** triggers a live deployment after the merge succeeds.
+- **Merging into a non-deployment branch** updates or triggers a preview deployment for that branch when preview sites are available.
+
+Use a non-deployment branch when you want to review changes before they reach the live site. Merge into the deployment branch only when the changes are ready for visitors.
 
 ## Endpoints
 

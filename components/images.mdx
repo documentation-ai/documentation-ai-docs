@@ -202,5 +202,7 @@ You can reference external images directly in MDX:
 
 - **Supported formats:** JPEG, JPG, PNG, GIF, WebP, SVG, ICO.
 
-- **CDN:** Images uploaded via the Web Editor are automatically optimized and cached.
+- **Animated GIF behavior:** GIFs are served directly to preserve animation and avoid slow first-load processing. Other uploaded image formats continue to use responsive optimization.
+
+- **CDN:** Images uploaded via the Web Editor are automatically optimized and cached. Animated GIFs still use cached delivery, but they are not transformed into responsive image variants.
 

@@ -1,6 +1,8 @@
 ---
 title: Authoring MCP Server
-description: Connect AI tools to Documentation.AI for read/write documentation workflows, authoring, review, and deployment tasks.
+description: >-
+  Connect AI tools to Documentation.AI for read/write documentation workflows,
+  authoring, review, and deployment tasks.
 ---
 
 ## Overview
@@ -23,11 +25,16 @@ This server uses your Documentation.AI account permissions and can modify live d
 
 ## Setup and authentication
 
-Connect your MCP client to the server URL, then sign in with OAuth 2.1 through your Documentation.AI account.
+Connect your MCP client to the server URL, then authenticate with either OAuth 2.1 or a project API key.
 
 ```text
 https://api.documentationai.app/mcp
 ```
+
+Choose the authentication mode that matches your workflow:
+
+- **OAuth 2.1** — Best for interactive MCP clients where a user signs in with a Documentation.AI account. OAuth sessions can access every project the signed-in user is allowed to use.
+- **API key** — Best for automation, CI workflows, or dedicated agents. API-key sessions are scoped directly to the documentation project that owns the key.
 
 <Steps>
   <Step title="Start the connection from your MCP client" icon="terminal">
@@ -35,21 +42,21 @@ https://api.documentationai.app/mcp
 Open your MCP-compatible client and add the Authoring MCP Server using the URL in the next section.
 
   </Step>
-  <Step title="Sign in with your Documentation.AI account" icon="lock">
+  <Step title="Authenticate the session" icon="lock">
 
-Your client discovers the OAuth endpoints and opens a browser window for authentication.
+For OAuth, your client discovers the OAuth endpoints and opens a browser window for sign-in. For API-key authentication, configure your MCP client to send the project API key as a bearer token.
 
   </Step>
-  <Step title="Approve access" icon="check-circle">
+  <Step title="Confirm access" icon="check-circle">
 
-After you approve the consent screen, the client receives tokens and completes the connection.
+After OAuth approval or API-key validation succeeds, the client completes the connection.
 
 A successful connection shows the server as available in your MCP client.
 
   </Step>
 </Steps>
 
-No API keys or manual token management are required.
+OAuth does not require manual token management. API-key authentication uses the same project-scoped keys that power the REST API. Because an API-key session is already bound to one project, it does not need `list_projects` or `select_project` before running documentation tools.
 
 ## Configure your MCP client
 
@@ -111,12 +118,15 @@ In Cursor settings, add a new MCP server:
 
 ## Select a project
 
-After authentication, select the documentation project you want to work on before using any documentation tools.
+Project selection depends on how the session authenticated.
+
+- **OAuth sessions** must select the documentation project to work on before using documentation tools.
+- **API-key sessions** are already scoped to the project that owns the key, so project selection is not required.
 
 <Steps>
   <Step title="List available projects" icon="folder">
 
-Call `list_projects` to see every organization and documentation project your account can access.
+For OAuth sessions, call `list_projects` to see every organization and documentation project your account can access.
 
   </Step>
   <Step title="Set the active project" icon="settings">
@@ -133,7 +143,7 @@ A successful selection makes the current project available for subsequent tool c
   </Step>
 </Steps>
 
-You can switch projects at any time by calling `select_project` again.
+In an OAuth session, you can switch projects at any time by calling `select_project` again. In an API-key session, create or provide a different project API key to work with another project.
 
 ## Tools and capabilities
 
@@ -275,7 +285,7 @@ Branch name to delete
 
 <Expandable title="merge_branches">
 
-Merges one branch into another. Merging into the deployment branch triggers a live deployment.
+Merges one branch into another. Merging into the deployment branch triggers a live deployment. Merging into a non-deployment branch triggers a preview deployment for the target branch when previews are available.
 
 <ParamField body="base" param-type="string" required="true" show-location="false">
 Target branch to merge into

@@ -30,7 +30,7 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Documentation",
+        "tab": "Guides",
         "icon": "book",
         "groups": [
           {
@@ -601,7 +601,7 @@
         ]
       },
       {
-        "tab": "Help",
+        "tab": "Help Center",
         "icon": "help-circle",
         "pages": [
           {

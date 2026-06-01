@@ -44,14 +44,33 @@ Control how content is arranged on the page and help readers navigate between se
     Arrange content in responsive multi-column grid layouts.
   </Card>
 
+  <Card title="Board" href="/components/board" icon="kanban" horizontal={false}>
+
+    Create horizontally scrolling status boards with columns, cards, colors, and detail dialogs.
+
+  </Card>
+
   <Card title="Collection List" href="/components/collection-list" icon="layout-grid" horizontal={false}>
     Auto-generate card, accordion, list, or link layouts from your navigation tree.
   </Card>
 
   <Card title="Collection Content" href="/components/collection-content" icon="network" horizontal={false}>
+
     Display a full nested navigation tree as a collapsible accordion.
+
   </Card>
+
 </Columns>
+
+<Board>
+  <BoardColumn title="Planned" icon="circle" color="5">
+    <BoardCard title="Draft reference" description="Create the component page and usage example." icon="file-text" author="Docs team" />
+  </BoardColumn>
+
+  <BoardColumn title="Published" icon="check-circle" color="4">
+    <BoardCard title="Add navigation" description="Link the Board page from the component library." icon="kanban" author="Docs team" />
+  </BoardColumn>
+</Board>
 
 ## Media and Visuals
 
@@ -124,6 +143,7 @@ Purpose-built components for documenting API endpoints, parameters, and response
 - **Supplementary information or warnings** — Callout
 - **Hiding details until needed** — Expandables
 - **Navigation grids and feature showcases** — Card inside Columns
+- **Status boards and roadmap-style layouts** — Board
 - **Auto-generated section landing pages** — Collection List or Collection Content
 - **API parameter and response documentation** — Param Field, Response Field, and API Components
 - **Screenshots and visual aids** — Images

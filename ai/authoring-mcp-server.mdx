@@ -1,6 +1,8 @@
 ---
 title: Authoring MCP Server
-description: Connect AI tools to Documentation.AI for read/write documentation workflows, authoring, review, and deployment tasks.
+description: >-
+  Connect AI tools to Documentation.AI for read/write documentation workflows,
+  authoring, review, and deployment tasks.
 ---
 
 ## Overview
@@ -207,7 +209,7 @@ Branch name. Defaults to the deployment branch.
 
 <Expandable title="search_documentation">
 
-Performs a hybrid search that combines semantic understanding and keyword matching.
+Performs a hybrid search that combines semantic understanding, keyword matching, and typo tolerance. Misspelled queries can still return relevant pages when the intended terms are close enough to indexed content.
 
 <ParamField body="query" param-type="string" required="true" show-location="false">
 Search query

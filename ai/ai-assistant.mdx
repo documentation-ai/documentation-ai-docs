@@ -2,7 +2,7 @@
 title: AI Assistant
 description: >-
   AI Assistant helps users get docs-aware answers with citations, follow-up
-  prompts, customization controls, analytics, and bot protection.
+  prompts, answer feedback controls, analytics, and customization options.
 ---
 ## Overview
 
@@ -23,6 +23,8 @@ Unlike a generic chatbot, the assistant is:
 ## How it works
 
 Users open **Ask AI**, enter a question in natural language, and get an answer grounded in your documentation. The assistant can also suggest starter questions to help users begin and follow-up questions to help them continue after each answer.
+
+After an answer appears, users can rate it with thumbs up or thumbs down feedback controls. These ratings help admins understand answer quality in Ask AI Analytics. Users can also start over with the **New chat** action when they want a fresh conversation.
 
 When the assistant cannot confidently answer from your docs, you can route users to another support channel instead of leaving them at a dead end. You can send them to a support email address or a support URL, depending on how you want your fallback experience to work.
 
@@ -76,11 +78,9 @@ Configure the AI Assistant from its dedicated settings area. You can control whe
 
 - **Follow-up Questions** – show **3** suggested follow-up prompts after each answer to help users continue the conversation.
 
-### Fallback and protection
+### Fallback behavior
 
 - **Fallback to support** – route users to support when the assistant cannot answer confidently. You can configure fallback to a support email address or a support URL.
-
-- **Invisible CAPTCHA bot protection** – protect the assistant from automated abuse without adding a visible challenge for most users.
 
 ## Where users access the assistant
 
@@ -98,6 +98,10 @@ The assistant appears as an **Ask AI** entry point in your documentation when en
 
    - Suggested follow-up questions after the answer
 
+   - Thumbs up and thumbs down controls for rating the answer
+
+4. Users can click **New chat** to clear the current conversation and start again.
+
 How the assistant opens depends on the settings you choose. You can present it as a side panel or as a floating interface, and you can decide whether it opens by default.
 
 ## Analytics
@@ -109,6 +113,8 @@ Available analytics include:
 - **Total questions** – overall question volume
 
 - **Unique sessions** – how many distinct assistant sessions users started
+
+- **Answer satisfaction** – the share of positive answer ratings from users who clicked thumbs up or thumbs down
 
 - **Recent questions** – the latest questions asked through the assistant
 
@@ -129,4 +135,3 @@ The AI Assistant helps teams do more than answer one-off questions. It can:
 - **Support customer-facing teams** – support, success, and sales teams can reuse grounded answers with citations during live conversations.
 
 - **Highlight content gaps** – repeated questions and weak answer coverage show where your docs need clearer explanations or new pages.
-

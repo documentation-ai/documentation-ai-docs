@@ -2,6 +2,28 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-06-01" description="Board component, AI documentation updates, search tolerance, GIF handling, redirects, and navbar casing" tags={["feature","improvement"]}>
+  ## Documentation authoring and components
+
+  We added documentation for the new Board MDX component, including board structure, column and card props, visual behavior, and authoring guidance. The component library overview now includes Board alongside the other layout and navigation components. Learn more in [Board](/components/board) and [Components](/components/components).
+
+  We also clarified how navbar action labels render. Primary button and secondary link titles now preserve the exact capitalization entered in `documentation.json`, so use the casing you want readers to see. See [Header and Navbar](/customize/header-and-navbar).
+
+  ## AI features and analytics
+
+  AI Documentation Agent docs now cover file attachments and limits, helping authors understand what they can upload when asking the agent to work with supporting material. See [AI Documentation Agent](/ai/ai-documentation-agent).
+
+  AI Assistant docs now describe answer feedback, starting a new chat, and current protection behavior. Analytics docs now reflect the related feedback and assistant activity reporting. See [AI Assistant](/ai/ai-assistant) and [Analytics overview](/analytics/overview).
+
+  ## Publishing, media, and search improvements
+
+  Image documentation now explains animated GIF handling so authors know how GIFs behave when added to documentation pages. See [Images](/components/images).
+
+  Redirect documentation now covers subpath deployments, including how redirects behave when a documentation site is served from a custom subpath. See [Redirects](/customize/redirects-and-rewrites).
+
+  Search-related documentation now notes typo-tolerant search behavior for the REST API and Authoring MCP Server search tools. See [API Reference overview](/api-reference/overview) and [Authoring MCP Server](/ai/authoring-mcp-server).
+</Update>
+
 <Update label="2026-05-25" description="Visual change detection for AI, saved, and unsaved edits" tags={["feature","improvement"]}>
   ## Visual Change Detection
 

@@ -1,0 +1,323 @@
+---
+title: Board
+description: Build horizontally scrolling status boards with columns, cards, icons, colors, dates, and card detail dialogs.
+type: reference
+---
+## Overview
+
+Use the `Board` component to show work items, roadmap stages, support queues, release progress, or any set of cards grouped by status.
+
+A board is made from three MDX components:
+
+- `Board` creates the horizontally scrolling board container.
+- `BoardColumn` creates a fixed-width column with a title, optional icon, color, and card count.
+- `BoardCard` creates a clickable card that opens a detail dialog.
+
+<Callout kind="info" collapsed="false">
+
+Boards are presentational. Readers can open card details, but they cannot drag cards between columns or reorder cards from the published page.
+
+
+</Callout>
+
+## When to use a board
+
+Use a board when readers need to scan grouped items across stages or categories. Boards work best for visual status-oriented content, such as:
+
+- Product roadmap stages like **Planned**, **In Progress**, and **Shipped**
+- Documentation task queues grouped by owner or status
+- Release checklists grouped by milestone
+- Support workflows grouped by priority or state
+
+Use [Columns](/components/columns) or [Card](/components/card) instead when you need general navigation cards, feature grids, or links that do not belong to a status flow.
+
+## Using with Web Editor
+
+Board components are available anywhere you can write MDX. In the Web Editor, switch to **MDX view** and paste the board syntax directly into the page.
+
+<Steps>
+
+  <Step title="Open MDX view">
+
+Open the page in the Web Editor, then switch from visual editing to MDX view.
+
+
+  </Step>
+  <Step title="Add the board structure">
+
+Start with a `Board`, add one or more `BoardColumn` components, then place `BoardCard` components inside each column.
+
+
+  </Step>
+  <Step title="Preview the page">
+
+Preview the page to confirm column labels, card counts, horizontal scrolling, and card detail dialogs behave as expected.
+
+
+  </Step>
+</Steps>
+
+## Using with Code Editor
+
+In the Code Editor, add the board directly to any MDX file. The components are globally available, so you do not need to import them.
+
+```mdx
+<Board>
+  <BoardColumn title="Planned" icon="circle" color="5">
+    <BoardCard
+      title="Improve onboarding guide"
+      description="Rewrite the first-run setup flow so new authors can publish a useful page faster."
+      icon="book-open"
+      dueDate="2026-06-12"
+      author="Mina Patel"
+      createdAt="2026-05-28"
+    />
+    <BoardCard
+      title="Add API error examples"
+      description="Document common validation and authentication errors with request and response examples."
+      icon="alert-triangle"
+      dueDate="2026-06-18"
+      author="Noah Kim"
+      createdAt="2026-05-30"
+    />
+  </BoardColumn>
+
+  <BoardColumn title="In Progress" icon="loader" color="2">
+    <BoardCard
+      title="Update search documentation"
+      description="Clarify typo tolerance, ranking behavior, and how results are displayed in the docs experience."
+      icon="search"
+      dueDate="2026-06-07"
+      author="Ava Chen"
+      createdAt="2026-05-24"
+    />
+  </BoardColumn>
+
+  <BoardColumn title="Published" icon="check-circle" color="4">
+    <BoardCard
+      title="Document image optimization"
+      description="Explain supported image formats, CDN delivery, alt text, and sizing recommendations."
+      icon="image"
+      author="Iris Morgan"
+      createdAt="2026-05-21"
+    />
+  </BoardColumn>
+</Board>
+```
+
+Rendered example:
+
+<Board>
+  <BoardColumn title="Planned" icon="circle" color="5">
+    <BoardCard
+      title="Improve onboarding guide"
+      description="Rewrite the first-run setup flow so new authors can publish a useful page faster."
+      icon="book-open"
+      dueDate="2026-06-12"
+      author="Mina Patel"
+      createdAt="2026-05-28"
+    />
+    <BoardCard
+      title="Add API error examples"
+      description="Document common validation and authentication errors with request and response examples."
+      icon="alert-triangle"
+      dueDate="2026-06-18"
+      author="Noah Kim"
+      createdAt="2026-05-30"
+    />
+  </BoardColumn>
+
+  <BoardColumn title="In Progress" icon="loader" color="2">
+    <BoardCard
+      title="Update search documentation"
+      description="Clarify typo tolerance, ranking behavior, and how results are displayed in the docs experience."
+      icon="search"
+      dueDate="2026-06-07"
+      author="Ava Chen"
+      createdAt="2026-05-24"
+    />
+  </BoardColumn>
+
+  <BoardColumn title="Published" icon="check-circle" color="4">
+    <BoardCard
+      title="Document image optimization"
+      description="Explain supported image formats, CDN delivery, alt text, and sizing recommendations."
+      icon="image"
+      author="Iris Morgan"
+      createdAt="2026-05-21"
+    />
+  </BoardColumn>
+</Board>
+
+## Component behavior
+
+### Horizontal scrolling
+
+Each board column has a fixed width of 300 pixels. When the board has more columns than fit on the page, the board scrolls horizontally instead of shrinking columns until the cards become unreadable.
+
+### Column colors
+
+Columns receive colors automatically based on their order. Pass the `color` prop when you want a specific column color.
+
+| Color value | Accent color |
+| ----------- | ------------ |
+| `0` | Gray |
+| `1` | Brown |
+| `2` | Orange |
+| `3` | Yellow |
+| `4` | Green |
+| `5` | Blue |
+| `6` | Purple |
+| `7` | Pink |
+| `8` | Red |
+
+If you pass a value higher than `8`, the color wraps through the same palette.
+
+### Lucide icons
+
+`BoardColumn` and `BoardCard` both accept Lucide icon names in kebab case, such as `check-circle`, `book-open`, `alert-triangle`, or `file-text`.
+
+If a column icon is missing or invalid, the column header shows a colored dot. If a card icon is missing or invalid, the card uses a default file icon.
+
+### Card detail dialogs
+
+Each `BoardCard` opens a detail dialog when clicked. The dialog shows the card title, full description, parent column status, due date, created date, and author when those values are provided.
+
+<Callout kind="tip" collapsed="false">
+
+Keep card descriptions short. The card preview truncates long descriptions to two lines, while the detail dialog shows the full description.
+
+
+</Callout>
+
+## Board props
+
+Use `Board` as the outer wrapper for the board. Place `BoardColumn` components directly inside it.
+
+<ParamField path="children" param-type="React.ReactNode" required="true" deprecated="false">
+
+Board content. Use `BoardColumn` components as direct children.
+
+
+</ParamField>
+
+<ParamField path="title" param-type="string" required="false" deprecated="false">
+
+Reserved prop declared by the component type. The current board implementation does not render this value.
+
+
+</ParamField>
+
+<ParamField path="uid" param-type="string" required="false" deprecated="false">
+
+Reserved identifier declared by the component type. The current board implementation does not render this value.
+
+
+</ParamField>
+
+## BoardColumn props
+
+Use `BoardColumn` for each status lane or category inside a board.
+
+<ParamField path="title" param-type="string" required="true" deprecated="false">
+
+Column label shown in the colored column header.
+
+
+</ParamField>
+
+<ParamField path="icon" param-type="string" required="false" deprecated="false">
+
+Lucide icon name in kebab case. The icon appears beside the column title.
+
+
+</ParamField>
+
+<ParamField path="color" param-type="string" required="false" deprecated="false">
+
+Color palette index from `0` through `8`. If omitted, the board assigns colors by column order.
+
+
+</ParamField>
+
+<ParamField path="uid" param-type="string" required="false" deprecated="false">
+
+Unique identifier for the column. When provided, the board uses it as the column key while rendering.
+
+
+</ParamField>
+
+<ParamField path="children" param-type="React.ReactNode" required="false" deprecated="false">
+
+Column content. Use `BoardCard` components as children.
+
+
+</ParamField>
+
+## BoardCard props
+
+Use `BoardCard` for each item inside a column. Cards are self-closing because the current implementation reads card content from props instead of children.
+
+<ParamField path="title" param-type="string" required="true" deprecated="false">
+
+Card title shown in the card preview and detail dialog.
+
+
+</ParamField>
+
+<ParamField path="description" param-type="string" required="false" deprecated="false">
+
+Short card summary. The card preview truncates long descriptions to two lines; the detail dialog shows the full value.
+
+
+</ParamField>
+
+<ParamField path="icon" param-type="string" required="false" deprecated="false">
+
+Lucide icon name in kebab case. If omitted or invalid, the card uses the default file icon.
+
+
+</ParamField>
+
+<ParamField path="dueDate" param-type="string" required="false" deprecated="false">
+
+Due date shown in the detail dialog. Use an ISO date such as `2026-06-12` for consistent formatting.
+
+
+</ParamField>
+
+<ParamField path="createdAt" param-type="string" required="false" deprecated="false">
+
+Creation date shown in the detail dialog. Use an ISO date such as `2026-05-28` for consistent formatting.
+
+
+</ParamField>
+
+<ParamField path="author" param-type="string" required="false" deprecated="false">
+
+Author name shown in the detail dialog sidebar.
+
+
+</ParamField>
+
+<ParamField path="uid" param-type="string" required="false" deprecated="false">
+
+Unique identifier rendered on the card as a data attribute.
+
+
+</ParamField>
+
+## Authoring guidelines
+
+- Keep the nesting order as `Board`, then `BoardColumn`, then `BoardCard`.
+- Use `BoardCard` props for card content. Child content inside `BoardCard` is not rendered.
+- Use three to six columns for the best reading experience. Wider boards still work, but readers need to scroll horizontally.
+- Choose column colors consistently across related boards, such as green for shipped work or red for blocked work.
+- Use concise card titles so the board remains easy to scan.
+
+<Callout kind="success" collapsed="false">
+
+Pair boards with [Callout](/components/callout) for context and [Steps](/components/steps) when readers need to act on the board items in sequence.
+
+
+</Callout>

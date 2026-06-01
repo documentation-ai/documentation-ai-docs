@@ -296,13 +296,11 @@ In this example:
 
 ## Subpath deployments
 
-If your documentation is deployed at a subpath (e.g., `example.com/docs`), redirects are automatically adjusted:
+If your documentation is deployed at a subpath, such as `example.com/docs`, redirects work whether you include or omit the subpath in `source` and `destination`.
 
-- The subpath is prepended to the `source` for matching
+Either of these rules matches requests to `/docs/old-page` and redirects to `/docs/new-page`. Use one style per redirect; these examples are alternatives.
 
-- The subpath is prepended to the `destination` if not already present
-
-You don't need to include the subpath in your redirect configuration:
+Without the subpath:
 
 ```json
 {
@@ -315,9 +313,26 @@ You don't need to include the subpath in your redirect configuration:
 }
 ```
 
-For a subpath deployment at `/docs`:
+With the subpath:
 
-- Request to `/docs/old-page` → Redirects to `/docs/new-page`
+```json
+{
+  "redirects": [
+    {
+      "source": "/docs/old-page",
+      "destination": "/docs/new-page"
+    }
+  ]
+}
+```
+
+Subpath normalization follows these rules:
+
+- Internal destinations are normalized to the deployment subpath when needed
+
+- External destinations, such as `https://status.example.com`, are not prefixed with the subpath
+
+- Subpath matching respects path segment boundaries, so a deployment at `/docs` matches `/docs/old-page` but not `/docs-old/old-page`
 
 ## Examples
 
@@ -470,6 +485,8 @@ When temporarily redirecting during maintenance:
 
     - Verify the source path matches exactly (case-sensitive)
 
+    - For subpath deployments, test the rule with and without the subpath in the request path
+
     - Check that segment counts match for dynamic redirects
 
     - Ensure the redirect is placed before more general patterns
@@ -486,7 +503,9 @@ When temporarily redirecting during maintenance:
 
     - Verify dynamic parameter names match between source and destination
 
-    - Ensure subpath configuration is correct for your deployment type
+    - If the destination is external, confirm it is a full URL that starts with `https://` or `http://`
+
+    - For subpath deployments, confirm the destination is intended to stay inside the subpath unless it is an external URL
   </Expandable>
 
   <Expandable title="Redirect loops" default-open="false">

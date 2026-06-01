@@ -178,7 +178,7 @@ After deployment, Cloudflare shows a default `workers.dev` URL and a basic Hello
             method: request.method,
             headers: new Headers(request.headers),
             body: request.body,
-            redirect: "follow",
+            redirect: "manual",
           });
 
           // Set essential proxy headers

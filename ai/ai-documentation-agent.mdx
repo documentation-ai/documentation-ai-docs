@@ -91,6 +91,33 @@ Example prompts:
   The Agent reads from the specific context repositories linked to your documentation project. It does not browse all of your GitHub data, and it treats those repositories as read-only context while it plans and edits documentation.
 </Callout>
 
+### Attach files for additional context
+
+You can attach files directly to your Agent conversation to give it more context about your product, codebase, or existing content. This is useful when you want the Agent to reference specific material while drafting or editing pages.
+
+To attach a file, click the **paperclip icon** next to the message input, select one or more files from your device, and send your message. The Agent reads the content of attached files and uses it to produce more accurate documentation.
+
+#### Supported file types
+
+| Category | Formats | Max size |
+| --- | --- | --- |
+| PDF, Word, PowerPoint | `.pdf`, `.doc`, `.docx`, `.pptx` | 10 MB |
+| Plain text and Markdown | `.txt`, `.md` | 1 MB |
+| Code files | `.js`, `.ts`, `.py`, `.html`, `.css`, `.sql`, `.graphql` | 500 KB |
+| Shell scripts | `.sh` | 100 KB |
+| Spreadsheets | `.csv`, `.xls`, `.xlsx` | 5 MB |
+| Data and config | `.json`, `.yaml`, `.yml`, `.toml`, `.xml` | 500 KB |
+
+#### Limits
+
+- Up to **20 files** per conversation.
+
+- Attachments are kept for **30 days**, then removed automatically.
+
+<Callout kind="tip" collapsed="false">
+  Attach API specs, code files, or internal documents so the Agent can write docs that match your actual implementation. You can attach multiple files in one conversation and ask the Agent to reference them together. For spreadsheets and CSVs, column headers are preserved so the Agent understands your data structure.
+</Callout>
+
 ### Restructure and refactor pages
 
 If a page has grown too long or disorganized, ask the Agent to propose a more readable flow. It can:
@@ -172,4 +199,3 @@ Edit manually when:
 - You need pixel-perfect formatting or subtle wording changes.
 
 - The page contains project-specific details the Agent is not aware of.
-

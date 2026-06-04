@@ -1,6 +1,8 @@
 ---
 title: Authoring MCP Server
-description: Connect AI tools to Documentation.AI for read/write documentation workflows, authoring, review, and deployment tasks.
+description: >-
+  Connect AI tools to Documentation.AI for read/write documentation workflows,
+  authoring, review, and deployment tasks.
 ---
 
 ## Overview
@@ -17,17 +19,22 @@ Use this server for authoring and documentation operations through an MCP client
 
 <Callout kind="alert">
 
-This server uses your Documentation.AI account permissions and can modify live documentation. Connect it only to AI tools and workflows you trust, and use branches when you want review before deployment.
+This server can modify live documentation when the authenticated user or API key has write access. Connect it only to AI tools and workflows you trust, and use branches when you want review before deployment.
 
 </Callout>
 
 ## Setup and authentication
 
-Connect your MCP client to the server URL, then sign in with OAuth 2.1 through your Documentation.AI account.
+Connect your MCP client to the server URL, then choose the authentication mode that matches your workflow: OAuth for interactive project selection, or a `dai_` API key for one project-scoped connection.
 
 ```text
 https://api.documentationai.app/mcp
 ```
+
+<Tabs>
+  <Tab title="OAuth 2.1" icon="lock">
+
+OAuth signs you in through your Documentation.AI account. Use it when you want to choose from the organizations and documentation projects your user account can access.
 
 <Steps>
   <Step title="Start the connection from your MCP client" icon="terminal">
@@ -49,9 +56,27 @@ A successful connection shows the server as available in your MCP client.
   </Step>
 </Steps>
 
-No API keys or manual token management are required.
+After OAuth authentication, use `list_projects` and `select_project` to choose the documentation project for the current session.
+
+  </Tab>
+  <Tab title="API key" icon="shield">
+
+Use a Documentation.AI API key that begins with `dai_` when you want a client, automation, or shared workflow to work against one documentation project without an interactive sign-in.
+
+The API key is already scoped to a single documentation project, so you do not need to call `list_projects` or `select_project`. Viewer keys can use read tools. Editor and Admin keys can use the same read tools plus write tools, including file updates, branch operations, and merges.
+
+<Callout kind="alert">
+
+Treat API keys like passwords. Store them in your MCP client's secret storage or environment variables, and rotate them if they are exposed.
+
+</Callout>
+
+  </Tab>
+</Tabs>
 
 ## Configure your MCP client
+
+The examples below use OAuth 2.1 because most MCP clients can discover and complete the sign-in flow automatically. If you use an API key, configure your MCP client to send it as a bearer token with requests to the Authoring MCP Server.
 
 ### Claude Desktop
 
@@ -111,7 +136,7 @@ In Cursor settings, add a new MCP server:
 
 ## Select a project
 
-After authentication, select the documentation project you want to work on before using any documentation tools.
+After OAuth authentication, select the documentation project you want to work on before using any documentation tools. API key connections are already scoped to one documentation project and do not need project selection.
 
 <Steps>
   <Step title="List available projects" icon="folder">
@@ -133,7 +158,7 @@ A successful selection makes the current project available for subsequent tool c
   </Step>
 </Steps>
 
-You can switch projects at any time by calling `select_project` again.
+You can switch projects at any time by calling `select_project` again. API key sessions stay scoped to the project assigned to the key.
 
 ## Tools and capabilities
 
@@ -141,7 +166,7 @@ The server exposes project selection, read, and write tools for repository workf
 
 ### Project selection
 
-These tools are available immediately after authentication.
+These tools are available immediately after OAuth authentication. API key connections are already scoped to one documentation project.
 
 <Expandable title="list_projects">
 
@@ -169,7 +194,7 @@ Documentation ID from `list_projects`
 
 ### Read tools
 
-Available to all roles, including viewer, editor, and admin. Use these when your workflow needs repository context, source files, or project configuration.
+Available to all roles, including viewer, editor, and admin. OAuth users and API keys can use these when the authenticated account or key has access to the selected documentation project.
 
 <Expandable title="get_site_config">
 
@@ -221,7 +246,7 @@ Maximum results from 1 to 50. Defaults to 10.
 
 ### Write tools
 
-Require editor or admin role. These tools make the Authoring MCP Server the right choice for authoring, automation, and deployment workflows.
+Require Editor or Admin access. OAuth users need an Editor or Admin role in the selected organization. API keys can use write tools when the key role is Editor or Admin.
 
 <Expandable title="update_documentation">
 
@@ -313,7 +338,7 @@ The MCP server also exposes reference resources for automation and authoring wor
 
 ## Role-based access
 
-Your access level is determined by your role in the selected organization.
+Your access level is determined by the authentication mode. With OAuth, access comes from your role in the selected organization. With an API key, access comes from the key's role for its scoped documentation project.
 
 | Role | Permissions |
 | --- | --- |

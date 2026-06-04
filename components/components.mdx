@@ -35,9 +35,39 @@ The basic building blocks of every documentation page: text, structured data, an
 
 Control how content is arranged on the page and help readers navigate between sections.
 
+<Board>
+  <BoardColumn title="Plan" icon="circle" color="5">
+    <BoardCard
+      title="Draft component docs"
+      description="Write the first pass of a component reference page."
+      icon="file-text"
+      dueDate="2026-06-12"
+      author="Docs team"
+      createdAt="2026-06-01"
+      uid="draft-component-docs"
+    />
+  </BoardColumn>
+
+  <BoardColumn title="Publish" icon="check-circle" color="4">
+    <BoardCard
+      title="Add Board to navigation"
+      description="Publish the Board reference alongside the other component pages."
+      icon="columns-3"
+      dueDate="2026-06-14"
+      author="Docs team"
+      createdAt="2026-06-02"
+      uid="publish-board-navigation"
+    />
+  </BoardColumn>
+</Board>
+
 <Columns cols={2}>
   <Card title="Card" href="/components/card" icon="square" horizontal={false}>
     Create navigation hubs and feature highlights with icons, images, and CTAs.
+  </Card>
+
+  <Card title="Board" href="/components/board" icon="columns-3" horizontal={false}>
+    Show Kanban-style workflows with colored columns, clickable cards, and detail dialogs.
   </Card>
 
   <Card title="Columns" href="/components/columns" icon="columns" horizontal={false}>
@@ -124,6 +154,7 @@ Purpose-built components for documenting API endpoints, parameters, and response
 - **Supplementary information or warnings** — Callout
 - **Hiding details until needed** — Expandables
 - **Navigation grids and feature showcases** — Card inside Columns
+- **Status boards and workflow columns** — Board
 - **Auto-generated section landing pages** — Collection List or Collection Content
 - **API parameter and response documentation** — Param Field, Response Field, and API Components
 - **Screenshots and visual aids** — Images

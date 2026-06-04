@@ -1,8 +1,8 @@
 ---
 title: AI Assistant
 description: >-
-  AI Assistant helps users get docs-aware answers with citations, follow-up
-  prompts, customization controls, analytics, and bot protection.
+  AI Assistant helps users get docs-aware answers with citations, answer
+  feedback, follow-up prompts, customization controls, and analytics.
 ---
 ## Overview
 
@@ -22,7 +22,7 @@ Unlike a generic chatbot, the assistant is:
 
 ## How it works
 
-Users open **Ask AI**, enter a question in natural language, and get an answer grounded in your documentation. The assistant can also suggest starter questions to help users begin and follow-up questions to help them continue after each answer.
+Users open **Ask AI**, enter a question in natural language, and get an answer grounded in your documentation. The assistant can also suggest starter questions to help users begin, then show follow-up questions after it finishes responding so users can continue the conversation without interrupting a streaming answer.
 
 When the assistant cannot confidently answer from your docs, you can route users to another support channel instead of leaving them at a dead end. You can send them to a support email address or a support URL, depending on how you want your fallback experience to work.
 
@@ -74,13 +74,13 @@ Configure the AI Assistant from its dedicated settings area. You can control whe
 
 - **Starter Questions** – add up to **3** suggested questions to help users begin. Each starter question can be up to **200 characters**.
 
-- **Follow-up Questions** – show **3** suggested follow-up prompts after each answer to help users continue the conversation.
+- **Follow-up Questions** – show **3** suggested follow-up prompts after the assistant finishes responding. Follow-up prompts appear only after the current answer is complete, so users do not choose a suggestion while the assistant is still streaming.
 
 ### Fallback and protection
 
 - **Fallback to support** – route users to support when the assistant cannot answer confidently. You can configure fallback to a support email address or a support URL.
 
-- **Invisible CAPTCHA bot protection** – protect the assistant from automated abuse without adding a visible challenge for most users.
+- **CAPTCHA status** – invisible CAPTCHA protection is currently disabled at runtime, so users do not see CAPTCHA challenges in the Ask AI experience.
 
 ## Where users access the assistant
 
@@ -96,7 +96,11 @@ The assistant appears as an **Ask AI** entry point in your documentation when en
 
    - Citations and links to relevant pages or sections
 
-   - Suggested follow-up questions after the answer
+   - **Good answer** and **Bad answer** buttons for rating the response
+
+   - Suggested follow-up questions after the answer finishes
+
+Users can click **New chat** in the assistant header to clear the current conversation and start over.
 
 How the assistant opens depends on the settings you choose. You can present it as a side panel or as a floating interface, and you can decide whether it opens by default.
 
@@ -109,6 +113,10 @@ Available analytics include:
 - **Total questions** – overall question volume
 
 - **Unique sessions** – how many distinct assistant sessions users started
+
+- **Confidence signals** – high, medium, and low confidence breakdowns that show where the assistant may need stronger source content
+
+- **Answer satisfaction** – positive and negative ratings from the **Good answer** and **Bad answer** buttons
 
 - **Recent questions** – the latest questions asked through the assistant
 

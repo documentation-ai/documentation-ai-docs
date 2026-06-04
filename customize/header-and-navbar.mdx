@@ -1,6 +1,8 @@
 ---
 title: Set Up Header and Navbar
-description: Add action buttons and navigation links to your documentation site's header to guide users to key actions and resources.
+description: >-
+  Add action buttons and navigation links to your documentation site's header to
+  guide users to key actions and resources.
 ---
 
 
@@ -26,7 +28,7 @@ Determine what actions you want users to take:
 
 ### Step 2: Add navbar configuration
 
-Open your `documentation.json` file and add the navbar section:
+Open your `documentation.json` file and add the navbar section. Primary button and secondary link titles render exactly as entered in `title`, including casing, in both desktop and mobile navbars.
 
 ```json
 {
@@ -52,8 +54,9 @@ Open your `documentation.json` file and add the navbar section:
 Set up your main call-to-action button:
 
 1. Choose action-oriented text ("Get Started", "Try Free", "Sign Up")
-2. Link to your primary conversion URL
-3. Ensure the URL works and loads quickly
+2. Use the exact casing you want displayed. Button text renders exactly as written in `title`; it is not automatically capitalized.
+3. Link to your primary conversion URL
+4. Ensure the URL works and loads quickly
 
 ```json
 {
@@ -80,7 +83,7 @@ Set up your main call-to-action button:
 
 ### Step 4: Add secondary navigation links
 
-Include additional helpful links:
+Include additional helpful links. Link titles also render exactly as written in `title`, including uppercase, lowercase, and title case text.
 
 ```json
 {

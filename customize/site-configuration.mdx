@@ -159,6 +159,8 @@ Customize your site's color scheme with automatic contrast optimization.
 
 Configure the top navigation bar with action buttons and links.
 
+Primary action and secondary link titles render exactly as entered in `title`, including casing. They are not automatically capitalized in desktop or mobile navbars.
+
 ```json
 {
   "navbar": {
@@ -191,7 +193,7 @@ Configure the main call-to-action button that appears prominently in your navbar
 
   <Expandable title="Button Configuration" default-open="false">
     <ParamField path="title" param-type="string" required="true" deprecated="false">
-      Text displayed on the button.
+      Text displayed on the button. Renders exactly as entered, including casing.
     </ParamField>
 
     <ParamField path="link" param-type="string" required="true" deprecated="false">
@@ -209,7 +211,7 @@ Add supplementary text links for additional navigation options.
 
   <Expandable title="Link Configuration" default-open="false">
     <ParamField path="title" param-type="string" required="true" deprecated="false">
-      Display text for the link.
+      Display text for the link. Renders exactly as entered, including casing.
     </ParamField>
 
     <ParamField path="link" param-type="string" required="true" deprecated="false">

@@ -296,13 +296,11 @@ In this example:
 
 ## Subpath deployments
 
-If your documentation is deployed at a subpath (e.g., `example.com/docs`), redirects are automatically adjusted:
+If your documentation is deployed at a subpath, such as `example.com/docs`, redirects are normalized against that subpath. You can include or omit the deployment subpath in internal redirect sources and destinations; Documentation.AI resolves both forms to the same final URL.
 
-- The subpath is prepended to the `source` for matching
+For a subpath deployment at `/docs`, choose either form. These two alternatives normalize to the same redirect, so you do not need to configure both.
 
-- The subpath is prepended to the `destination` if not already present
-
-You don't need to include the subpath in your redirect configuration:
+**Without subpath:**
 
 ```json
 {
@@ -315,9 +313,41 @@ You don't need to include the subpath in your redirect configuration:
 }
 ```
 
-For a subpath deployment at `/docs`:
+**With subpath:**
+
+```json
+{
+  "redirects": [
+    {
+      "source": "/docs/old-page",
+      "destination": "/docs/new-page"
+    }
+  ]
+}
+```
+
+Both alternatives normalize to:
 
 - Request to `/docs/old-page` → Redirects to `/docs/new-page`
+
+External destinations are not prefixed with the deployment subpath:
+
+```json
+{
+  "redirects": [
+    {
+      "source": "/old-page",
+      "destination": "https://status.documentation.ai/incidents"
+    }
+  ]
+}
+```
+
+For a subpath deployment at `/docs`:
+
+- Request to `/docs/old-page` → Redirects to `https://status.documentation.ai/incidents`
+
+Subpath matching uses strict path boundaries. A deployment subpath of `/docs` matches `/docs` and `/docs/old-page`, but it does not match `/docs-extra` or `/docs-extra/old-page`.
 
 ## Examples
 
@@ -434,7 +464,9 @@ When temporarily redirecting during maintenance:
 
     3. Test with and without trailing slashes
 
-    4. Confirm dynamic parameters are captured correctly
+    4. For subpath deployments, test sources and destinations with and without the deployment subpath
+
+    5. Confirm dynamic parameters are captured correctly
   </Expandable>
 
   <Expandable title="Avoid redirect chains" default-open="false">
@@ -472,6 +504,8 @@ When temporarily redirecting during maintenance:
 
     - Check that segment counts match for dynamic redirects
 
+    - For subpath deployments, make sure the request is inside the exact deployment subpath. For example, `/docs-extra` does not match a `/docs` deployment.
+
     - Ensure the redirect is placed before more general patterns
 
     - Clear your browser cache and test in an incognito window
@@ -486,7 +520,7 @@ When temporarily redirecting during maintenance:
 
     - Verify dynamic parameter names match between source and destination
 
-    - Ensure subpath configuration is correct for your deployment type
+    - For subpath deployments, internal destinations may include or omit the deployment subpath. External destinations are not prefixed.
   </Expandable>
 
   <Expandable title="Redirect loops" default-open="false">
@@ -509,4 +543,3 @@ When temporarily redirecting during maintenance:
     - Verify the source pattern has the correct number of segments
   </Expandable>
 </ExpandableGroup>
-

@@ -1,0 +1,362 @@
+---
+title: Board
+description: Build Kanban-style boards with colored columns, clickable cards, detail dialogs, and Lucide icons using Board components.
+type: reference
+---
+
+## Overview
+
+Use the Board component family to show Kanban-style workflows, roadmap status, project queues, content pipelines, or any grouped set of cards.
+
+A board has three levels:
+
+- `Board` creates the horizontally scrollable board container.
+- `BoardColumn` creates each status column, such as To do, In progress, or Done.
+- `BoardCard` creates each clickable item inside a column.
+
+<Callout kind="info" collapsed="false">
+
+Board cards open a detail dialog when clicked. Use the card face for short scan-friendly text, and use the dialog fields for additional context such as author, created date, due date, and status.
+
+
+</Callout>
+
+## Basic example
+
+Start with a `Board`, add one or more `BoardColumn` components, then place `BoardCard` components inside each column.
+
+```mdx
+<Board>
+  <BoardColumn title="To do" icon="circle">
+    <BoardCard
+      title="Draft migration guide"
+      description="Write the first version of the migration guide for the docs team."
+      icon="file-text"
+      dueDate="2026-06-15"
+      author="Jane Chen"
+      createdAt="2026-05-20"
+      uid="migration-guide"
+    />
+    <BoardCard
+      title="Review API examples"
+      description="Check request and response examples for the API reference update."
+      icon="code"
+      dueDate="2026-06-18"
+      author="Marcus Lee"
+      createdAt="2026-05-22"
+      uid="api-examples-review"
+    />
+  </BoardColumn>
+
+  <BoardColumn title="In progress" icon="loader" color="5">
+    <BoardCard
+      title="Update onboarding flow"
+      description="Refresh the quickstart steps and screenshots for new workspaces."
+      icon="rocket"
+      dueDate="2026-06-10"
+      author="Priya Shah"
+      createdAt="2026-05-18"
+      uid="onboarding-flow"
+    />
+  </BoardColumn>
+
+  <BoardColumn title="Done" icon="check-circle" color="4">
+    <BoardCard
+      title="Publish component index"
+      description="Add the latest MDX components to the overview page."
+      icon="check-circle"
+      dueDate="2026-05-30"
+      author="Noah Kim"
+      createdAt="2026-05-12"
+      uid="component-index"
+    />
+  </BoardColumn>
+</Board>
+```
+
+Rendered example:
+
+<Board>
+  <BoardColumn title="To do" icon="circle">
+    <BoardCard
+      title="Draft migration guide"
+      description="Write the first version of the migration guide for the docs team."
+      icon="file-text"
+      dueDate="2026-06-15"
+      author="Jane Chen"
+      createdAt="2026-05-20"
+      uid="migration-guide"
+    />
+    <BoardCard
+      title="Review API examples"
+      description="Check request and response examples for the API reference update."
+      icon="code"
+      dueDate="2026-06-18"
+      author="Marcus Lee"
+      createdAt="2026-05-22"
+      uid="api-examples-review"
+    />
+  </BoardColumn>
+
+  <BoardColumn title="In progress" icon="loader" color="5">
+    <BoardCard
+      title="Update onboarding flow"
+      description="Refresh the quickstart steps and screenshots for new workspaces."
+      icon="rocket"
+      dueDate="2026-06-10"
+      author="Priya Shah"
+      createdAt="2026-05-18"
+      uid="onboarding-flow"
+    />
+  </BoardColumn>
+
+  <BoardColumn title="Done" icon="check-circle" color="4">
+    <BoardCard
+      title="Publish component index"
+      description="Add the latest MDX components to the overview page."
+      icon="check-circle"
+      dueDate="2026-05-30"
+      author="Noah Kim"
+      createdAt="2026-05-12"
+      uid="component-index"
+    />
+  </BoardColumn>
+</Board>
+
+## How board layout works
+
+Board columns have a fixed width and the board scrolls horizontally when the page cannot fit every column. This keeps each card readable on small screens and makes large workflows easier to scan.
+
+<Steps>
+
+  <Step title="Create the board container">
+
+Wrap all columns in one `Board` component. The board provides the horizontal layout, spacing, and accessible region label.
+
+```mdx
+<Board>
+  {/* Columns go here */}
+</Board>
+```
+
+
+  </Step>
+  <Step title="Add status columns">
+
+Use one `BoardColumn` for each status, stage, team, or category. Each column shows its title, icon or colored dot, and card count.
+
+```mdx
+<BoardColumn title="Ready for review" icon="eye" color="6">
+  {/* Cards go here */}
+</BoardColumn>
+```
+
+
+  </Step>
+  <Step title="Add cards to each column">
+
+Use `BoardCard` for each item. The whole card is clickable and opens a detail dialog with the card description, status, due date, creation date, and author.
+
+```mdx
+<BoardCard
+  title="Review authentication guide"
+  description="Confirm the authentication steps match the latest dashboard flow."
+  icon="shield"
+  dueDate="2026-06-21"
+  author="Amara Singh"
+  createdAt="2026-05-28"
+/>
+```
+
+
+  </Step>
+</Steps>
+
+## Column colors
+
+Columns receive colors automatically based on their position in the board. The first column uses color `0`, the second uses color `1`, and so on. After color `8`, the palette wraps back to `0`.
+
+Use the `color` prop on `BoardColumn` when you want a specific column color instead of the automatic sequence.
+
+```mdx
+<Board>
+  <BoardColumn title="Blocked" icon="alert-triangle" color="8">
+    <BoardCard
+      title="Resolve broken import"
+      description="Fix the import path before the release branch can build."
+      icon="x-circle"
+      dueDate="2026-06-12"
+      author="Elena Torres"
+    />
+  </BoardColumn>
+</Board>
+```
+
+| Color value | Color family |
+| ----------- | ------------ |
+| `0` | Gray |
+| `1` | Brown |
+| `2` | Orange |
+| `3` | Yellow |
+| `4` | Green |
+| `5` | Blue |
+| `6` | Purple |
+| `7` | Pink |
+| `8` | Red |
+
+<Callout kind="tip" collapsed="false">
+
+Use color values semantically and consistently. For example, use `8` for blocked or urgent work, `5` for active work, and `4` for completed work.
+
+
+</Callout>
+
+## Icons
+
+Board columns and cards accept Lucide icon names through the `icon` prop. Use the kebab-case icon name, such as `check-circle`, `file-text`, `alert-triangle`, or `calendar`.
+
+If a column does not include an icon, the header shows a colored dot. If a card does not include an icon, the card uses a file-text style fallback icon.
+
+```mdx
+<BoardColumn title="Ready" icon="check-circle" color="4">
+  <BoardCard
+    title="Approve release notes"
+    description="Final review before publishing the changelog."
+    icon="scroll"
+    dueDate="2026-06-08"
+  />
+</BoardColumn>
+```
+
+## Clickable cards and detail dialogs
+
+Every `BoardCard` opens a detail dialog when clicked. The dialog shows the parent column as the card status, so authors do not need to repeat status data on each card.
+
+The detail dialog can show:
+
+- **Title** from the `title` prop.
+- **Description** from the `description` prop, or a fallback message when no description is provided.
+- **Status** from the parent `BoardColumn` title.
+- **Due date** from the `dueDate` prop.
+- **Created date** from the `createdAt` prop.
+- **Author** from the `author` prop.
+
+Dates can be ISO timestamps or date-only strings such as `2026-06-15`. Valid dates render in a readable format such as `Jun 15, 2026`. Invalid date strings display exactly as written.
+
+## Board props
+
+<ParamField body="title" param-type="string" required="false" deprecated="false" show-location="false">
+
+  Optional title value declared by the component API. The current renderer does not display this value in the board UI.
+
+</ParamField>
+
+<ParamField body="uid" param-type="string" required="false" deprecated="false" show-location="false">
+
+  Optional identifier declared by the component API. The current renderer does not display this value in the board UI.
+
+</ParamField>
+
+<ParamField body="children" param-type="ReactNode" required="false" deprecated="false" show-location="false">
+
+  Board content. Use `BoardColumn` components as direct children.
+
+</ParamField>
+
+## BoardColumn props
+
+<ParamField body="title" param-type="string" required="true" deprecated="false" show-location="false">
+
+  Column heading shown in the colored column header pill.
+
+</ParamField>
+
+<ParamField body="uid" param-type="string" required="false" deprecated="false" show-location="false">
+
+  Optional identifier used internally when rendering columns.
+
+</ParamField>
+
+<ParamField body="color" param-type="string" required="false" deprecated="false" show-location="false">
+
+  Numeric color index from `0` through `8`. When omitted, the board assigns colors by column position and wraps after the ninth color.
+
+</ParamField>
+
+<ParamField body="icon" param-type="string" required="false" deprecated="false" show-location="false">
+
+  Kebab-case Lucide icon name. When omitted, the column header shows a colored dot.
+
+</ParamField>
+
+<ParamField body="children" param-type="ReactNode" required="false" deprecated="false" show-location="false">
+
+  Column content. Use `BoardCard` components as children.
+
+</ParamField>
+
+## BoardCard props
+
+<ParamField body="title" param-type="string" required="true" deprecated="false" show-location="false">
+
+  Card heading shown on the card face and in the detail dialog.
+
+</ParamField>
+
+<ParamField body="description" param-type="string" required="false" deprecated="false" show-location="false">
+
+  Card body text. The card face clamps this text to two lines, while the detail dialog shows the full value.
+
+</ParamField>
+
+<ParamField body="icon" param-type="string" required="false" deprecated="false" show-location="false">
+
+  Kebab-case Lucide icon name shown beside the card title. When omitted, the card uses a file-text fallback icon.
+
+</ParamField>
+
+<ParamField body="dueDate" param-type="string" required="false" deprecated="false" show-location="false">
+
+  Due date displayed on the card face and in the detail dialog. Use an ISO timestamp or a date-only string such as `2026-06-15`.
+
+</ParamField>
+
+<ParamField body="author" param-type="string" required="false" deprecated="false" show-location="false">
+
+  Author name shown in the detail dialog.
+
+</ParamField>
+
+<ParamField body="createdAt" param-type="string" required="false" deprecated="false" show-location="false">
+
+  Creation date shown in the detail dialog. Use an ISO timestamp or a date-only string.
+
+</ParamField>
+
+<ParamField body="uid" param-type="string" required="false" deprecated="false" show-location="false">
+
+  Optional identifier rendered as a card data attribute for testing or selection.
+
+</ParamField>
+
+<ParamField body="children" param-type="ReactNode" required="false" deprecated="false" show-location="false">
+
+  Declared by the component API. The current card renderer does not display child content, so use `description`, `author`, `createdAt`, and `dueDate` for visible details.
+
+</ParamField>
+
+## Best practices
+
+- Keep card titles short enough to scan across multiple columns.
+- Put the most useful summary in `description`; readers see only two lines before opening the dialog.
+- Use consistent column names so the dialog status is meaningful.
+- Choose column colors by meaning, not decoration.
+- Use Lucide icon names without an `Icon` suffix.
+- Avoid placing long markdown content inside `BoardCard`; the current renderer uses props for visible card and dialog content.
+
+<Callout kind="success" collapsed="false">
+
+Use Board for status-oriented collections. Use [Card](/components/card) and [Columns](/components/columns) when you need navigation grids or feature highlights instead of workflow columns.
+
+
+</Callout>

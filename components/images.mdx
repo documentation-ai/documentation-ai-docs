@@ -5,11 +5,13 @@ type: reference
 ---
 ## Overview
 
-Use images to illustrate concepts, show UI, and make your documentation easier to scan. Documentation.AI automatically optimizes images uploaded through the Web Editor and serves them from a CDN, so you get:
+Use images to illustrate concepts, show UI, and make your documentation easier to scan. Documentation.AI automatically serves images uploaded through the Web Editor from a CDN, so you get:
 
 - Fast, cached delivery for all uploaded images.
 
-- Responsive sizing with preserved aspect ratio.
+- Responsive sizing with preserved aspect ratio for supported static image formats.
+
+- Preserved GIF animation because GIF files are served as-is.
 
 - Built-in support for accessibility via required `alt` text.
 
@@ -177,6 +179,21 @@ Use `priority` and `fetchpriority` to fine-tune how critical images load:
   Reserve performance options for above-the-fold or otherwise critical images. Overusing `priority` or `fetchpriority="high"` can hurt overall page performance.
 </Callout>
 
+### GIF handling
+
+Use the same `<Image>` syntax for GIF files that you use for PNG, JPEG, WebP, and other supported image formats:
+
+```jsx
+<Image
+  src="https://blob-cdn.documentation.ai/org-id/doc-id/animated-demo.gif"
+  alt="Animated walkthrough of opening the command menu"
+  width="720"
+  height="405"
+/>
+```
+
+GIFs are served as-is through the CDN. Documentation.AI does not generate responsive `srcset` variants, resize the file, or convert GIFs to another format. This preserves animation, but GIFs may not get the same performance benefits as optimized PNG, JPEG, or WebP images.
+
 ### External URLs
 
 You can reference external images directly in MDX:
@@ -202,5 +219,5 @@ You can reference external images directly in MDX:
 
 - **Supported formats:** JPEG, JPG, PNG, GIF, WebP, SVG, ICO.
 
-- **CDN:** Images uploaded via the Web Editor are automatically optimized and cached.
+- **CDN:** Images uploaded via the Web Editor are cached and served from the CDN. Static image formats can be optimized for delivery; GIFs are served as-is to preserve animation.
 

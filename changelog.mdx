@@ -2,6 +2,36 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-06-04" description="AI Agent attachments, new components, search improvements, rendering polish, and reliability fixes" tags={["feature","improvement","fix"]}>
+  ## New features
+
+  - **AI Agent file attachments** — Add files to AI Agent conversations so the agent can use more context when drafting, editing, or reviewing documentation. See [AI Documentation Agent](/ai/ai-documentation-agent).
+
+  - **Board component** — Build board-style layouts for grouped content, workflows, and visual overviews directly in your documentation pages.
+
+  - **Fuzzy search** — Search now handles small typos and close matches better, helping readers find the right page even when queries do not exactly match your content.
+
+  ## Updates
+
+  - **Improved callout customization** — Callouts have more flexible styling options for highlighting notes, tips, warnings, and important context. See [Callout](/components/callout).
+
+  - **Better table rendering** — Tables render more consistently across documentation pages, especially for dense reference content. See [Lists and Tables](/components/lists-and-tables).
+
+  - **More reliable subpath redirects** — Custom subpath deployments and redirects now resolve more predictably across nested routes. See [Custom Subpath Setup](/customize/custom-subpath/overview) and [Redirects](/customize/redirects-and-rewrites).
+
+  - **Smoother AI Agent workflows** — AI Agent editing flows are more reliable when applying changes, reviewing results, and continuing multi-step documentation tasks.
+
+  ## Bug fixes
+
+  - **International keyboard input** — Fixed input handling issues that affected some non-English keyboard layouts.
+
+  - **Markdown emphasis in links** — Fixed cases where bold or italic text inside links did not render correctly.
+
+  - **Attachment counting** — Fixed attachment counts so AI Agent conversations show the expected number of attached files.
+
+  - **Subpath matching** — Fixed edge cases where subpath routing matched the wrong page or redirect.
+</Update>
+
 <Update label="2026-05-25" description="Visual change detection for AI, saved, and unsaved edits" tags={["feature","improvement"]}>
   ## Visual Change Detection
 

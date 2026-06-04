@@ -2,6 +2,38 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-06-04" description="AI attachments, Board component, search, feedback analytics, and platform fixes" tags={["feature","improvement","fix"]}>
+  ## New features
+
+  - **AI Agent file attachments** — Attach source files and supporting material when asking the AI Documentation Agent to draft, edit, or review docs, so the agent can work from the same context you use. See [AI Documentation Agent](/ai/ai-documentation-agent).
+
+  - **Board component** — Build board-style layouts for richer documentation pages alongside the existing component toolkit. See [Components](/components/components).
+
+  - **Ask AI answer feedback** — Readers can now rate Ask AI answers, giving teams clearer signals about answer quality and coverage. See [AI Assistant](/ai/ai-assistant) and [Search and AI assistant analytics](/analytics-and-insights/search-and-ai-assistant-analytics).
+
+  ## Updates
+
+  - **Fuzzier documentation search** — Search now handles less-exact wording more gracefully, helping readers find relevant docs even when their query does not match page text exactly.
+
+  - **Ask AI analytics** — Answer feedback is now available in analytics so teams can review satisfaction trends and identify docs that need improvement. See [Analytics overview](/analytics/overview).
+
+  ## Bug fixes
+
+  - **Chat input composition** — Fixed chat input handling for composed text, improving typing behavior for input methods used by many non-Latin languages.
+
+  - **Suggested questions** — Fixed duplicate suggested-question requests so Ask AI follow-ups load more predictably.
+
+  - **Subpath redirects** — Fixed redirects for documentation served from a custom subpath. See [Redirects](/customize/redirects-and-rewrites).
+
+  - **Animated GIF loading** — Fixed animated GIF loading so motion-based examples and screenshots render reliably. See [Images](/components/images).
+
+  - **Long table text** — Long text inside tables now wraps correctly instead of overflowing the page.
+
+  - **Navbar button casing** — Navbar buttons now preserve the casing configured for their labels.
+
+  - **Social preview descriptions** — Social previews now use the configured page descriptions more consistently when links are shared.
+</Update>
+
 <Update label="2026-05-25" description="Visual change detection for AI, saved, and unsaved edits" tags={["feature","improvement"]}>
   ## Visual Change Detection
 
@@ -293,4 +325,3 @@ description: 'Changes, fixes, and improvements across versions'
 
   - Help product teams deliver LLM‑native support and troubleshooting experiences directly inside their apps
 </Update>
-

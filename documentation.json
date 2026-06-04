@@ -59,6 +59,36 @@
             ]
           },
           {
+            "group": "Organize",
+            "pages": [
+              {
+                "title": "Overview",
+                "path": "organize/overview",
+                "icon": "lucide-info"
+              },
+              {
+                "title": "Dimensions",
+                "path": "organize/dimensions",
+                "icon": "layers"
+              },
+              {
+                "title": "Views",
+                "path": "organize/views",
+                "icon": "layout-dashboard"
+              },
+              {
+                "title": "Groups",
+                "path": "organize/groups",
+                "icon": "folder-tree"
+              },
+              {
+                "title": "Pages",
+                "path": "organize/pages",
+                "icon": "file-text"
+              }
+            ]
+          },
+          {
             "group": "Write and Publish",
             "icon": "pen-tool",
             "expandable": true,
@@ -184,36 +214,6 @@
                 "title": "Helpful Prompts",
                 "path": "write-and-publish/prompts",
                 "icon": "check-circle"
-              }
-            ]
-          },
-          {
-            "group": "Organize",
-            "pages": [
-              {
-                "title": "Overview",
-                "path": "organize/overview",
-                "icon": "lucide-info"
-              },
-              {
-                "title": "Dimensions",
-                "path": "organize/dimensions",
-                "icon": "layers"
-              },
-              {
-                "title": "Views",
-                "path": "organize/views",
-                "icon": "layout-dashboard"
-              },
-              {
-                "title": "Groups",
-                "path": "organize/groups",
-                "icon": "folder-tree"
-              },
-              {
-                "title": "Pages",
-                "path": "organize/pages",
-                "icon": "file-text"
               }
             ]
           },

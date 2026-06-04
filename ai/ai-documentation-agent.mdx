@@ -99,6 +99,8 @@ To attach a file, click the <kbd>📎</kbd> icon next to the message input, sele
 
 #### Supported file types
 
+The Agent accepts the file types listed below. Images such as `.png`, `.jpg`, `.jpeg`, `.gif`, and `.webp` are not accepted as Agent attachments.
+
 | Category                | Formats                                                  | Max size |
 | ----------------------- | -------------------------------------------------------- | -------- |
 | PDF, Word, PowerPoint   | `.pdf`, `.doc`, `.docx`, `.pptx`                         | 10 MB    |
@@ -110,9 +112,11 @@ To attach a file, click the <kbd>📎</kbd> icon next to the message input, sele
 
 #### Limits
 
+- Up to **5 attachments** per message.
+
 - Up to **20 files** per conversation.
 
-- Attachments are kept for **30 days**, then removed automatically.
+- Attachments are kept for **30 days** from upload, then removed automatically.
 
 <Callout kind="tip" collapsed="false">
   Attach API specs, code files, or internal documents so the Agent can write docs that match your actual implementation. You can attach multiple files in one conversation and ask the Agent to reference them together. For spreadsheets and CSVs, column headers are preserved so the Agent understands your data structure.

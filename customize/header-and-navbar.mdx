@@ -1,6 +1,8 @@
 ---
 title: Set Up Header and Navbar
-description: Add action buttons and navigation links to your documentation site's header to guide users to key actions and resources.
+description: >-
+  Add action buttons and navigation links to your documentation site's header to
+  guide users to key actions and resources.
 ---
 
 
@@ -47,6 +49,10 @@ Open your `documentation.json` file and add the navbar section:
 }
 ```
 
+<Callout kind="info">
+Navbar labels are not auto-capitalized. The primary button title and secondary link titles appear exactly as written in `documentation.json`, so enter the capitalization you want readers to see.
+</Callout>
+
 ### Step 3: Configure primary action button
 
 Set up your main call-to-action button:
@@ -69,7 +75,7 @@ Set up your main call-to-action button:
   
   <Expandable title="Button Configuration" defaultOpen="false">
     <ParamField path="title" param-type="string" required="true" showLocation="false">
-      Text displayed on the button.
+      Text displayed on the button. The label renders exactly as written, including capitalization.
     </ParamField>
     
     <ParamField path="link" param-type="string" required="true" showLocation="false">
@@ -102,7 +108,7 @@ Include additional helpful links:
   
   <Expandable title="Link Configuration" defaultOpen="false">
     <ParamField path="title" param-type="string" required="true" showLocation="false">
-      Display text for the link.
+      Display text for the link. The label renders exactly as written, including capitalization.
     </ParamField>
     
     <ParamField path="link" param-type="string" required="true" showLocation="false">
@@ -149,6 +155,7 @@ Include direct contact options using special protocols:
 - Use action verbs: "Get Started", "Try Free", "Sign Up"
 - Keep text short (1-3 words)
 - Match your brand voice and user expectations
+- Write the exact capitalization you want displayed in the header
 
 ### Prioritize link order
 - Place most important links first

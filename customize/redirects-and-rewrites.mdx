@@ -296,13 +296,9 @@ In this example:
 
 ## Subpath deployments
 
-If your documentation is deployed at a subpath (e.g., `example.com/docs`), redirects are automatically adjusted:
+If your documentation is deployed at a subpath, such as `example.com/docs`, Documentation.AI normalizes redirects so they work whether your configured `source` includes the subpath or not.
 
-- The subpath is prepended to the `source` for matching
-
-- The subpath is prepended to the `destination` if not already present
-
-You don't need to include the subpath in your redirect configuration:
+Both of these configurations match requests under `/docs` when your deployment subpath is `/docs`:
 
 ```json
 {
@@ -310,6 +306,10 @@ You don't need to include the subpath in your redirect configuration:
     {
       "source": "/old-page",
       "destination": "/new-page"
+    },
+    {
+      "source": "/docs/legacy-page",
+      "destination": "/docs/current-page"
     }
   ]
 }
@@ -317,7 +317,39 @@ You don't need to include the subpath in your redirect configuration:
 
 For a subpath deployment at `/docs`:
 
-- Request to `/docs/old-page` → Redirects to `/docs/new-page`
+- `/docs/old-page` → `/docs/new-page`
+- `/docs/legacy-page` → `/docs/current-page`
+
+Documentation.AI avoids double-prepending the subpath. If the `source` or `destination` already starts with `/docs`, the platform uses that path as-is instead of turning it into `/docs/docs/...`.
+
+### Path boundary matching
+
+Subpath matching uses strict path boundaries. A deployment subpath only matches the exact subpath segment, not every path with the same prefix.
+
+For a subpath deployment at `/docs`:
+
+- `/docs/old-page` is treated as documentation traffic
+- `/docs-v2/old-page` is not treated as documentation traffic
+- `/documentation/old-page` is not treated as documentation traffic
+
+This prevents similar prefixes from being confused with your configured subpath.
+
+### External destinations
+
+External redirect destinations remain external. Documentation.AI does not rewrite absolute URLs under your deployment subpath.
+
+```json
+{
+  "redirects": [
+    {
+      "source": "/old-api",
+      "destination": "https://developer.example.com/api"
+    }
+  ]
+}
+```
+
+For a subpath deployment at `/docs`, a request to `/docs/old-api` redirects to `https://developer.example.com/api`, not `/docs/https://developer.example.com/api`.
 
 ## Examples
 
@@ -509,4 +541,3 @@ When temporarily redirecting during maintenance:
     - Verify the source pattern has the correct number of segments
   </Expandable>
 </ExpandableGroup>
-

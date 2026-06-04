@@ -1,0 +1,318 @@
+---
+title: Board
+description: Create read-only kanban-style boards with columns, cards, metadata, colors, icons, and card detail dialogs in MDX.
+type: reference
+---
+
+## Overview
+
+Use the `Board` component family to present grouped work, roadmap items, feature states, or content plans in a kanban-style layout. A board is read-only for readers: cards open a detail dialog, but readers cannot drag cards between columns or edit card data.
+
+A board has three parts:
+
+- `Board` creates the horizontally scrollable board container.
+- `BoardColumn` creates each status or category column.
+- `BoardCard` creates the individual cards inside a column.
+
+<Callout kind="info">
+
+Boards work best for visual status summaries. Use [Columns](/components/columns) and [Card](/components/card) instead when each item should link to another page.
+
+
+</Callout>
+
+## When to use a board
+
+Boards help readers scan related items by status or category without leaving the page.
+
+Use a board for:
+
+- **Roadmaps** with planned, in-progress, and shipped work.
+- **Editorial workflows** with draft, review, and published states.
+- **Support or migration queues** grouped by priority or owner.
+- **Feature inventories** where each item needs a short summary and more detail on click.
+
+Avoid boards for ordinary navigation. Board cards open detail dialogs; they do not navigate to URLs.
+
+## Basic syntax
+
+Create a board by nesting columns inside `Board`, then nesting cards inside each column.
+
+```mdx
+<Board title="Documentation roadmap">
+  <BoardColumn title="Planned" icon="inbox" color="5">
+    <BoardCard
+      title="Add SSO setup guide"
+      description="Document the setup flow for SAML SSO, including metadata exchange and testing steps."
+      icon="lock"
+      dueDate="2026-07-15"
+      author="Maya Patel"
+      createdAt="2026-05-20"
+    />
+  </BoardColumn>
+
+  <BoardColumn title="In progress" icon="loader" color="2">
+    <BoardCard
+      title="Refresh API authentication docs"
+      description="Update token examples, error states, and troubleshooting notes for API authentication."
+      icon="key-round"
+      dueDate="2026-06-28"
+      author="Evan Brooks"
+      createdAt="2026-05-26"
+    />
+  </BoardColumn>
+
+  <BoardColumn title="Shipped" icon="check-circle" color="4">
+    <BoardCard
+      title="Publish image optimization guide"
+      description="Explain upload behavior, CDN delivery, alt text, and responsive sizing."
+      icon="image"
+      dueDate="2026-06-03"
+      author="Nora Kim"
+      createdAt="2026-05-18"
+    />
+  </BoardColumn>
+</Board>
+```
+
+Rendered example:
+
+<Board title="Documentation roadmap">
+  <BoardColumn title="Planned" icon="inbox" color="5">
+    <BoardCard
+      title="Add SSO setup guide"
+      description="Document the setup flow for SAML SSO, including metadata exchange and testing steps."
+      icon="lock"
+      dueDate="2026-07-15"
+      author="Maya Patel"
+      createdAt="2026-05-20"
+    />
+  </BoardColumn>
+
+  <BoardColumn title="In progress" icon="loader" color="2">
+    <BoardCard
+      title="Refresh API authentication docs"
+      description="Update token examples, error states, and troubleshooting notes for API authentication."
+      icon="key-round"
+      dueDate="2026-06-28"
+      author="Evan Brooks"
+      createdAt="2026-05-26"
+    />
+  </BoardColumn>
+
+  <BoardColumn title="Shipped" icon="check-circle" color="4">
+    <BoardCard
+      title="Publish image optimization guide"
+      description="Explain upload behavior, CDN delivery, alt text, and responsive sizing."
+      icon="image"
+      dueDate="2026-06-03"
+      author="Nora Kim"
+      createdAt="2026-05-18"
+    />
+  </BoardColumn>
+</Board>
+
+## Build a board
+
+<Steps>
+
+<Step title="Create the board container">
+
+Wrap all columns in `Board`. The `title` prop is optional and can help identify the board in your MDX source.
+
+```mdx
+<Board title="Launch checklist">
+  {/* columns go here */}
+</Board>
+```
+
+
+</Step>
+
+<Step title="Add columns for each status or category">
+
+Each `BoardColumn` needs a `title`. Add an `icon` when the column needs a stronger visual cue, or omit it to show the default colored dot.
+
+```mdx
+<BoardColumn title="Review" icon="eye" color="3">
+  {/* cards go here */}
+</BoardColumn>
+```
+
+
+</Step>
+
+<Step title="Add cards with metadata">
+
+Each `BoardCard` needs a `title`. Add `description`, `dueDate`, `author`, and `createdAt` when readers need more context in the detail dialog.
+
+```mdx
+<BoardCard
+  title="Finalize launch FAQ"
+  description="Answer the most common implementation and rollout questions for customer-facing teams."
+  icon="help-circle"
+  dueDate="2026-07-01"
+  author="Iris Chen"
+  createdAt="2026-06-10"
+/>
+```
+
+
+</Step>
+
+</Steps>
+
+## Column colors and icons
+
+Columns use one of nine color indexes. If you omit `color`, the board assigns colors by column position. If you set `color`, pass a numeric string from `0` through `8`.
+
+| Color index | Visual color |
+| ----------- | ------------ |
+| `0` | Gray |
+| `1` | Brown |
+| `2` | Orange |
+| `3` | Yellow |
+| `4` | Green |
+| `5` | Blue |
+| `6` | Purple |
+| `7` | Pink |
+| `8` | Red |
+
+Color indexes wrap after `8`, so `9` uses gray again. The selected color styles the column tint, header badge, count badge, and status badge shown in the card detail dialog.
+
+Column icons use Lucide icon names in kebab case, such as `inbox`, `loader`, `check-circle`, `rocket`, or `alert-triangle`. If a column has no `icon`, the header shows a colored dot instead.
+
+<Callout kind="tip">
+
+Use consistent color meaning across a page. For example, use blue for planned work, orange for active work, and green for completed work.
+
+
+</Callout>
+
+## Card metadata and detail dialogs
+
+A card shows its title, icon, short description, and due date directly on the board. Long descriptions are visually clamped on the card so columns stay easy to scan.
+
+Clicking a card opens a detail dialog with the full description and metadata. The dialog shows:
+
+- The card icon and title in the header.
+- The full description, or `No description provided.` when the card has no description.
+- A status badge using the parent column title and color.
+- Due date, created date, and author fields when provided.
+
+Readers can close the dialog by selecting the close button, clicking outside the dialog, or pressing <kbd>Esc</kbd>.
+
+Dates can use date-only strings such as `2026-07-15` or ISO timestamps such as `2026-07-15T09:30:00`. Valid dates render in a readable format such as `Jul 15, 2026`; invalid date strings render exactly as written.
+
+## Props reference
+
+### Board props
+
+<ParamField body="title" param-type="string" required="false" show-location="false">
+
+  Optional board label used to identify the board in MDX. The current rendered board layout does not display this value as a visible heading.
+
+</ParamField>
+
+<ParamField body="uid" param-type="string" required="false" show-location="false">
+
+  Optional unique identifier for the board.
+
+</ParamField>
+
+<ParamField body="children" param-type="BoardColumn" required="true" show-location="false">
+
+  One or more `BoardColumn` components. Columns render side by side and the board scrolls horizontally when they exceed the available width.
+
+</ParamField>
+
+### BoardColumn props
+
+<ParamField body="title" param-type="string" required="true" show-location="false">
+
+  Column header label. The same value appears as the status name in each card detail dialog for cards inside this column.
+
+</ParamField>
+
+<ParamField body="icon" param-type="string" required="false" show-location="false">
+
+  Lucide icon name in kebab case. If omitted, the column header shows a colored dot.
+
+</ParamField>
+
+<ParamField body="color" param-type="string" required="false" show-location="false" enum="0,1,2,3,4,5,6,7,8">
+
+  Color index for the column. Pass a numeric string such as `color="5"`. If omitted, the board assigns the color from the column position.
+
+</ParamField>
+
+<ParamField body="uid" param-type="string" required="false" show-location="false">
+
+  Optional unique identifier for the column.
+
+</ParamField>
+
+<ParamField body="children" param-type="BoardCard" required="true" show-location="false">
+
+  One or more `BoardCard` components. The column header automatically displays the number of cards in the column.
+
+</ParamField>
+
+### BoardCard props
+
+<ParamField body="title" param-type="string" required="true" show-location="false">
+
+  Card title shown on the board and in the detail dialog.
+
+</ParamField>
+
+<ParamField body="description" param-type="string" required="false" show-location="false">
+
+  Card description. The board view shows a shortened version; the detail dialog shows the full description.
+
+</ParamField>
+
+<ParamField body="icon" param-type="string" required="false" show-location="false">
+
+  Lucide icon name in kebab case. If omitted, the card uses a default document icon.
+
+</ParamField>
+
+<ParamField body="dueDate" param-type="string" required="false" show-location="false">
+
+  Due date shown on the card and in the detail dialog. Use a date-only string or ISO timestamp for automatic formatting.
+
+</ParamField>
+
+<ParamField body="author" param-type="string" required="false" show-location="false">
+
+  Author name shown in the detail dialog metadata.
+
+</ParamField>
+
+<ParamField body="createdAt" param-type="string" required="false" show-location="false">
+
+  Created date shown in the detail dialog metadata. Use a date-only string or ISO timestamp for automatic formatting.
+
+</ParamField>
+
+<ParamField body="uid" param-type="string" required="false" show-location="false">
+
+  Optional unique identifier for the card.
+
+</ParamField>
+
+## Best practices
+
+- Keep card titles short so each column remains scannable.
+- Use descriptions for reader-facing context, not internal implementation notes.
+- Limit each board to a focused workflow or category set.
+- Keep the number of columns manageable; additional columns scroll horizontally.
+- Use the same icon and color conventions across related boards.
+
+<Callout kind="alert">
+
+Board cards do not render nested child content. Put card content in explicit props such as `description`, `dueDate`, `author`, and `createdAt`.
+
+
+</Callout>

@@ -1,18 +1,20 @@
 ---
 title: MCP Server
-description: Overview of Documentation.AI MCP servers for read-only documentation access and authoring workflows.
+description: >-
+  Overview of Documentation.AI MCP servers for read-only documentation access
+  and authoring workflows.
 ---
 
 ## Choose the right MCP server
 
-Documentation.AI offers multiple MCP servers for different jobs. Use the Docs MCP Server when an external AI tool needs read-only access to your published documentation, and use the Authoring MCP Server when you need to edit content or manage documentation operations from an AI coding tool.
+Documentation.AI offers multiple MCP servers for different jobs. Use the Docs MCP Server when an external AI tool needs read-only access to your published documentation, and use the Authoring MCP Server when you need to edit content or manage documentation operations from an AI coding tool. The Authoring MCP Server supports OAuth sign-in for account-based clients and `dai_` API keys for non-interactive automation.
 
 ## Compare MCP server types
 
 | MCP server | Best for | Access | Typical use |
 | --- | --- | --- | --- |
 | **Docs MCP Server** | Research and grounded answers from published docs | Read-only | Let tools like ChatGPT, Claude, or Cursor search and reference your live documentation |
-| **Authoring MCP Server** | Authoring and operational workflows | Read and write | Create or update files, manage branches, and trigger documentation changes from supported tools |
+| **Authoring MCP Server** | Authoring and operational workflows | Read and write | Create or update files, manage branches, and trigger documentation changes with OAuth or `dai_` API-key authentication |
 
 <Callout kind="info">
 
@@ -33,4 +35,4 @@ The Docs MCP Server works with published content only. If you need private, auth
 
 ## Choose based on your workflow
 
-If you want an AI tool to research your published docs and answer questions with grounded context, start with the Docs MCP Server. If you want that tool to help author, update, or manage documentation, start with the Authoring MCP Server.
+If you want an AI tool to research your published docs and answer questions with grounded context, start with the Docs MCP Server. If you want that tool to help author, update, or manage documentation, start with the Authoring MCP Server. Use OAuth when a human can approve the connection, and use a `dai_` API key for non-interactive automation.

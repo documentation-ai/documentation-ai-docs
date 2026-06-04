@@ -1,6 +1,8 @@
 ---
 title: Custom Subpath Setup Overview
-description: "Deploy your documentation at a custom subpath like yoursite.com/docs using reverse proxy configuration."
+description: >-
+  Deploy your documentation at a custom subpath like yoursite.com/docs using
+  reverse proxy configuration.
 ---
 
 ## What is a Custom Subpath Deployment?
@@ -75,6 +77,24 @@ The reverse proxy:
 - Routes all other traffic to your main website
 - Handles SSL termination
 - Forwards necessary headers for domain verification
+
+## Subpath matching behavior
+
+Documentation.AI matches subpaths on full path segments. If your documentation is configured at `/docs`, requests under `/docs` are treated as documentation traffic, but similar prefixes are not.
+
+For a `/docs` deployment:
+
+- `/docs` and `/docs/getting-started` match the documentation subpath
+- `/docs-v2` and `/docs-v2/getting-started` do not match the documentation subpath
+- `/documentation` does not match the documentation subpath
+
+This boundary check prevents your docs deployment from catching unrelated routes on your main site that happen to start with the same letters.
+
+<Callout kind="tip">
+  Configure your reverse proxy with the same boundary behavior. Route the exact subpath and nested paths, such as `/docs` and `/docs/*`, rather than a loose prefix that also catches `/docs-v2`.
+</Callout>
+
+Redirects follow the same subpath normalization behavior. You can define redirect sources and destinations with or without the deployment subpath, and Documentation.AI avoids adding the subpath twice. Absolute external destinations are not rewritten. See [Redirects](/customize/redirects-and-rewrites#subpath-deployments) for examples.
 
 ## Deployment Options Comparison
 
@@ -155,4 +175,3 @@ Choose your deployment platform and follow the corresponding guide:
 <Callout kind="tip">
   Start with a staging environment to test your configuration before applying it to production.
 </Callout>
-

@@ -1,6 +1,8 @@
 ---
 title: Authoring MCP Server
-description: Connect AI tools to Documentation.AI for read/write documentation workflows, authoring, review, and deployment tasks.
+description: >-
+  Connect AI tools to Documentation.AI for read/write documentation workflows,
+  authoring, review, and deployment tasks.
 ---
 
 ## Overview
@@ -23,11 +25,15 @@ This server uses your Documentation.AI account permissions and can modify live d
 
 ## Setup and authentication
 
-Connect your MCP client to the server URL, then sign in with OAuth 2.1 through your Documentation.AI account.
+The Authoring MCP Server supports OAuth sign-in and API-key authentication. Use OAuth for interactive MCP clients where you can sign in through your Documentation.AI account. Use API-key authentication for automation and workflows that already store a Documentation.AI `dai_` key.
 
 ```text
 https://api.documentationai.app/mcp
 ```
+
+### OAuth sign-in for interactive clients
+
+Connect your MCP client to the server URL, then sign in with OAuth 2.1 through your Documentation.AI account.
 
 <Steps>
   <Step title="Start the connection from your MCP client" icon="terminal">
@@ -49,7 +55,21 @@ A successful connection shows the server as available in your MCP client.
   </Step>
 </Steps>
 
-No API keys or manual token management are required.
+OAuth handles token management for interactive clients, so you do not need to copy tokens manually.
+
+### API-key authentication for automation
+
+Use API-key authentication when your workflow cannot complete a browser-based OAuth sign-in, such as CI jobs, scheduled scripts, or internal automation.
+
+Configure your workflow to authenticate with a Documentation.AI API key that starts with `dai_`. Pass the key as a Bearer token in the MCP connection's `Authorization` header, such as `Authorization: Bearer dai_example_9xmk7q2r`. The API key uses the same role-based access model as the REST API, so read and write capabilities depend on the key's permissions.
+
+For key creation, roles, and rate limits, see the [REST API overview](/api-reference/overview).
+
+<Callout kind="alert">
+
+Store `dai_` keys in your workflow's secret manager. Do not commit API keys to your documentation repository or MCP client configuration files.
+
+</Callout>
 
 ## Configure your MCP client
 

@@ -5,9 +5,9 @@ type: reference
 ---
 ## Overview
 
-Use images to illustrate concepts, show UI, and make your documentation easier to scan. Documentation.AI automatically optimizes images uploaded through the Web Editor and serves them from a CDN, so you get:
+Use images to illustrate concepts, show UI, and make your documentation easier to scan. Documentation.AI serves uploaded images from the CDN and optimizes and caches standard static formats such as PNG, JPEG, WebP, SVG, and ICO. Animated GIFs are supported but served unoptimized to preserve animation behavior and improve loading reliability, so you get:
 
-- Fast, cached delivery for all uploaded images.
+- Fast, cached delivery for supported static image formats. Animated GIFs are served unoptimized so animation playback remains reliable.
 
 - Responsive sizing with preserved aspect ratio.
 
@@ -41,7 +41,7 @@ Use the Web Editor to insert and manage images without writing code. For more on
 
    - Select an already uploaded image from the list.
 
-The selected image is inserted into the page and served from an optimized CDN.
+For most image formats, the selected image is inserted and served from the optimized CDN. Animated GIFs are inserted and served without optimization to preserve animation.
 
 <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1767252085148-y3nnwqv3vm-pasted-image-1767252083236.png?q=85&fm=auto&auto=compress%2Cformat" width="500" height="331" alt="Upload image picker in Web Editor" caption="Upload image picker in Web Editor" style="width: 500px; height: auto; cursor: pointer; margin: 0 auto;" />
 
@@ -202,5 +202,5 @@ You can reference external images directly in MDX:
 
 - **Supported formats:** JPEG, JPG, PNG, GIF, WebP, SVG, ICO.
 
-- **CDN:** Images uploaded via the Web Editor are automatically optimized and cached.
+- **CDN:** Uploaded PNG, JPEG, WebP, SVG, ICO, and other supported static formats are optimized and cached. Animated GIFs are supported but served unoptimized to preserve animation behavior and improve loading reliability.
 

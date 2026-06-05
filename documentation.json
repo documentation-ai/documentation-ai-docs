@@ -74,6 +74,7 @@
               {
                 "group": "Components",
                 "path": "components/components",
+                "icon": "component",
                 "pages": [
                   {
                     "title": "Headings and Text",
@@ -255,6 +256,7 @@
               },
               {
                 "group": "SEO & GEO",
+                "icon": "search-check-icon",
                 "pages": [
                   {
                     "title": "Robots.txt & llms.txt",
@@ -275,6 +277,7 @@
               },
               {
                 "group": "Custom Subpath Setup",
+                "icon": "link",
                 "expandable": true,
                 "pages": [
                   {
@@ -316,6 +319,7 @@
               },
               {
                 "group": "Access Control",
+                "icon": "lock",
                 "expandable": true,
                 "pages": [
                   {
@@ -399,6 +403,7 @@
               },
               {
                 "group": "MCP Server",
+                "icon": "terminal",
                 "pages": [
                   {
                     "title": "Docs MCP Server",
@@ -441,6 +446,7 @@
               },
               {
                 "group": "Analytics",
+                "icon": "trending-up",
                 "pages": [
                   {
                     "title": "Google Tag Manager",
@@ -521,6 +527,7 @@
               },
               {
                 "group": "Support",
+                "icon": "message-circle",
                 "pages": [
                   {
                     "title": "Intercom",

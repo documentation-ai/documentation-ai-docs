@@ -11,35 +11,6 @@
   }
 }
 
-@keyframes daiDrawPath {
-  from {
-    stroke-dashoffset: 920;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes daiNodeFloat {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-4px);
-  }
-}
-
-@keyframes daiDotPulse {
-  0%, 100% {
-    opacity: 0.45;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.35);
-  }
-}
-
 :root {
   --dai-accent: #475569;
   --dai-accent-soft: rgba(71, 85, 105, 0.12);
@@ -50,10 +21,6 @@
   --dai-shadow-light: 0 1px 2px rgba(15, 23, 42, 0.04);
   --dai-shadow-light-hover: 0 18px 42px rgba(15, 23, 42, 0.1);
   --dai-shadow-dark-hover: 0 18px 42px rgba(0, 0, 0, 0.26);
-  --dai-hero-surface: rgba(255, 255, 255, 0.72);
-  --dai-hero-grid: rgba(15, 23, 42, 0.045);
-  --dai-hero-node: rgba(255, 255, 255, 0.88);
-  --dai-hero-node-strong: #0f172a;
   --dai-page-gradient:
     radial-gradient(
       ellipse at 58% 0%,
@@ -100,13 +67,6 @@ body {
   background: rgba(203, 213, 225, 0.18);
 }
 
-.dark {
-  --dai-hero-surface: rgba(255, 255, 255, 0.045);
-  --dai-hero-grid: rgba(255, 255, 255, 0.045);
-  --dai-hero-node: rgba(255, 255, 255, 0.08);
-  --dai-hero-node-strong: #f8fafc;
-}
-
 .dai-article {
   animation: daiFadeIn 0.28s ease-out both;
 }
@@ -115,7 +75,7 @@ body {
 .dark .dai-navbar {
   background:
     var(--dai-page-gradient),
-    color-mix(in srgb, var(--background) 82%, transparent) !important;
+    color-mix(in srgb, var(--background) 36%, transparent) !important;
   background-attachment: fixed !important;
   border-bottom-color: transparent !important;
   backdrop-filter: blur(12px) saturate(130%) !important;
@@ -130,7 +90,7 @@ body {
 [class*="dai-tabs"] {
   background:
     var(--dai-page-gradient),
-    color-mix(in srgb, var(--background) 80%, transparent) !important;
+    color-mix(in srgb, var(--background) 22%, transparent) !important;
   background-attachment: fixed !important;
   border-bottom-color: transparent !important;
   border-top-color: transparent !important;
@@ -161,7 +121,7 @@ body {
 [class*="dai-sidebar"] {
   background:
     var(--dai-page-gradient),
-    color-mix(in srgb, var(--background) 84%, transparent) !important;
+    color-mix(in srgb, var(--background) 42%, transparent) !important;
   background-attachment: fixed !important;
   backdrop-filter: blur(10px) saturate(130%) !important;
   -webkit-backdrop-filter: blur(10px) saturate(130%) !important;
@@ -186,6 +146,13 @@ body {
 .dai-content-column:has(.intro-hero) .page-title,
 .dai-content-column:has(.intro-hero) .page-description {
   display: none !important;
+}
+
+.dai-content-column:has(.intro-hero) {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: 1120px !important;
+  width: min(100%, 1120px) !important;
 }
 
 .intro-hero {
@@ -220,7 +187,7 @@ body {
   color: var(--sub-text) !important;
   font-size: 1.12rem !important;
   line-height: 1.75 !important;
-  margin: 1.2rem auto 0 !important;
+  margin: 0.85rem auto 0 !important;
   max-width: 660px;
 }
 
@@ -284,140 +251,6 @@ body {
   color: var(--heading) !important;
 }
 
-.intro-visual {
-  background:
-    linear-gradient(var(--dai-hero-surface), var(--dai-hero-surface)),
-    radial-gradient(ellipse at 50% 20%, rgba(100, 116, 139, 0.1), transparent 28rem);
-  border: 1px solid var(--dai-border-light);
-  border-radius: 8px;
-  box-shadow: var(--dai-shadow-light);
-  color: var(--dai-accent);
-  height: 400px;
-  margin: 3rem auto 0;
-  max-width: 940px;
-  overflow: hidden;
-  position: relative;
-}
-
-.dark .intro-visual {
-  border-color: var(--dai-border-dark);
-  box-shadow: none;
-  color: #cbd5e1;
-}
-
-.intro-visual::before {
-  background-image:
-    linear-gradient(var(--dai-hero-grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--dai-hero-grid) 1px, transparent 1px);
-  background-size: 28px 28px;
-  content: "";
-  inset: 0;
-  opacity: 0.85;
-  pointer-events: none;
-  position: absolute;
-}
-
-.intro-visual__svg {
-  display: block;
-  height: 100%;
-  position: relative;
-  width: 100%;
-}
-
-.intro-flow {
-  fill: none;
-  stroke: url(#introStroke);
-  stroke-dasharray: 920;
-  stroke-dashoffset: 920;
-  stroke-linecap: round;
-  stroke-width: 1.2;
-  animation: daiDrawPath 5.5s ease-in-out infinite alternate;
-}
-
-.intro-flow--two,
-.intro-flow--four,
-.intro-flow--six {
-  animation-duration: 6.8s;
-  opacity: 0.55;
-}
-
-.intro-workspace,
-.intro-feature-node {
-  animation: daiNodeFloat 6s ease-in-out infinite;
-}
-
-.intro-workspace rect:first-child,
-.intro-feature-node rect {
-  fill: var(--dai-hero-node);
-  stroke: currentColor;
-  stroke-opacity: 0.18;
-}
-
-.intro-workspace rect:not(:first-child) {
-  fill: currentColor;
-  opacity: 0.16;
-}
-
-.intro-workspace path {
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-opacity: 0.38;
-  stroke-width: 3;
-}
-
-.intro-workspace text,
-.intro-feature-node text {
-  fill: var(--dai-hero-node-strong);
-  font-size: 15px;
-  font-weight: 720;
-}
-
-.intro-feature-node text + text {
-  fill: var(--sub-text);
-  font-size: 13px;
-  font-weight: 620;
-}
-
-.intro-workspace text {
-  font-size: 14px;
-  font-weight: 760;
-}
-
-.intro-feature-node--ai,
-.intro-feature-node--api {
-  animation-delay: 0.35s;
-}
-
-.intro-feature-node--assistant,
-.intro-feature-node--publish {
-  animation-delay: 0.7s;
-}
-
-.intro-feature-node--analytics {
-  animation-delay: 1.05s;
-}
-
-.intro-dot {
-  animation: daiDotPulse 2.8s ease-in-out infinite;
-  fill: currentColor;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-.intro-dot--two {
-  animation-delay: 0.35s;
-}
-
-.intro-dot--three {
-  animation-delay: 0.7s;
-}
-
-.intro-dot--four {
-  animation-delay: 1.05s;
-}
-
 .page-description,
 .mdx-container > p:first-of-type {
   animation: daiFadeIn 0.3s ease-out 0.04s both !important;
@@ -445,6 +278,10 @@ body {
 
 .mdx-container h2::after {
   display: none !important;
+}
+
+.dai-content-column:has(.intro-hero) .mdx-container h2 + p {
+  margin-top: 0.55rem !important;
 }
 
 .mdx-container h3 {
@@ -481,7 +318,7 @@ body {
     linear-gradient(180deg, rgba(255, 255, 255, 0.92), var(--dai-card-light)),
     radial-gradient(circle at 12% 0%, rgba(100, 116, 139, 0.09), transparent 15rem) !important;
   border: 1px solid var(--dai-border-light) !important;
-  border-radius: 8px !important;
+  border-radius: 14px !important;
   box-shadow: var(--dai-shadow-light) !important;
   overflow: hidden !important;
   position: relative !important;
@@ -630,11 +467,11 @@ body {
 [data-component="CodeGroup"],
 [data-component="Tabs"],
 [data-component="Expandable"] {
-  border-radius: 8px !important;
+  border-radius: 12px !important;
 }
 
 .mdx-container table {
-  border-radius: 8px !important;
+  border-radius: 12px !important;
   overflow: hidden;
 }
 
@@ -674,16 +511,6 @@ body {
 
   .intro-hero h1 {
     font-size: 2.55rem;
-  }
-
-  .intro-visual {
-    height: 310px;
-    margin-top: 2rem;
-  }
-
-  .intro-visual__svg {
-    min-width: 760px;
-    transform: translateX(-135px);
   }
 
   .page-title {

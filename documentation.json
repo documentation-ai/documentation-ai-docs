@@ -42,7 +42,9 @@
                 "path": "getting-started/introduction",
                 "icon": "star",
                 "show-parent-label": false,
+                "show-toc": false,
                 "show-page-navigation": false,
+                "content-width": "wide",
                 "ask-feedback": false
               },
               {

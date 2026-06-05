@@ -29,6 +29,17 @@
   }
 }
 
+@keyframes daiDotPulse {
+  0%, 100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.35);
+  }
+}
+
 :root {
   --dai-accent: #475569;
   --dai-accent-soft: rgba(71, 85, 105, 0.12);
@@ -37,8 +48,8 @@
   --dai-border-light: rgba(15, 23, 42, 0.1);
   --dai-border-dark: rgba(255, 255, 255, 0.1);
   --dai-shadow-light: 0 1px 2px rgba(15, 23, 42, 0.04);
-  --dai-shadow-light-hover: 0 14px 34px rgba(15, 23, 42, 0.08);
-  --dai-shadow-dark-hover: 0 14px 34px rgba(0, 0, 0, 0.22);
+  --dai-shadow-light-hover: 0 18px 42px rgba(15, 23, 42, 0.1);
+  --dai-shadow-dark-hover: 0 18px 42px rgba(0, 0, 0, 0.26);
   --dai-hero-surface: rgba(255, 255, 255, 0.72);
   --dai-hero-grid: rgba(15, 23, 42, 0.045);
   --dai-hero-node: rgba(255, 255, 255, 0.88);
@@ -101,16 +112,66 @@ body {
 }
 
 .dai-navbar,
-.dark .dai-navbar,
-[class*="dai-navbar"],
+.dark .dai-navbar {
+  background: transparent !important;
+  border-bottom-color: transparent !important;
+  backdrop-filter: blur(12px) saturate(130%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(130%) !important;
+  box-shadow: none !important;
+}
+
+[class*="dai-navbar"]:not(.dai-navbar),
 [class*="dai-topbar"],
 [class*="dai-tabbar"],
 [class*="dai-tabs"] {
-  background: var(--background) !important;
-  background: color-mix(in srgb, var(--background) 82%, transparent) !important;
-  backdrop-filter: blur(14px) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(140%) !important;
+  background: transparent !important;
+  border-bottom-color: transparent !important;
+  border-top-color: transparent !important;
   box-shadow: none !important;
+}
+
+.dai-navbar > *,
+[class*="dai-navbar"] > *,
+[class*="dai-topbar"] > *,
+[class*="dai-tabbar"] > *,
+[class*="dai-tabs"] > * {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.dai-navbar [class*="actions"],
+.dai-navbar [class*="links"],
+.dai-navbar [class*="search"],
+[class*="dai-navbar"] [class*="actions"],
+[class*="dai-navbar"] [class*="links"],
+[class*="dai-navbar"] [class*="search"] {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.dai-navbar::before,
+.dai-navbar::after,
+[class*="dai-navbar"]::before,
+[class*="dai-navbar"]::after,
+[class*="dai-topbar"]::before,
+[class*="dai-topbar"]::after,
+[class*="dai-tabbar"]::before,
+[class*="dai-tabbar"]::after,
+[class*="dai-tabs"]::before,
+[class*="dai-tabs"]::after {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.dai-navbar input,
+.dai-navbar button,
+.dai-navbar a,
+[class*="dai-navbar"] input,
+[class*="dai-navbar"] button,
+[class*="dai-navbar"] a {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 .dai-sidebar,
@@ -246,9 +307,9 @@ body {
   border-radius: 8px;
   box-shadow: var(--dai-shadow-light);
   color: var(--dai-accent);
-  height: 360px;
+  height: 400px;
   margin: 3rem auto 0;
-  max-width: 860px;
+  max-width: 940px;
   overflow: hidden;
   position: relative;
 }
@@ -278,7 +339,7 @@ body {
   width: 100%;
 }
 
-.intro-orbit {
+.intro-flow {
   fill: none;
   stroke: url(#introStroke);
   stroke-dasharray: 920;
@@ -288,45 +349,87 @@ body {
   animation: daiDrawPath 5.5s ease-in-out infinite alternate;
 }
 
-.intro-orbit--two {
-  animation-duration: 7s;
+.intro-flow--two,
+.intro-flow--four,
+.intro-flow--six {
+  animation-duration: 6.8s;
   opacity: 0.55;
 }
 
-.intro-node {
-  animation: daiNodeFloat 5.5s ease-in-out infinite;
+.intro-workspace,
+.intro-feature-node {
+  animation: daiNodeFloat 6s ease-in-out infinite;
 }
 
-.intro-node rect {
+.intro-workspace rect:first-child,
+.intro-feature-node rect {
   fill: var(--dai-hero-node);
   stroke: currentColor;
   stroke-opacity: 0.18;
 }
 
-.intro-node text {
+.intro-workspace rect:not(:first-child) {
+  fill: currentColor;
+  opacity: 0.16;
+}
+
+.intro-workspace path {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-opacity: 0.38;
+  stroke-width: 3;
+}
+
+.intro-workspace text,
+.intro-feature-node text {
   fill: var(--dai-hero-node-strong);
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 720;
 }
 
-.intro-node--center rect {
-  fill: var(--heading);
-  stroke-opacity: 0;
+.intro-feature-node text + text {
+  fill: var(--sub-text);
+  font-size: 13px;
+  font-weight: 620;
 }
 
-.intro-node--center text {
-  fill: var(--background);
+.intro-workspace text {
+  font-size: 14px;
+  font-weight: 760;
 }
 
-.intro-node--publish {
+.intro-feature-node--ai,
+.intro-feature-node--api {
   animation-delay: 0.35s;
 }
 
-.intro-node--answer {
+.intro-feature-node--assistant,
+.intro-feature-node--publish {
   animation-delay: 0.7s;
 }
 
-.intro-node--improve {
+.intro-feature-node--analytics {
+  animation-delay: 1.05s;
+}
+
+.intro-dot {
+  animation: daiDotPulse 2.8s ease-in-out infinite;
+  fill: currentColor;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.intro-dot--two {
+  animation-delay: 0.35s;
+}
+
+.intro-dot--three {
+  animation-delay: 0.7s;
+}
+
+.intro-dot--four {
   animation-delay: 1.05s;
 }
 
@@ -346,8 +449,13 @@ body {
   font-weight: 730 !important;
   letter-spacing: 0 !important;
   line-height: 1.28 !important;
-  margin-top: 3.3rem !important;
+  margin-top: 2.6rem !important;
   padding-bottom: 0 !important;
+}
+
+[data-component="Columns"] + .mdx-container h2,
+[data-component="Columns"] + h2 {
+  margin-top: 2.2rem !important;
 }
 
 .mdx-container h2::after {
@@ -375,16 +483,18 @@ body {
 }
 
 [data-component="Columns"] {
-  gap: 1.25rem !important;
-  margin: 1.45rem 0 0 !important;
+  gap: 1rem !important;
+  margin: 1.2rem 0 0 !important;
 }
 
 [data-component="Columns"] + [data-component="Columns"] {
-  margin-top: 1.25rem !important;
+  margin-top: 1rem !important;
 }
 
 [data-component="Card"] {
-  background: var(--dai-card-light) !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), var(--dai-card-light)),
+    radial-gradient(circle at 12% 0%, rgba(100, 116, 139, 0.09), transparent 15rem) !important;
   border: 1px solid var(--dai-border-light) !important;
   border-radius: 8px !important;
   box-shadow: var(--dai-shadow-light) !important;
@@ -395,24 +505,63 @@ body {
     border-color 0.18s ease,
     box-shadow 0.18s ease,
     transform 0.18s ease !important;
-  min-height: 11.5rem;
+  min-height: 9.25rem;
 }
 
 .dark [data-component="Card"] {
-  background: var(--dai-card-dark) !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.062), var(--dai-card-dark)),
+    radial-gradient(circle at 12% 0%, rgba(226, 232, 240, 0.06), transparent 15rem) !important;
   border-color: var(--dai-border-dark) !important;
   box-shadow: none !important;
 }
 
-[data-component="Card"]::before,
+[data-component="Card"]::before {
+  background: linear-gradient(90deg, rgba(100, 116, 139, 0.72), rgba(148, 163, 184, 0.18));
+  content: "";
+  display: block !important;
+  height: 2px;
+  left: 0;
+  opacity: 0.78;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 0;
+}
+
 [data-component="Card"]::after {
-  display: none !important;
+  background: radial-gradient(circle at 18% 0%, rgba(100, 116, 139, 0.08), transparent 12rem);
+  content: "";
+  display: block !important;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: opacity 0.18s ease;
+  z-index: 0;
+}
+
+.dark [data-component="Card"]::before {
+  background: linear-gradient(90deg, rgba(226, 232, 240, 0.48), rgba(148, 163, 184, 0.12));
+}
+
+.dark [data-component="Card"]::after {
+  background: radial-gradient(circle at 18% 0%, rgba(226, 232, 240, 0.055), transparent 12rem);
 }
 
 [data-component="Card"]:hover {
   border-color: rgba(15, 23, 42, 0.18) !important;
   box-shadow: var(--dai-shadow-light-hover) !important;
   transform: translateY(-2px) !important;
+}
+
+[data-component="Card"]:hover::after {
+  opacity: 1;
+}
+
+[data-component="Card"] > * {
+  position: relative;
+  z-index: 1;
 }
 
 .dark [data-component="Card"]:hover {
@@ -426,8 +575,8 @@ body {
 .dark [data-component="Card"]:hover .dai-card-title {
   background: none !important;
   color: var(--heading) !important;
-  font-size: 1.04rem !important;
-  font-weight: 700 !important;
+  font-size: 1rem !important;
+  font-weight: 720 !important;
   letter-spacing: 0 !important;
   line-height: 1.35 !important;
   -webkit-text-fill-color: currentColor !important;
@@ -435,8 +584,17 @@ body {
 
 .dai-card-description {
   color: var(--sub-text) !important;
-  font-size: 0.96rem !important;
-  line-height: 1.68 !important;
+  font-size: 0.93rem !important;
+  line-height: 1.62 !important;
+}
+
+[data-component="Card"] svg {
+  color: var(--heading) !important;
+  opacity: 0.92;
+}
+
+.dark [data-component="Card"] svg {
+  opacity: 0.88;
 }
 
 .dai-card-image {
@@ -496,13 +654,13 @@ body {
   }
 
   .intro-visual {
-    height: 280px;
+    height: 310px;
     margin-top: 2rem;
   }
 
   .intro-visual__svg {
-    min-width: 620px;
-    transform: translateX(-70px);
+    min-width: 760px;
+    transform: translateX(-135px);
   }
 
   .page-title {
@@ -516,7 +674,7 @@ body {
 
   .mdx-container h2 {
     font-size: 1.25rem !important;
-    margin-top: 2.4rem !important;
+    margin-top: 2rem !important;
   }
 }
 

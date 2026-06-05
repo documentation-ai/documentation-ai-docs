@@ -1,0 +1,302 @@
+---
+title: Board
+description: Reference for creating kanban-style layouts with the Board component, including visual editing, MDX syntax, card attributes, and column colors.
+type: reference
+---
+
+## Overview
+
+Use the `Board` component to publish roadmap-style layouts that help readers understand what is planned, what is in development, and what has already shipped. It works best when you need to communicate progress, timelines, or feature availability in a format that readers can scan quickly.
+
+Common uses include:
+
+- Product roadmaps
+- Feature status pages
+- Release planning
+- API versioning status
+- Deprecation timelines
+- Platform capability overviews
+
+A board contains one or more `BoardColumn` components, and each column contains self-closing `BoardCard` components. In the Web Editor, boards are interactive, so you can reorder columns and move cards between columns with drag and drop.
+
+## Using with Web Editor
+
+Use the Web Editor when you want to build or update boards visually. It is the fastest way to add columns, rearrange cards, and adjust presentation without writing MDX.
+
+<Callout kind="info">
+
+The Web Editor is the recommended way to manage boards. Drag-and-drop reordering, visual settings for columns, and card editing are easier there than editing raw MDX by hand.
+
+</Callout>
+
+### Insert a board
+
+Add a board from the slash menu:
+
+<Steps>
+  <Step title="Open the slash menu" icon="plus">
+
+  In an empty block, type `/board` and select **Board**.
+
+  </Step>
+  <Step title="Add your first columns" icon="columns">
+
+  Start by naming the columns you want to show, such as **Planned**, **In development**, and **Shipped**.
+
+  After you create the board, the editor shows each column as a separate lane.
+
+  </Step>
+  <Step title="Add cards to each column" icon="edit">
+
+  Add cards inside a column to represent tasks, roadmap items, checklist steps, or any other unit of content.
+
+  Each card can include a title and optional details such as a description, icon, due date, author, or created date.
+
+  </Step>
+</Steps>
+
+### Manage columns and cards
+
+Once the board is on the page, you can update it directly in the editor.
+
+- **Reorder columns** by dragging a column to a new position.
+- **Move cards between columns** by dragging a card into another column.
+- **Add a column** with the board's add-column control.
+- **Add cards** within any column.
+- **Edit column settings** to change the title, color, and icon.
+- **Edit card settings** to change the title, description, icon, due date, and author.
+
+These controls make boards useful for content that changes often, such as product roadmaps, feature status pages, or release timelines.
+
+## Using with Code Editor
+
+Use the Code Editor when you want full control over the MDX structure or when you manage documentation in Git.
+
+### Basic syntax
+
+A minimal board has a `Board` wrapper, one or more `BoardColumn` children, and self-closing `BoardCard` items inside each column.
+
+<Board title="Product roadmap">
+  <BoardColumn title="Planned" color="3" icon="check-circle">
+    <BoardCard title="Webhook support" />
+    <BoardCard title="Bulk export API" />
+  </BoardColumn>
+  <BoardColumn title="In Development" color="5" icon="play-circle">
+    <BoardCard title="Dark mode" />
+  </BoardColumn>
+  <BoardColumn title="Shipped" color="4" icon="rocket">
+    <BoardCard title="SSO with SAML" />
+  </BoardColumn>
+</Board>
+
+```mdx
+<Board title="Product roadmap">
+  <BoardColumn title="Planned" color="3" icon="check-circle">
+    <BoardCard title="Webhook support" />
+    <BoardCard title="Bulk export API" />
+  </BoardColumn>
+  <BoardColumn title="In Development" color="5" icon="play-circle">
+    <BoardCard title="Dark mode" />
+  </BoardColumn>
+  <BoardColumn title="Shipped" color="4" icon="rocket">
+    <BoardCard title="SSO with SAML" />
+  </BoardColumn>
+</Board>
+```
+
+### Detailed example
+
+Use card attributes when the roadmap needs more context than a title alone.
+
+<Board title="API roadmap">
+  <BoardColumn title="Planned" color="2" icon="settings">
+    <BoardCard
+      title="Version pinning"
+      description="Let clients lock requests to a specific API version so updates do not change response shapes unexpectedly."
+      icon="shield"
+      author="Priya Shah"
+      created-at="2025-01-10"
+    />
+    <BoardCard
+      title="Deprecation headers"
+      description="Add response headers that announce upcoming removals and link readers to migration guidance."
+      icon="alert-triangle"
+      due-date="2025-01-18"
+      author="Marcus Lee"
+    />
+  </BoardColumn>
+  <BoardColumn title="In development" color="6" icon="terminal">
+    <BoardCard
+      title="Bulk export endpoint"
+      description="Export large record sets in a single job instead of paginating through thousands of API requests."
+      icon="database"
+      due-date="2025-01-22"
+      author="Dana Kim"
+      created-at="2025-01-14"
+    />
+  </BoardColumn>
+  <BoardColumn title="Shipped" color="4" icon="check-circle">
+    <BoardCard
+      title="Webhook retries"
+      description="Retry failed webhook deliveries automatically so transient outages do not cause missed events."
+      icon="rocket"
+      author="Alex Morgan"
+      created-at="2025-01-08"
+    />
+  </BoardColumn>
+</Board>
+
+```mdx
+<Board title="API roadmap">
+  <BoardColumn title="Planned" color="2" icon="settings">
+    <BoardCard
+      title="Version pinning"
+      description="Let clients lock requests to a specific API version so updates do not change response shapes unexpectedly."
+      icon="shield"
+      author="Priya Shah"
+      created-at="2025-01-10"
+    />
+    <BoardCard
+      title="Deprecation headers"
+      description="Add response headers that announce upcoming removals and link readers to migration guidance."
+      icon="alert-triangle"
+      due-date="2025-01-18"
+      author="Marcus Lee"
+    />
+  </BoardColumn>
+  <BoardColumn title="In development" color="6" icon="terminal">
+    <BoardCard
+      title="Bulk export endpoint"
+      description="Export large record sets in a single job instead of paginating through thousands of API requests."
+      icon="database"
+      due-date="2025-01-22"
+      author="Dana Kim"
+      created-at="2025-01-14"
+    />
+  </BoardColumn>
+  <BoardColumn title="Shipped" color="4" icon="check-circle">
+    <BoardCard
+      title="Webhook retries"
+      description="Retry failed webhook deliveries automatically so transient outages do not cause missed events."
+      icon="rocket"
+      author="Alex Morgan"
+      created-at="2025-01-08"
+    />
+  </BoardColumn>
+</Board>
+```
+
+### Attribute naming in MDX
+
+Some board attributes use kebab-case in MDX.
+
+<Callout kind="info">
+
+Write card date props as `due-date` and `created-at` in MDX. These map to the underlying camelCase fields used internally.
+
+</Callout>
+
+## Props and attributes reference
+
+### Board
+
+`Board` is the top-level wrapper for the entire layout.
+
+<ParamField body="title" param-type="string" required="false" show-location="false">
+Title for the board region. If you omit it, the component defaults to `Board`.
+</ParamField>
+
+### BoardColumn
+
+`BoardColumn` defines a single column inside the board.
+
+<ParamField body="title" param-type="string" required="true" show-location="false">
+Column heading shown at the top of the column.
+</ParamField>
+
+<ParamField body="color" param-type="integer" required="false" show-location="false">
+Column color index from `0` to `8`. If you provide a higher number, the color cycles through the available palette.
+</ParamField>
+
+<ParamField body="icon" param-type="string" required="false" show-location="false">
+Lucide icon name shown with the column title.
+</ParamField>
+
+### BoardCard
+
+`BoardCard` is a self-closing component used inside a `BoardColumn`.
+
+<ParamField body="title" param-type="string" required="true" show-location="false">
+Primary card label.
+</ParamField>
+
+<ParamField body="description" param-type="string" required="false" show-location="false">
+Additional context shown inside the card.
+</ParamField>
+
+<ParamField body="icon" param-type="string" required="false" show-location="false">
+Lucide icon name shown on the card.
+</ParamField>
+
+<ParamField body="due-date" param-type="string" required="false" show-location="false">
+Due date associated with the card. Use a date string such as `2025-02-01`.
+</ParamField>
+
+<ParamField body="author" param-type="string" required="false" show-location="false">
+Person associated with the card.
+</ParamField>
+
+<ParamField body="created-at" param-type="string" required="false" show-location="false">
+Creation date for the card. Use a date string such as `2025-01-15`.
+</ParamField>
+
+## Column colors
+
+Use the `color` attribute on `BoardColumn` to apply one of nine built-in color styles.
+
+| Index | Color |
+| --- | --- |
+| 0 | gray |
+| 1 | brown |
+| 2 | orange |
+| 3 | yellow |
+| 4 | green |
+| 5 | blue |
+| 6 | purple |
+| 7 | pink |
+| 8 | red |
+
+If you provide a color index above `8`, the component wraps back through the palette.
+
+## Best practices and tips
+
+<Callout kind="tip">
+
+Use boards when readers benefit from seeing progression or categorization at a glance. Keep column titles short, keep card titles scannable, and move supporting detail into the card description only when the extra context helps the reader make a decision.
+
+</Callout>
+
+A few patterns work especially well:
+
+- **Limit each board to a single organizing principle.** Organize by delivery stage, such as planned, building, and shipped, or by time horizon, such as this quarter, next quarter, and future.
+- **Keep columns stable.** Readers understand a roadmap faster when the column structure does not change often.
+- **Use icons sparingly.** Icons help when they reinforce meaning, but too many icons make the board harder to scan.
+- **Prefer the Web Editor for frequent updates.** It is faster for rearranging content and adjusting presentation.
+- **Use dates consistently.** If one card shows due dates or created dates, consider applying the same pattern across similar cards.
+
+## What to use next
+
+<Columns cols={2}>
+  <Card
+    title="Columns"
+    href="/components/columns"
+    icon="columns"
+    cta="View component reference"
+  />
+  <Card
+    title="Cards"
+    href="/components/card"
+    icon="folder"
+    cta="See related layout patterns"
+  />
+</Columns>

@@ -138,6 +138,11 @@
                     "icon": "lucide-panel-top"
                   },
                   {
+                    "title": "Board",
+                    "path": "components/board",
+                    "icon": "kanban"
+                  },
+                  {
                     "title": "Collection List",
                     "path": "components/collection-list",
                     "icon": "layout-grid"

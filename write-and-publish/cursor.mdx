@@ -580,6 +580,39 @@ Example of columns with Cards:
   </Card>
 </Columns>
 
+### Board component
+
+For roadmaps, feature status, and release plans in a kanban-style column layout:
+
+<Board title="Product roadmap">
+  <BoardColumn title="Planned" color="3" icon="check-circle">
+    <BoardCard title="Webhook support" />
+    <BoardCard title="Bulk export API" />
+  </BoardColumn>
+  <BoardColumn title="In Development" color="5" icon="play-circle">
+    <BoardCard title="Dark mode" />
+  </BoardColumn>
+  <BoardColumn title="Shipped" color="4" icon="rocket">
+    <BoardCard title="SSO with SAML" />
+  </BoardColumn>
+</Board>
+
+Board attributes:
+- `title` (optional) — Board region title, defaults to "Board"
+
+BoardColumn attributes:
+- `title` (required) — Column heading
+- `color` (optional) — Color index 0–8 (gray, brown, orange, yellow, green, blue, purple, pink, red)
+- `icon` (optional) — Lucide icon name
+
+BoardCard attributes (self-closing):
+- `title` (required) — Card label
+- `description` (optional) — Additional context
+- `icon` (optional) — Lucide icon name
+- `due-date` (optional) — Date string e.g. `"2025-02-01"`
+- `author` (optional) — Person name
+- `created-at` (optional) — Date string e.g. `"2025-01-15"`
+
 ### Collection components
 
 Collection components dynamically display navigation nodes from your `documentation.json` structure. They read your live navigation tree and stay in sync automatically as you add or remove pages.
@@ -728,6 +761,8 @@ type: "reference"  # or "guide", "tutorial", etc.
 - Use **Mermaid** diagrams for flowcharts, sequence diagrams, and architecture visualizations
 
 - Use **CollectionList** to build landing pages and hub pages that display direct children of a navigation node in card, accordion, list, or link layouts
+
+- Use **Board** for roadmaps, feature status, and release plans in a kanban-style column layout
 
 - Use **CollectionContent** to display the full nested tree of a navigation section as a recursive, collapsible accordion
 

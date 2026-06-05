@@ -29,6 +29,44 @@
   50%      { transform: translateY(-4px); }
 }
 
+/* ─── Ambient Gradient Background ─────────────────── */
+
+.dai-content-column {
+  position: relative;
+  overflow: hidden;
+}
+
+.dai-content-column::before {
+  content: "";
+  position: absolute;
+  top: -250px;
+  right: -180px;
+  width: 800px;
+  height: 650px;
+  background: linear-gradient(
+    225deg,
+    rgba(139, 92, 246, 0.12) 0%,
+    rgba(99, 102, 241, 0.07) 25%,
+    rgba(168, 85, 247, 0.04) 45%,
+    transparent 65%
+  );
+  border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(60px);
+  transform: rotate(-45deg);
+}
+
+.dark .dai-content-column::before {
+  background: linear-gradient(
+    225deg,
+    rgba(167, 139, 250, 0.1) 0%,
+    rgba(129, 140, 248, 0.06) 25%,
+    rgba(192, 132, 252, 0.03) 45%,
+    transparent 65%
+  );
+}
+
 /* ─── Smooth Scroll & Selection ───────────────────── */
 
 html {

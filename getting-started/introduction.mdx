@@ -5,135 +5,84 @@ description: >-
   rich documentation and knowledge bases with built-in AI agents.
 ---
 
-<div className="intro-page">
-  <section className="intro-hero">
-    <div className="intro-hero__content">
-      <p className="intro-eyebrow">Documentation.AI</p>
-      <h1>Ship documentation that stays alive.</h1>
-      <p className="intro-lede">
-        A calm, AI-native workspace for writing, publishing, maintaining, and understanding product knowledge.
-      </p>
-      <div className="intro-actions">
-        <a className="intro-button intro-button--primary" href="/getting-started/quickstart">
-          Start in 5 minutes
-          <span aria-hidden="true">&rarr;</span>
-        </a>
-        <a className="intro-button intro-button--secondary" href="/getting-started/core-concepts">Explore the model</a>
-      </div>
-    </div>
+Build beautiful documentation in minutes, then keep it accurate as your product changes. Documentation.AI brings writing, publishing, AI maintenance, analytics, API docs, and reader support into one workspace.
 
-    <div className="intro-system" aria-label="Documentation workflow preview">
-      <svg className="intro-system__svg" viewBox="0 0 520 360" role="img" aria-label="Documentation.AI connects editing, publishing, AI, and analytics">
-        <defs>
-          <linearGradient id="introLine" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.92" />
-            <stop offset="100%" stopColor="#9ca3af" stopOpacity="0.54" />
-          </linearGradient>
-        </defs>
-        <path className="intro-system__path" d="M112 180 C166 86 272 76 330 138 C390 202 322 286 232 260 C162 240 152 184 112 180" />
-        <path className="intro-system__path intro-system__path--slow" d="M166 126 C248 154 310 112 382 178 C326 206 300 272 194 248" />
-        <g className="intro-node intro-node--main">
-          <rect x="202" y="130" width="116" height="100" rx="18" />
-          <text x="260" y="172" textAnchor="middle">Docs</text>
-          <text x="260" y="196" textAnchor="middle">workspace</text>
-        </g>
-        <g className="intro-node intro-node--one">
-          <rect x="50" y="146" width="104" height="68" rx="16" />
-          <text x="102" y="187" textAnchor="middle">Write</text>
-        </g>
-        <g className="intro-node intro-node--two">
-          <rect x="200" y="40" width="120" height="68" rx="16" />
-          <text x="260" y="81" textAnchor="middle">Publish</text>
-        </g>
-        <g className="intro-node intro-node--three">
-          <rect x="370" y="146" width="104" height="68" rx="16" />
-          <text x="422" y="187" textAnchor="middle">Answer</text>
-        </g>
-        <g className="intro-node intro-node--four">
-          <rect x="200" y="252" width="120" height="68" rx="16" />
-          <text x="260" y="293" textAnchor="middle">Improve</text>
-        </g>
-      </svg>
-    </div>
-  </section>
+<Columns cols="3">
+  <Card title="Quick Start" href="/getting-started/quickstart" icon="rocket" cta="Start in 5 minutes" horizontal="false" target="_self">
+    Launch a polished documentation site with the fastest path through setup, content, and publishing.
+  </Card>
 
-  <section className="intro-pillars" aria-label="Main starting points">
-    <a href="/getting-started/quickstart">
-      <span>01</span>
-      <strong>Quick Start</strong>
-      <small>Launch a polished docs site in minutes.</small>
-    </a>
-    <a href="/getting-started/core-concepts">
-      <span>02</span>
-      <strong>Core Concepts</strong>
-      <small>Learn how pages, projects, navigation, and publishing fit together.</small>
-    </a>
-    <a href="/components/heading-and-text">
-      <span>03</span>
-      <strong>Components</strong>
-      <small>Build richer pages with cards, callouts, tabs, code, and media.</small>
-    </a>
-  </section>
+  <Card title="Core Concepts" href="/getting-started/core-concepts" icon="layers" cta="Learn the model" horizontal="false" target="_self">
+    Understand projects, pages, navigation, publishing, previews, and how AI fits into the docs workflow.
+  </Card>
 
-  <section className="intro-section intro-section--split">
-    <div>
-      <p className="intro-kicker">Create</p>
-      <h2>One place for writers, engineers, and AI agents.</h2>
-    </div>
-    <div className="intro-list">
-      <a href="/write-and-publish/web-editor">
-        <strong>Web Editor</strong>
-        <span>Draft and organize content visually with a fast browser workflow.</span>
-      </a>
-      <a href="/write-and-publish/code-editor">
-        <strong>Code Editor</strong>
-        <span>Work in MDX with Git, branches, previews, and engineering review.</span>
-      </a>
-      <a href="/write-and-publish/branches-and-previews">
-        <strong>Branches & Previews</strong>
-        <span>Review documentation changes before they reach production.</span>
-      </a>
-    </div>
-  </section>
+  <Card title="Components" href="/components/heading-and-text" icon="component" cta="Browse components" horizontal="false" target="_self">
+    Compose rich pages with cards, callouts, tabs, code blocks, media, API fields, and structured content.
+  </Card>
+</Columns>
 
-  <section className="intro-ai">
-    <div>
-      <p className="intro-kicker">Maintain</p>
-      <h2>AI handles the work that usually goes stale.</h2>
-      <p>
-        Draft new pages, restructure old ones, connect your docs to AI tools, and give readers an assistant that answers from published content.
-      </p>
-    </div>
-    <div className="intro-ai__links">
-      <a href="/ai/ai-documentation-agent">Documentation agent</a>
-      <a href="/ai/docs-mcp-server">MCP servers</a>
-      <a href="/ai/ai-assistant">Reader assistant</a>
-      <a href="/ai/workflows">Workflows</a>
-    </div>
-  </section>
+## Create documentation without switching tools
 
-  <section className="intro-section">
-    <div className="intro-section__header">
-      <p className="intro-kicker">Operate</p>
-      <h2>Everything around the docs is built in.</h2>
-    </div>
-    <div className="intro-grid">
-      <a href="/customize/colors-and-typography">
-        <strong>Customize</strong>
-        <span>Branding, typography, custom domains, navigation, and access control.</span>
-      </a>
-      <a href="/api-documentation-and-playground/openapi-import">
-        <strong>API Docs</strong>
-        <span>OpenAPI import, interactive playgrounds, examples, and generated snippets.</span>
-      </a>
-      <a href="/integrations/overview">
-        <strong>Integrations</strong>
-        <span>GitHub, analytics, chat, product data, notifications, and automation tools.</span>
-      </a>
-      <a href="/analytics/overview">
-        <strong>Analytics</strong>
-        <span>Understand traffic, search behavior, feedback, and AI assistant usage.</span>
-      </a>
-    </div>
-  </section>
-</div>
+Choose the workflow that fits the team. Writers can move quickly in the visual editor, while engineers keep full control with MDX, Git, branches, and previews.
+
+<Columns cols="2">
+  <Card title="Web Editor" href="/write-and-publish/web-editor" icon="edit-3" cta="Open editor guide" horizontal="true" target="_self">
+    Draft, review, and publish from a browser-based writing environment built for fast collaboration.
+  </Card>
+
+  <Card title="Code Editor" href="/write-and-publish/code-editor" icon="code-2" cta="Set up MDX" horizontal="true" target="_self">
+    Write docs in VS Code, Cursor, or your preferred editor with Git-native review and preview workflows.
+  </Card>
+</Columns>
+
+<Columns cols="2">
+  <Card title="Branches & Previews" href="/write-and-publish/branches-and-previews" icon="git-branch" cta="Preview safely" horizontal="true" target="_self">
+    Test documentation changes on branches before merging them into the live site.
+  </Card>
+
+  <Card title="Branding" href="/customize/branding" icon="badge" cta="Tune the brand" horizontal="true" target="_self">
+    Match your docs to your product with logo, typography, color, domain, header, and navigation controls.
+  </Card>
+</Columns>
+
+## Keep knowledge alive with AI
+
+Use AI to draft, restructure, audit, and answer from your documentation. The goal is not louder docs; it is less manual upkeep and better reader outcomes.
+
+<Columns cols="4">
+  <Card title="Documentation Agent" href="/ai/ai-documentation-agent" icon="sparkles" horizontal="false" target="_self">
+    Draft and revise pages with context from the documentation around them.
+  </Card>
+
+  <Card title="MCP Servers" href="/ai/docs-mcp-server" icon="terminal" horizontal="false" target="_self">
+    Connect Documentation.AI to Claude, Cursor, and other AI tools.
+  </Card>
+
+  <Card title="AI Assistant" href="/ai/ai-assistant" icon="bot" horizontal="false" target="_self">
+    Give readers answers grounded in your published knowledge base.
+  </Card>
+
+  <Card title="Workflows" href="/ai/workflows" icon="workflow" horizontal="false" target="_self">
+    Automate recurring documentation checks, rewrites, and cleanup.
+  </Card>
+</Columns>
+
+## Operate the full docs system
+
+<Columns cols="4">
+  <Card title="Customize" href="/customize/colors-and-typography" icon="palette" horizontal="false" target="_self">
+    Control typography, colors, navigation, domains, access, scripts, and page settings.
+  </Card>
+
+  <Card title="API Docs" href="/api-documentation-and-playground/openapi-import" icon="braces" horizontal="false" target="_self">
+    Import OpenAPI specs, configure playgrounds, and publish useful examples.
+  </Card>
+
+  <Card title="Integrations" href="/integrations/overview" icon="plug" horizontal="false" target="_self">
+    Connect analytics, chat, product data, GitHub, Slack, and automation tools.
+  </Card>
+
+  <Card title="Analytics" href="/analytics/overview" icon="chart-line" horizontal="false" target="_self">
+    Learn what readers search, where they engage, and where the docs need attention.
+  </Card>
+</Columns>

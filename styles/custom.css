@@ -54,14 +54,7 @@
   --dai-hero-grid: rgba(15, 23, 42, 0.045);
   --dai-hero-node: rgba(255, 255, 255, 0.88);
   --dai-hero-node-strong: #0f172a;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  background:
+  --dai-page-gradient:
     radial-gradient(
       ellipse at 58% 0%,
       rgba(100, 116, 139, 0.1),
@@ -71,13 +64,20 @@ body {
       180deg,
       rgba(100, 116, 139, 0.035),
       transparent 24rem
-    ),
-    var(--background) !important;
+    );
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--dai-page-gradient), var(--background) !important;
   background-attachment: fixed;
 }
 
 .dark body {
-  background:
+  --dai-page-gradient:
     radial-gradient(
       ellipse at 58% 0%,
       rgba(226, 232, 240, 0.055),
@@ -87,8 +87,8 @@ body {
       180deg,
       rgba(226, 232, 240, 0.025),
       transparent 24rem
-    ),
-    var(--background) !important;
+    );
+  background: var(--dai-page-gradient), var(--background) !important;
 }
 
 ::selection {
@@ -113,46 +113,32 @@ body {
 
 .dai-navbar,
 .dark .dai-navbar {
-  background: transparent !important;
+  background:
+    var(--dai-page-gradient),
+    color-mix(in srgb, var(--background) 82%, transparent) !important;
+  background-attachment: fixed !important;
   border-bottom-color: transparent !important;
   backdrop-filter: blur(12px) saturate(130%) !important;
   -webkit-backdrop-filter: blur(12px) saturate(130%) !important;
   box-shadow: none !important;
 }
 
-[class*="dai-navbar"]:not(.dai-navbar),
+.dai-navbar > *,
+.dai-navbar > * > *,
 [class*="dai-topbar"],
 [class*="dai-tabbar"],
 [class*="dai-tabs"] {
-  background: transparent !important;
+  background:
+    var(--dai-page-gradient),
+    color-mix(in srgb, var(--background) 80%, transparent) !important;
+  background-attachment: fixed !important;
   border-bottom-color: transparent !important;
   border-top-color: transparent !important;
   box-shadow: none !important;
 }
 
-.dai-navbar > *,
-[class*="dai-navbar"] > *,
-[class*="dai-topbar"] > *,
-[class*="dai-tabbar"] > *,
-[class*="dai-tabs"] > * {
-  background-color: transparent !important;
-  box-shadow: none !important;
-}
-
-.dai-navbar [class*="actions"],
-.dai-navbar [class*="links"],
-.dai-navbar [class*="search"],
-[class*="dai-navbar"] [class*="actions"],
-[class*="dai-navbar"] [class*="links"],
-[class*="dai-navbar"] [class*="search"] {
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
 .dai-navbar::before,
 .dai-navbar::after,
-[class*="dai-navbar"]::before,
-[class*="dai-navbar"]::after,
 [class*="dai-topbar"]::before,
 [class*="dai-topbar"]::after,
 [class*="dai-tabbar"]::before,
@@ -166,18 +152,17 @@ body {
 
 .dai-navbar input,
 .dai-navbar button,
-.dai-navbar a,
-[class*="dai-navbar"] input,
-[class*="dai-navbar"] button,
-[class*="dai-navbar"] a {
+.dai-navbar a {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
 
 .dai-sidebar,
 [class*="dai-sidebar"] {
-  background: var(--background) !important;
-  background: color-mix(in srgb, var(--background) 90%, transparent) !important;
+  background:
+    var(--dai-page-gradient),
+    color-mix(in srgb, var(--background) 84%, transparent) !important;
+  background-attachment: fixed !important;
   backdrop-filter: blur(10px) saturate(130%) !important;
   -webkit-backdrop-filter: blur(10px) saturate(130%) !important;
 }
@@ -505,7 +490,7 @@ body {
     border-color 0.18s ease,
     box-shadow 0.18s ease,
     transform 0.18s ease !important;
-  min-height: 9.25rem;
+  min-height: auto;
 }
 
 .dark [data-component="Card"] {
@@ -568,6 +553,44 @@ body {
   background: rgba(255, 255, 255, 0.065) !important;
   border-color: rgba(255, 255, 255, 0.17) !important;
   box-shadow: var(--dai-shadow-dark-hover) !important;
+}
+
+.dai-content-column:has(.intro-hero) [data-component="Columns"] {
+  gap: 1.2rem !important;
+}
+
+.dai-content-column:has(.intro-hero) [data-component="Card"] {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(248, 250, 252, 0.64)),
+    radial-gradient(circle at 0% 0%, rgba(100, 116, 139, 0.08), transparent 12rem) !important;
+  border-color: rgba(15, 23, 42, 0.09) !important;
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.03) !important;
+}
+
+.dark .dai-content-column:has(.intro-hero) [data-component="Card"] {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.028)),
+    radial-gradient(circle at 0% 0%, rgba(226, 232, 240, 0.055), transparent 12rem) !important;
+  border-color: rgba(255, 255, 255, 0.09) !important;
+}
+
+.dai-content-column:has(.intro-hero) [data-component="Card"]::before {
+  background: linear-gradient(90deg, rgba(100, 116, 139, 0.32), transparent 75%);
+  height: 1px;
+  opacity: 0.7;
+}
+
+.dai-content-column:has(.intro-hero) [data-component="Card"]:hover {
+  border-color: rgba(15, 23, 42, 0.16) !important;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08) !important;
+}
+
+.dark .dai-content-column:has(.intro-hero) [data-component="Card"]:hover {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.04)),
+    radial-gradient(circle at 0% 0%, rgba(226, 232, 240, 0.07), transparent 12rem) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22) !important;
 }
 
 .dai-card-title,

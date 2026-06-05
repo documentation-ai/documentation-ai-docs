@@ -3,49 +3,35 @@ title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
 <Update label="2026-06-01" description="Agent file attachments, new editor components, search improvements, and table editor fixes" tags={["feature","improvement","fix"]}>
-  ## Features
+  ## Agent File Attachments
 
-  ### Agent File Attachments
+  The AI Documentation Agent now supports file attachments. Upload PDFs, code files, documents, and spreadsheets directly into the agent conversation to give it richer context when generating or updating your documentation.
 
-  The AI Documentation Agent now supports file attachments. You can attach PDFs, code files, documents, and spreadsheets directly in the agent conversation to provide additional context for documentation generation.
+  This is especially useful when you need the agent to reference existing specs, design documents, API contracts, or internal guides that aren't already in your documentation project. Instead of copy-pasting content into the chat, attach the source file and let the agent extract what it needs.
 
-  ### Board Component
+  ## Board Component
 
-  A new Board component is now available for organizing content in a kanban-style layout.
+  A new Board component is now available for organizing content in a kanban-style layout with columns and cards such as Roadmaps
 
-  ### Fuzzy Search Enabled
+  Use it when you want to present information that has distinct stages, categories, or statuses — such as feature roadmaps, project workflows, onboarding checklists, comparison matrices, or migration planning boards. It gives readers a visual overview they can scan at a glance instead of reading through long lists or tables.
 
-  Search across your documentation now uses fuzzy matching, making it easier to find content even with typos or partial queries.
+  ## Fuzzy Search Enabled
 
-  ###
+  Search across your documentation now uses fuzzy matching. Readers can find content even when they misspell terms, use partial words, or don't remember the exact phrasing. This significantly reduces "no results" dead ends and makes self-service discovery more forgiving — especially useful for technical terms, product names, and acronyms that are easy to mistype.
 
   ## Editor Improvements
 
-  Multiple editor enhancements for a smoother authoring experience.
+  - **Table of Contents Panel** — A new sidebar panel gives you a structural overview of your page, letting you jump to any heading instantly and spot issues like skipped heading levels without scrolling.
 
-  ### Table of Contents Panel
+  - **Icon Picker & Color Picker** — Visually browse and select icons and colors directly in the editor instead of guessing names or copying hex codes from external tools.
 
-  A new Table of Contents panel provides an overview of your page structure, making it easier to navigate long documents.
+  - **Drag & Drop Rearrange** — Components like CardGroup, Steps, and ParamFieldGroup now support drag-and-drop reordering with editable popovers, so you can reorganize content without cutting and pasting code.
 
-  ### Icon Picker & Color Picker Components
+  - **Turn Into** — Convert any block into a different component type (e.g. paragraph → Callout, list → Steps, Card → Expandable) without rewriting content or manually changing markup.
 
-  New Icon Picker and Color Picker components are available in the editor for quickly selecting icons and colors when configuring navigation items and UI elements.
+  - **Editor UI Polish** — Smoother transitions, better focus states, improved keyboard navigation, and more consistent spacing across the editor.
 
-  ### Drag & Drop Rearrange
-
-  Multiple editor components (CardGroup, Step, ParamFieldGroup, etc.) now support drag-and-drop rearranging with editable popovers and data attributes.
-
-  ### Turn Into
-
-  Convert blocks between different component types directly in the editor using the new "Turn Into" action.
-
-  ### Other Editor UI Improvements
-
-  General editor UI polish and refinements for a cleaner authoring experience.
-
-  ### Table Editor Fixes
-
-  Resolved issues with the table editor for more reliable table editing.
+  - **Table Editor Fixes** — Resolved cell selection glitches, content loss on rapid edits, and inconsistent column resizing for more reliable table editing.
 </Update>
 
 <Update label="2026-05-25" description="Visual change detection for AI, saved, and unsaved edits" tags={["feature","improvement"]}>

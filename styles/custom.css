@@ -1,0 +1,140 @@
+/* ─── Hero Section ─────────────────────────────────── */
+
+.page-title {
+  font-size: 2.75rem !important;
+  letter-spacing: -0.035em !important;
+  line-height: 1.1 !important;
+}
+
+.page-description {
+  font-size: 1.125rem !important;
+  line-height: 1.7 !important;
+  max-width: 600px;
+  color: var(--sub-text) !important;
+}
+
+/* ─── Card Enhancements ───────────────────────────── */
+
+[data-component="Card"] {
+  border: 1px solid var(--border-muted) !important;
+  border-radius: 1rem !important;
+  background: var(--background) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  overflow: hidden !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+[data-component="Card"]:hover {
+  border-color: var(--border) !important;
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.06),
+    0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  transform: translateY(-3px);
+}
+
+.dark [data-component="Card"] {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  background: var(--accent) !important;
+  border-color: var(--border-muted) !important;
+}
+
+.dark [data-component="Card"]:hover {
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.3),
+    0 1px 3px rgba(0, 0, 0, 0.2) !important;
+  border-color: var(--border) !important;
+}
+
+.dai-card-image {
+  border-radius: 0 !important;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+[data-component="Card"]:hover .dai-card-image {
+  transform: scale(1.04) !important;
+}
+
+.dai-card-title {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.dai-card-description {
+  color: var(--sub-text) !important;
+  line-height: 1.6 !important;
+}
+
+/* ─── Columns Grid Spacing ────────────────────────── */
+
+[data-component="Columns"] {
+  gap: 1rem !important;
+  margin-top: 2rem !important;
+}
+
+/* ─── Content Typography ──────────────────────────── */
+
+.mdx-container h2 {
+  letter-spacing: -0.025em !important;
+}
+
+.mdx-container h3 {
+  letter-spacing: -0.02em !important;
+}
+
+/* ─── Callout Polish ──────────────────────────────── */
+
+[data-component="Callout"] {
+  border-radius: 0.75rem !important;
+}
+
+/* ─── Code Block Polish ───────────────────────────── */
+
+[data-component="CodeBlock"],
+[data-component="CodeGroup"] {
+  border-radius: 0.875rem !important;
+  overflow: hidden !important;
+}
+
+/* ─── Navbar Refinements ──────────────────────────── */
+
+.dai-navbar {
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  background: rgba(255, 255, 255, 0.85) !important;
+}
+
+.dark .dai-navbar {
+  background: rgba(18, 18, 18, 0.85) !important;
+}
+
+/* ─── Sidebar Active State ────────────────────────── */
+
+.dai-sidebar-page-active {
+  font-weight: 600 !important;
+}
+
+/* ─── Page Navigation Links ───────────────────────── */
+
+[data-component="PageNavigation"] a {
+  border-radius: 0.75rem !important;
+  transition: all 0.2s ease !important;
+}
+
+[data-component="PageNavigation"] a:hover {
+  border-color: var(--border) !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* ─── Smooth Scroll ───────────────────────────────── */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ─── Selection Color ─────────────────────────────── */
+
+::selection {
+  background: var(--brand);
+  color: var(--brand-text);
+}

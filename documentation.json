@@ -596,6 +596,17 @@
         ]
       },
       {
+        "tab": "Roadmap",
+        "icon": "map",
+        "pages": [
+          {
+            "title": "Roadmap",
+            "path": "roadmap",
+            "icon": "map"
+          }
+        ]
+      },
+      {
         "tab": "Help Center",
         "icon": "help-circle",
         "pages": [

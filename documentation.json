@@ -35,7 +35,6 @@
         "groups": [
           {
             "group": "Getting Started",
-            "icon": "info",
             "expandable": false,
             "pages": [
               {
@@ -60,7 +59,6 @@
           },
           {
             "group": "Write and Publish",
-            "icon": "pen-tool",
             "expandable": true,
             "pages": [
               {
@@ -172,8 +170,7 @@
                     "path": "components/api-components",
                     "icon": "code"
                   }
-                ],
-                "icon": "component"
+                ]
               },
               {
                 "title": "Branches & Previews",
@@ -229,7 +226,6 @@
           },
           {
             "group": "Customize",
-            "icon": "palette",
             "expandable": true,
             "pages": [
               {
@@ -270,8 +266,7 @@
                     "path": "seo-and-geo/sitemap",
                     "icon": "map"
                   }
-                ],
-                "icon": "search-check-icon"
+                ]
               },
               {
                 "title": "Custom Domain Setup",
@@ -280,7 +275,6 @@
               },
               {
                 "group": "Custom Subpath Setup",
-                "icon": "link",
                 "expandable": true,
                 "pages": [
                   {
@@ -322,7 +316,6 @@
               },
               {
                 "group": "Access Control",
-                "icon": "lock",
                 "expandable": true,
                 "pages": [
                   {
@@ -361,7 +354,6 @@
           },
           {
             "group": "API Documentation",
-            "icon": "server",
             "expandable": true,
             "pages": [
               {
@@ -388,7 +380,6 @@
           },
           {
             "group": "AI Features",
-            "icon": "bot",
             "expandable": true,
             "pages": [
               {
@@ -420,8 +411,7 @@
                     "icon": "square-pen"
                   }
                 ],
-                "path": "ai/mcp-server",
-                "icon": "terminal"
+                "path": "ai/mcp-server"
               },
               {
                 "title": "Page Actions",
@@ -437,7 +427,6 @@
           },
           {
             "group": "Integrations",
-            "icon": "workflow",
             "expandable": true,
             "pages": [
               {
@@ -452,7 +441,6 @@
               },
               {
                 "group": "Analytics",
-                "icon": "trending-up",
                 "pages": [
                   {
                     "title": "Google Tag Manager",
@@ -533,7 +521,6 @@
               },
               {
                 "group": "Support",
-                "icon": "message-circle",
                 "pages": [
                   {
                     "title": "Intercom",
@@ -551,7 +538,6 @@
           },
           {
             "group": "Analytics",
-            "icon": "trending-up",
             "expandable": true,
             "pages": [
               {
@@ -569,7 +555,6 @@
         "groups": [
           {
             "group": "REST API",
-            "icon": "info",
             "pages": [
               {
                 "title": "Overview",
@@ -580,7 +565,6 @@
           },
           {
             "group": "Endpoints",
-            "icon": "server",
             "openapi": "api-reference/openapi.json",
             "pages": []
           }
@@ -592,7 +576,6 @@
         "groups": [
           {
             "group": "Changelog",
-            "icon": "bell",
             "expandable": false,
             "pages": [
               {

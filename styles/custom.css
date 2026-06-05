@@ -73,10 +73,7 @@ body {
 
 .dai-navbar,
 .dark .dai-navbar {
-  background:
-    var(--dai-page-gradient),
-    color-mix(in srgb, var(--background) 36%, transparent) !important;
-  background-attachment: fixed !important;
+  background: transparent !important;
   border-bottom-color: transparent !important;
   backdrop-filter: blur(12px) saturate(130%) !important;
   -webkit-backdrop-filter: blur(12px) saturate(130%) !important;
@@ -88,10 +85,7 @@ body {
 [class*="dai-topbar"],
 [class*="dai-tabbar"],
 [class*="dai-tabs"] {
-  background:
-    var(--dai-page-gradient),
-    color-mix(in srgb, var(--background) 22%, transparent) !important;
-  background-attachment: fixed !important;
+  background: transparent !important;
   border-bottom-color: transparent !important;
   border-top-color: transparent !important;
   box-shadow: none !important;
@@ -119,10 +113,7 @@ body {
 
 .dai-sidebar,
 [class*="dai-sidebar"] {
-  background:
-    var(--dai-page-gradient),
-    color-mix(in srgb, var(--background) 42%, transparent) !important;
-  background-attachment: fixed !important;
+  background: transparent !important;
   backdrop-filter: blur(10px) saturate(130%) !important;
   -webkit-backdrop-filter: blur(10px) saturate(130%) !important;
 }
@@ -318,9 +309,11 @@ body {
     linear-gradient(180deg, rgba(255, 255, 255, 0.92), var(--dai-card-light)),
     radial-gradient(circle at 12% 0%, rgba(100, 116, 139, 0.09), transparent 15rem) !important;
   border: 1px solid var(--dai-border-light) !important;
-  border-radius: 14px !important;
+  border-radius: 18px !important;
+  box-sizing: border-box !important;
   box-shadow: var(--dai-shadow-light) !important;
   overflow: hidden !important;
+  padding: 1.35rem !important;
   position: relative !important;
   transition:
     background 0.18s ease,

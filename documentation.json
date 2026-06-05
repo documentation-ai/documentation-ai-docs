@@ -602,7 +602,13 @@
           {
             "title": "Roadmap",
             "path": "roadmap",
-            "icon": "map"
+            "icon": "map",
+            "show-sidebar": false,
+            "show-toc": false,
+            "show-parent-label": false,
+            "show-page-navigation": false,
+            "ask-feedback": false,
+            "content-width": "wide"
           }
         ]
       },

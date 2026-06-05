@@ -1,63 +1,197 @@
-/* ─── Hero Section ─────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════
+   Documentation.AI — Custom Theme
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── Animations ──────────────────────────────────── */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+@keyframes borderGlow {
+  0%, 100% { opacity: 0.5; }
+  50%      { opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+/* ─── Smooth Scroll & Selection ───────────────────── */
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background: rgba(139, 92, 246, 0.25);
+  color: inherit;
+}
+
+.dark ::selection {
+  background: rgba(167, 139, 250, 0.3);
+}
+
+/* ─── Page Content Entrance ───────────────────────── */
+
+.dai-article {
+  animation: fadeInUp 0.5s ease-out both;
+}
+
+/* ─── Hero Title — Gradient Text ──────────────────── */
 
 .page-title {
-  font-size: 2.75rem !important;
-  letter-spacing: -0.035em !important;
-  line-height: 1.1 !important;
+  font-size: 3rem !important;
+  letter-spacing: -0.04em !important;
+  line-height: 1.08 !important;
+  font-weight: 700 !important;
+  background: linear-gradient(135deg, var(--heading) 0%, #6d28d9 50%, var(--heading) 100%) !important;
+  background-size: 200% auto !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  animation: gradientShift 6s ease-in-out infinite;
+}
+
+.dark .page-title {
+  background: linear-gradient(135deg, var(--heading) 0%, #a78bfa 50%, var(--heading) 100%) !important;
+  background-size: 200% auto !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
 }
 
 .page-description {
-  font-size: 1.125rem !important;
-  line-height: 1.7 !important;
-  max-width: 600px;
+  font-size: 1.15rem !important;
+  line-height: 1.75 !important;
+  max-width: 620px;
   color: var(--sub-text) !important;
 }
 
-/* ─── Card Enhancements ───────────────────────────── */
+/* ─── Section Headings — Subtle Gradient ──────────── */
+
+.mdx-container h2 {
+  letter-spacing: -0.03em !important;
+  position: relative;
+  padding-bottom: 0.6rem !important;
+}
+
+.mdx-container h2::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 48px;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #7c3aed, #a78bfa);
+}
+
+.dark .mdx-container h2::after {
+  background: linear-gradient(90deg, #a78bfa, #c4b5fd);
+}
+
+.mdx-container h3 {
+  letter-spacing: -0.02em !important;
+}
+
+/* ─── Cards — Animated Gradient Border on Hover ───── */
 
 [data-component="Card"] {
+  position: relative !important;
   border: 1px solid var(--border-muted) !important;
   border-radius: 1rem !important;
   background: var(--background) !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
   overflow: hidden !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+[data-component="Card"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  padding: 1px;
+  background: linear-gradient(135deg, #7c3aed, #a78bfa, #c4b5fd, #7c3aed);
+  background-size: 300% 300%;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+[data-component="Card"]:hover::before {
+  opacity: 1;
+  animation: gradientShift 3s ease infinite;
 }
 
 [data-component="Card"]:hover {
-  border-color: var(--border) !important;
+  border-color: transparent !important;
   box-shadow:
-    0 8px 30px rgba(0, 0, 0, 0.06),
-    0 1px 3px rgba(0, 0, 0, 0.04) !important;
-  transform: translateY(-3px);
+    0 12px 40px rgba(124, 58, 237, 0.08),
+    0 4px 12px rgba(0, 0, 0, 0.04) !important;
+  transform: translateY(-4px);
 }
 
+/* Dark mode cards */
 .dark [data-component="Card"] {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  background: var(--accent) !important;
+  background: rgba(255, 255, 255, 0.03) !important;
   border-color: var(--border-muted) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
 }
 
 .dark [data-component="Card"]:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
   box-shadow:
-    0 8px 30px rgba(0, 0, 0, 0.3),
-    0 1px 3px rgba(0, 0, 0, 0.2) !important;
-  border-color: var(--border) !important;
+    0 12px 40px rgba(167, 139, 250, 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.2) !important;
 }
 
+/* Card image */
 .dai-card-image {
   border-radius: 0 !important;
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 [data-component="Card"]:hover .dai-card-image {
-  transform: scale(1.04) !important;
+  transform: scale(1.06) !important;
 }
 
+/* Card text */
 .dai-card-title {
   font-size: 1rem !important;
-  font-weight: 600 !important;
-  letter-spacing: -0.01em !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.015em !important;
+  transition: color 0.3s ease;
+}
+
+[data-component="Card"]:hover .dai-card-title {
+  color: #7c3aed !important;
+}
+
+.dark [data-component="Card"]:hover .dai-card-title {
+  color: #a78bfa !important;
 }
 
 .dai-card-description {
@@ -65,76 +199,122 @@
   line-height: 1.6 !important;
 }
 
-/* ─── Columns Grid Spacing ────────────────────────── */
+/* ─── Columns Grid ────────────────────────────────── */
 
 [data-component="Columns"] {
   gap: 1rem !important;
-  margin-top: 2rem !important;
+  margin-top: 1.5rem !important;
 }
 
-/* ─── Content Typography ──────────────────────────── */
-
-.mdx-container h2 {
-  letter-spacing: -0.025em !important;
-}
-
-.mdx-container h3 {
-  letter-spacing: -0.02em !important;
-}
-
-/* ─── Callout Polish ──────────────────────────────── */
+/* ─── Callout — Refined ───────────────────────────── */
 
 [data-component="Callout"] {
-  border-radius: 0.75rem !important;
+  border-radius: 0.875rem !important;
+  backdrop-filter: blur(8px);
 }
 
-/* ─── Code Block Polish ───────────────────────────── */
+/* ─── Code Blocks — Polished ──────────────────────── */
 
 [data-component="CodeBlock"],
 [data-component="CodeGroup"] {
   border-radius: 0.875rem !important;
   overflow: hidden !important;
+  border: 1px solid var(--border-muted) !important;
 }
 
-/* ─── Navbar Refinements ──────────────────────────── */
+/* ─── Navbar — Frosted Glass ──────────────────────── */
 
 .dai-navbar {
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
-  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04) !important;
+  transition: background 0.3s ease;
 }
 
 .dark .dai-navbar {
-  background: rgba(18, 18, 18, 0.85) !important;
+  background: rgba(18, 18, 18, 0.8) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
 }
 
-/* ─── Sidebar Active State ────────────────────────── */
+/* ─── Sidebar ─────────────────────────────────────── */
 
 .dai-sidebar-page-active {
   font-weight: 600 !important;
+  position: relative;
 }
 
-/* ─── Page Navigation Links ───────────────────────── */
+/* ─── Page Navigation ─────────────────────────────── */
 
 [data-component="PageNavigation"] a {
-  border-radius: 0.75rem !important;
-  transition: all 0.2s ease !important;
+  border-radius: 0.875rem !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 [data-component="PageNavigation"] a:hover {
   border-color: var(--border) !important;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+  transform: translateY(-2px);
 }
 
-/* ─── Smooth Scroll ───────────────────────────────── */
+/* ─── Scrollbar — Minimal ─────────────────────────── */
 
-html {
-  scroll-behavior: smooth;
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 
-/* ─── Selection Color ─────────────────────────────── */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
 
-::selection {
-  background: var(--brand);
-  color: var(--brand-text);
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sub-text);
+}
+
+/* ─── Links — Accent Underline ────────────────────── */
+
+.mdx-container a {
+  text-decoration: none !important;
+  border-bottom: 1px solid transparent !important;
+  transition: border-color 0.2s ease !important;
+}
+
+.mdx-container a:hover {
+  border-bottom-color: #7c3aed !important;
+}
+
+.dark .mdx-container a:hover {
+  border-bottom-color: #a78bfa !important;
+}
+
+/* ─── Tables — Clean ──────────────────────────────── */
+
+.mdx-container table {
+  border-radius: 0.75rem !important;
+  overflow: hidden;
+}
+
+/* ─── Expandable — Smooth ─────────────────────────── */
+
+[data-component="Expandable"] {
+  border-radius: 0.75rem !important;
+  transition: all 0.2s ease !important;
+}
+
+/* ─── Focus Rings — Branded ───────────────────────── */
+
+:focus-visible {
+  outline: 2px solid #7c3aed !important;
+  outline-offset: 2px !important;
+  border-radius: 4px;
+}
+
+.dark :focus-visible {
+  outline-color: #a78bfa !important;
 }

@@ -308,6 +308,11 @@
                 "icon": "repeat"
               },
               {
+                "title": "Custom CSS",
+                "path": "customize/custom-css",
+                "icon": "paintbrush"
+              },
+              {
                 "title": "Custom Scripts",
                 "path": "customize/custom-scripts",
                 "icon": "file-code"
@@ -778,6 +783,10 @@
     {
       "source": "/components/collection",
       "destination": "/components/collection-list"
+    },
+    {
+      "source": "/customize/custom-css-and-javascript",
+      "destination": "/customize/custom-css"
     }
   ]
 }

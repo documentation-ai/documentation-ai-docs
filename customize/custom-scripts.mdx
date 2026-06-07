@@ -60,10 +60,53 @@ Each entry in the `scripts` array supports the following properties:
 - Paths are relative to your project root (for example, `scripts/analytics.js`).
 - Maximum file size is 5 MB.
 - The file must exist in your documentation project before you can reference it.
+- External URLs must use **HTTPS**.
 
-<Callout kind="info" collapsed="false">
+<Callout kind="info">
   Script paths must be relative — no leading `/`, `./`, or `../`. Path traversal patterns are rejected for security.
 </Callout>
+
+### External scripts
+
+You can also reference scripts hosted on external CDNs or third-party services:
+
+```json
+{
+  "scripts": [
+    { "src": "https://cdn.example.com/widget.js", "category": "marketing" }
+  ]
+}
+```
+
+External URLs must use HTTPS. The same `category` consent gating applies to external scripts.
+
+## Consent category behavior
+
+When you configure [cookie consent](/customize/cookie-consent) categories in your `integrations.cookies` settings, scripts respect the following rules:
+
+| Scenario | Behavior |
+|----------|----------|
+| Script has `category: "essential"` or no category set | Always loads regardless of consent state |
+| Script category matches a configured consent category | Loads only after the user grants consent for that category |
+| Script category is not defined in `integrations.cookies` | Loads by default (only explicitly configured categories are gated) |
+| User revokes consent after granting it | Script stops loading on subsequent page navigations |
+
+Scripts react to consent changes in real time. If a user updates their cookie preferences, gated scripts load or stop loading without requiring a full page refresh.
+
+<Callout kind="tip">
+  If you want a script to always run regardless of consent settings, either set its category to `"essential"` or omit the `category` field entirely.
+</Callout>
+
+## Loading behavior
+
+Custom scripts load using a non-blocking strategy after the page becomes interactive. This means:
+
+- Scripts do not block initial page rendering or content display
+- Scripts execute after the main document content loads and hydrates
+- Multiple scripts load in the order defined in the `scripts` array
+- Local scripts are served from a secure CDN with aggressive caching (30-day TTL)
+
+This ensures your documentation pages remain fast for readers even when multiple custom scripts are configured.
 
 ## Security considerations
 

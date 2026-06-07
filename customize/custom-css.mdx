@@ -1,0 +1,358 @@
+---
+title: Custom CSS
+description: Add custom stylesheets to override default styles, target specific components, and fine-tune your site's visual design.
+---
+
+Add custom CSS files to your documentation project to style any element beyond what the built-in theme exposes. Your stylesheets load after the default theme, so your rules take priority.
+
+<Callout kind="tip">
+
+Start with [Colors & Typography](/customize/colors-and-typography) for brand colors, headings, and text. Use custom CSS when you need layout tweaks, component-level styling, or overrides the theme settings don't cover.
+
+</Callout>
+
+## Prerequisites
+
+You need publishing access and either a `.css` file in your project or an external HTTPS stylesheet URL.
+
+## Configure custom CSS from the Editor
+
+Use the Editor when you want to add or update styles without editing `documentation.json` directly.
+
+<Steps>
+  <Step title="Open Site Config" icon="settings">
+
+  In the Editor, click **Site Config** in the top toolbar.
+
+  </Step>
+  <Step title="Navigate to Custom CSS" icon="chevron-right">
+
+  Select **Custom CSS** from the left sidebar.
+
+  </Step>
+  <Step title="Add a stylesheet" icon="plus">
+
+  Click **Add Stylesheet** and select a CSS file from your project. Only `.css` files appear in the picker.
+
+  You can also paste an external stylesheet URL instead of selecting a project file.
+
+  </Step>
+  <Step title="Publish" icon="rocket">
+
+  Click **Publish** to deploy the stylesheet to your live site.
+
+  After publishing, refresh your site and confirm the updated styles appear where you expect them.
+
+  </Step>
+</Steps>
+
+## Configure custom CSS in documentation.json
+
+Use `documentation.json` when you manage site configuration in version control or want stylesheet changes reviewed alongside other documentation updates.
+
+```json
+{
+  "css": [
+    { "src": "styles/custom.css" },
+    { "src": "https://cdn.example.com/external-styles.css" }
+  ]
+}
+```
+
+Each item in the `css` array supports one field:
+
+- **`src`** (string, required) — Relative path to a `.css` file in your project, or an external HTTPS URL
+
+### File requirements
+
+Follow these rules when adding a stylesheet:
+
+- Files must use a **`.css`** extension
+- Paths are **relative to the project root**, such as `styles/brand.css`
+- Maximum file size is **5 MB**
+- The file must already exist in your documentation project before you reference it
+- External URLs must use **HTTPS**
+
+<Callout kind="info">
+
+CSS paths must be relative. Do not start paths with `/`, `./`, or `../`. Path traversal patterns are rejected for security.
+
+</Callout>
+
+## Component class names
+
+Documentation.AI exposes stable `dai-*` class names on major layout regions, navigation elements, and MDX components. Use these selectors when you want precise styling without relying on generated or browser-inspected class names that may change.
+
+### Layout and structure
+
+| Class | Component |
+|-------|-----------|
+| `dai-layout` | Root layout wrapper |
+| `dai-layout-atlas` | Atlas template layout |
+| `dai-layout-classic` | Classic template layout |
+| `dai-content-area` | Main content area |
+| `dai-content-column` | Content column |
+| `dai-sidebar-column` | Sidebar column |
+| `dai-page` | Page wrapper |
+| `dai-page-main` | Main content panel |
+| `dai-article` | Article or MDX container |
+| `dai-page-aside` | Side panel or table of contents area |
+| `dai-footer` | Page footer |
+| `dai-page-nav` | Previous and next navigation |
+| `dai-breadcrumbs` | Breadcrumbs |
+| `dai-sticky-header` | Sticky header |
+
+### Navbar
+
+| Class | Component |
+|-------|-----------|
+| `dai-navbar` | Navbar container |
+| `dai-navbar-atlas` | Atlas template navbar |
+| `dai-navbar-classic` | Classic template navbar |
+| `dai-logo` | Logo area |
+| `dai-navbar-search` | Search section |
+| `dai-navbar-tabs` | Tab navigation |
+| `dai-navbar-buttons` | Action buttons area |
+| `dai-navbar-dropdown` | Navbar dropdown trigger |
+| `dai-navbar-languages` | Language selector |
+| `dai-navbar-versions` | Version selector |
+| `dai-navbar-products` | Product selector |
+| `dai-navbar-actions-mobile` | Mobile navbar actions |
+
+### Sidebar
+
+| Class | Component |
+|-------|-----------|
+| `dai-sidebar` | Sidebar container |
+| `dai-sidebar-atlas` | Atlas template sidebar |
+| `dai-sidebar-classic` | Classic template sidebar |
+| `dai-sidebar-content` | Sidebar navigation content |
+| `dai-sidebar-group` | Navigation group |
+| `dai-sidebar-group-title` | Group title |
+| `dai-sidebar-page` | Page link |
+| `dai-sidebar-page-active` | Active page link |
+| `dai-sidebar-page-group` | Page group or expandable section |
+| `dai-sidebar-page-group-title` | Page group title |
+| `dai-sidebar-dropdown` | Sidebar dropdown |
+| `dai-sidebar-dropdown-item` | Sidebar dropdown item |
+| `dai-sidebar-tabs` | Sidebar tabs |
+| `dai-sidebar-tab-item` | Sidebar tab item |
+| `dai-sidebar-menu` | Sidebar menu |
+| `dai-sidebar-menu-item` | Sidebar menu item |
+| `dai-sidebar-mobile` | Mobile sidebar trigger |
+
+### Search and AI
+
+| Class | Component |
+|-------|-----------|
+| `dai-search` | Search bar |
+| `dai-search-atlas` | Atlas template search |
+| `dai-search-classic` | Classic template search |
+| `dai-search-modal` | Search modal |
+| `dai-agent-chat` | AI assistant chat |
+| `dai-ask-ai-button` | Ask AI button |
+
+### Table of contents
+
+| Class | Component |
+|-------|-----------|
+| `dai-toc` | Table of contents wrapper |
+| `dai-toc-list` | Table of contents headings list |
+| `dai-toc-item` | Table of contents link |
+| `dai-toc-item-active` | Active table of contents link |
+| `dai-toc-actions` | Table of contents action buttons |
+
+### MDX components
+
+| Class | Component |
+|-------|-----------|
+| `dai-callout-icon` | Callout icon |
+| `dai-callout-body` | Callout body |
+| `dai-card-title` | Card title |
+| `dai-card-description` | Card description |
+| `dai-card-image` | Card image |
+| `dai-code-copy` | Code copy button |
+| `dai-code-tabs` | Code group tabs |
+| `dai-param-name` | Parameter field name |
+| `dai-param-type` | Parameter field type |
+| `dai-param-required` | Parameter required badge |
+| `dai-step-number` | Step number |
+| `dai-step-content` | Step content |
+| `dai-step-connector` | Step connector line |
+| `dai-collection-node` | Collection node |
+| `dai-board-card-detail` | Board card detail dialog |
+
+### API playground
+
+| Class | Component |
+|-------|-----------|
+| `dai-api-auth` | API playground auth section |
+| `dai-api-request-preview` | API request preview |
+| `dai-api-response` | API response |
+
+### Other
+
+| Class | Component |
+|-------|-----------|
+| `dai-feedback` | Feedback widget |
+| `dai-theme-toggle` | Theme toggle button |
+| `dai-theme-select` | Theme select dropdown |
+| `dai-access-denied` | Access denied page |
+| `dai-password-gate` | Password protection overlay |
+
+## CSS variables
+
+Override built-in CSS custom properties when you want to adjust theme-driven colors without rewriting component selectors. These variables layer on top of the theme colors defined in `documentation.json`.
+
+```css
+:root {
+  --brand: #3143e3;
+  --brand-text: #ffffff;
+  --heading: #1a1a1a;
+  --body: #374151;
+  --navbar-bg: #ffffff;
+  --sidebar-bg: #f9fafb;
+  --content-bg: #ffffff;
+  --footer-border: #e5e7eb;
+  --toc-text: #6b7280;
+  --toc-active-text: #3143e3;
+}
+
+.dark {
+  --brand: #85a1ff;
+  --brand-text: #000000;
+  --heading: #f2f2f2;
+  --body: #c1c1c1;
+  --navbar-bg: #0f0f0f;
+  --sidebar-bg: #111111;
+  --content-bg: #0f0f0f;
+  --footer-border: #262626;
+  --toc-text: #9ca3af;
+  --toc-active-text: #85a1ff;
+}
+```
+
+Use the built-in theme color settings for your primary brand, heading, and body text colors whenever possible. CSS variables are most useful when you need more specific control over elements such as the navbar background, sidebar background, footer border, or table of contents colors.
+
+<Callout kind="tip">
+
+For dark mode overrides, scope variable changes or selector-based styles under `.dark`. That keeps your light and dark themes predictable and avoids unintended color combinations.
+
+</Callout>
+
+## Examples
+
+Start with a small, targeted rule and verify it on a published page before expanding to broader overrides.
+
+### Change the sidebar background
+
+```css
+.dai-sidebar {
+  background-color: #f8fafc;
+}
+
+.dark .dai-sidebar {
+  background-color: #0f172a;
+}
+```
+
+### Add custom navbar styling
+
+```css
+.dai-navbar {
+  border-bottom: 2px solid var(--brand);
+  backdrop-filter: blur(12px);
+}
+```
+
+### Highlight the active table of contents item
+
+```css
+.dai-toc-item-active {
+  font-weight: 600;
+  border-left: 3px solid var(--brand);
+  padding-left: 8px;
+}
+```
+
+### Adjust callout body text
+
+```css
+.dai-callout-body {
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+```
+
+## Loading order
+
+Styles load in this order:
+
+1. **Built-in base styles** for layout and components
+2. **Theme CSS variables** from the `documentation.json` colors configuration
+3. **Custom CSS stylesheets** from your `css` array, in the order listed
+
+Because custom stylesheets load last, they can override earlier styles.
+
+## Security
+
+- Local files are served from a secure CDN. Path traversal patterns such as `../` are rejected.
+- External URLs should point to trusted sources only.
+
+## Troubleshooting
+
+<ExpandableGroup>
+  <Expandable title="Styles are not applying">
+
+  Check selector specificity first. A more specific selector such as `.dai-layout .dai-navbar` can override a broader rule that loses in the cascade.
+
+  Also confirm that you published the change. Edits in the project do not affect the live site until you publish.
+
+  </Expandable>
+  <Expandable title="Dark mode styles are not working">
+
+  Scope dark-mode rules under `.dark` so they apply only when the dark theme is active.
+
+  ```css
+  .dark .dai-sidebar {
+    background-color: #0f172a;
+  }
+  ```
+
+  </Expandable>
+  <Expandable title="Changes are not visible after editing">
+
+  Custom CSS changes require publishing. Open the Changes panel, make sure your stylesheet update is included, then publish again.
+
+  </Expandable>
+  <Expandable title="External stylesheet is not loading">
+
+  Verify that the URL is accessible over HTTPS and that the host allows cross-origin requests. If the server blocks the request or redirects to a non-HTTPS endpoint, the stylesheet may fail to load.
+
+  </Expandable>
+</ExpandableGroup>
+
+## What's next
+
+<Columns cols={2}>
+  <Card title="Colors and typography" href="/customize/colors-and-typography" icon="palette">
+
+  Use built-in theme settings to control brand colors, headings, and text styles before adding custom selectors.
+
+  </Card>
+  <Card title="Custom scripts" href="/customize/custom-scripts" icon="code">
+
+  Add custom JavaScript for analytics, widgets, or site-specific behavior.
+
+  </Card>
+  <Card title="Templates" href="/customize/templates" icon="layout">
+
+  Compare Atlas and Classic layouts and decide which structure fits your documentation.
+
+  </Card>
+  <Card title="Site configuration" href="/customize/site-configuration" icon="settings">
+
+  Review the full `documentation.json` reference for site-wide configuration options.
+
+  </Card>
+</Columns>

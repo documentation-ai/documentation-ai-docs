@@ -57,7 +57,8 @@
                 "path": "getting-started/quickstart",
                 "icon": "zap"
               }
-            ]
+            ],
+            "openapi": "api-reference/siteglide-site-api.json"
           },
           {
             "group": "Write and Publish",
@@ -655,7 +656,9 @@
     }
   },
   "customCss": [
-    { "src": "styles/custom.css" }
+    {
+      "src": "styles/custom.css"
+    }
   ],
   "redirects": [
     {

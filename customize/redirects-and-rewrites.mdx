@@ -296,13 +296,7 @@ In this example:
 
 ## Subpath deployments
 
-If your documentation is deployed at a subpath (e.g., `example.com/docs`), redirects are automatically adjusted:
-
-- The subpath is prepended to the `source` for matching
-
-- The subpath is prepended to the `destination` if not already present
-
-You don't need to include the subpath in your redirect configuration:
+If your documentation is deployed at a subpath, such as `example.com/docs`, redirects are normalized against the configured subpath. Write `source` and `destination` paths as documentation-relative paths, without the subpath prefix:
 
 ```json
 {
@@ -318,6 +312,9 @@ You don't need to include the subpath in your redirect configuration:
 For a subpath deployment at `/docs`:
 
 - Request to `/docs/old-page` → Redirects to `/docs/new-page`
+- A redirect written as `/docs/old-page` → `/docs/new-page` is normalized and will not produce duplicated prefixes like `/docs/docs/new-page`
+
+Subpath matching uses path boundaries. A configured subpath of `/docs` applies to `/docs` and `/docs/old-page`, but not to unrelated paths like `/docs-preview`.
 
 ## Examples
 
@@ -509,4 +506,3 @@ When temporarily redirecting during maintenance:
     - Verify the source pattern has the correct number of segments
   </Expandable>
 </ExpandableGroup>
-

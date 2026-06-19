@@ -1,6 +1,8 @@
 ---
 title: Custom Subpath Setup Overview
-description: "Deploy your documentation at a custom subpath like yoursite.com/docs using reverse proxy configuration."
+description: >-
+  Deploy your documentation at a custom subpath like yoursite.com/docs using
+  reverse proxy configuration.
 ---
 
 ## What is a Custom Subpath Deployment?
@@ -109,6 +111,10 @@ Before setting up a custom subpath deployment, ensure you have:
   **Domain Verification Required**: When using a custom subpath, you must configure your reverse proxy to allow traffic to <kbd>/.well-known/\*</kbd> paths. These paths are required for SSL certificate verification and domain ownership validation.
 </Callout>
 
+<Callout kind="info">
+  Redirect `source` and `destination` paths are normalized for your configured subpath. If your docs are hosted under `/docs`, `/help`, or another subpath, write redirects without that prefix, such as `/old-page` to `/new-page`. If you accidentally include the subpath, Documentation AI will not duplicate it in the final redirect URL.
+</Callout>
+
 ### Required Path Allowlist
 
 Your reverse proxy configuration must allow these paths to pass through without modification:
@@ -155,4 +161,3 @@ Choose your deployment platform and follow the corresponding guide:
 <Callout kind="tip">
   Start with a staging environment to test your configuration before applying it to production.
 </Callout>
-

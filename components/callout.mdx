@@ -33,6 +33,8 @@ Available callout kinds:
 
 - `danger`: Critical errors and destructive actions.
 
+- `custom`: A custom callout style that uses your chosen Lucide icon and CSS color.
+
 ## Using with Web Editor
 
 In the Web Editor, you can insert callouts without writing any code.
@@ -41,7 +43,7 @@ In the Web Editor, you can insert callouts without writing any code.
 
 2. Type <kbd>/</kbd> to open the block menu.
 
-3. Search for **Callout** and choose the style you want (Info, Tip, Alert, Danger, or Success).
+3. Search for **Callout** and choose the style you want (Info, Tip, Alert, Danger, Success, or Custom).
 
 4. Start typing inside the callout block to add or edit content like a normal paragraph.
 
@@ -77,7 +79,7 @@ If you need to keep long disclaimers or edge cases out of the main flow, conside
 
 ## Using with Code Editor
 
-In MDX, use the `Callout` component with a `kind` attribute to control the visual style. The `kind` value must be one of `info`, `tip`, `success`, `alert`, or `danger`.
+In MDX, use the `Callout` component with a `kind` attribute to control the visual style. Use `info`, `tip`, `success`, `alert`, or `danger` for standard styles, or use `custom` with `icon` and `color` when you need a style that matches your content or brand.
 
 ### Basic syntax
 
@@ -157,10 +159,44 @@ Use for confirmations and positive outcomes.
   Your documentation has been successfully deployed and is live.
 </Callout>
 
+### Custom icon and color
+
+Use `kind="custom"` when the standard styles do not match the message you want to highlight. Custom callouts use the `icon` attribute for a Lucide icon and the `color` attribute for the accent color.
+
+```jsx
+<Callout kind="custom" icon="sparkles" color="#7c3aed">
+  Use this callout for product-specific guidance that needs a branded accent.
+</Callout>
+```
+
+<Callout kind="custom" icon="sparkles" color="#7c3aed" collapsed="false">
+  Use this callout for product-specific guidance that needs a branded accent.
+</Callout>
+
+The `color` value accepts CSS color values such as hex, RGB, HSL, named colors, or CSS variables.
+
+```jsx
+<Callout kind="custom" icon="palette" color="var(--brand-primary)">
+  This callout uses a custom CSS variable from your documentation theme.
+</Callout>
+```
+
 ### Attributes
 
 <ParamField path="kind" param-type="string" required="false" deprecated="false">
-  Visual style and icon for the callout. One of: `info` (default), `tip`, `success`, `alert`, `danger`.
+  Visual style for the callout. Use `info` (default), `tip`, `success`, `alert`, `danger`, or `custom`.
+</ParamField>
+
+<ParamField path="icon" param-type="string" required="false" deprecated="false">
+  Lucide icon name to display in the callout. Use this with `kind="custom"`, for example `sparkles`, `palette`, or `rocket`.
+</ParamField>
+
+<ParamField path="color" param-type="string" required="false" deprecated="false">
+  Accent color for a custom callout. Use any valid CSS color value, including hex, RGB, HSL, named colors, or CSS variables.
+</ParamField>
+
+<ParamField path="collapsed" param-type="boolean" required="false" deprecated="false">
+  Whether the callout starts collapsed. Use `true` to hide the content until the reader expands it, or `false` to show it by default.
 </ParamField>
 
 ## Advanced options

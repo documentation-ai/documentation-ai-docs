@@ -49,7 +49,11 @@ Interactive playgrounds are automatically enabled when you include OpenAPI speci
 
 The interactive playground automatically generates:
 
-- **Parameter forms** for path, query, and body parameters
+- **Server controls** for choosing an OpenAPI server, filling server variables, or overriding the base URL
+
+- **Parameter forms** for path, query, header, and body parameters
+
+- **Named example pickers** when a parameter defines multiple OpenAPI examples
 
 - **Authentication inputs** based on security schemes
 
@@ -160,11 +164,17 @@ Generated form includes:
 
 - **Path parameter input** for `id`
 
-- **Query parameter checkbox** for `include`
+- **Query parameter input** for `include`
 
-- **Header management** for authentication
+- **Header management** for authentication and custom headers
+
+- **Example values** from `example`, `examples`, and schema examples in your OpenAPI spec
+
+- **Named example picker** when a parameter has multiple examples
 
 - **Validation** based on OpenAPI schema constraints
+
+When a parameter has one example, the playground can prefill or suggest that value. When it has multiple named examples, the input shows a dropdown so readers can choose a realistic value without treating the examples as an enum.
 
 ### Request Body Editing
 
@@ -264,33 +274,44 @@ The playground shows real-time responses with comprehensive formatting:
 
 ## Advanced Features
 
-### Environment Management
+### Server selection
 
-Configure multiple environments for testing different API stages:
+The playground reads the `servers` array from your OpenAPI specification and shows a **Server** section above the request inputs. If your spec defines multiple servers, readers can choose the server they want to call from a dropdown.
 
-```json
-{
-  "playground": {
-    "environments": [
-      {
-        "name": "Production",
-        "baseUrl": "https://api.example.com/v2",
-        "description": "Live production API"
-      },
-      {
-        "name": "Staging", 
-        "baseUrl": "https://staging-api.example.com/v2",
-        "description": "Pre-production testing environment"
-      },
-      {
-        "name": "Development",
-        "baseUrl": "http://localhost:3000/v2", 
-        "description": "Local development server"
-      }
-    ]
-  }
-}
+```yaml
+servers:
+  - url: https://api.acme.com/{version}
+    description: Production
+    variables:
+      version:
+        default: v2
+        enum:
+          - v1
+          - v2
+  - url: https://sandbox.acme.com/{version}
+    description: Sandbox
+    variables:
+      version:
+        default: v2
 ```
+
+The playground uses server variables to render editable inputs. Variables with `enum` values appear as dropdowns, and variables without `enum` values appear as text inputs. If a server URL includes a placeholder such as `{region}` but the variable is not declared, the playground still shows an input so the reader can fill the missing value.
+
+<Callout kind="info" collapsed="false">
+  A reader's selected server, variable values, and base URL override are saved in browser storage for the current server list. If you change the OpenAPI `servers` array, the saved selection resets safely to the spec defaults.
+</Callout>
+
+### Base URL override
+
+Readers can override the resolved server URL directly in the **Server** section. This is useful when they want to test a staging API, a tenant-specific host, or a temporary preview environment that is not listed in the OpenAPI spec.
+
+When a reader types a custom base URL:
+
+- The playground uses the custom URL instead of the selected OpenAPI server.
+
+- Server variable inputs are hidden because the custom URL is treated as the complete base URL.
+
+- The reset button restores the selected OpenAPI server and its default variable values.
 
 ### Request History
 
@@ -385,29 +406,25 @@ The playground implements secure authentication handling:
   Automatic token cleanup on session end to prevent unauthorized access.
 </ParamField>
 
-### CORS Configuration
+### Proxy behavior
 
-Ensure your API supports CORS for playground functionality:
+Playground requests are sent through Documentation.AI's server-side playground proxy instead of directly from the reader's browser. The proxy validates the target URL, forwards the request, and returns the upstream response to the playground.
 
-```javascript
-// Example Express.js CORS configuration
-app.use(cors({
-  origin: ['https://your-docs.documentationai.app'],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-API-Key']
-}));
-```
+The proxy blocks targets that resolve to internal network addresses. Requests to `localhost`, private IP ranges, link-local addresses, `.local` hosts, and `.internal` hosts fail before they reach the target API. This protects documentation visitors and infrastructure from server-side request forgery.
+
+<Callout kind="alert" collapsed="false">
+  APIs that only run on a developer laptop, private VPC hostname, or unresolved internal DNS name cannot be tested from the hosted playground. Use a public staging URL, a tunnel, or the base URL override with a reachable host.
+</Callout>
 
 ## Troubleshooting
 
 ### Common Issues
 
-<Callout kind="note" collapsed="false">
+<Callout kind="alert" collapsed="false">
   **CORS Errors**: If requests fail with CORS errors, ensure your API includes Documentation.AI domains in allowed origins.
 </Callout>
 
-<Callout kind="note" collapsed="false">
+<Callout kind="info" collapsed="false">
   **Authentication Failures**: Verify that authentication tokens are valid and have appropriate permissions for the endpoints being tested.
 </Callout>
 
@@ -427,13 +444,17 @@ If the interactive playground doesn't appear:
 
 For failed API requests in the playground:
 
-- **Check network connectivity** to your API servers
+- **Check the Server section** to confirm the selected OpenAPI server, server variables, and base URL override resolve to the API you expect.
 
-- **Verify authentication** credentials and permissions
+- **Use a reachable public host** if the response says requests to internal addresses are not allowed.
 
-- **Review CORS configuration** on your API server
+- **Verify DNS** if the response says the target host cannot be resolved.
 
-- **Validate request parameters** against OpenAPI schema requirements
+- **Retry or shorten the request** if the response reports a timeout. Playground requests have a fixed timeout for long-running upstream calls.
+
+- **Verify authentication** credentials and permissions.
+
+- **Validate request parameters** against OpenAPI schema requirements.
 
 ### Performance Optimization
 

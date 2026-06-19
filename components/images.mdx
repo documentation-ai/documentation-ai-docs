@@ -5,13 +5,15 @@ type: reference
 ---
 ## Overview
 
-Use images to illustrate concepts, show UI, and make your documentation easier to scan. Documentation.AI automatically optimizes images uploaded through the Web Editor and serves them from a CDN, so you get:
+Use images to illustrate concepts, show UI, and make your documentation easier to scan. Documentation.AI automatically optimizes supported still images uploaded through the Web Editor and serves uploaded assets from a CDN, so you get:
 
-- Fast, cached delivery for all uploaded images.
+- Fast, cached delivery for uploaded images, including GIFs.
 
 - Responsive sizing with preserved aspect ratio.
 
 - Built-in support for accessibility via required `alt` text.
+
+Animated GIFs are supported and cached, but they are served without optimization transforms. This preserves animation and avoids slow first loads caused by transforming large animated files.
 
 You can add images in two ways:
 
@@ -202,5 +204,5 @@ You can reference external images directly in MDX:
 
 - **Supported formats:** JPEG, JPG, PNG, GIF, WebP, SVG, ICO.
 
-- **CDN:** Images uploaded via the Web Editor are automatically optimized and cached.
+- **CDN:** Images uploaded via the Web Editor are automatically cached. Supported still image formats are optimized by the CDN; animated GIFs are delivered without optimization transforms so the animation remains intact and first loads stay responsive.
 

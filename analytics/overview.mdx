@@ -74,7 +74,7 @@ After a thumbs up or thumbs down reaction, you can optionally prompt readers for
 
 ## Ask AI Analytics
 
-Ask AI Analytics gives you a dedicated view into how readers use the AI assistant across your documentation. You can use it to understand usage volume, answer quality, and which conversations may need follow-up improvements in your docs.
+Ask AI Analytics gives you a dedicated view into how readers use the AI assistant across your documentation. Use it to understand usage volume, answer quality, answer feedback, and which conversations may need follow-up improvements in your docs.
 
 You can filter the AI Assistant view by date range and review four summary metrics:
 
@@ -84,7 +84,7 @@ You can filter the AI Assistant view by date range and review four summary metri
 
 - **Low Confidence** — answers scored below 50% confidence
 
-- **Answer Satisfaction** — the percentage of positive answer ratings when feedback exists
+- **Answer Satisfaction** — the percentage of positive ratings from thumbs up or thumbs down feedback on assistant answers. This metric reflects answer-level feedback, not page-level feedback.
 
 Below the summary cards, Ask AI data is grouped into **AI Assistant Sessions** so you can review conversations instead of only scanning individual questions. For each session, you can see:
 
@@ -104,9 +104,13 @@ When you open a session, you can drill into the full conversation history for th
 
 - The confidence level for that answer
 
+- The answer feedback users submitted with thumbs up or thumbs down, when available
+
 - The timestamp for each message
 
-Ask AI Analytics also supports **CSV export** with a custom export date range, so you can analyze question and answer data outside the dashboard or share it with your team. The sessions table also supports **Load more** pagination for browsing additional history.
+Use thumbs-down answers together with low-confidence conversations to identify docs that need clearer wording, missing details, or updated source content.
+
+Ask AI Analytics also supports **CSV export** with a custom export date range, so you can analyze question, answer, and satisfaction data outside the dashboard or share it with your team. The sessions table also supports **Load more** pagination for browsing additional history.
 
 <Callout kind="info" collapsed="false">
   Confidence levels are grouped as **High** (80% and above), **Medium** (50% to under 80%), and **Low** (below 50%).

@@ -22,8 +22,6 @@ Use OpenAPI import when you have:
   Only OpenAPI 3.0+ specs are supported. Upgrade any OpenAPI 2.0/Swagger files before importing.
 </Callout>
 
-
-
 ## Basic Setup
 
 ### Step 1: Add OpenAPI File
@@ -140,6 +138,63 @@ Documentation.AI accepts OpenAPI specifications in multiple formats:
   ```
 </CodeGroup>
 
+### Server URLs and variables
+
+Define OpenAPI `servers` to control the base URLs used by generated API docs and the interactive playground:
+
+```yaml
+servers:
+  - url: https://api.acme.com/{version}
+    description: Production
+    variables:
+      version:
+        default: v2
+        enum:
+          - v1
+          - v2
+  - url: https://sandbox.acme.com/{version}
+    description: Sandbox
+    variables:
+      version:
+        default: v2
+```
+
+Generated request examples use the first server in the spec as their starting base URL. The live playground reads the full `servers` array, lets readers choose among available servers, and renders inputs for server variables. Variable values default to `default`, then the first `enum` value, then an empty value when neither is available.
+
+<Callout kind="tip" collapsed="false">
+
+  Use absolute server URLs for hosted documentation. Relative server URLs such as `/v2` can be ambiguous outside your API's own domain, so readers should use the playground base URL override if they need to test a relative server against a specific host.
+
+</Callout>
+
+### Playground proxy behavior
+
+Live playground requests are sent through Documentation.AI's server-side proxy. The proxy resolves and validates the target URL before forwarding the request, so hosts that are internal, private, local, or unresolved may fail even when they work from your own machine or private network.
+
+Requests to `localhost`, private IP ranges, link-local addresses, `.local` hosts, `.internal` hosts, or DNS names the proxy cannot resolve are blocked or unreachable. Use a public staging URL, a secure tunnel, or the playground base URL override with a host that Documentation.AI can reach.
+
+### Parameter examples
+
+OpenAPI examples improve both generated documentation and the live playground. Use `example` for one default value or `examples` for multiple named values:
+
+```yaml
+parameters:
+  - name: status
+    in: query
+    schema:
+      type: string
+      enum: [active, invited, suspended]
+    examples:
+      activeUsers:
+        summary: Active users
+        value: active
+      invitedUsers:
+        summary: Pending invitations
+        value: invited
+```
+
+When a parameter has multiple examples, the playground displays an example picker next to the input. The picker fills the input with the selected example value; it does not restrict the parameter unless the schema also defines an `enum`.
+
 ### File Organization
 
 Structure your OpenAPI files within the `api-reference` folder:
@@ -169,6 +224,8 @@ Documentation.AI automatically generates MDX files for each endpoint:
 - **Parameter documentation**: Automatic `ParamField` generation
 
 - **Response examples**: Interactive response samples
+
+- **Server-aware playground**: Live endpoint testing based on the OpenAPI `servers` array
 
 ### Generated File Structure
 
@@ -398,6 +455,12 @@ All OpenAPI parameter types generate appropriate `ParamField` components:
 
 - **Request body**: `<ParamField body="...">` with schema validation
 
+The playground also reads content-based parameters, where OpenAPI stores the schema and examples under `content` instead of a top-level `schema`. When both are present, top-level parameter fields take precedence.
+
+<Callout kind="info" collapsed="false">
+  For the clearest generated static parameter docs, include a top-level `schema` on each parameter. The playground can read the first media type under `content`, but generated type badges and examples are most reliable when the parameter schema is explicit.
+</Callout>
+
 ### Response Documentation
 
 Multiple response formats automatically generate tabbed examples:
@@ -476,11 +539,11 @@ Document microservices with separate OpenAPI specifications:
 
 ### Common Import Issues
 
-<Callout kind="note" collapsed="false">
+<Callout kind="alert" collapsed="false">
   **Invalid OpenAPI Format**: Ensure your specification follows OpenAPI 3.0+ standards. Use tools like Swagger Editor to validate your spec before importing.
 </Callout>
 
-<Callout kind="note" collapsed="false">
+<Callout kind="info" collapsed="false">
   **Missing Endpoints**: If endpoints don't appear, verify that all paths have valid `operationId` values and at least one response defined.
 </Callout>
 

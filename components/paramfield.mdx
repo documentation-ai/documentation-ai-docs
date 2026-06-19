@@ -17,6 +17,8 @@ The **ParamField** component lets you describe API parameters with:
 
 - **Rich descriptions:** Supporting any MDX content
 
+Generated OpenAPI pages also use ParamField metadata for parameters. The live playground can show parameter examples from the connected OpenAPI spec, including named examples that readers can select from the input.
+
 You can work with ParamField in two ways:
 
 - **Editor UI:** Add and edit parameters visually with a form-based panel.
@@ -73,9 +75,7 @@ Click **Save** to apply your changes.
 <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1765440779786-2jpk8n2hblx-pasted-image-1765440777294.png?q=85&fm=auto&auto=compress%2Cformat" width="491" height="444" alt="" style="width: 491px; height: auto; cursor: pointer;" />
 
 <Callout kind="tip" collapsed="false">
-  Want to hide the location badge entirely? This is currently controlled in MDX using show-location="false".
-
-
+  Want to hide the location badge entirely? This is currently controlled in MDX using `show-location="false"`.
 
   You can either [control location in MDX](https://documentation.ai/docs/components/paramfield#hide-location-badge) view or ask the AI Agent to “hide the location badge for this parameter” and let it update the code for you.
 </Callout>
@@ -109,6 +109,32 @@ Use `show-location="false"` to hide the location badge:
 <ParamField query="token" param-type="string" required="true" deprecated="false">
   Authentication token without location badge.
 </ParamField>
+
+## Generated OpenAPI examples
+
+Generated API docs use OpenAPI examples to make parameter inputs easier to test. Add examples to the OpenAPI parameter, not to the ParamField component itself.
+
+```yaml
+parameters:
+  - name: status
+    in: query
+    schema:
+      type: string
+      enum: [active, invited, suspended]
+    examples:
+      activeUsers:
+        summary: Active users
+        value: active
+      invitedUsers:
+        summary: Pending invitations
+        value: invited
+```
+
+When a connected OpenAPI parameter has one example, the playground can use it as the suggested input value. When the parameter has multiple named examples, the input includes an example picker that fills the selected value into the field.
+
+<Callout kind="info" collapsed="false">
+  Example pickers are suggestions, not validation rules. Use `enum` in your OpenAPI schema when readers must choose from a fixed set of allowed values.
+</Callout>
 
 ## Advanced options
 

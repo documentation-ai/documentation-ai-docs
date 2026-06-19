@@ -1,158 +1,296 @@
 ---
-title: Billing & Subscriptions
-description: 'Manage your organization''s subscription, payments, and billing information.'
+title: Billing and Subscriptions
+description: Manage your organization’s plan, payment method, invoices, credit usage, overage, and subscription status.
 ---
-## Accessing Billing
 
-To view billing information:
+## Access billing settings
 
-1. Go to **Settings**
+Open billing settings from your organization dashboard.
 
-2. Select **Organization Settings**
+<Steps>
 
-3. Click **Billing**
+<Step title="Open settings">
 
-## Subscription Overview
+Go to **Settings**.
 
-### Current Plan Details
+</Step>
 
-Your billing dashboard shows:
+<Step title="Select organization settings">
 
-- Current subscription plan (Starter, Standard, Professional, or Enterprise)
+Choose **Organization Settings** for the organization you want to manage.
 
-- Monthly or yearly billing cycle
+</Step>
 
-- Next billing date
+<Step title="Open billing">
 
-- Current usage vs. plan limits
+Click **Billing** to view your plan, usage, payment, and subscription controls.
 
-### Plan Features
+</Step>
 
-- **Editor seats**: Number of users who can edit documentation
+</Steps>
 
-- **AI assistant answers**: Monthly limit for AI-powered responses
+Only organization admins should manage billing details, payment methods, credit packs, overage settings, and paid add-ons.
 
-- **Additional features**: Based on your current plan tier
+## Subscription overview
 
-## Payment Management
+The billing page shows your current subscription and the limits attached to your organization.
 
-### Payment Methods
+### Current plan details
 
-1. In the billing section, go to **Payment Methods**
+Your subscription overview includes:
 
-2. **Add new method**: Click **Add Payment Method**
+- Current plan type, such as Starter, Standard, Professional, or Enterprise
+- Billing cycle, such as monthly or yearly
+- Next billing or reset date
+- Editor seat limit and current editor usage
+- Documentation site limit
+- Monthly AI credit allocation
+- Active credit pack, when one is configured
+- Overage status and overage limit
+- Active paid add-ons, such as remove-branding
 
-3. **Update existing**: Click **Edit** next to current method
+Current plan pricing for new paid subscriptions is:
 
-4. **Set default**: Select your preferred payment method for recurring charges
+| Plan | Monthly | Yearly equivalent | Monthly credits | Editor seats | Documentation sites |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Standard | $69/month | $55/month billed yearly | 10,000 | 3 | 2 |
+| Professional | $199/month | $159/month billed yearly | 30,000 | 10 | 4 |
+| Enterprise | Custom | Custom | Custom | Custom | Custom |
 
-### Supported Payment Options
+Starter is free and includes 1 editor seat and 1 documentation site. New Starter organizations receive 10,000 trial credits for 14 days, but Starter does not include monthly plan credits after the trial ends.
 
-- Credit cards (Visa, Mastercard, American Express, etc.,)
+<Callout kind="info" collapsed="false">
 
+Legacy subscriptions may keep older prices, credit allocations, or seat limits. The billing dashboard is the source of truth for the limits that apply to your organization.
+
+</Callout>
+
+## Paid add-ons
+
+Paid add-ons extend your organization without changing the base subscription plan.
+
+### Remove-branding add-on
+
+The remove-branding add-on enables white-label branding controls for your documentation sites. When the add-on is active, site settings include a per-site control for showing or hiding Documentation.AI branding.
+
+This setting is applied per documentation site. Use it to keep Documentation.AI branding visible on internal docs while hiding it on customer-facing docs, or to apply different branding requirements across multiple sites.
+
+<Callout kind="info" collapsed="false">
+
+Purchasing, removing, or changing the remove-branding add-on requires an organization admin because it changes billing. Site-level branding visibility can be managed by users who have access to that documentation site's settings.
+
+
+</Callout>
+
+## AI usage dashboard
+
+The AI usage section shows how your organization is using credits during the current cycle.
+
+<ParamField body="creditsRemaining" param-type="number" show-location="false">
+
+Total credits currently available across plan credits and pack credits.
+
+</ParamField>
+
+<ParamField body="creditsTotal" param-type="number" show-location="false">
+
+Total credits available at the start of the current cycle, including the monthly allocation and active pack credits.
+
+</ParamField>
+
+<ParamField body="creditsUsed" param-type="number" show-location="false">
+
+Credits used during the current cycle.
+
+</ParamField>
+
+<ParamField body="percentUsed" param-type="number" show-location="false">
+
+Percentage of available credits used during the current cycle.
+
+</ParamField>
+
+<ParamField body="planType" param-type="string" show-location="false">
+
+Current plan type for the organization.
+
+</ParamField>
+
+<ParamField body="monthlyAllocation" param-type="number" show-location="false">
+
+Monthly plan credit allocation for the active plan.
+
+</ParamField>
+
+<ParamField body="packCredits" param-type="number" show-location="false">
+
+Remaining credits in the active credit pack pool.
+
+</ParamField>
+
+<ParamField body="currentPackKey" param-type="string or null" show-location="false">
+
+Current credit pack size, such as `10k` or `20k`, or `null` when no pack is active.
+
+</ParamField>
+
+<ParamField body="overageCreditsUsed" param-type="number" show-location="false">
+
+Credits used beyond plan and pack balances during the current cycle.
+
+</ParamField>
+
+<ParamField body="overageEnabled" param-type="boolean" show-location="false">
+
+Whether overage is enabled for the organization.
+
+</ParamField>
+
+<ParamField body="overageLimitUsd" param-type="number or null" show-location="false">
+
+Optional monthly USD cap for overage. A `null` value means no cap is set.
+
+</ParamField>
+
+<ParamField body="trialEndsAt" param-type="datetime or null" show-location="false">
+
+Starter trial expiration date, when trial credits are active.
+
+</ParamField>
+
+<ParamField body="cycleStartedAt" param-type="datetime" show-location="false">
+
+Start date for the current credit cycle.
+
+</ParamField>
+
+<ParamField body="cycleResetsAt" param-type="datetime" show-location="false">
+
+Date when the current credit cycle resets.
+
+</ParamField>
+
+<ParamField body="daysRemaining" param-type="number" show-location="false">
+
+Number of days remaining until the next credit reset.
+
+</ParamField>
+
+## Credit packs and overage
+
+Credit packs and overage help paid teams continue using AI after the included monthly credits are exhausted.
+
+### Credit packs
+
+Credit packs add a recurring monthly pool of credits. Documentation.AI consumes plan credits first, then pack credits.
+
+Available pack sizes are 5k, 10k, 20k, 30k, 50k, and 100k credits per month. Pack prices appear in Stripe checkout.
+
+- Upgrading a pack grants additional credits immediately and charges the prorated difference.
+- Downgrading a pack keeps the current pack credits until the next renewal cycle.
+- Removing a pack leaves remaining pack credits available until depleted.
+
+### Overage
+
+Overage is disabled by default. When enabled, Documentation.AI continues AI requests after plan and pack credits run out and bills usage at **$0.01 per credit**.
+
+You can set an optional monthly USD limit. When the limit is reached, new AI requests are blocked until the next reset or until the limit changes.
+
+<Callout kind="alert" collapsed="false">
+
+Overage requires an active Stripe subscription with a payment method. If overage is disabled and credits run out, AI features stop accepting new requests until credits reset or more credits are added.
+
+</Callout>
+
+## Payment methods
+
+Manage payment methods through Stripe from the billing page.
+
+### Supported payment options
+
+- Credit cards, including major card networks
 - Debit cards
+- Bank transfers for eligible Enterprise agreements
 
-- Bank transfers (Enterprise plans)
+To update payment information, open the billing dashboard and launch the Stripe Customer Portal. Stripe stores and manages payment method details.
 
-## Billing History & Invoices
+## Billing history and invoices
 
-### View Invoices
+Use the billing dashboard or Stripe Customer Portal to review invoices and payment history.
 
-1. Go to **Settings** → **Organization Settings** → **Billing**
+Each invoice can include:
 
-2. Click **Billing History**
-
-3. View all past invoices and payments
-
-### Download Invoices
-
-1. In the billing history section
-
-2. Click **Download** next to any invoice
-
-3. PDF invoice downloads automatically
-
-### Invoice Information
-
-Each invoice includes:
-
-- Billing period and dates
-
-- Plan details and pricing
-
-- Tax calculations (if applicable)
-
+- Billing period and invoice date
+- Plan subscription charges
+- Paid add-on charges, such as remove-branding
+- Credit pack charges
+- Overage charges, when enabled and used
+- Taxes, when applicable
 - Payment method used
 
-## Tax Information
+If you need invoice details for accounting or procurement, download the invoice from Stripe or contact support with the invoice number.
 
-### Update Tax Details
+## Subscription changes
 
-1. Go to billing settings
+### Plan upgrades
 
-2. Click **Tax Information**
+If your organization already has an active Stripe subscription with a saved payment method, Documentation.AI can upgrade the plan in place without opening a new checkout session. Otherwise, the upgrade flow opens Stripe Checkout.
 
-3. Enter your business tax ID, VAT number, or tax-exempt status
+When the plan type changes, Documentation.AI applies the new plan allocation, resets overage used for the cycle, and clears Starter trial credits if a trial was active.
 
-4. Update billing address for tax calculation
+### Plan downgrades
 
-### Tax Calculations
+Before downgrading, confirm that your organization fits within the lower plan’s editor seat, documentation site, and monthly credit limits. Features that are not included on the lower plan may become unavailable, but your documentation content remains preserved.
 
-- Taxes applied based on your billing address
+### Cancellations
 
-- VAT charged for EU customers
+Cancellations are handled through the Stripe Customer Portal. When Stripe marks a subscription as ended, Documentation.AI reverts the organization to Starter.
 
-- Tax rates updated automatically based on location
+## Failed payments and past-due status
 
-## Billing Alerts & Notifications
+If a payment fails, Stripe retries the payment during its dunning window. A subscription in `past_due` status stays on its current plan while Stripe retries payment.
 
-### Failed Payments
+Documentation.AI reverts an organization to Starter only when Stripe marks the subscription as ended, such as `canceled`, `unpaid`, or `incomplete_expired`.
 
-- Email notifications for payment failures
+## Tax information
 
-- Grace period before service suspension
+Taxes are calculated through Stripe based on billing details and location. Depending on your region and account type, invoices may include VAT, sales tax, or other applicable taxes.
 
-- Update payment method to resolve issues
-
-### Usage Warnings
-
-- Notifications when approaching plan limits
-
-- Alerts for overage charges (where applicable)
-
-## Subscription Status
-
-### Active Subscriptions
-
-- View current plan status
-
-- Next billing date and amount
-
-- Auto-renewal settings
-
-### Subscription Changes
-
-- Plan upgrades take effect immediately
-
-- Plan downgrades apply at next billing cycle
-
-- Billing cycle changes (monthly ↔ yearly)
+If your organization has a tax ID, VAT number, or tax-exempt status, update those details in Stripe from the billing dashboard.
 
 ## Troubleshooting
 
-**Payment failed?** Update your payment method or contact your bank to ensure charges are allowed.
+<ExpandableGroup>
 
-**Invoice questions?** Contact support with your invoice number for faster resolution.
+<Expandable title="My payment failed">
 
-**Tax issues?** Verify your tax information and billing address are correct.
+Open the Stripe Customer Portal from billing settings and update your payment method. If the payment is still declined, contact your bank to confirm the charge is allowed.
 
-**Billing disputes?** Contact support within 30 days of the charge with details.
+</Expandable>
 
-## Related Topics
+<Expandable title="My subscription is past due">
 
-- [Upgrade or Downgrade Plans](upgrade-downgrade)
+Stripe is retrying the payment. Your current plan remains active during the retry window. Update your payment method before Stripe marks the subscription as unpaid or canceled.
 
-- [Usage Limits by Plan](usage-limits)
+</Expandable>
 
-- [Team Management](team-management) - Editor seat usage
+<Expandable title="My credit balance looks wrong">
 
+Check whether your organization has an active credit pack, overage usage, Starter trial credits, or legacy plan limits. If the dashboard still looks incorrect, contact support with your organization name and billing email.
+
+</Expandable>
+
+<Expandable title="I need a custom invoice or procurement support">
+
+Contact sales for Enterprise billing support, custom terms, or procurement requirements.
+
+</Expandable>
+
+</ExpandableGroup>
+
+## Related topics
+
+- [Upgrade or downgrade plans](/account-and-billing/upgrade-downgrade)
+- [Usage limits](/account-and-billing/usage-limits)
+- [AI Credits](/ai/ai-credits)
+- [Team management](/account-and-billing/team-management)

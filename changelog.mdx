@@ -2,6 +2,31 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-06-19" description="API playground server controls, Callout customization, navigation icons, and bug fixes" tags={["feature","improvement","fix"]}>
+  ## API Playground server controls
+
+  API Playground now gives readers more control over where requests go and how quickly they can fill inputs. You can select from the servers defined in your OpenAPI spec, override the base URL for a request, and choose from parameter examples directly in the playground. For request-level controls, see [Interactive Playground Setup](/api-documentation-and-playground/interactive-playground-setup). To configure server definitions, see [OpenAPI / JSON Schema Import](/api-documentation-and-playground/openapi-import).
+
+  ## Callout customization
+
+  The [Callout](/components/callout) component now supports more visual customization for inline notices and warnings.
+
+  - Set a custom icon using any supported Lucide icon name.
+  - Apply a custom color when the default callout kinds are not enough for your design system.
+
+  ## Icons in navigation
+
+  Navigation items can now display icons in more places across your docs. This update adds icon support for groups, nested page groups, dropdowns, and tab items in the sidebar and navbar. See [Navigation & Sidebar](/customize/navigation-and-sidebar) for navigation setup.
+
+  ## Bug fixes
+
+  We also shipped several quality fixes.
+
+  - Expandable titles with long text now wrap correctly instead of truncating.
+  - Search ranking now gives page titles more accurate weight.
+  - Code blocks now correctly syntax-highlight the `node`, `nodejs`, and `curl` language identifiers.
+</Update>
+
 <Update label="2026-06-01" description="Agent file attachments, new editor components, custom CSS, search improvements, and table editor fixes" tags={["feature","improvement","fix"]}>
   ## Agent File Attachments
 

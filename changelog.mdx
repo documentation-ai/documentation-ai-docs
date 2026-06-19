@@ -2,6 +2,40 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-06-19" description="Billing, API Playground, components, AI, search, OpenAPI sync, and publishing reliability improvements" tags={["feature","improvement","fix"]}>
+  ## New features
+
+  - **Billing and plan controls** — Billing, subscription, and AI credit experiences are clearer across plan changes, usage visibility, and account management. See [Billing and Subscriptions](/account-and-billing/billing-and-subscriptions) and [AI Credits](/ai/ai-credits).
+
+  - **API Playground server and example controls** — API reference pages now give teams more control over server selection and example behavior in the interactive playground. See [Interactive Playground Setup](/api-documentation-and-playground/interactive-playground-setup) and [OpenAPI / JSON Schema Import](/api-documentation-and-playground/openapi-import).
+
+  - **Callout customization** — Callouts now support more flexible styling and presentation options for notes, warnings, tips, and related guidance. See [Callout](/components/callout) and [Custom CSS](/customize/custom-css).
+
+  - **Navigation icons** — Sidebar navigation now supports clearer icon configuration for pages and sections. See [Navigation and Sidebar](/customize/navigation-and-sidebar).
+
+  ## Updates
+
+  - **API documentation generation** — Generated API docs now produce cleaner endpoint pages, parameter sections, and examples. See [Param Field](/components/paramfield) and [OpenAPI / JSON Schema Import](/api-documentation-and-playground/openapi-import).
+
+  - **Search and indexing** — Search indexing is more reliable, with better handling for updated content and faster discovery of published changes.
+
+  - **Code block rendering** — Code examples render more consistently across grouped examples, long lines, and syntax-highlighted blocks. See [Code and Groups](/components/code-blocks-and-groups).
+
+  - **Background agent workflows** — Background documentation runs now detect merge state more reliably before applying changes. See [Workflows](/ai/workflows) and [Branches and Previews](/write-and-publish/branches-and-previews).
+
+  - **Subpath redirects** — Redirect handling is more consistent for sites published under a custom subpath. See [Redirects](/customize/redirects-and-rewrites) and [Custom Subpath Setup](/customize/custom-subpath/overview).
+
+  ## Bug fixes
+
+  - **AI chat input reliability** — The AI Assistant input is more dependable while typing, submitting, and continuing conversations. See [AI Assistant](/ai/ai-assistant).
+
+  - **OpenAPI sync reliability** — OpenAPI imports and syncs are more stable when specs change. See [OpenAPI / JSON Schema Import](/api-documentation-and-playground/openapi-import).
+
+  - **Sidebar stability** — Sidebar rendering is more stable when navigating between sections with custom icons and nested pages.
+
+  - **Markdown table alignment** — Markdown tables now preserve alignment more consistently while editing and publishing. See [Lists and Tables](/components/lists-and-tables).
+</Update>
+
 <Update label="2026-06-01" description="Agent file attachments, new editor components, custom CSS, search improvements, and table editor fixes" tags={["feature","improvement","fix"]}>
   ## Agent File Attachments
 
@@ -329,4 +363,3 @@ description: 'Changes, fixes, and improvements across versions'
 
   - Help product teams deliver LLM‑native support and troubleshooting experiences directly inside their apps
 </Update>
-

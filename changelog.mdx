@@ -2,6 +2,32 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-06-19" description="API Playground controls, Callout customization, search and navigation improvements, and bug fixes" tags={["feature","improvement","fix"]}>
+  ## New features
+
+  ### API Playground server management and examples picker
+
+  API reference pages now give you more control over how readers interact with the playground. Manage available servers directly in the playground experience and let readers switch between request examples more easily when an endpoint includes multiple example payloads. See [Interactive Playground Setup](/api-documentation-and-playground/interactive-playground-setup) and [OpenAPI / JSON Schema Import](/api-documentation-and-playground/openapi-import).
+
+  ### Callout custom icon and color
+
+  You can now customize Callout visuals with your own icon and color choices to better match the context of each message. This makes warnings, tips, and informational notes easier to differentiate without custom styling. See [Callout](/components/callout).
+
+  ## Improvements
+
+  - **Navigation icons now render correctly** across the docs UI, so configured icons appear consistently in sidebar navigation.
+
+  - **Search ranking is more relevant** for common queries, helping readers find the right page faster with fewer dead ends.
+
+  - **Remove branding now activates instantly** after the setting is enabled, without waiting through extra propagation delays. See [Branding](/customize/branding).
+
+  ## Bug fixes
+
+  - **Expandable long-title truncation** no longer cuts off long headings unexpectedly, improving readability in FAQ and help content. See [Expandables](/components/expandables).
+
+  - **IME input in the chat widget** now behaves correctly for languages that rely on input composition, reducing dropped or interrupted text while typing.
+</Update>
+
 <Update label="2026-06-01" description="Agent file attachments, new editor components, custom CSS, search improvements, and table editor fixes" tags={["feature","improvement","fix"]}>
   ## Agent File Attachments
 

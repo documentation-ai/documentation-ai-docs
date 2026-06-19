@@ -4,12 +4,12 @@ description: >-
   How credits work, what affects cost, and real examples of credit usage for the
   AI Documentation Agent and AI Assistant.
 ---
-
 ## How AI credits work
 
 Documentation.AI uses credits for two AI features:
 
 - The **AI Documentation Agent** (editor-facing — helps you write and edit docs)
+
 - The **AI Assistant** or **Ask AI** widget (end-user facing — answers questions for your users)
 
 Only these features consume credits. Browsing, editing, publishing, and normal site usage do not consume credits.
@@ -44,75 +44,23 @@ Four practical factors affect how many credits a task uses:
 
 ### Typical credit usage
 
-| Task                        | Steps | Approx. credits | Example                                                                                                                         |
-| --------------------------- | ----- | --------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| **Quick edit**              | 2–3   | 10 – 20         | Fix a typo, change a heading, update a link                                                                                     |
-| **Single page edit**        | 3–4   | 75 – 150        | Rewrite a section, add a callout, update a code example                                                                         |
-| **Navigation change**       | 3–4   | 60 – 130        | Add a tab, move a page to a different group, add a nav icon                                                                     |
-| **Structural edit**         | 4–6   | 125 – 250       | Reorganize navigation groups, add access roles, update site config                                                              |
-| **Create new page**         | 3–5   | 100 – 200       | Create a new MDX page with frontmatter, sections, and components                                                                |
-| **Multi-page task**         | 8–15  | 375 – 1,000     | Create 5+ pages, update navigation, validate structure                                                                          |
-| **Large or iterative task** | 15–30 | 1,000 – 2,500   | Import 10+ pages from external source, restructure entire navigation, long back-and-forth conversations with multiple revisions |
-
-### Worked example: "Check the latest commits and update the documentation"
-
-This is a common task where you connect a GitHub repository and ask the agent to review recent code changes and update docs accordingly. The agent reads from GitHub, searches your docs, and edits multiple pages — which is why this kind of request costs more than a basic edit.
-
-| Step | What the agent does                | Why                                              |
-| ---- | ---------------------------------- | ------------------------------------------------ |
-| 1    | Analyzes code from connected repos | Fetches and reads recent commits from GitHub     |
-| 2    | Inspects file tree                 | Understands current doc structure                |
-| 3    | Reads site config                  | Understands navigation and existing pages        |
-| 4    | Searches existing documentation    | Finds pages that need updating                   |
-| 5    | Reads relevant pages (×2–4)        | Loads current content of pages that need changes |
-| 6    | Generates execution plan           | Plans updates across multiple pages              |
-| 7–10 | Edits each page (×2–4)             | Updates content to reflect the code changes      |
-| 11   | Marks tasks complete               | Tracks progress through the plan                 |
-| 12   | Responds to you                    | Summarizes all changes made                      |
-
-**Total: ~500–1,500 credits** ($5.00–$15.00) depending on how many pages need updating
-
-This task costs more because the agent needs to read from GitHub, search your docs, and then edit multiple pages. If only 1–2 pages need updating, it will usually land near the lower end of the range. If the commits affect many areas of your docs, it can go toward the higher end.
-
-<Callout kind="warning" collapsed="false">
-  Tasks that involve many files, long conversations, or multiple revisions can
-  use 200–1,000+ credits in a single session. If you are working on a large task,
-  check your credit balance in the dashboard periodically.
-</Callout>
-
-### Worked example: "Fix a typo"
-
-Here is a step-by-step breakdown of a simple edit task — asking the agent to change a single word on a page.
-
-| Step | What the agent does | Why                                             |
-| ---- | ------------------- | ----------------------------------------------- |
-| 1    | Reads the file      | Needs to see the current content before editing |
-| 2    | Edits the file      | Makes the requested change                      |
-| 3    | Responds to you     | Confirms what was changed                       |
-
-**Total: ~10–15 credits** ($0.10–$0.15)
-
-### Worked example: "Create 5 new pages from our API docs"
-
-Here is a step-by-step breakdown of a complex, multi-page creation task.
-
-| Step | What the agent does      | Why                                 |
-| ---- | ------------------------ | ----------------------------------- |
-| 1    | Inspects file tree       | Understands current doc structure   |
-| 2    | Reads site config        | Understands navigation layout       |
-| 3    | Generates execution plan | Plans all 5 pages before starting   |
-| 4–8  | Creates each page (×5)   | Writes MDX content for each page    |
-| 9    | Updates navigation       | Adds all new pages to the sidebar   |
-| 10   | Validates structure      | Checks JSON and MDX are valid       |
-| 11   | Responds to you          | Summarizes everything that was done |
-
-**Total: ~400–600 credits** ($4.00–$6.00)
+| Task                                                        | Average credits |
+| ----------------------------------------------------------- | --------------- |
+| Quick edit (fix a typo, change a heading, update a link)    | 15              |
+| Single page edit (rewrite a section, add a component)       | 110             |
+| Navigation change (add a tab, move a page, update groups)   | 95              |
+| Structural edit (reorganize navigation, update site config) | 185             |
+| Create a new page                                           | 150             |
+| Multi-page task (create 5+ pages, update navigation)        | 690             |
+| Large or iterative task (import docs, full restructure)     | 950             |
+| Update docs from code changes (connected GitHub repo)       | 160             |
 
 ### Multi-turn conversations
 
 If you send multiple messages in the same conversation (for example, asking the agent to edit a page and then asking a follow-up), each message is a separate request that uses credits independently. However, follow-up messages in the same conversation tend to be cheaper because:
 
 - The agent already has context from previous messages
+
 - Repeated content is cached, reducing processing costs
 
 A typical follow-up message costs **30–50% less** than the first message in a conversation.
@@ -122,7 +70,9 @@ A typical follow-up message costs **30–50% less** than the first message in a 
 You might notice that similar tasks sometimes use slightly different amounts of credits. This is normal and happens because:
 
 - **Document size matters** — Editing a 200-line page costs more than editing a 50-line page because the agent processes more content.
+
 - **Retries** — If the agent's first edit attempt produces invalid JSON or doesn't match the file correctly, it retries automatically. Each retry adds a small amount of credits.
+
 - **Conversation length** — Later messages in a long conversation process more context (the full conversation history), which increases cost slightly.
 
 ## Where to view credit usage
@@ -132,7 +82,9 @@ You can view your current credit balance and usage history from **Settings → A
 The usage page shows:
 
 - Credits remaining in your current billing cycle
+
 - Credit usage over time
+
 - A breakdown by feature (Documentation Agent vs. AI Assistant)
 
 <Callout kind="info" collapsed="false">
@@ -142,6 +94,10 @@ The usage page shows:
 ## Tips to use credits efficiently
 
 - **Be specific** — "Change the title of getting-started.mdx to Quick Start" costs less than "update the getting started page" because the agent doesn't need to search and read first.
+
 - **Use follow-ups** — After the agent edits a page, ask for changes in the same conversation rather than starting a new one. Follow-ups are cheaper.
+
 - **Batch related changes** — "Add pages for authentication, rate limiting, and webhooks" in one message is cheaper than three separate conversations.
+
 - **Use the AI Assistant for questions** — If you just need to look up something in your docs, use Ask AI (1 credit) instead of the Documentation Agent.
+

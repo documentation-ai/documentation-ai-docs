@@ -2,6 +2,38 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-06-19" description="API Playground server selection, Callout styling, navigation icons, white-label control, search updates, and bug fixes" tags={["feature","improvement","fix"]}>
+  ## New features
+
+  - **API Playground server selector** — Choose which server to send requests to when your OpenAPI setup defines multiple servers. This makes it easier to test staging, regional, or production environments from the same docs page. See [Interactive Playground Setup](/api-documentation-and-playground/interactive-playground-setup) and [OpenAPI / JSON Schema Import](/api-documentation-and-playground/openapi-import).
+
+  - **Callout custom icon and color** — Style individual Callout blocks with a custom icon and color instead of relying only on the built-in variants. See [Callout](/components/callout).
+
+  - **Navigation icons** — Add icons to pages and navigation groups to make larger sidebars easier to scan. See [Navigation & Sidebar](/customize/navigation-and-sidebar), [Pages](/organize/pages), and [Groups](/organize/groups).
+
+  - **White-label per-site toggle** — Turn Documentation.AI branding on or off for each documentation site independently. See [Branding](/customize/branding) and [Site Configuration](/customize/site-configuration).
+
+  - **Starter free trial** — New workspaces can start with a Starter trial before upgrading. See [Billing and subscriptions](/account-and-billing/billing-and-subscriptions).
+
+  ## Improvements and changes
+
+  - **Search ranking** — Search results now rank more useful matches higher for real user queries. See [AI Assistant](/ai/ai-assistant).
+
+  - **Non-ASCII search** — Queries with accented and other non-ASCII characters now return more reliable results. See [AI Assistant](/ai/ai-assistant).
+
+  - **API docs server resolution** — Interactive API docs now resolve server URLs more consistently when building requests. See [Interactive Playground Setup](/api-documentation-and-playground/interactive-playground-setup).
+
+  - **Workflow availability** — The **Grammar and typo** and **Broken links** workflow types are temporarily unavailable while we improve them. Other workflow types continue to work. See [Workflows](/ai/workflows).
+
+  ## Bug fixes
+
+  - **Ask AI IME input** — Fixed input handling for IME keyboards in [AI Assistant](/ai/ai-assistant).
+
+  - **Expandable long-title wrapping** — Fixed long titles in [Expandables](/components/expandables) so they wrap cleanly.
+
+  - **Code block language aliasing** — Fixed common language aliases in [Code and Groups](/components/code-blocks-and-groups) so syntax highlighting applies consistently.
+</Update>
+
 <Update label="2026-06-01" description="Agent file attachments, new editor components, custom CSS, search improvements, and table editor fixes" tags={["feature","improvement","fix"]}>
   ## Agent File Attachments
 

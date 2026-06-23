@@ -166,6 +166,66 @@ Generated form includes:
 
 - **Validation** based on OpenAPI schema constraints
 
+### Parameter Input Examples
+
+Define examples on your OpenAPI parameters to help developers fill inputs faster in the playground.
+
+```yaml
+paths:
+  /customers/{customer_id}:
+    get:
+      parameters:
+        - name: customer_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: cust_8f3a2c1d
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum:
+              - active
+              - paused
+              - trialing
+          examples:
+            activeOnly:
+              summary: Active customers
+              value: active
+            pausedOnly:
+              summary: Paused subscriptions
+              value: paused
+            trialingOnly:
+              description: Customers still in their trial period
+              value: trialing
+        - name: region
+          in: query
+          schema:
+            type: string
+            examples:
+              - us
+              - eu
+              - apac
+```
+
+<Callout kind="info">
+
+If a parameter has two or more examples, the playground adds a chevron picker to the right side of the input. Picking an example fills the field, but you can still edit the value afterward.
+
+
+</Callout>
+
+The playground uses examples this way:
+
+- **Two or more examples**: the input shows a dropdown button fused to its right edge. Each menu item shows the example value in monospace and, when available, a short label from the example `summary` or `description`.
+
+- **One example only**: the playground pre-fills the input without showing a dropdown.
+
+- **OpenAPI 3.1 schema-level examples**: if you define multiple values in the schema `examples` array, the playground treats them as selectable input examples.
+
+Use the `examples` map when you want named, human-readable choices. Use a single `example` when one default value is enough.
+
 ### Request Body Editing
 
 For endpoints accepting request bodies, the playground provides:
@@ -264,33 +324,76 @@ The playground shows real-time responses with comprehensive formatting:
 
 ## Advanced Features
 
-### Environment Management
+### Server Management
 
-Configure multiple environments for testing different API stages:
+Define one or more `servers` in your OpenAPI specification to control the Server panel in the playground. You do not add playground environments in `documentation.json` or a separate `playground` config object.
 
-```json
-{
-  "playground": {
-    "environments": [
-      {
-        "name": "Production",
-        "baseUrl": "https://api.example.com/v2",
-        "description": "Live production API"
-      },
-      {
-        "name": "Staging", 
-        "baseUrl": "https://staging-api.example.com/v2",
-        "description": "Pre-production testing environment"
-      },
-      {
-        "name": "Development",
-        "baseUrl": "http://localhost:3000/v2", 
-        "description": "Local development server"
-      }
-    ]
-  }
-}
+<Callout kind="info">
+
+The playground reads the `servers` array directly from your OpenAPI spec. If you define multiple servers or server variables there, the UI exposes them automatically.
+
+</Callout>
+
+#### Add servers to your OpenAPI spec
+
+```yaml
+servers:
+  - url: https://api.acme.com/{version}
+    description: Production
+    variables:
+      version:
+        default: v2
+        enum:
+          - v1
+          - v2
+        description: API version
+  - url: https://{region}.staging.acme.com/{version}
+    description: Staging
+    variables:
+      region:
+        default: us
+        enum:
+          - us
+          - eu
+        description: Staging region
+      version:
+        default: v2
+        enum:
+          - v2-beta
+          - v2
+        description: Staging API version
 ```
+
+When this spec is connected to your API reference, the playground shows a collapsible **Server** panel. If your spec includes more than one server, the panel shows a dropdown so you can switch between them.
+
+#### Use the Server panel
+
+<Steps>
+  <Step title="Choose a spec-defined server">
+
+  If your spec includes multiple `servers` entries, select the one you want from the dropdown. Each option uses the server URL and description from your OpenAPI spec.
+
+  </Step>
+  <Step title="Override the base URL when needed">
+
+  Edit the **Base URL** field to point requests at a different host. Use this when you want to test against a temporary deployment, a preview environment, or another compatible host.
+
+  </Step>
+  <Step title="Fill in server variables">
+
+  If the selected server URL includes placeholders such as `region` or `version`, the playground renders inputs for those values. When your spec defines allowed values with `enum`, the playground restricts the input to those options.
+
+  </Step>
+  <Step title="Reset back to the spec defaults">
+
+  If you override the host or change variable values, use the reset control in the Server panel to return to the selected server from your OpenAPI spec.
+
+  </Step>
+</Steps>
+
+#### What persists across endpoints
+
+The selected server, custom host override, and server variable values are stored in the browser (in `localStorage`) and reused across every endpoint that belongs to the same API. That means you only need to choose your target server once per API.
 
 ### Request History
 

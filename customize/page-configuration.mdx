@@ -1,12 +1,14 @@
 ---
 title: Page Configuration
-description: Reference for configuring page-level metadata using MDX front matter, including title, description, SEO properties, and structured data.
+description: >-
+  Reference for configuring page-level metadata using MDX front matter,
+  including title, description, SEO properties, and structured data.
 type: reference
 ---
 
 Front matter is a block of YAML configuration placed at the very top of an MDX file, enclosed by triple-dashed lines (`---`). It allows you to define metadata for each page individually.
 
-<CodeGroup tabs="Basic Page,Article with SEO">
+<CodeGroup tabs="Basic Page,SEO Overrides">
 
 ```yaml
 ---
@@ -17,23 +19,15 @@ description: "Learn about the core concepts and get started with our platform."
 
 ```yaml
 ---
-title: "How to Integrate our API"
-description: "A step-by-step guide to integrating our API into your application, with code samples."
-ogImage: "https://example.com/images/api-integration-social.png"
-canonical: "https://docs.example.com/api/integration"
+title: "Page Configuration"
+description: "Configure page-level settings for a single documentation page."
+metaTitle: "Page Configuration reference | Documentation.AI"
+metaDescription: "Override the SEO title and description for this page without changing the visible heading or subtitle."
+ogImage: "https://example.com/images/page-configuration-social.png"
+canonical: "https://docs.example.com/customize/page-configuration"
 jsonLd:
   "@context": "https://schema.org"
-  "@type": "HowTo"
-  "step": [
-    {
-      "@type": "HowToStep",
-      "text": "Get your API keys from the dashboard."
-    },
-    {
-      "@type": "HowToStep",
-      "text": "Authenticate your requests."
-    }
-  ]
+  "@type": "TechArticle"
 ---
 ```
 </CodeGroup>
@@ -45,7 +39,15 @@ jsonLd:
 </ParamField>
 
 <ParamField path="description" param-type="string" required="false" showLocation="false">
-  A brief summary of the page content (120-160 characters). Used for SEO meta descriptions and social sharing cards.
+  A brief summary of the page content (120-160 characters). Used for the visible subtitle below the page title and as the default SEO description when `metaDescription` is not set.
+</ParamField>
+
+<ParamField path="metaTitle" param-type="string" required="false" showLocation="false">
+  Overrides the browser tab title, Open Graph title, Twitter card title, and JSON-LD headline without changing the visible page title. Falls back to `title` when omitted.
+</ParamField>
+
+<ParamField path="metaDescription" param-type="string" required="false" showLocation="false">
+  Overrides the meta description tag, Open Graph description, Twitter card description, and JSON-LD description without changing the visible subtitle below the page title. Falls back to `description` when omitted.
 </ParamField>
 
 <ParamField path="ogImage" param-type="string" required="false" showLocation="false">

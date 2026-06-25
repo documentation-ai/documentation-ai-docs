@@ -77,7 +77,9 @@ If you need to keep long disclaimers or edge cases out of the main flow, conside
 
 ## Using with Code Editor
 
-In MDX, use the `Callout` component with a `kind` attribute to control the visual style. The `kind` value must be one of `info`, `tip`, `success`, `alert`, or `danger`.
+In MDX, use the `Callout` component with a `kind` attribute to control the base visual style. The `kind` value must be one of `info`, `tip`, `success`, `alert`, or `danger`.
+
+You can also override the default icon with `icon`, override the background color with `color`, and control the initial expanded state with `collapsed`.
 
 ### Basic syntax
 
@@ -157,10 +159,48 @@ Use for confirmations and positive outcomes.
   Your documentation has been successfully deployed and is live.
 </Callout>
 
+### Custom callouts
+
+Use `icon` and `color` when you want a callout to match a specific workflow, brand color, or UI pattern without changing the rest of your page layout.
+
+```jsx
+<Callout kind="info" icon="shield-check" color="#dbeafe">
+  Review access rules before you publish private documentation.
+</Callout>
+```
+
+<Callout kind="info" icon="shield-check" color="#dbeafe">
+  Review access rules before you publish private documentation.
+</Callout>
+
+```jsx
+<Callout kind="tip" icon="rocket" color="rgb(237, 233, 254)">
+  Launch a preview branch before you merge major navigation changes.
+</Callout>
+```
+
+<Callout kind="tip" icon="rocket" color="rgb(237, 233, 254)">
+  Launch a preview branch before you merge major navigation changes.
+</Callout>
+
+The `icon` prop accepts any Lucide icon name in kebab-case, such as `shield-check`, `rocket`, or `circle-help`. The `color` prop accepts any valid CSS color value, including hex, `rgb(...)`, `hsl(...)`, and named colors.
+
 ### Attributes
 
 <ParamField path="kind" param-type="string" required="false" deprecated="false">
-  Visual style and icon for the callout. One of: `info` (default), `tip`, `success`, `alert`, `danger`.
+  Base visual style for the callout. One of: `info` (default), `tip`, `success`, `alert`, `danger`.
+</ParamField>
+
+<ParamField path="icon" param-type="string" required="false" deprecated="false">
+  Replaces the default kind icon. Use any Lucide icon name in kebab-case, such as `shield-check`, `rocket`, or `circle-help`.
+</ParamField>
+
+<ParamField path="color" param-type="string" required="false" deprecated="false">
+  Replaces the kind-based background color. Accepts any valid CSS color value, including hex, `rgb(...)`, `hsl(...)`, and named colors.
+</ParamField>
+
+<ParamField path="collapsed" param-type="boolean" required="false" deprecated="false">
+  Controls whether the callout starts collapsed. Use `"true"` to hide the content until the reader expands it, or `"false"` to keep it open.
 </ParamField>
 
 ## Advanced options

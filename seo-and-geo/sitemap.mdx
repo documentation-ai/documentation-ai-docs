@@ -10,6 +10,8 @@ The sitemap lists all crawlable pages in your published documentation so search 
 
 Documentation.AI serves a sitemap for every published site at the root URL `/sitemap.xml`. The sitemap is generated automatically from your published docs structure and page metadata; you do not edit the XML directly.
 
+Each sitemap entry also includes an accurate `lastModified` date for that page. Documentation.AI uses the page's actual last update time, not the deployment date, so search engines receive better freshness signals and can crawl your docs more efficiently.
+
 <Callout kind="info" collapsed="false">
   The sitemap always reflects your public **published** content state. When you publish new pages, rename or move existing ones, or unpublish content, the sitemap updates to match.
 </Callout>
@@ -105,4 +107,3 @@ Apply this setting once at the root level so sitemap behavior is consistent acro
 <Callout kind="info" collapsed="false">
   Sitemap generation is separate from indexing behavior. The `seo.sitemap:enabled` setting controls whether Documentation.AI generates and serves `/sitemap.xml`, while robots-related SEO settings control how search engines index and treat the URLs they discover.
 </Callout>
-

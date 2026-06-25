@@ -264,33 +264,35 @@ The playground shows real-time responses with comprehensive formatting:
 
 ## Advanced Features
 
-### Environment Management
+### Server Management
 
-Configure multiple environments for testing different API stages:
+Use the **Server** section in the playground to control which base URL your requests use. You do not need to add a separate JSON environment configuration.
 
-```json
-{
-  "playground": {
-    "environments": [
-      {
-        "name": "Production",
-        "baseUrl": "https://api.example.com/v2",
-        "description": "Live production API"
-      },
-      {
-        "name": "Staging", 
-        "baseUrl": "https://staging-api.example.com/v2",
-        "description": "Pre-production testing environment"
-      },
-      {
-        "name": "Development",
-        "baseUrl": "http://localhost:3000/v2", 
-        "description": "Local development server"
-      }
-    ]
-  }
-}
-```
+The server controls work like this:
+
+- **Server dropdown**: Appears only when your OpenAPI spec defines two or more `servers` entries. Use it to switch between spec-defined servers.
+
+- **Custom host field**: Enter a full host URL to override the selected spec server entirely. The playground uses your custom URL for requests until you clear or reset it.
+
+- **Reset button**: Appears after you set a custom host URL. Use it to switch back to the currently selected server from your OpenAPI spec.
+
+- **Server variables**: When a server URL includes variables such as `https://{region}.api.example.com`, the playground renders a separate input for each variable so you can fill in values directly in the UI.
+
+If you switch to a different server from the dropdown, the playground updates the active server URL and resets that server's variable values to the defaults defined in your spec.
+
+<Callout kind="info" collapsed="false">
+
+The playground saves your selected server, any custom host URL, and server variable values in local storage. When you return later, the playground restores the same server settings automatically.
+
+</Callout>
+
+### Parameter Example Pickers
+
+When a parameter includes two or more OpenAPI examples with actual values, the playground shows an example picker next to the input field.
+
+Use the picker to fill the input with one of the documented examples without typing it manually. This helps you test common request variations faster while still letting you edit the value afterward.
+
+If a parameter has only one example, the playground can prefill that value directly and does not show a picker. Boolean and enum-style parameters continue to use their normal selectors.
 
 ### Request History
 

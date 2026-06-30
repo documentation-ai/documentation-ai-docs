@@ -1,0 +1,48 @@
+---
+title: "Milestone Event Notification Issue"
+description: "Steps to reproduce the missing event notification when a milestone achieved value decreases due to a return transaction."
+---
+
+## Issue: Missing Event Notification on Milestone Value Decrease
+
+The following steps outline the scenario where brands/customers do not receive an event notification when a milestone's achieved value decreases after a purchase return.
+
+<Steps>
+  <Step title="Create a milestone on lifetime purchases" icon="flag" title-type="h3">
+    A milestone is created on **lifetime purchases** with a milestone value set to **10,000**.
+  </Step>
+
+  <Step title="Customer makes a transaction" icon="shopping-cart" title-type="h3">
+    The customer makes a purchase transaction worth **3,000**.
+  </Step>
+
+  <Step title="Milestone achieved value increases" icon="trending-up" title-type="h3">
+    The customer's milestone achieved value increases from **0 → 3,000** as a result of the transaction.
+  </Step>
+
+  <Step title="Brand receives event notification" icon="bell" title-type="h3">
+    The brand receives an event notification about the milestone achieved value update (Step 3).
+  </Step>
+
+  <Step title="Customer returns the purchase" icon="undo" title-type="h3">
+    After some days, the customer returns the purchase made in Step 2.
+  </Step>
+
+  <Step title="Milestone achieved value decreases" icon="trending-down" title-type="h3">
+    The milestone achieved value decreases from **3,000 → 0** due to the return.
+  </Step>
+
+  <Step title="No event notification sent" icon="alert-triangle" title-type="h3">
+    <Callout kind="alert">
+      Brands/customers are **not receiving any event notification** for the milestone value decrease. This is the identified issue.
+    </Callout>
+  </Step>
+</Steps>
+
+## Expected Behavior
+
+An event notification should be triggered whenever the milestone achieved value changes — both on increase **and** decrease.
+
+## Actual Behavior
+
+Event notifications are only sent when the milestone achieved value increases. No notification is sent when the value decreases due to a return transaction.

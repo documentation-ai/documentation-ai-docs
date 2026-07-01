@@ -31,10 +31,13 @@ Use the web editor when:
 If you need a Git-based workflow, local previews, or tight integration with your existing development tooling, use the [code editor](/write-and-publish/code-editor) instead.
 
 <Callout kind="danger" collapsed="false">
+
   Unpublished changes are saved only in your current browser session. If you\
   switch browsers, devices, or clear your cache, these changes may be lost.\
   Changes published by other team members may not appear until your local\
   changes are published or cleared.
+
+
 </Callout>
 
 ## Getting started with the web editor
@@ -102,28 +105,44 @@ For more detail on how dimensions, views, groups, and pages behave across your p
 Use the web editor to make safe, incremental changes to your documentation structure while keeping it consistent with your overall organization model.
 
 <Steps>
+
   <Step title="Choose the right dimension and view" icon="layers" title-type="p">
+
     If your project uses [dimensions](/organize/dimensions), start by selecting the correct dimension in the sidebar. Then choose the appropriate [view](/organize/views) within that dimension (or at the root if there are no dimensions) so you are working on the right part of the tree.
+
+
   </Step>
 
   <Step title="Add views with Tabs or Dropdowns (optional)" icon="notebook-tabs-icon" title-type="p">
+
     Use [views](/organize/views) to introduce Tabs or Dropdowns when you need multiple layouts or navigation tracks within a dimension or at the root.
 
     The views model follows a one-child rule: each Tabs or Dropdowns container should have a single type of child (pages, groups, or another nested view). For supported patterns and examples, see the [views guide](/organize/views).
+
+
   </Step>
 
   <Step title="Decide between groups and flat pages" icon="folder-tree" title-type="p">
+
     Use [groups](/organize/groups) when you have several related pages that should be nested together. Avoid mixing grouped and ungrouped pages at the same level: once you introduce groups under a parent, new pages should live inside one of those groups rather than alongside them.
 
     If you only have a few pages, you can keep them flat without groups.
+
+
   </Step>
 
   <Step title="Create pages with stable slugs" icon="file-text" title-type="p">
+
     Add [pages](/organize/pages) where you want new content to live. Each page is backed by MDX and identified by a stable `path` (slug). Prefer keeping paths stable over time and move pages within the structure instead of renaming paths when you reorganize. When you must change a path, use redirects as described in the pages guide.
+
+
   </Step>
 
   <Step title="Plan patterns at a higher level" icon="layout-dashboard" title-type="p">
+
     Use this page for quick structural edits and content changes. For larger reorganizations across dimensions, views, and groups, refer to the [organize overview](/organize/overview) to choose patterns that scale before you start editing in the web editor.
+
+
   </Step>
 </Steps>
 
@@ -167,7 +186,10 @@ Markdown mode exposes the underlying MDX source for your page so you can work di
 
 ```tsx
 <Callout kind="info">
+
   Use callouts to highlight important information for your readers.
+
+
 </Callout>
 ```
 
@@ -213,6 +235,8 @@ From the menu you can quickly insert:
 
 - Rich content: code blocks, images, tables, quotes
 
+- Visual content: SVG files, HTML blocks
+
 - Documentation.AI components: callouts, cards, steps, tabs, expandables, and more
 
 You can always adjust block type, position, and properties after inserting.
@@ -241,7 +265,10 @@ In markdown mode:
 
 ```tsx
 <Callout kind="tip">
+
   Use callouts to emphasize best practices or caveats that readers should not miss.
+
+
 </Callout>
 ```
 
@@ -379,12 +406,19 @@ Changes you make in Site Config appear in the **Changes** panel just like conten
 If you need to take your documentation site offline, you can unpublish it from the dashboard Settings page (this action is in the dashboard, not in the Editor's Site Config panel).
 
 <Steps>
+
   <Step title="Open documentation settings" icon="settings" title-type="p">
-    Navigate to **Settings** → **Documentation Settings** → **General** and scroll to the **Danger Zone** section.
+
+    Navigate to **Settings** → **Documentation Settings** → **Advanced** → **Danger Zone**.
+
+
   </Step>
 
   <Step title="Unpublish" icon="cloud-off" title-type="p">
+
     Click **Unpublish Documentation** and confirm in the dialog.
+
+
   </Step>
 </Steps>
 
@@ -401,6 +435,9 @@ When you unpublish:
 To bring your site back online, open the Editor and click **Publish** again. Your documentation will redeploy with all content and settings intact.
 
 <Callout kind="info" collapsed="false">
+
   Unpublishing removes public access but does not delete content or configuration. You can republish at any time.
+
+
 </Callout>
 

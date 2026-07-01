@@ -2,6 +2,62 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-06-30" description="PDF export, SVG and HTML Block components, SEO meta overrides, API playground server management, heading copy-link, and platform improvements" tags={["feature","improvement","fix"]}>
+  ## PDF Export
+
+  Export your documentation pages as professionally formatted PDF files for offline sharing, compliance archives, or printed handouts. The export runs asynchronously in the background and emails you when the file is ready.
+
+  - Trigger a full-site or section export from the dashboard **Settings → Advanced → Exports** panel.
+
+  - Each export is processed in batches, merged into a single PDF, and stored with a 7-day download link.
+
+  - Enable **Download as PDF** as a Page Action so readers can print individual pages directly from the table of contents sidebar. See [Page Actions](/page-actions).
+
+  <Callout kind="info" collapsed="false">
+    PDF export is available on Standard plans and above.
+  </Callout>
+
+  ## SVG and HTML Block Components
+
+  Two new content components are now available in the web editor:
+
+  - **SVG** — Embed SVG files with preserved interactivity, including hover states and clickable links. Upload a file, paste SVG code, or select from your existing image gallery via the slash command menu. SVGs render inside a shadow DOM for safe, isolated rendering.
+
+  - **HTML Block** — Insert raw HTML directly into your pages with a toggle between live preview and code editing modes. Useful for custom embeds, interactive widgets, or layouts that go beyond standard markdown.
+
+  Both components are accessible via slash commands (`/svg` and `/html`) in the visual editor and as JSX components in markdown mode.
+
+  ## SEO Meta Overrides
+
+  Pages now support `metaTitle` and `metaDescription` frontmatter fields that override SEO metadata — browser tab title, Open Graph tags, Twitter cards, and JSON-LD — independently of the visible page heading and description. This lets you optimize search snippets and social sharing previews without altering what readers see on the page. See [Page Configuration](/customize/page-configuration).
+
+  ## API Playground Server Management
+
+  The API Playground now supports server URL selection and variable substitution from your OpenAPI spec. Readers can pick from multiple defined servers, override variables, and their choice persists across sessions. Parameter inputs with multiple examples show a dropdown picker for quick selection. See [Interactive Playground Setup](/api-documentation-and-playground/interactive-playground-setup).
+
+  ## **AI Agent Architecture**&#x20;
+
+  Dashboard and background agents are now unified, using a streamlined pipeline and can do task more efficiently for the same given credits. Background workflows benefit from improved file operations, PR merge context, and bot commit detection to avoid re-triggering agent-authored changes.
+
+  ## Improvements
+
+  - **Heading Copy Link&#x20;**—**&#x20;**&#x43;licking any heading on a published page now copies its anchor link to the clipboard and updates the browser URL hash. A brief check-icon animation confirms the copy, making it easy to share deep links to specific sections.
+
+  - **Billing Overage Enforcement** — Credit deductions are now atomic with overage protection. When you reach your plan limit, deductions and associated side effects are blocked entirely, preventing unexpected overage charges.
+
+  - **Search Ranking** — Page title matching now uses BM25 scoring with a heading-level boost, surfacing canonical top-level pages above same-titled subsections in search results.
+
+  - **Sidebar Auto-Scroll** — The active page in the sidebar now smoothly scrolls into view on first render, so you land on the right context without manual scrolling.
+
+  - **Sitemap Timestamps** — Sitemap `lastModified` dates now use actual per-page `updatedAt` timestamps from deployment data instead of the current date, giving search engines accurate freshness signals.
+
+  - **Danger Zone Settings** — Unpublish and Delete documentation actions are now in a dedicated **Advanced → Danger Zone** settings panel, separated from general settings for clearer organization.
+
+  - **Navigation Icons** — Dropdown menus, tab labels, and group headers in the sidebar and navbar now display configured icons, with active-state color highlighting.
+
+  - **External Link Auto-Target&#x20;**— External links in your documentation now automatically open in a new browser tab with `rel="noopener noreferrer"` for security. Internal links and hash anchors are unaffected, and explicit `target` overrides are respected.
+</Update>
+
 <Update label="2026-06-01" description="Agent file attachments, new editor components, custom CSS, search improvements, and table editor fixes" tags={["feature","improvement","fix"]}>
   ## Agent File Attachments
 
@@ -187,7 +243,7 @@ description: 'Changes, fixes, and improvements across versions'
 
   ## Site Config Moved to Editor
 
-  Documentation configuration i.e  theme, branding, SEO, navigation, integrations, scripts, and more  is now accessible directly from the Editor instead of Settings. Click **Site Config** in the Editor top toolbar. Changes appear in the Changes panel alongside content edits and deploy when you publish. Learn more in <a href="/customize/site-configuration" target="_blank" rel="noopener noreferrer">Site Configuration</a>.
+  Documentation configuration i.e  theme, branding, SEO, navigation, integrations, scripts, and more  is now accessible directly from the Editor instead of Settings. Click **Site Config** in the Editor top toolbar. Changes appear in the Changes panel alongside content edits and deploy when you publish. Learn more in [Site Configuration](/customize/site-configuration).
 </Update>
 
 <Update label="2026-03-12" description="API Playground request formats, security UI, and GitHub context UX" tags={["improvement","fix"]}>
@@ -209,7 +265,7 @@ description: 'Changes, fixes, and improvements across versions'
 
   ## API Playground
 
-  You’re no longer limited to generating API docs only from your OpenAPI spec. You now have more control over each API page, for example, you can embed a playground for a specific endpoint from your OpenAPI spec, and then customize the rest of the page content manually; see <a href="https://documentation.ai/docs/api-documentation-and-playground/openapi-import" target="_blank" rel="noopener noreferrer">API Documentation</a>
+  You’re no longer limited to generating API docs only from your OpenAPI spec. You now have more control over each API page, for example, you can embed a playground for a specific endpoint from your OpenAPI spec, and then customize the rest of the page content manually; see [API Documentation](https://documentation.ai/docs/api-documentation-and-playground/openapi-import)
 
   ## Page Feedback
 

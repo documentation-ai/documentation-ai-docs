@@ -1,6 +1,8 @@
 ---
 title: Page Configuration
-description: Reference for configuring page-level metadata using MDX front matter, including title, description, SEO properties, and structured data.
+description: >-
+  Reference for configuring page-level metadata using MDX front matter,
+  including title, description, SEO properties, and structured data.
 type: reference
 ---
 
@@ -41,44 +43,80 @@ jsonLd:
 ## Properties
 
 <ParamField path="title" param-type="string" required="true" showLocation="false">
+
   The main title of the page. Used for the browser tab, navigation, search results, and social sharing cards.
+
 </ParamField>
 
 <ParamField path="description" param-type="string" required="false" showLocation="false">
+
   A brief summary of the page content (120-160 characters). Used for SEO meta descriptions and social sharing cards.
+
+</ParamField>
+
+<ParamField path="metaTitle" param-type="string" required="false" showLocation="false">
+
+  Overrides the browser tab title, Open Graph title, Twitter card title, and JSON-LD headline without changing the visible page heading. Falls back to `title` when not set. Useful when you need a shorter or more search-optimized title for search engines and social previews while keeping a descriptive H1 for readers.
+
+</ParamField>
+
+<ParamField path="metaDescription" param-type="string" required="false" showLocation="false">
+
+  Overrides the SEO meta description, Open Graph description, and Twitter card description without changing the visible page subtitle or description text. Falls back to `description` when not set. Use this to craft a different search snippet than what appears on the page itself.
+
 </ParamField>
 
 <ParamField path="ogImage" param-type="string" required="false" showLocation="false">
+
   The URL for a custom Open Graph image (1200x630px recommended) to use for social sharing cards. Overrides the auto-generated image.
+
 </ParamField>
 
 <ParamField path="canonical" param-type="string" required="false" showLocation="false">
+
   The canonical URL for the page to prevent duplicate content issues. Defaults to the page's own URL.
+
 </ParamField>
 
 <ParamField path="jsonLd" param-type="object | array" required="false" showLocation="false">
+
   Adds JSON-LD structured data for rich search results, conforming to [Schema.org](https://schema.org/) vocabulary. The key can also be `jsonld` (lowercase).
 
   <Expandable title="Example Schema.org Properties">
+
     <ParamField path="@context" param-type="string" required="true" showLocation="false">
+
       The schema context, typically `https://schema.org`.
+
     </ParamField>
     <ParamField path="@type" param-type="string" required="true" showLocation="false">
+
       The schema type, such as `Article`, `TechArticle`, or `FAQPage`.
+
     </ParamField>
     <ParamField path="headline" param-type="string" required="false" showLocation="false">
+
       The headline of the article.
+
     </ParamField>
     <ParamField path="author" param-type="object" required="false" showLocation="false">
+
       An object defining the author, with `@type` (e.g., `Person` or `Organization`) and `name`.
+
     </ParamField>
+
   </Expandable>
+
 </ParamField>
 
 <Callout>
+
 You can also include any other custom key-value pairs in your front matter. This data is not used by default but can be accessed for custom component or theme logic.
+
 </Callout>
 
 <Callout kind="info" collapsed="false">
+
   Page layout options such as `show-sidebar`, `show-toc`, `show-parent-label`, `content-width`, and `badge` are configured in the navigation section of your [site configuration](/customize/site-configuration#pages-configuration), not in front matter.
+
 </Callout>

@@ -46,7 +46,8 @@ Set `ai.page-actions` to include any combination of supported actions:
       "chatgpt",
       "perplexity",
       "grok",
-      "mcp"
+      "mcp",
+      "pdf"
     ]
   }
 }
@@ -86,6 +87,8 @@ Page Actions currently support the following options:
 
 - **Copy MCP server URL** (`mcp`)
 
+- **Download as PDF** (`pdf`)
+
 ### Copy page (`copy`)
 
 Copy page exports the current page as Markdown and places it on the clipboard. Readers can paste the content into any AI prompt, editor, or workflow without additional formatting.
@@ -114,7 +117,21 @@ Open in Grok sends the page's Markdown link to Grok in a new tab. Grok uses this
 
 Copy MCP server URL copies the MCP server endpoint for your documentation project to the clipboard. Use this in compatible MCP clients to give them structured, AI‑ready access to your docs.
 
+### Download as PDF (`pdf`)
+
+Download as PDF lets readers save the current page as a PDF file directly from the table of contents sidebar. The page is rendered with print-optimized styles and opens the browser's print dialog, where the reader can save or print the document.
+
+<Callout kind="info" collapsed="false">
+
+  PDF export is available on Standard plans and above. For full-site PDF exports, use the dashboard **Settings → Advanced → Exports** panel.
+
+</Callout>
+
 <Callout kind="alert" collapsed="false">
+
   The Open in Claude, Open in ChatGPT, Open in Perplexity, and Open in Grok actions rely on public, crawlable URLs. Enable SEO for your documentation site so these external AI tools can access the Markdown content.
+
+
+
 </Callout>
 

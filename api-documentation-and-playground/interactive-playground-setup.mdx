@@ -203,11 +203,15 @@ Features include:
 Add custom headers through the playground interface:
 
 <ParamField header="X-Custom-Header" param-type="string" required="false" deprecated="false">
+
   Custom header value for specialized API requirements.
+
 </ParamField>
 
 <ParamField header="Content-Type" param-type="string" required="false" deprecated="false">
+
   Media type for request body. Automatically set for JSON requests.
+
 </ParamField>
 
 ## Response Handling
@@ -292,6 +296,37 @@ Configure multiple environments for testing different API stages:
 }
 ```
 
+### Server URL Selection
+
+When your OpenAPI specification defines multiple servers or uses server variables, the playground automatically renders a server selector. Readers can switch between environments (for example, production, staging, or a regional endpoint) and fill in server variables directly from the UI.
+
+```yaml
+# In your OpenAPI specification
+servers:
+  - url: https://api.example.com/v2
+    description: Production
+  - url: https://{env}.api.example.com/v2
+    description: Environment-specific
+    variables:
+      env:
+        default: staging
+        enum: [staging, production]
+```
+
+The server selector:
+
+- **Lists all defined servers** from the OpenAPI `servers` array, showing the description and resolved URL for each.
+
+- **Resolves server variables** — when a server URL contains `{variable}` placeholders, the playground shows input fields so readers can substitute values. The resolved URL updates in real time.
+
+- **Persists across sessions** — the selected server and variable values are saved in the browser's `localStorage`, so readers don't need to reconfigure on every visit.
+
+- **Updates the request preview** — the generated code snippets and request preview always reflect the currently selected server URL.
+
+### Parameter Example Pickers
+
+When an OpenAPI parameter defines multiple `examples`, the playground renders a dropdown picker instead of a plain text input. Readers can select from the provided examples or type a custom value, making it faster to send realistic test requests without looking up valid values.
+
 ### Request History
 
 The playground maintains request history for developer convenience:
@@ -374,15 +409,21 @@ Generate ready-to-use code snippets from playground interactions:
 The playground implements secure authentication handling:
 
 <ParamField path="tokenStorage" param-type="string" required="false" deprecated="false">
+
   Tokens are stored locally in browser storage, never transmitted to Documentation.AI servers.
+
 </ParamField>
 
 <ParamField path="httpsOnly" param-type="boolean" required="false" deprecated="false">
+
   All API requests use HTTPS encryption for secure data transmission.
+
 </ParamField>
 
 <ParamField path="tokenExpiry" param-type="boolean" required="false" deprecated="false">
+
   Automatic token cleanup on session end to prevent unauthorized access.
+
 </ParamField>
 
 ### CORS Configuration
@@ -404,11 +445,15 @@ app.use(cors({
 ### Common Issues
 
 <Callout kind="note" collapsed="false">
+
   **CORS Errors**: If requests fail with CORS errors, ensure your API includes Documentation.AI domains in allowed origins.
+
 </Callout>
 
 <Callout kind="note" collapsed="false">
+
   **Authentication Failures**: Verify that authentication tokens are valid and have appropriate permissions for the endpoints being tested.
+
 </Callout>
 
 ### Playground Not Appearing

@@ -1,4 +1,4 @@
-// Autoblocker — must load synchronously before the CMP
+// Autoblocker: must load synchronously before the CMP
 var ab = document.createElement('script');
 ab.src = 'https://web.cmp.usercentrics.eu/modules/autoblocker.js';
 document.head.appendChild(ab);

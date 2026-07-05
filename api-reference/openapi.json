@@ -51,7 +51,7 @@
       "get": {
         "operationId": "getConfig",
         "summary": "Get site configuration",
-        "description": "Returns the complete documentation.json file — the navigation tree, branding, SEO settings, and integrations.",
+        "description": "Returns the complete documentation.json file: the navigation tree, branding, SEO settings, and integrations.",
         "tags": ["Configuration"],
         "parameters": [
           {

@@ -7,21 +7,21 @@ description: >-
 ---
 Control which integrations and scripts require user consent before loading. When cookie consent is configured, scripts only load after the user accepts the relevant consent category through your consent banner.
 
-This works with any consent management platform (CMP) — CookieBot, OneTrust, CookieYes, Osano, Termly, or a custom consent banner.
+This works with any consent management platform (CMP): CookieBot, OneTrust, CookieYes, Osano, Termly, or a custom consent banner.
 
 <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1775827184244-b6epeiq2ngc-Cookies.png?fm=auto&auto=compress%2Cformat" width="2400" height="1395" alt="" />
 
 ## How it works
 
-1. You add your CMP banner as a [custom script](/customize/custom-scripts) — this is the popup your visitors see
+1. You add your CMP banner as a [custom script](/customize/custom-scripts), the popup your visitors see
 
-2. You configure consent categories with a **key** and **value** — this tells us what cookie to look for
+2. You configure consent categories with a **key** and **value**; this tells us what cookie to look for
 
 3. When a visitor clicks "Accept", your CMP writes that cookie to the browser
 
-4. Documentation.ai checks the browser for that value — if found, scripts in that category load. If not, they stay blocked.
+4. Documentation.ai checks the browser for that value: if found, scripts in that category load. If not, they stay blocked.
 
-Integrations and scripts without a consent category always load — only the categories you configure are gated.
+Integrations and scripts without a consent category always load; only the categories you configure are gated.
 
 <Callout kind="note" collapsed="false">
   Documentation.ai does not include a built-in consent banner. You need to add your CMP's script via [Custom Scripts](/customize/custom-scripts). The cookie consent configuration here only controls **when** your other scripts and integrations are allowed to load.
@@ -33,7 +33,7 @@ Not every site needs the full cookie consent configuration. Choose the approach 
 
 ### I use a CMP with auto-blocking (Osano, CookieBot Strict mode)
 
-Some CMPs like Osano and CookieBot (in Strict mode) automatically detect and block third-party scripts at the network level — you don't need to configure anything extra for them to work.
+Some CMPs like Osano and CookieBot (in Strict mode) automatically detect and block third-party scripts at the network level; you don't need to configure anything extra for them to work.
 
 **What to do:** Add your CMP banner as a [custom script](/customize/custom-scripts). **Do not** enable the Cookies configuration in Site Config. Your CMP will handle blocking and unblocking scripts on its own.
 
@@ -41,9 +41,9 @@ The only thing your CMP cannot control is **Documentation.ai telemetry** (our bu
 
 ### I use a CMP without auto-blocking (CookieYes, Termly, custom banner)
 
-Some CMPs only show a consent banner and store the user's choice — they don't block scripts themselves. In this case, you need Documentation.ai's cookie consent configuration to gate your scripts.
+Some CMPs only show a consent banner and store the user's choice; they don't block scripts themselves. In this case, you need Documentation.ai's cookie consent configuration to gate your scripts.
 
-**What to do:** Follow the full setup below — add your CMP script, configure consent categories, and assign categories to your integrations.
+**What to do:** Follow the full setup below: add your CMP script, configure consent categories, and assign categories to your integrations.
 
 ### I just want to disable Documentation.ai telemetry
 
@@ -118,7 +118,7 @@ Or if you saved the embed code as a local `.js` file in your project:
 ```
 
 <Callout kind="info" collapsed="false">
-  Scripts without a `category` field default to `essential`, which means they always load — exactly what you need for a consent banner. Do **not** assign a consent category to your CMP script, otherwise the banner itself would be blocked.
+  Scripts without a `category` field default to `essential`, which means they always load, exactly what you need for a consent banner. Do **not** assign a consent category to your CMP script, otherwise the banner itself would be blocked.
 </Callout>
 
 ## Step 2: Configure consent categories
@@ -151,9 +151,9 @@ You have two options:
   <Step title="Fill in key and value" icon="key" title-type="p">
     For each category, enter the **key** and **value** from your CMP:
 
-    - **Key** — the cookie name or localStorage key your CMP writes (e.g., `CookieConsent`)
+    - **Key**: the cookie name or localStorage key your CMP writes (e.g., `CookieConsent`)
 
-    - **Value** — the substring that indicates consent for this category (e.g., `statistics:true`)
+    - **Value**: the substring that indicates consent for this category (e.g., `statistics:true`)
   </Step>
 
   <Step title="Publish" icon="upload" title-type="p">
@@ -222,7 +222,7 @@ To override a default, add a `category` field:
 "ga4": { "measurementId": "G-XXXXXXXXXX", "category": "marketing" }
 ```
 
-You can also set categories from the Editor — when cookies are configured, each integration card shows a **Consent Category** dropdown.
+You can also set categories from the Editor; when cookies are configured, each integration card shows a **Consent Category** dropdown.
 
 ### Custom script categories
 
@@ -240,8 +240,8 @@ Custom scripts default to `essential` (always loads). To gate a script behind co
 
 | Script            | Category              | Behavior                                                            |
 | ----------------- | --------------------- | ------------------------------------------------------------------- |
-| CMP banner script | `essential` (default) | Always loads — the banner must show before any consent can be given |
-| `fonts.js`        | `essential` (default) | Always loads — no `category` field means essential                  |
+| CMP banner script | `essential` (default) | Always loads: the banner must show before any consent can be given |
+| `fonts.js`        | `essential` (default) | Always loads: no `category` field means essential                  |
 | `tracking.js`     | `analytics`           | Only loads after analytics consent is granted                       |
 
 <Callout kind="danger" collapsed="false">
@@ -317,7 +317,7 @@ If you built your own consent banner that sets a simple localStorage value when 
 ```
 
 <Callout kind="info" collapsed="false">
-  Category names are flexible — use whatever names match your CMP's terminology. Common names include `analytics`, `statistics`, `marketing`, `advertising`, `functional`, and `personalization`.
+  Category names are flexible; use whatever names match your CMP's terminology. Common names include `analytics`, `statistics`, `marketing`, `advertising`, `functional`, and `personalization`.
 </Callout>
 
 ### Not sure which values to use?
@@ -332,7 +332,7 @@ If your CMP isn't listed above, you can find the cookie values yourself:
 
 4. Look for a cookie set by your CMP (usually named after the provider)
 
-5. The cookie value contains the consent state — find the substring that indicates consent for each category
+5. The cookie value contains the consent state; find the substring that indicates consent for each category
 
 You don't need to match the entire cookie value. Documentation.ai checks if the stored value **contains** your configured substring. For example, if the full cookie value is `{statistics:true,marketing:false}`, setting the value to `statistics:true` is enough.
 
@@ -408,21 +408,21 @@ Here's a full configuration with CookieBot as the CMP, Google Analytics gated be
 
 Documentation.ai checks for consent in two places:
 
-1. **localStorage** — checked first
+1. **localStorage**: checked first
 
-2. **Cookies** — checked as fallback
+2. **Cookies**: checked as fallback
 
 Consent changes are detected automatically through:
 
-- **CookieStore API** (Chrome, Edge) — instantly detects any cookie change
+- **CookieStore API** (Chrome, Edge): instantly detects any cookie change
 
-- **Storage events** — detects localStorage changes across browser tabs
+- **Storage events**: detects localStorage changes across browser tabs
 
-- **Page navigation** — consent state is re-evaluated on every page transition
+- **Page navigation**: consent state is re-evaluated on every page transition
 
 ## Troubleshooting
 
-**CMP banner not showing**: The consent banner must be added as a [custom script](/customize/custom-scripts). Cookie consent configuration only controls when other scripts load — it does not include a banner. Make sure your CMP script has no `category` field (or explicitly set it to `essential`).
+**CMP banner not showing**: The consent banner must be added as a [custom script](/customize/custom-scripts). Cookie consent configuration only controls when other scripts load; it does not include a banner. Make sure your CMP script has no `category` field (or explicitly set it to `essential`).
 
 **Scripts loading without consent**: Verify that the `category` field on the integration or script matches a key in your `cookies` configuration. Category names are case-sensitive.
 
@@ -432,9 +432,9 @@ Consent changes are detected automatically through:
 
 ## What's next
 
-- [Custom Scripts](/customize/custom-scripts) — add your CMP banner script
+- [Custom Scripts](/customize/custom-scripts) - add your CMP banner script
 
-- [Integrations](/integrations/overview) — connect analytics and chat providers
+- [Integrations](/integrations/overview) - connect analytics and chat providers
 
-- [Site Configuration](/customize/site-configuration#cookie-consent) — full configuration reference
+- [Site Configuration](/customize/site-configuration#cookie-consent) - full configuration reference
 

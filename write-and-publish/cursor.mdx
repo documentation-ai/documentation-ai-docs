@@ -598,20 +598,20 @@ For roadmaps, feature status, and release plans in a kanban-style column layout:
 </Board>
 
 Board attributes:
-- `title` (optional) — Board region title, defaults to "Board"
+- `title` (optional): Board region title, defaults to "Board"
 
 BoardColumn attributes:
-- `title` (required) — Column heading
-- `color` (optional) — Color index 0–8 (gray, brown, orange, yellow, green, blue, purple, pink, red)
-- `icon` (optional) — Lucide icon name
+- `title` (required): Column heading
+- `color` (optional): Color index 0-8 (gray, brown, orange, yellow, green, blue, purple, pink, red)
+- `icon` (optional): Lucide icon name
 
 BoardCard attributes (self-closing):
-- `title` (required) — Card label
-- `description` (optional) — Additional context
-- `icon` (optional) — Lucide icon name
-- `due-date` (optional) — Date string e.g. `"2025-02-01"`
-- `author` (optional) — Person name
-- `created-at` (optional) — Date string e.g. `"2025-01-15"`
+- `title` (required): Card label
+- `description` (optional): Additional context
+- `icon` (optional): Lucide icon name
+- `due-date` (optional): Date string e.g. `"2025-02-01"`
+- `author` (optional): Person name
+- `created-at` (optional): Date string e.g. `"2025-01-15"`
 
 ### Collection components
 
@@ -633,15 +633,15 @@ Renders the direct children of a navigation node in one of four layouts:
 
 Attributes:
 
-- `node` (required) — Navigation node path in `type:name/type:name` format
+- `node` (required): Navigation node path in `type:name/type:name` format
 
-- `layout` — Display layout: `"cards"` (default), `"accordion"`, `"list"`, or `"links"`
+- `layout`: Display layout: `"cards"` (default), `"accordion"`, `"list"`, or `"links"`
 
-- `cols` — Grid columns for cards layout: `1`, `2`, `3`, `4` (default `2`). Cards layout only.
+- `cols`: Grid columns for cards layout: `1`, `2`, `3`, `4` (default `2`). Cards layout only.
 
-- `card-variant` — Card style: `"default"`, `"horizontal"`, `"centered"`. Cards layout only.
+- `card-variant`: Card style: `"default"`, `"horizontal"`, `"centered"`. Cards layout only.
 
-- `default-open` — Whether accordion starts expanded (default `true`). Accordion layout only.
+- `default-open`: Whether accordion starts expanded (default `true`). Accordion layout only.
 
 #### CollectionContent
 
@@ -651,9 +651,9 @@ Renders the full nested tree under a navigation node as a recursive, collapsible
 
 Attributes:
 
-- `node` (required) — Navigation node path in `type:name/type:name` format
+- `node` (required): Navigation node path in `type:name/type:name` format
 
-- `default-expanded` — Whether all tree nodes start expanded (default `false`)
+- `default-expanded`: Whether all tree nodes start expanded (default `false`)
 
 ## Required page structure
 

@@ -964,7 +964,7 @@ Pages are the individual documentation files that contain your content.
 </Callout>
 
 <Callout kind="tip" collapsed="false">
-  Page display options like `show-sidebar`, `show-toc`, `show-parent-label`, and `content-width` all have sensible defaults. Only include them when you need to override the default behavior — for example, setting `"show-sidebar": false` on a changelog or landing page.
+  Page display options like `show-sidebar`, `show-toc`, `show-parent-label`, and `content-width` all have sensible defaults. Only include them when you need to override the default behavior, for example, setting `"show-sidebar": false` on a changelog or landing page.
 </Callout>
 
 **Page Properties:**
@@ -1403,7 +1403,7 @@ Inject custom JavaScript files into your published documentation site. Use custo
 
   <Expandable title="Script entry properties" default-open="false">
     <ParamField path="src" param-type="string" required="true" deprecated="false">
-      Relative file path to a `.js` or `.mjs` file in your project, or an external URL. Paths must be relative — no leading `/`, `./`, or `../`. Maximum file size is 5 MB.
+      Relative file path to a `.js` or `.mjs` file in your project, or an external URL. Paths must be relative; no leading `/`, `./`, or `../`. Maximum file size is 5 MB.
     </ParamField>
     <ParamField path="category" param-type="string" required="false" deprecated="false">
       Consent category name matching a key in `integrations.cookies`. Scripts without a category default to `essential` (always loads).

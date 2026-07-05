@@ -21,15 +21,15 @@ description: 'Changes, fixes, and improvements across versions'
 
   Two new content components are now available in the web editor:
 
-  - **SVG** — Embed SVG files with preserved interactivity, including hover states and clickable links. Upload a file, paste SVG code, or select from your existing image gallery via the slash command menu. SVGs render inside a shadow DOM for safe, isolated rendering.
+  - **SVG**: Embed SVG files with preserved interactivity, including hover states and clickable links. Upload a file, paste SVG code, or select from your existing image gallery via the slash command menu. SVGs render inside a shadow DOM for safe, isolated rendering.
 
-  - **HTML Block** — Insert raw HTML directly into your pages with a toggle between live preview and code editing modes. Useful for custom embeds, interactive widgets, or layouts that go beyond standard markdown.
+  - **HTML Block**: Insert raw HTML directly into your pages with a toggle between live preview and code editing modes. Useful for custom embeds, interactive widgets, or layouts that go beyond standard markdown.
 
   Both components are accessible via slash commands (`/svg` and `/html`) in the visual editor and as JSX components in markdown mode.
 
   ## SEO Meta Overrides
 
-  Pages now support `metaTitle` and `metaDescription` frontmatter fields that override SEO metadata — browser tab title, Open Graph tags, Twitter cards, and JSON-LD — independently of the visible page heading and description. This lets you optimize search snippets and social sharing previews without altering what readers see on the page. See [Page Configuration](/customize/page-configuration).
+  Pages now support `metaTitle` and `metaDescription` frontmatter fields that override SEO metadata, browser tab title, Open Graph tags, Twitter cards, and JSON-LD, independently of the visible page heading and description. This lets you optimize search snippets and social sharing previews without altering what readers see on the page. See [Page Configuration](/customize/page-configuration).
 
   ## API Playground Server Management
 
@@ -41,21 +41,21 @@ description: 'Changes, fixes, and improvements across versions'
 
   ## Improvements
 
-  - **Heading Copy Link&** — licking any heading on a published page now copies its anchor link to the clipboard and updates the browser URL hash. A brief check-icon animation confirms the copy, making it easy to share deep links to specific sections.
+  - **Heading Copy Link&**: licking any heading on a published page now copies its anchor link to the clipboard and updates the browser URL hash. A brief check-icon animation confirms the copy, making it easy to share deep links to specific sections.
 
-  - **Billing Overage Enforcement** — Credit deductions are now atomic with overage protection. When you reach your plan limit, deductions and associated side effects are blocked entirely, preventing unexpected overage charges.
+  - **Billing Overage Enforcement**: Credit deductions are now atomic with overage protection. When you reach your plan limit, deductions and associated side effects are blocked entirely, preventing unexpected overage charges.
 
-  - **Search Ranking** — Page title matching now uses BM25 scoring with a heading-level boost, surfacing canonical top-level pages above same-titled subsections in search results.
+  - **Search Ranking**: Page title matching now uses BM25 scoring with a heading-level boost, surfacing canonical top-level pages above same-titled subsections in search results.
 
-  - **Sidebar Auto-Scroll** — The active page in the sidebar now smoothly scrolls into view on first render, so you land on the right context without manual scrolling.
+  - **Sidebar Auto-Scroll**: The active page in the sidebar now smoothly scrolls into view on first render, so you land on the right context without manual scrolling.
 
-  - **Sitemap Timestamps** — Sitemap `lastModified` dates now use actual per-page `updatedAt` timestamps from deployment data instead of the current date, giving search engines accurate freshness signals.
+  - **Sitemap Timestamps**: Sitemap `lastModified` dates now use actual per-page `updatedAt` timestamps from deployment data instead of the current date, giving search engines accurate freshness signals.
 
-  - **Danger Zone Settings** — Unpublish and Delete documentation actions are now in a dedicated **Advanced → Danger Zone** settings panel, separated from general settings for clearer organization.
+  - **Danger Zone Settings**: Unpublish and Delete documentation actions are now in a dedicated **Advanced → Danger Zone** settings panel, separated from general settings for clearer organization.
 
-  - **Navigation Icons** — Dropdown menus, tab labels, and group headers in the sidebar and navbar now display configured icons, with active-state color highlighting.
+  - **Navigation Icons**: Dropdown menus, tab labels, and group headers in the sidebar and navbar now display configured icons, with active-state color highlighting.
 
-  - **External Link Auto-Target&#x20;**— External links in your documentation now automatically open in a new browser tab with `rel="noopener noreferrer"` for security. Internal links and hash anchors are unaffected, and explicit `target` overrides are respected.
+  - **External Link Auto-Target&#x20;**: External links in your documentation now automatically open in a new browser tab with `rel="noopener noreferrer"` for security. Internal links and hash anchors are unaffected, and explicit `target` overrides are respected.
 </Update>
 
 <Update label="2026-06-01" description="Agent file attachments, new editor components, custom CSS, search improvements, and table editor fixes" tags={["feature","improvement","fix"]}>
@@ -73,25 +73,25 @@ description: 'Changes, fixes, and improvements across versions'
 
   A new Board component is now available for organizing content in a kanban-style layout with columns and cards such as Roadmaps
 
-  Use it when you want to present information that has distinct stages, categories, or statuses — such as feature roadmaps, project workflows, onboarding checklists, comparison matrices, or migration planning boards. It gives readers a visual overview they can scan at a glance instead of reading through long lists or tables.
+  Use it when you want to present information that has distinct stages, categories, or statuses, such as feature roadmaps, project workflows, onboarding checklists, comparison matrices, or migration planning boards. It gives readers a visual overview they can scan at a glance instead of reading through long lists or tables.
 
   ## Fuzzy Search&#x20;
 
-  Search across your documentation now uses fuzzy matching. Readers can find content even when they misspell terms, use partial words, or don't remember the exact phrasing. This significantly reduces "no results" dead ends and makes self-service discovery more forgiving — especially useful for technical terms, product names, and acronyms that are easy to mistype.
+  Search across your documentation now uses fuzzy matching. Readers can find content even when they misspell terms, use partial words, or don't remember the exact phrasing. This significantly reduces "no results" dead ends and makes self-service discovery more forgiving, especially useful for technical terms, product names, and acronyms that are easy to mistype.
 
   ## Editor Improvements
 
-  - **Table of Contents Panel** — A new sidebar panel gives you a structural overview of your page, letting you jump to any heading instantly and spot issues like skipped heading levels without scrolling.
+  - **Table of Contents Panel**: A new sidebar panel gives you a structural overview of your page, letting you jump to any heading instantly and spot issues like skipped heading levels without scrolling.
 
-  - **Icon Picker & Color Picker** — Visually browse and select icons and colors directly in the editor instead of guessing names or copying hex codes from external tools.
+  - **Icon Picker & Color Picker**: Visually browse and select icons and colors directly in the editor instead of guessing names or copying hex codes from external tools.
 
-  - **Drag & Drop Rearrange** — Components like CardGroup, Steps, and ParamFieldGroup now support drag-and-drop reordering with editable popovers, so you can reorganize content without cutting and pasting code.
+  - **Drag & Drop Rearrange**: Components like CardGroup, Steps, and ParamFieldGroup now support drag-and-drop reordering with editable popovers, so you can reorganize content without cutting and pasting code.
 
-  - **Turn Into** — Convert any block into a different component type (e.g. paragraph → Callout, list → Steps, Card → Expandable) without rewriting content or manually changing markup.
+  - **Turn Into**: Convert any block into a different component type (e.g. paragraph → Callout, list → Steps, Card → Expandable) without rewriting content or manually changing markup.
 
-  - **Editor UI Polish** — Smoother transitions, better focus states, improved keyboard navigation, and more consistent spacing across the editor.
+  - **Editor UI Polish**: Smoother transitions, better focus states, improved keyboard navigation, and more consistent spacing across the editor.
 
-  - **Table Editor Fixes** — Resolved cell selection glitches, content loss on rapid edits, and inconsistent column resizing for more reliable table editing.
+  - **Table Editor Fixes**: Resolved cell selection glitches, content loss on rapid edits, and inconsistent column resizing for more reliable table editing.
 </Update>
 
 <Update label="2026-05-25" description="Visual change detection for AI, saved, and unsaved edits" tags={["feature","improvement"]}>
@@ -99,11 +99,11 @@ description: 'Changes, fixes, and improvements across versions'
 
   We’ve added visual change detection so you can review documentation edits in a clearer diff experience before accepting, publishing, or reverting them.
 
-  - **Review AI changes** — Review agent-suggested changes file by file, then accept or reject individual suggestions or all suggestions at once. This also supports AI operations such as create, delete, rename, and move.
+  - **Review AI changes**: Review agent-suggested changes file by file, then accept or reject individual suggestions or all suggestions at once. This also supports AI operations such as create, delete, rename, and move.
 
-  - **Review saved changes** — Compare saved changes on your current branch against the default branch from the Changes view.
+  - **Review saved changes**: Compare saved changes on your current branch against the default branch from the Changes view.
 
-  - **Review unsaved changes** — Inspect unpublished edits before publishing, jump back into editing, revert a single page, or revert all pending changes.
+  - **Review unsaved changes**: Inspect unpublished edits before publishing, jump back into editing, revert a single page, or revert all pending changes.
 </Update>
 
 <Update label="2026-05-18" description="Authoring MCP Server launch and analytics improvements" tags={["feature","improvement"]}>
@@ -187,15 +187,15 @@ description: 'Changes, fixes, and improvements across versions'
 
   ## Improvements and bug fixes
 
-  - **AI Assistant Captcha Protection** — Added hCaptcha integration to help prevent bot abuse. See [AI Assistant](/ai/ai-assistant#fallback-and-protection).
+  - **AI Assistant Captcha Protection**: Added hCaptcha integration to help prevent bot abuse. See [AI Assistant](/ai/ai-assistant#fallback-and-protection).
 
-  - **Container Content Pages** — Navigation containers such as groups, products, and tabs can now have their own content pages instead of only acting as wrappers. See [Pages](/organize/pages) and [Groups](/organize/groups).
+  - **Container Content Pages**: Navigation containers such as groups, products, and tabs can now have their own content pages instead of only acting as wrappers. See [Pages](/organize/pages) and [Groups](/organize/groups).
 
-  - **AI Assistant Follow-up Suggestions** — Suggested follow-up questions now appear inline after each answer. See [AI Assistant](/ai/ai-assistant).
+  - **AI Assistant Follow-up Suggestions**: Suggested follow-up questions now appear inline after each answer. See [AI Assistant](/ai/ai-assistant).
 
-  - **Breadcrumb Navigation** — Automatic breadcrumbs now appear on all pages with parent containers. See [Pages](/organize/pages) and [Views](/organize/views).
+  - **Breadcrumb Navigation**: Automatic breadcrumbs now appear on all pages with parent containers. See [Pages](/organize/pages) and [Views](/organize/views).
 
-  - **Documentation Image Quality** — Images now render in higher resolution with smarter responsive sizing. See [Images](/components/images).
+  - **Documentation Image Quality**: Images now render in higher resolution with smarter responsive sizing. See [Images](/components/images).
 
   - Numerous additional improvements and bug fixes across the platform.
 </Update>
@@ -293,15 +293,15 @@ description: 'Changes, fixes, and improvements across versions'
 
   **Access levels and example use cases**
 
-  - **Public** — Make your entire documentation site visible to anyone.
+  - **Public**: Make your entire documentation site visible to anyone.
 
     - Ideal for fully public product docs and API reference that should be discoverable by customers and search engines.
 
-  - **Partial** — Keep few docs public and few docs private.&#x20;
+  - **Partial**: Keep few docs public and few docs private.&#x20;
 
     - Gate a few pages for internal teams such as Support, Success, or Sales while keeping the rest of your docs public.
 
-  - **Private** — Require authentication for all documentation.
+  - **Private**: Require authentication for all documentation.
 
     - Store internal code documentation, architecture notes, and engineering guides.
 

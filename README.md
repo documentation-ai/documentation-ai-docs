@@ -3,7 +3,7 @@ title: Documentation.AI Readme
 ---
 ## Documentation.AI Docs
 
-This repository hosts the public documentation for Documentation.AI — an AI‑native documentation platform to ship beautiful, AI‑ready product and API docs.
+This repository hosts the public documentation for Documentation.AI, an AI‑native documentation platform to ship beautiful, AI‑ready product and API docs.
 
 Access the live documentation at [documentation.ai/docs](https://documentation.ai/docs)
 

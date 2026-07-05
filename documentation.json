@@ -425,7 +425,7 @@
               },
               {
                 "title": "Page Actions",
-                "path": "page-actions",
+                "path": "ai/page-actions",
                 "icon": "menu"
               },
               {
@@ -654,6 +654,10 @@
     }
   },
   "redirects": [
+    {
+      "source": "/page-actions",
+      "destination": "/ai/page-actions"
+    },
     {
       "source": "/integrations-and-workflows/github-integration",
       "destination": "/integrations/github"

@@ -209,6 +209,11 @@
                 "icon": "layers"
               },
               {
+                "title": "Localization",
+                "path": "organize/localization",
+                "icon": "languages"
+              },
+              {
                 "title": "Views",
                 "path": "organize/views",
                 "icon": "layout-dashboard"

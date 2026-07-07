@@ -1,0 +1,289 @@
+---
+title: Localization
+description: >-
+  Set up multi-language documentation with the languages dimension so readers
+  can switch languages and see the right content tree.
+---
+## Overview
+
+Set up and manage multi-language documentation by adding a **languages** dimension to your navigation. Each language becomes its own branch of content, so readers can switch context at the top of the docs and only see pages for the selected language.
+
+## What is localization in Documentation.AI
+
+Localization in Documentation.AI uses the **languages** dimension type. Languages are one of the three supported default dimension types, alongside products and versions.
+
+When you add a languages dimension, readers get a language selector at the top of your documentation. The selector is rendered as a dropdown, and the selected language filters the navigation so readers only see content for that language.
+
+Like other dimensions, languages define context rather than navigation style. You can use the languages dimension on its own, or nest it with other dimensions such as versions.
+
+<Callout kind="tip" collapsed="false">
+  Use a languages dimension when most of your documentation exists in parallel translations. If only a few pages differ by language, a full language dimension usually adds more complexity than value.
+</Callout>
+
+## Setting up languages in the Web Editor
+
+Add the languages dimension where it belongs in your structure, then build each language branch separately. For the general workflow for adding dimensions, see [Dimensions](/organize/dimensions).
+
+<Steps>
+  <Step title="Confirm your current top layer" icon="folder" title-type="p">
+    Before you add languages, check how your documentation is structured today. Navigation must start with one dimension type at the root level, and dimensions can be nested in different orders.
+
+    For example, you might add languages as the root layer, or nest languages under versions if each version has its own translations.
+  </Step>
+
+  <Step title="Add a Language dimension as a parent or child" icon="plus" title-type="p">
+    Choose where the language layer should live in your structure:
+
+    - Add it as a **parent** if language should wrap your current top-level navigation.
+
+    - Add it as a **child** if language should live inside an existing dimension such as a version.
+
+    In the Web Editor:
+
+    - To add a parent layer, hover over the top-left of the current top layer header and click the top plus icon.
+
+    - Choose **Add Dimension**, then select **Language**.
+
+    - To add a child layer, hover on the existing dimension value where you want languages to live and click the bottom plus icon.
+
+    - Choose **Add Child Dimension**, then select **Language**.
+  </Step>
+
+  <Step title="Create language values" icon="languages" title-type="p">
+    Create one value for each language you support, such as `English` and `Español`. Each value becomes a separate branch in your documentation tree.
+
+    After you save the first language, add the remaining language values under the same languages dimension. Each one can contain its own tabs, groups, pages, and optional content page.
+  </Step>
+
+  <Step title="Switch between languages to edit each branch" icon="edit" title-type="p">
+    Use the language selector in the editor to move between language branches. When you switch languages, the editor shows only the content tree for that language.
+
+    This makes each branch independent. Adding or editing a page in `English` does not automatically create or update the matching page in `Español`.
+  </Step>
+</Steps>
+
+## Configuring languages in documentation.json
+
+Define languages in `documentation.json` by adding a `languages` array to your navigation structure. Each language item needs a `language` display name, an `icon`, and the views and pages that belong to that language.
+
+### Standalone languages dimension
+
+<CodeGroup show-lines="true" tabs={["Example 1","Example 2"]}>
+  ```json "Example 1"
+  {
+    "navigation": {
+      "languages": [
+        {
+          "language": "English",
+          "icon": "languages",
+          "tabs": [
+            {
+              "tab": "Documentation",
+              "groups": [
+                {
+                  "group": "Getting Started",
+                  "pages": [
+                    {
+                      "title": "Introduction",
+                      "path": "en/introduction"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "language": "Español",
+          "icon": "languages",
+          "tabs": [
+            {
+              "tab": "Documentación",
+              "groups": [
+                {
+                  "group": "Primeros pasos",
+                  "pages": [
+                    {
+                      "title": "Introducción",
+                      "path": "es/introduccion"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+  ```
+
+  ```json "Example 2"
+  {
+    "navigation": {
+      "versions": [
+        {
+          "version": "v2.0",
+          "icon": "badge",
+          "languages": [
+            {
+              "language": "English",
+              "icon": "languages",
+              "tabs": [
+                {
+                  "tab": "Documentation",
+                  "groups": [
+                    {
+                      "group": "Getting Started",
+                      "pages": [
+                        {
+                          "title": "Introduction",
+                          "path": "v2/en/introduction"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "language": "Español",
+              "icon": "languages",
+              "tabs": [
+                {
+                  "tab": "Documentación",
+                  "groups": [
+                    {
+                      "group": "Primeros pasos",
+                      "pages": [
+                        {
+                          "title": "Introducción",
+                          "path": "v2/es/introduccion"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "version": "v1.0",
+          "icon": "badge",
+          "languages": [
+            {
+              "language": "English",
+              "icon": "languages",
+              "tabs": [
+                {
+                  "tab": "Documentation",
+                  "groups": [
+                    {
+                      "group": "Getting Started",
+                      "pages": [
+                        {
+                          "title": "Introduction",
+                          "path": "v1/en/introduction"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "language": "Español",
+              "icon": "languages",
+              "tabs": [
+                {
+                  "tab": "Documentación",
+                  "groups": [
+                    {
+                      "group": "Primeros pasos",
+                      "pages": [
+                        {
+                          "title": "Introducción",
+                          "path": "v1/es/introduccion"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+  ```
+</CodeGroup>
+
+Dimensions are flexible about nesting order. You can place languages at the root, or nest them under another dimension such as versions, as long as navigation starts with a single dimension type at the root.
+
+## Managing translated content
+
+Each language branch has its own independent content tree. That means each language can have its own tabs, groups, page titles, and page paths.
+
+Most teams mirror the same group and page structure across languages so readers can move between languages without losing their place. A common pattern is to keep the same logical structure while using language-specific paths such as `en/introduction` and `es/introduccion`.
+
+<Callout kind="tip" collapsed="false">
+  Mirror your navigation structure across languages whenever possible. Matching groups and equivalent pages make localization easier to maintain and make language switching more predictable for readers.
+</Callout>
+
+You can also attach a content page directly to a language dimension value by adding a `path` property on that language item. This is useful for a localization status page, translation coverage notes, or guidance about what is available in that language.
+
+## Using AI to accelerate localization
+
+Use the [AI Documentation Agent](/ai/ai-documentation-agent) in the Web Editor to handle one-off localization tasks without rebuilding your navigation by hand. It can help you set up language dimensions, create pages inside a specific language branch, translate existing content into another language, and mirror a navigation structure across languages.
+
+Try prompts like these:
+
+- `Translate this page into Spanish and keep the same component structure`
+
+- `Create the Spanish version of this Getting Started group with translated page titles and paths`
+
+- `Set up a language dimension with English and Español branches mirroring the existing navigation`
+
+When you need localization to happen repeatedly, use [Workflows](/ai/workflows) to automate it. A custom workflow can run on a trigger such as a pull request merge or a schedule, then translate new or updated pages across language branches in the background.
+
+This approach works well when your team writes primarily in one language and regularly needs matching updates in others. You can review workflow results before publishing, which helps you keep automated translations aligned with your structure and editorial standards.
+
+<Callout kind="tip" collapsed="false">
+  Use the Agent for one-off translations, branch setup, and structural changes. Use Workflows for recurring translation updates that need to run automatically.
+</Callout>
+
+## Best practices
+
+Use these practices to keep localized documentation manageable as your content grows:
+
+- **Mirror structure across languages** so equivalent content lives in the same place in each branch.
+
+- **Keep the language count manageable** and add new languages only when you can maintain them consistently.
+
+- **Use consistent path naming conventions** such as `en/...` and `es/...` so page paths stay predictable.
+
+- **Plan for partial translations** before you publish a new language branch.
+
+- **Use content pages on language values** when readers need a language-specific landing page or localization status page.
+
+<Callout kind="info" collapsed="false">
+  If a page is not translated, readers only see what exists in the selected language branch. Plan ahead for missing content by deciding whether to hide untranslated sections, publish a smaller branch, or add a language-level status page that explains current coverage.
+</Callout>
+
+## Related reading
+
+<Columns cols="3">
+  <Card title="Dimensions" href="/organize/dimensions" icon="layers" horizontal="false">
+    Learn how products, versions, and languages work together in your navigation structure.
+  </Card>
+
+  <Card title="Site configuration" href="/customize/site-configuration" icon="settings" horizontal="false">
+    Configure navigation structure and dimensions directly in `documentation.json`.
+  </Card>
+
+  <Card title="Organize overview" href="/organize/overview" icon="folder" horizontal="false">
+    See how dimensions, views, and content fit together across your documentation.
+  </Card>
+</Columns>

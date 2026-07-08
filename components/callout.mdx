@@ -48,31 +48,43 @@ In the Web Editor, you can insert callouts without writing any code.
 **All callout styles:**
 
 <Callout kind="info" collapsed="false">
+
   This is an info callout for neutral notes or clarifications in your docs.
+
 </Callout>
 
 <Callout kind="tip" collapsed="false">
+
   This is a tip callout for shortcuts, recommendations, and best practices.
+
 </Callout>
 
 <Callout kind="success" collapsed="false">
+
   This is a success callout to confirm that an action or process completed correctly.
+
 </Callout>
 
 <Callout kind="alert" collapsed="false">
+
   This is an alert callout to flag something that needs extra attention.
+
 </Callout>
 
 <Callout kind="danger" collapsed="false">
+
   This is a danger callout for high-risk or destructive actions that users should double-check.
+
 </Callout>
 
 If you need to keep long disclaimers or edge cases out of the main flow, consider wrapping the callout content inside an [Expandable](/components/expandables) instead.
 
 <Callout kind="info" collapsed="false">
+
   Prefer writing in code?
 
   You can switch to **MDX view inside the Web Editor** to write or edit this component using the same syntax as the Code Editor. This is useful if you want full control while staying in the Web Editor.
+
 </Callout>
 
 ## Using with Code Editor
@@ -83,7 +95,9 @@ In MDX, use the `Callout` component with a `kind` attribute to control the visua
 
 ```jsx
 <Callout kind="info">
+
   This is an informational callout.
+
 </Callout>
 ```
 
@@ -93,12 +107,16 @@ Use for neutral notes or clarifications.
 
 ```jsx
 <Callout kind="info">
+
   Configure your API key in the settings before making requests.
+
 </Callout>
 ```
 
 <Callout kind="info" collapsed="false">
+
   Configure your API key in the settings before making requests.
+
 </Callout>
 
 ### Tip
@@ -107,12 +125,16 @@ Use for recommendations, shortcuts, or best practices.
 
 ```jsx
 <Callout kind="tip">
+
   Use environment variables to store sensitive configuration like API keys.
+
 </Callout>
 ```
 
 <Callout kind="tip" collapsed="false">
+
   Use environment variables to store sensitive configuration like API keys.
+
 </Callout>
 
 ### Alert
@@ -121,12 +143,16 @@ Use for warnings that require extra attention but are not strictly fatal.
 
 ```jsx
 <Callout kind="alert">
+
   This action cannot be undone. Make sure you have a backup before proceeding.
+
 </Callout>
 ```
 
 <Callout kind="alert" collapsed="false">
+
   This action cannot be undone. Make sure you have a backup before proceeding.
+
 </Callout>
 
 ### Danger
@@ -135,12 +161,16 @@ Use for destructive or high-risk actions.
 
 ```jsx
 <Callout kind="danger">
+
   Deleting this workspace will permanently remove all documentation and cannot be recovered.
+
 </Callout>
 ```
 
 <Callout kind="danger" collapsed="false">
+
   Deleting this workspace will permanently remove all documentation and cannot be recovered.
+
 </Callout>
 
 ### Success
@@ -149,19 +179,57 @@ Use for confirmations and positive outcomes.
 
 ```jsx
 <Callout kind="success">
+
   Your documentation has been successfully deployed and is live.
+
 </Callout>
 ```
 
 <Callout kind="success" collapsed="false">
+
   Your documentation has been successfully deployed and is live.
+
 </Callout>
 
 ### Attributes
 
 <ParamField path="kind" param-type="string" required="false" deprecated="false">
+
   Visual style and icon for the callout. One of: `info` (default), `tip`, `success`, `alert`, `danger`.
+
 </ParamField>
+
+<ParamField path="icon" param-type="string" required="false" deprecated="false">
+
+  Override the default icon with a Lucide icon name (e.g. `lightbulb`, `shield-alert`, `rocket`). When provided, this replaces the icon associated with the `kind` prop. See the [Lucide icon gallery](https://lucide.dev/icons) for available names.
+
+</ParamField>
+
+<ParamField path="color" param-type="string" required="false" deprecated="false">
+
+  Override the default color with a hex color code (e.g. `#7c3aed`). When provided, this sets the accent color for the callout border, icon, and background tint, overriding the color associated with the `kind` prop.
+
+</ParamField>
+
+### Custom icon and color
+
+You can customize any callout with a specific Lucide icon and accent color, regardless of the `kind`:
+
+```jsx
+<Callout kind="info" icon="lightbulb" color="#7c3aed">
+
+  This callout uses a custom lightbulb icon and purple accent.
+
+</Callout>
+```
+
+```jsx
+<Callout kind="alert" icon="shield-alert" color="#dc2626">
+
+  This callout uses a shield-alert icon and red accent for security warnings.
+
+</Callout>
+```
 
 ## Advanced options
 
@@ -175,7 +243,9 @@ Example:
 
 ```jsx
 <Callout kind="info" collapsed="true">
+
   This is an optional deep-dive explanation that starts collapsed.
+
 </Callout>
 ```
 

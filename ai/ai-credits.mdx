@@ -8,9 +8,9 @@ description: >-
 
 Documentation.AI uses credits for two AI features:
 
-- The **AI Documentation Agent** (editor-facing, helps you write and edit docs)
+- The **AI Documentation Agent** (editor-facing — helps you write and edit docs)
 
-- The **AI Assistant** or **Ask AI** widget (end-user facing, answers questions for your users)
+- The **AI Assistant** or **Ask AI** widget (end-user facing — answers questions for your users)
 
 Only these features consume credits. Browsing, editing, publishing, and normal site usage do not consume credits.
 
@@ -34,26 +34,30 @@ The [AI Documentation Agent](/ai/ai-documentation-agent) helps you create, edit,
 
 Four practical factors affect how many credits a task uses:
 
-1. **Number of steps**: Each action the agent takes, such as reading files, searching, editing, or validating, adds to the total. A small change may take 2–3 steps, while a broader task can take many more.
+1. **Number of steps** — Each action the agent takes, such as reading files, searching, editing, or validating, adds to the total. A small change may take 2–3 steps, while a broader task can take many more.
 
-2. **Amount of content processed**: Larger files, more pages, and longer conversations require the agent to read and work through more content. A short page edit costs less than updating a large section of your docs.
+2. **Amount of content processed** — Larger files, more pages, and longer conversations require the agent to read and work through more content. A short page edit costs less than updating a large section of your docs.
 
-3. **Type of operation**: Reading and searching usually cost less than writing, rewriting, or validating content. Tasks that create new pages or update multiple files generally use more credits.
+3. **Type of operation** — Reading and searching usually cost less than writing, rewriting, or validating content. Tasks that create new pages or update multiple files generally use more credits.
 
-4. **Task complexity**: Tasks that require deep planning, code-aware analysis, or background validation use more credits than simple edits.
+4. **Task complexity** — Tasks that require deep planning, code-aware analysis, or background validation use more credits than simple edits.
 
 ### Typical credit usage
 
 | Task                                                        | Average credits |
 | ----------------------------------------------------------- | --------------- |
-| Quick edit (fix a typo, change a heading, update a link)    | 15              |
-| Single page edit (rewrite a section, add a component)       | 110             |
-| Navigation change (add a tab, move a page, update groups)   | 95              |
-| Structural edit (reorganize navigation, update site config) | 185             |
-| Create a new page                                           | 150             |
-| Multi-page task (create 5+ pages, update navigation)        | 690             |
-| Large or iterative task (import docs, full restructure)     | 950             |
-| Update docs from code changes (connected GitHub repo)       | 160             |
+| Quick edit (fix a typo, change a heading, update a link)    | 5               |
+| Single page edit (rewrite a section, add a component)       | 35              |
+| Navigation change (add a tab, move a page, update groups)   | 30              |
+| Structural edit (reorganize navigation, update site config) | 60              |
+| Create a new page                                           | 50              |
+| Multi-page task (create 5+ pages, update navigation)        | 230             |
+| Large or iterative task (import docs, full restructure)     | 320             |
+| Update docs from code changes (connected GitHub repo)       | 55              |
+
+<Callout kind="info" collapsed="false">
+  Credit costs have been significantly reduced following agent optimizations. Most tasks now use approximately **3× fewer credits** than previously, thanks to more efficient agent loop, routing, and compaction.
+</Callout>
 
 ### Multi-turn conversations
 
@@ -69,11 +73,11 @@ A typical follow-up message costs **30–50% less** than the first message in a 
 
 You might notice that similar tasks sometimes use slightly different amounts of credits. This is normal and happens because:
 
-- **Document size matters**: Editing a 200-line page costs more than editing a 50-line page because the agent processes more content.
+- **Document size matters** — Editing a 200-line page costs more than editing a 50-line page because the agent processes more content.
 
-- **Retries**: If the agent's first edit attempt produces invalid JSON or doesn't match the file correctly, it retries automatically. Each retry adds a small amount of credits.
+- **Retries** — If the agent's first edit attempt produces invalid JSON or doesn't match the file correctly, it retries automatically. Each retry adds a small amount of credits.
 
-- **Conversation length**: Later messages in a long conversation process more context (the full conversation history), which increases cost slightly.
+- **Conversation length** — Later messages in a long conversation process more context (the full conversation history), which increases cost slightly.
 
 ## Where to view credit usage
 
@@ -93,11 +97,10 @@ The usage page shows:
 
 ## Tips to use credits efficiently
 
-- **Be specific**: "Change the title of getting-started.mdx to Quick Start" costs less than "update the getting started page" because the agent doesn't need to search and read first.
+- **Be specific** — "Change the title of getting-started.mdx to Quick Start" costs less than "update the getting started page" because the agent doesn't need to search and read first.
 
-- **Use follow-ups**: After the agent edits a page, ask for changes in the same conversation rather than starting a new one. Follow-ups are cheaper.
+- **Use follow-ups** — After the agent edits a page, ask for changes in the same conversation rather than starting a new one. Follow-ups are cheaper.
 
-- **Batch related changes**: "Add pages for authentication, rate limiting, and webhooks" in one message is cheaper than three separate conversations.
+- **Batch related changes** — "Add pages for authentication, rate limiting, and webhooks" in one message is cheaper than three separate conversations.
 
-- **Use the AI Assistant for questions**: If you just need to look up something in your docs, use Ask AI (1 credit) instead of the Documentation Agent.
-
+- **Use the AI Assistant for questions** — If you just need to look up something in your docs, use Ask AI (1 credit) instead of the Documentation Agent.

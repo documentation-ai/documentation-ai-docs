@@ -2,6 +2,36 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-07-10" description="Real-time collaboration with inline comments and mentions, plan updates, and editor improvements" tags={["feature","improvement"]}>
+  ## Real-Time Collaboration
+
+  Multiple teammates can now edit the same documentation pages simultaneously in the web editor. Changes sync instantly across all collaborators, including page content, navigation, and site configuration.
+
+  - **Inline comments**: Select text and create a comment thread attached to that selection. Reply, edit, delete, resolve, and reopen threads. Comment highlights appear directly in the editor.
+
+  - **Mentions**: Type @ in a comment to mention a teammate from your organization. Mentioned users receive a notification.
+
+  - **Notifications**: A notification bell in the sidebar tracks unread mentions, replies, resolved, and reopened events. New notifications trigger a toast and sound. A daily email digest catches you up on missed activity.
+
+  - **Collaborator presence**: Active collaborators appear as avatars in the editor navbar. Each person's cursor and selection are visible in real time.
+
+  - **Role-based access**: Admins and Editors can edit and publish. Viewers can read and view comments but cannot edit.
+
+  Publishing from collaboration mode supports Save, Save and Merge, and Save and Create PR actions. Publishing is serialized per branch to prevent conflicts between simultaneous editors.
+
+  Learn more in [Real-Time Collaboration](/write-and-publish/collaboration).
+
+  ## Improvements
+
+  - **Faster search**: Search input debounce reduced from 300ms to 200ms for snappier results.
+
+  - **Ask AI in search**: The Ask AI prompt in search results is now always visible, pinned outside the scrollable results list.
+
+  - **CodeBlock language aliases**: `node` and `nodejs` now highlight as JavaScript, and `curl` highlights as Bash. CodeGroup tabs auto-capitalize language names.
+
+  - **Branch-based editor routing**: The editor URL now includes the branch name (for example, /editor/main). Browser back and forward navigation switches branches correctly.
+</Update>
+
 <Update label="2026-06-30" description="PDF export, SVG and HTML Block components, SEO meta overrides, API playground server management, heading copy-link, and platform improvements" tags={["feature","improvement","fix"]}>
   ## PDF Export
 

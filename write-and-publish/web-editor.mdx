@@ -38,6 +38,7 @@ If you need a Git-based workflow, local previews, or tight integration with your
   changes are published or cleared.
 
 
+
 </Callout>
 
 ## Getting started with the web editor
@@ -111,6 +112,7 @@ Use the web editor to make safe, incremental changes to your documentation struc
     If your project uses [dimensions](/organize/dimensions), start by selecting the correct dimension in the sidebar. Then choose the appropriate [view](/organize/views) within that dimension (or at the root if there are no dimensions) so you are working on the right part of the tree.
 
 
+
   </Step>
 
   <Step title="Add views with Tabs or Dropdowns (optional)" icon="notebook-tabs-icon" title-type="p">
@@ -118,6 +120,7 @@ Use the web editor to make safe, incremental changes to your documentation struc
     Use [views](/organize/views) to introduce Tabs or Dropdowns when you need multiple layouts or navigation tracks within a dimension or at the root.
 
     The views model follows a one-child rule: each Tabs or Dropdowns container should have a single type of child (pages, groups, or another nested view). For supported patterns and examples, see the [views guide](/organize/views).
+
 
 
   </Step>
@@ -129,6 +132,7 @@ Use the web editor to make safe, incremental changes to your documentation struc
     If you only have a few pages, you can keep them flat without groups.
 
 
+
   </Step>
 
   <Step title="Create pages with stable slugs" icon="file-text" title-type="p">
@@ -136,11 +140,13 @@ Use the web editor to make safe, incremental changes to your documentation struc
     Add [pages](/organize/pages) where you want new content to live. Each page is backed by MDX and identified by a stable `path` (slug). Prefer keeping paths stable over time and move pages within the structure instead of renaming paths when you reorganize. When you must change a path, use redirects as described in the pages guide.
 
 
+
   </Step>
 
   <Step title="Plan patterns at a higher level" icon="layout-dashboard" title-type="p">
 
     Use this page for quick structural edits and content changes. For larger reorganizations across dimensions, views, and groups, refer to the [organize overview](/organize/overview) to choose patterns that scale before you start editing in the web editor.
+
 
 
   </Step>
@@ -188,6 +194,7 @@ Markdown mode exposes the underlying MDX source for your page so you can work di
 <Callout kind="info">
 
   Use callouts to highlight important information for your readers.
+
 
 
 </Callout>
@@ -269,6 +276,7 @@ In markdown mode:
   Use callouts to emphasize best practices or caveats that readers should not miss.
 
 
+
 </Callout>
 ```
 
@@ -316,15 +324,21 @@ For a deeper look at how dimensions, views, groups, and pages work across your p
 
 ### Collaboration and review
 
-The web editor is built for teams:
+The web editor supports real-time collaboration so multiple teammates can edit the same pages simultaneously, leave inline comments, mention each other, and track notifications without leaving the editor.
 
-- Multiple collaborators can open and edit content.
+- Multiple collaborators can edit content at the same time with live cursor tracking.
 
-- Changes are auto-saved as you type.
+- Changes sync instantly across all collaborators, including navigation and site configuration.
 
-- You can review edits in the editor before publishing.
+- Inline comments attach to selected text so feedback stays in context. Resolve or reopen threads as needed.
 
-Use your team’s review process (for example, checklists, issue trackers, or comments in your existing tools) around the web editor to keep changes controlled and traceable.
+- Type `@` in a comment to mention a teammate. Mentioned users receive a notification.
+
+- A notification bell in the sidebar tracks unread mentions, replies, and thread status changes.
+
+- Role-based access controls who can edit: Admins and Editors can write and publish, while Viewers can read and comment but cannot edit.
+
+For the full collaboration workflow including comments, mentions, notifications, and publishing from collaboration mode, see [Real-Time Collaboration](/write-and-publish/collaboration).
 
 ### Review changes in the editor
 
@@ -412,11 +426,13 @@ If you need to take your documentation site offline, you can unpublish it from t
     Navigate to **Settings** → **Documentation Settings** → **Advanced** → **Danger Zone**.
 
 
+
   </Step>
 
   <Step title="Unpublish" icon="cloud-off" title-type="p">
 
     Click **Unpublish Documentation** and confirm in the dialog.
+
 
 
   </Step>
@@ -437,6 +453,7 @@ To bring your site back online, open the Editor and click **Publish** again. You
 <Callout kind="info" collapsed="false">
 
   Unpublishing removes public access but does not delete content or configuration. You can republish at any time.
+
 
 
 </Callout>

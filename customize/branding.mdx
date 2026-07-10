@@ -57,7 +57,9 @@ Scroll down to the **Brand & Theme** section and locate **Documentation Logos**.
   Small square icon used in browser tabs and shortcuts.
 
 <Callout kind="info" collapsed="false">
+
   All uploaded assets are stored under `logos` in `documentation.json`. After updating logos, **Publish** your documentation so changes appear on the live site.
+
 </Callout>
 
 If you prefer to manage branding via configuration files (for example, in version control), you can use the advanced configuration described below.
@@ -77,11 +79,15 @@ Set your site's primary identity in `documentation.json`:
 ```
 
 <ParamField path="name" param-type="string" required="true" deprecated="false">
+
   Site name displayed in the browser title, navigation header, and social media previews. Appears as "Page Title - Site Name" format in browser tabs.
+
 </ParamField>
 
 <Callout kind="note" collapsed="false">
+
   Individual pages can customize their titles using [page front matter](page-configuration). The browser tab will show the "Page Title - Site Name" format, combining both site-wide and page-level configuration.
+
 </Callout>
 
 ### Step 2: Prepare your logo assets
@@ -110,19 +116,27 @@ Add your logo URLs to `documentation.json`:
 ```
 
 <ParamField path="logo-dark" param-type="string" required="false" deprecated="false">
+
   Main logo displayed in dark theme. Supports PNG, SVG, and WEBP formats.
+
 </ParamField>
 
 <ParamField path="logo-light" param-type="string" required="false" deprecated="false">
+
   Main logo displayed in light theme. Supports PNG, SVG, and WEBP formats.
+
 </ParamField>
 
 <ParamField path="logo-small-dark" param-type="string" required="false" deprecated="false">
+
   Small logo/favicon for dark theme. Used in browser tabs and mobile view.
+
 </ParamField>
 
 <ParamField path="logo-small-light" param-type="string" required="false" deprecated="false">
+
   Small logo/favicon for light theme. Used in browser tabs and mobile view.
+
 </ParamField>
 
 ### Step 4: Apply brand colors
@@ -196,6 +210,18 @@ Set your brand colors for consistent visual identity:
 
 - Ensure proper spacing and sizing ratios
 
+## Remove Footer Branding
+
+By default, published documentation pages include a "Powered by Documentation.AI" footer link. Removing this footer branding (white-label) is available on the **Enterprise** plan only.
+
+If you are on an Enterprise plan and want to remove the footer branding, contact your customer success manager or [support](mailto:hello@documentation.ai) to enable white-label mode for your documentation site.
+
+<Callout kind="info" collapsed="false">
+
+  White-label mode removes the "Powered by Documentation.AI" footer from all published pages. Your content, navigation, and branding remain unchanged.
+
+</Callout>
+
 ## Complete Branding Setup
 
 ```json
@@ -241,6 +267,8 @@ Set your brand colors for consistent visual identity:
 - [See complete site configuration reference](site-configuration)
 
 <Callout kind="note" collapsed="false">
+
   All branding elements are optional except for the site name. Documentation.AI provides professional defaults for any missing assets. You can start with basic branding and add more elements over time as your brand assets become available.
+
 </Callout>
 

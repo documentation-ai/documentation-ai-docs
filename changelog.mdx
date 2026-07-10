@@ -3,7 +3,6 @@ title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
 <Update label="2026-07-10" description="Real-time collaboration with inline comments and mentions, plan updates, and editor improvements" tags={["feature","improvement"]}>
-
   ## Real-Time Collaboration
 
   Multiple teammates can now edit the same documentation pages simultaneously in the web editor. Changes sync instantly across all collaborators, including page content, navigation, and site configuration.
@@ -22,16 +21,6 @@ description: 'Changes, fixes, and improvements across versions'
 
   Learn more in [Real-Time Collaboration](/write-and-publish/collaboration).
 
-  ## Plan Updates
-
-  - **Professional plan** now includes **10 editor seats** (previously 6).
-
-  - **Standard plan** now includes **2 documentation sites** (previously 1).
-
-  - **Remove footer branding** is now available on the **Enterprise** plan only.
-
-  See [Upgrade/Downgrade](/account-and-billing/upgrade-downgrade) and [Usage Limits](/account-and-billing/usage-limits) for updated plan details.
-
   ## Improvements
 
   - **Faster search**: Search input debounce reduced from 300ms to 200ms for snappier results.
@@ -41,13 +30,9 @@ description: 'Changes, fixes, and improvements across versions'
   - **CodeBlock language aliases**: `node` and `nodejs` now highlight as JavaScript, and `curl` highlights as Bash. CodeGroup tabs auto-capitalize language names.
 
   - **Branch-based editor routing**: The editor URL now includes the branch name (for example, /editor/main). Browser back and forward navigation switches branches correctly.
-
-  - **Workflow templates**: Disabled workflow templates are hidden from the workflow creation UI instead of appearing grayed out.
-
 </Update>
 
 <Update label="2026-06-30" description="PDF export, SVG and HTML Block components, SEO meta overrides, API playground server management, heading copy-link, and platform improvements" tags={["feature","improvement","fix"]}>
-
   ## PDF Export
 
   Export your documentation pages as professionally formatted PDF files for offline sharing, compliance archives, or printed handouts. The export runs asynchronously in the background and emails you when the file is ready.
@@ -59,9 +44,7 @@ description: 'Changes, fixes, and improvements across versions'
   - Enable **Download as PDF** as a Page Action so readers can print individual pages directly from the table of contents sidebar. See [Page Actions](/page-actions).
 
   <Callout kind="info" collapsed="false">
-
     PDF export is available on Standard plans and above.
-
   </Callout>
 
   ## SVG and HTML Block Components
@@ -103,11 +86,9 @@ description: 'Changes, fixes, and improvements across versions'
   - **Navigation Icons**: Dropdown menus, tab labels, and group headers in the sidebar and navbar now display configured icons, with active-state color highlighting.
 
   - **External Link Auto-Target&#x20;**: External links in your documentation now automatically open in a new browser tab with `rel="noopener noreferrer"` for security. Internal links and hash anchors are unaffected, and explicit `target` overrides are respected.
-
 </Update>
 
 <Update label="2026-06-01" description="Agent file attachments, new editor components, custom CSS, search improvements, and table editor fixes" tags={["feature","improvement","fix"]}>
-
   ## Agent File Attachments
 
   The AI Documentation Agent now supports file attachments. Upload PDFs, code files, documents, and spreadsheets directly into the agent conversation to give it richer context when generating or updating your documentation.
@@ -141,11 +122,9 @@ description: 'Changes, fixes, and improvements across versions'
   - **Editor UI Polish**: Smoother transitions, better focus states, improved keyboard navigation, and more consistent spacing across the editor.
 
   - **Table Editor Fixes**: Resolved cell selection glitches, content loss on rapid edits, and inconsistent column resizing for more reliable table editing.
-
 </Update>
 
 <Update label="2026-05-25" description="Visual change detection for AI, saved, and unsaved edits" tags={["feature","improvement"]}>
-
   ## Visual Change Detection
 
   We’ve added visual change detection so you can review documentation edits in a clearer diff experience before accepting, publishing, or reverting them.
@@ -155,11 +134,9 @@ description: 'Changes, fixes, and improvements across versions'
   - **Review saved changes**: Compare saved changes on your current branch against the default branch from the Changes view.
 
   - **Review unsaved changes**: Inspect unpublished edits before publishing, jump back into editing, revert a single page, or revert all pending changes.
-
 </Update>
 
 <Update label="2026-05-18" description="Authoring MCP Server launch and analytics improvements" tags={["feature","improvement"]}>
-
   ## Authoring MCP Server
 
   The new Authoring MCP Server is now available as the main MCP experience for read/write documentation workflows. It lets MCP-compatible AI clients work directly with your Documentation.AI project so they can inspect files, update pages, manage branches, review changes, and deploy through your normal documentation workflow.
@@ -209,11 +186,9 @@ description: 'Changes, fixes, and improvements across versions'
   - Easier analysis and reporting with built-in export and dashboard workflows.
 
   See [Analytics overview](/analytics/overview) for the full analytics experience.
-
 </Update>
 
 <Update label="2026-05-11" description="AI Workflows, branches and previews, AI Assistant customization, and platform improvements" tags={["feature","improvement","fix"]}>
-
   ## Features
 
   ### AI Workflows
@@ -253,11 +228,9 @@ description: 'Changes, fixes, and improvements across versions'
   - **Documentation Image Quality**: Images now render in higher resolution with smarter responsive sizing. See [Images](/components/images).
 
   - Numerous additional improvements and bug fixes across the platform.
-
 </Update>
 
 <Update label="2026-04-10" description="Collections, container pages, JWT/OAuth access control, and cookie consent" tags={["feature"]}>
-
   ## CollectionList and CollectionContent components
 
   Two new components are now available to help you build help center-style navigation directly within your documentation pages.
@@ -287,11 +260,9 @@ description: 'Changes, fixes, and improvements across versions'
   ## Cookie consent
 
   Cookie consent tooling gives you a configurable banner and preference controls that help align your docs with privacy requirements. Decide which analytics and third-party scripts require consent and how they behave before and after a user accepts. Configure options in the dashboard and learn more in [Cookie Consent](/customize/cookie-consent).
-
 </Update>
 
 <Update label="2026-03-25" description="Site Config in Editor, integrations, polish, and unpublish support" tags={["feature","improvement","fix"]}>
-
   ## Integrations
 
   Connect analytics platforms and chat widgets to your documentation with zero-code setup. Built-in support for 17 providers including Google Tag Manager, Google Analytics, PostHog, Amplitude, Mixpanel, Segment, Hotjar, Intercom, Crisp, and more. Just provide your project ID and publish. See [Integrations](/integrations/overview).
@@ -303,11 +274,9 @@ description: 'Changes, fixes, and improvements across versions'
   ## Site Config Moved to Editor
 
   Documentation configuration i.e  theme, branding, SEO, navigation, integrations, scripts, and more  is now accessible directly from the Editor instead of Settings. Click **Site Config** in the Editor top toolbar. Changes appear in the Changes panel alongside content edits and deploy when you publish. Learn more in [Site Configuration](/customize/site-configuration).
-
 </Update>
 
 <Update label="2026-03-12" description="API Playground request formats, security UI, and GitHub context UX" tags={["improvement","fix"]}>
-
   ## API Playground enhancements
 
   API Playground now supports `multipart/form-data` and `application/x-www-form-urlencoded` bodies in the request builder, including correct cURL and JavaScript code generation and proxy handling for multipart uploads.
@@ -317,11 +286,9 @@ description: 'Changes, fixes, and improvements across versions'
   ## GitHub Integration UX&#x20;
 
   GitHub AI context and source repository has a clearer user experience and a more direct navigation path from workspace settings to integrations.
-
 </Update>
 
 <Update label="2026-03-05" description="Page Actions and API Playground enhancements" tags={["feature","improvement"]}>
-
   ## Page Actions
 
   Page Actions add context-aware tools in the table of contents sidebar so you can move content between tools without leaving the reader view. Learn how to configure actions like copy page markdown, view source, open in external LLMs, and copy MCP URLs in [Page Actions](/page-actions).
@@ -347,11 +314,9 @@ description: 'Changes, fixes, and improvements across versions'
   - The API Playground now uses OpenAPI `example` values to prefill parameter inputs so readers can run operations with realistic defaults.
 
   - Many other bug fixes and minor improvements
-
 </Update>
 
 <Update label="2026-01-15" description="Access control (Private/Partial docs )" tags={["feature","security"]}>
-
   ## Access control options
 
   You can now configure access control for your docs at the project level to match how you share content with different audiences. Learn more in the [Access Control documentation](/customize/access-control/overview).
@@ -371,11 +336,9 @@ description: 'Changes, fixes, and improvements across versions'
     - Store internal code documentation, architecture notes, and engineering guides.
 
     - Centralize internal SOPs, runbooks, and operational checklists for on-call and support teams.
-
 </Update>
 
 <Update label="2026-01-07" description="Documentation Templates" tags={["feature"]}>
-
   ## Documentation Templates
 
   Choose from pre-built templates to customize the layout and style of your documentation site.
@@ -395,11 +358,9 @@ description: 'Changes, fixes, and improvements across versions'
   - Further customize your selected template with colors, typography, branding, and navigation settings
 
   Learn more in our [Templates documentation](/customize/templates).
-
 </Update>
 
 <Update label="2025-12-06" description="Default docs domain change" tags={["infrastructure"]}>
-
   The default docs domain is migrating from `*.documentationai.io` to `*.documentatioai.com`.
 
   - Existing links automatically redirect; no action needed for most users.
@@ -407,11 +368,9 @@ description: 'Changes, fixes, and improvements across versions'
   - Update references only if you hard‑code the old domain in firewalls, allowlists, scripts, or integrations.
 
   - Custom domains are unaffected and will continue to work as usual.&#x20;
-
 </Update>
 
 <Update label="2025-12-04" description="AI Documentation Agent Launch (Beta)" tags={["feature","beta"]}>
-
   ## AI Documentation Agent (beta)
 
   The AI Documentation agent is now available in beta for all workspaces. It helps you generate pages, apply rich visual components, and keep content aligned with your Documentation.AI configuration.
@@ -439,11 +398,9 @@ description: 'Changes, fixes, and improvements across versions'
   - The agent cannot yet run in the background or autonomously; background workflows are coming soon.
 
   - All AI-generated content should be reviewed and edited before publishing
-
 </Update>
 
 <Update label="2025-12-02" description="MCP server for your docs" tags={["feature"]}>
-
   ## MCP Server for Your Docs
 
   You can now expose your own documentation/knowledge as a Model Context Protocol server. This makes your published docs directly accessible to your end users, internal teams, and LLM‑powered tools.
@@ -457,6 +414,5 @@ description: 'Changes, fixes, and improvements across versions'
   - Use structured page and API metadata to give agents more grounded and context‑aware responses
 
   - Help product teams deliver LLM‑native support and troubleshooting experiences directly inside their apps
-
 </Update>
 

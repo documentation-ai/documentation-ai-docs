@@ -5,118 +5,92 @@ description: >-
   including title, description, SEO properties, and structured data.
 type: reference
 ---
-
 Front matter is a block of YAML configuration placed at the very top of an MDX file, enclosed by triple-dashed lines (`---`). It allows you to define metadata for each page individually.
 
-<CodeGroup tabs="Basic Page,Article with SEO">
+<CodeGroup show-lines="true" tabs={[]}>
+  ```yaml
+  ---
+  title: "Introduction"
+  description: "Learn about the core concepts and get started with our platform."
+  ---
+  ```
 
-```yaml
----
-title: "Introduction"
-description: "Learn about the core concepts and get started with our platform."
----
-```
-
-```yaml
----
-title: "How to Integrate our API"
-description: "A step-by-step guide to integrating our API into your application, with code samples."
-ogImage: "https://example.com/images/api-integration-social.png"
-canonical: "https://docs.example.com/api/integration"
-jsonLd:
-  "@context": "https://schema.org"
-  "@type": "HowTo"
-  "step": [
-    {
-      "@type": "HowToStep",
-      "text": "Get your API keys from the dashboard."
-    },
-    {
-      "@type": "HowToStep",
-      "text": "Authenticate your requests."
-    }
-  ]
----
-```
+  ```yaml
+  ---
+  title: "How to Integrate our API"
+  description: "A step-by-step guide to integrating our API into your application, with code samples."
+  ogImage: "https://example.com/images/api-integration-social.png"
+  canonical: "https://docs.example.com/api/integration"
+  jsonLd:
+    "@context": "https://schema.org"
+    "@type": "HowTo"
+    "step": [
+      {
+        "@type": "HowToStep",
+        "text": "Get your API keys from the dashboard."
+      },
+      {
+        "@type": "HowToStep",
+        "text": "Authenticate your requests."
+      }
+    ]
+  ---
+  ```
 </CodeGroup>
 
 ## Properties
 
-<ParamField path="title" param-type="string" required="true" showLocation="false">
-
+<ParamField path="title" param-type="string" required="true" deprecated="false" show-location="false">
   The main title of the page. Used for the browser tab, navigation, search results, and social sharing cards.
-
 </ParamField>
 
-<ParamField path="description" param-type="string" required="false" showLocation="false">
-
+<ParamField path="description" param-type="string" required="false" deprecated="false" show-location="false">
   A brief summary of the page content (120-160 characters). Used for SEO meta descriptions and social sharing cards.
-
 </ParamField>
 
-<ParamField path="metaTitle" param-type="string" required="false" showLocation="false">
-
+<ParamField path="metaTitle" param-type="string" required="false" deprecated="false" show-location="false">
   Overrides the browser tab title, Open Graph title, Twitter card title, and JSON-LD headline without changing the visible page heading. Falls back to `title` when not set. Useful when you need a shorter or more search-optimized title for search engines and social previews while keeping a descriptive H1 for readers.
-
 </ParamField>
 
-<ParamField path="metaDescription" param-type="string" required="false" showLocation="false">
-
+<ParamField path="metaDescription" param-type="string" required="false" deprecated="false" show-location="false">
   Overrides the SEO meta description, Open Graph description, and Twitter card description without changing the visible page subtitle or description text. Falls back to `description` when not set. Use this to craft a different search snippet than what appears on the page itself.
-
 </ParamField>
 
-<ParamField path="ogImage" param-type="string" required="false" showLocation="false">
-
+<ParamField path="ogImage" param-type="string" required="false" deprecated="false" show-location="false">
   The URL for a custom Open Graph image (1200x630px recommended) to use for social sharing cards. Overrides the auto-generated image.
-
 </ParamField>
 
-<ParamField path="canonical" param-type="string" required="false" showLocation="false">
-
+<ParamField path="canonical" param-type="string" required="false" deprecated="false" show-location="false">
   The canonical URL for the page to prevent duplicate content issues. Defaults to the page's own URL.
-
 </ParamField>
 
-<ParamField path="jsonLd" param-type="object | array" required="false" showLocation="false">
-
+<ParamField path="jsonLd" param-type="object | array" required="false" deprecated="false" show-location="false">
   Adds JSON-LD structured data for rich search results, conforming to [Schema.org](https://schema.org/) vocabulary. The key can also be `jsonld` (lowercase).
 
-  <Expandable title="Example Schema.org Properties">
-
-    <ParamField path="@context" param-type="string" required="true" showLocation="false">
-
+  <Expandable title="Example Schema.org Properties" default-open="false">
+    <ParamField path="@context" param-type="string" required="true" deprecated="false" show-location="false">
       The schema context, typically `https://schema.org`.
-
     </ParamField>
-    <ParamField path="@type" param-type="string" required="true" showLocation="false">
 
+    <ParamField path="@type" param-type="string" required="true" deprecated="false" show-location="false">
       The schema type, such as `Article`, `TechArticle`, or `FAQPage`.
-
     </ParamField>
-    <ParamField path="headline" param-type="string" required="false" showLocation="false">
 
+    <ParamField path="headline" param-type="string" required="false" deprecated="false" show-location="false">
       The headline of the article.
-
     </ParamField>
-    <ParamField path="author" param-type="object" required="false" showLocation="false">
 
+    <ParamField path="author" param-type="object" required="false" deprecated="false" show-location="false">
       An object defining the author, with `@type` (e.g., `Person` or `Organization`) and `name`.
-
     </ParamField>
-
   </Expandable>
-
 </ParamField>
 
-<Callout>
-
-You can also include any other custom key-value pairs in your front matter. This data is not used by default but can be accessed for custom component or theme logic.
-
+<Callout kind="note" collapsed="false">
+  You can also include any other custom key-value pairs in your front matter. This data is not used by default but can be accessed for custom component or theme logic.
 </Callout>
 
 <Callout kind="info" collapsed="false">
-
   Page layout options such as `show-sidebar`, `show-toc`, `show-parent-label`, `content-width`, and `badge` are configured in the navigation section of your [site configuration](/customize/site-configuration#pages-configuration), not in front matter.
-
 </Callout>
+

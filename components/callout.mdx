@@ -48,31 +48,49 @@ In the Web Editor, you can insert callouts without writing any code.
 **All callout styles:**
 
 <Callout kind="info" collapsed="false">
+
   This is an info callout for neutral notes or clarifications in your docs.
+
+
 </Callout>
 
 <Callout kind="tip" collapsed="false">
+
   This is a tip callout for shortcuts, recommendations, and best practices.
+
+
 </Callout>
 
 <Callout kind="success" collapsed="false">
+
   This is a success callout to confirm that an action or process completed correctly.
+
+
 </Callout>
 
 <Callout kind="alert" collapsed="false">
+
   This is an alert callout to flag something that needs extra attention.
+
+
 </Callout>
 
 <Callout kind="danger" collapsed="false">
+
   This is a danger callout for high-risk or destructive actions that users should double-check.
+
+
 </Callout>
 
 If you need to keep long disclaimers or edge cases out of the main flow, consider wrapping the callout content inside an [Expandable](/components/expandables) instead.
 
 <Callout kind="info" collapsed="false">
+
   Prefer writing in code?
 
   You can switch to **MDX view inside the Web Editor** to write or edit this component using the same syntax as the Code Editor. This is useful if you want full control while staying in the Web Editor.
+
+
 </Callout>
 
 ## Using with Code Editor
@@ -83,7 +101,10 @@ In MDX, use the `Callout` component with a `kind` attribute to control the visua
 
 ```jsx
 <Callout kind="info">
+
   This is an informational callout.
+
+
 </Callout>
 ```
 
@@ -93,12 +114,18 @@ Use for neutral notes or clarifications.
 
 ```jsx
 <Callout kind="info">
+
   Configure your API key in the settings before making requests.
+
+
 </Callout>
 ```
 
 <Callout kind="info" collapsed="false">
+
   Configure your API key in the settings before making requests.
+
+
 </Callout>
 
 ### Tip
@@ -107,12 +134,18 @@ Use for recommendations, shortcuts, or best practices.
 
 ```jsx
 <Callout kind="tip">
+
   Use environment variables to store sensitive configuration like API keys.
+
+
 </Callout>
 ```
 
 <Callout kind="tip" collapsed="false">
+
   Use environment variables to store sensitive configuration like API keys.
+
+
 </Callout>
 
 ### Alert
@@ -121,12 +154,18 @@ Use for warnings that require extra attention but are not strictly fatal.
 
 ```jsx
 <Callout kind="alert">
+
   This action cannot be undone. Make sure you have a backup before proceeding.
+
+
 </Callout>
 ```
 
 <Callout kind="alert" collapsed="false">
+
   This action cannot be undone. Make sure you have a backup before proceeding.
+
+
 </Callout>
 
 ### Danger
@@ -135,12 +174,18 @@ Use for destructive or high-risk actions.
 
 ```jsx
 <Callout kind="danger">
+
   Deleting this workspace will permanently remove all documentation and cannot be recovered.
+
+
 </Callout>
 ```
 
 <Callout kind="danger" collapsed="false">
+
   Deleting this workspace will permanently remove all documentation and cannot be recovered.
+
+
 </Callout>
 
 ### Success
@@ -149,18 +194,41 @@ Use for confirmations and positive outcomes.
 
 ```jsx
 <Callout kind="success">
+
   Your documentation has been successfully deployed and is live.
+
+
 </Callout>
 ```
 
 <Callout kind="success" collapsed="false">
+
   Your documentation has been successfully deployed and is live.
+
+
 </Callout>
 
 ### Attributes
 
 <ParamField path="kind" param-type="string" required="false" deprecated="false">
+
   Visual style and icon for the callout. One of: `info` (default), `tip`, `success`, `alert`, `danger`.
+
+
+</ParamField>
+
+<ParamField path="icon" param-type="string" required="false" deprecated="false">
+
+  Custom Lucide icon name in kebab-case (for example, `rocket`, `shield-alert`, `lightbulb`). Overrides the default icon for the selected `kind`. If the icon name is not found in the Lucide library, the callout falls back to the default icon for its `kind`.
+
+
+</ParamField>
+
+<ParamField path="color" param-type="string" required="false" deprecated="false">
+
+  Custom color for the callout icon and background tint. Accepts any valid CSS color value such as hex (`#e74c3c`), `rgb()`, named colors, or CSS variables. The background is automatically tinted at 12% opacity, and the icon uses the full color value. When set, this overrides the theme-based background color for the selected `kind`.
+
+
 </ParamField>
 
 ## Advanced options
@@ -175,8 +243,71 @@ Example:
 
 ```jsx
 <Callout kind="info" collapsed="true">
+
   This is an optional deep-dive explanation that starts collapsed.
+
+
 </Callout>
 ```
 
 When you need more structured or multi-paragraph content that should start hidden, combine callouts with [Expandables](/components/expandables) or use headings and body copy from [Headings and Text](/components/heading-and-text) inside the callout for clearer hierarchy.
+
+## Custom icons and colors
+
+Override the default icon and background color for any callout using the `icon` and `color` props.
+
+### Custom icon
+
+Pass a Lucide icon name in kebab-case to the `icon` prop. The component looks up the icon from the Lucide library and displays it instead of the default icon for the selected `kind`.
+
+```jsx
+<Callout kind="tip" icon="rocket">
+
+  Launch checklist complete!
+
+</Callout>
+```
+
+<Callout kind="tip" icon="rocket" collapsed="false">
+
+  Launch checklist complete!
+
+</Callout>
+
+If the icon name is not found in the Lucide library, the callout falls back to the default icon for its `kind`.
+
+### Custom color
+
+Pass any valid CSS color value to the `color` prop. The callout background is automatically tinted at 12% opacity, and the icon uses the full color value. This overrides the theme-based background color for the selected `kind`.
+
+```jsx
+<Callout kind="alert" color="#e67e22">
+
+  Scheduled maintenance window starts at 2:00 AM UTC.
+
+</Callout>
+```
+
+<Callout kind="alert" color="#e67e22" collapsed="false">
+
+  Scheduled maintenance window starts at 2:00 AM UTC.
+
+</Callout>
+
+### Combining icon and color
+
+Use both props together for fully customized callout styling:
+
+```jsx
+<Callout kind="info" icon="sparkles" color="#8b5cf6">
+
+  New feature available in your workspace settings.
+
+</Callout>
+```
+
+<Callout kind="info" icon="sparkles" color="#8b5cf6" collapsed="false">
+
+  New feature available in your workspace settings.
+
+</Callout>

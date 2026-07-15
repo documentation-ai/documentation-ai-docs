@@ -25,7 +25,9 @@ Open the web editor and switch to the branch where you want to collaborate. If y
 Use the real-time editor option in the editor navbar to enter collaboration mode. Once enabled, anyone with access to the same branch can join the session and start editing live.
 
 <Callout kind="info" collapsed="false">
+
   The real-time editor works per branch. Each branch maintains its own collaborative session, comments, and live presence.
+
 </Callout>
 
 ## Inline comments
@@ -35,28 +37,37 @@ Leave feedback directly on the text you want to discuss. Comment threads stay at
 Comment marks appear as yellow highlights in the editor. Click a highlight to open the thread popover for that selection.
 
 <Steps>
+
   <Step title="Create a comment thread" icon="edit" title-type="p">
+
     Select text in the editor, then click the comment icon in the bubble menu. You can also press <kbd>Cmd</kbd> + <kbd>Option</kbd> + <kbd>M</kbd> on Mac or <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>M</kbd> on Windows.
 
     After you post the comment, the selected text stays highlighted and quoted in the thread. That highlight confirms the thread is attached to the correct text.
+
   </Step>
 
   <Step title="Post and manage replies" icon="message-circle" title-type="p">
+
     Type your comment and post it to start the thread. Other collaborators can reply in the same thread, and you can edit or delete your own messages later.
 
     Use replies to keep discussion tied to one piece of text instead of scattering feedback across separate comments.
+
   </Step>
 
   <Step title="Resolve or reopen a thread" icon="check-circle" title-type="p">
+
     Resolve a thread when the discussion is complete or the requested change has been made. If the topic needs more work later, reopen the thread and continue the conversation.
 
     Resolved threads stay available for reference, which helps teams track why a decision was made.
+
   </Step>
 
   <Step title="Browse all threads in the Comments panel" icon="folder" title-type="p">
+
     Open the Comments panel in the side panel to review every open and resolved thread on the current branch. Use the panel when you want to work through feedback in one place instead of clicking highlights one by one.
 
     The panel reflects the current branch, so you only see discussions tied to that branch session.
+
   </Step>
 </Steps>
 
@@ -67,7 +78,9 @@ Type `@` in a comment or reply to mention a teammate. The editor shows an autoco
 Mentioned users receive a notification, which helps pull the right reviewer into the discussion without leaving the editor.
 
 <Callout kind="tip" collapsed="false">
+
   Mentions work in both new comment threads and replies inside existing threads.
+
 </Callout>
 
 ## Notifications
@@ -92,7 +105,9 @@ Permissions in collaboration mode follow your existing organization roles:
 - **Viewer** role can read content and view comments but cannot edit or publish.
 
 <Callout kind="info" collapsed="false">
+
   Role-based permissions follow your existing organization settings. Manage roles in [Team Management](/account-and-billing/team-management).
+
 </Callout>
 
 ## Publishing from collaboration mode
@@ -100,40 +115,62 @@ Permissions in collaboration mode follow your existing organization roles:
 When your branch is ready, publish directly from the editor navbar. Save actions apply to the current branch, so confirm you are on the correct branch before publishing.
 
 <Steps>
+
   <Step title="Open the Save menu" icon="chevron-right" title-type="p">
+
     Click the Save dropdown in the editor navbar to see the available publishing actions for the current branch.
+
   </Step>
 
   <Step title="Save changes to the current branch" icon="check-circle" title-type="p">
+
     Choose **Save** to commit your current edits to the active branch. Use this option when you want to preserve work without merging it yet.
+
   </Step>
 
   <Step title="Merge into the default branch" icon="git-merge" title-type="p">
+
     Choose **Save and Merge** to commit your changes and merge them into the default branch in one step. Use this when the branch is ready to publish without additional review.
+
   </Step>
 
   <Step title="Create a pull request for review" icon="github" title-type="p">
+
     Choose **Save and Create PR** to commit your changes and open a pull request. Use this option when your team reviews branch work before merging.
+
   </Step>
 </Steps>
 
 <Callout kind="warning" collapsed="false">
+
   Publishing operations are serialized per branch to prevent conflicts between simultaneous editors.
+
 </Callout>
+
+### Merge progress and workspace reload
+
+When a collaborator initiates a merge, other editors on the same branch see a toast notification showing who is merging and which branch is being merged. The editor enters a read-only state during the merge, and all action buttons (Save, Save and Merge, Save and Create PR) are disabled to prevent conflicting edits.
+
+Once the merge completes, each collaborator's workspace reloads automatically with the merged content. The editor returns to its editable state and a toast confirms the update.
 
 ## What's next
 
 <Columns cols="3">
+
   <Card title="Web Editor" href="/write-and-publish/web-editor" icon="edit" cta="Open guide" horizontal="false">
+
 
   </Card>
 
   <Card title="Branches and Previews" href="/write-and-publish/branches-and-previews" icon="folder" cta="Learn branch workflows" horizontal="false">
 
+
   </Card>
 
   <Card title="Team Management" href="/account-and-billing/team-management" icon="users" cta="Manage roles" horizontal="false">
 
+
   </Card>
+
 </Columns>
 

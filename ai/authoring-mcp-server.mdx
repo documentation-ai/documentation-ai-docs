@@ -1,6 +1,8 @@
 ---
 title: Authoring MCP Server
-description: Connect AI tools to Documentation.AI for read/write documentation workflows, authoring, review, and deployment tasks.
+description: >-
+  Connect AI tools to Documentation.AI for read/write documentation workflows,
+  authoring, review, and deployment tasks.
 ---
 
 ## Overview
@@ -13,11 +15,13 @@ The Authoring MCP Server and the Documentation.AI REST API cover largely the sam
 
 Use this server for authoring and documentation operations through an MCP client. If you need direct REST API access instead, use the Documentation.AI REST API. If your AI tool only needs read-only access to published content, use the [Docs MCP Server](/ai/docs-mcp-server).
 
+
 </Callout>
 
 <Callout kind="alert">
 
 This server uses your Documentation.AI account permissions and can modify live documentation. Connect it only to AI tools and workflows you trust, and use branches when you want review before deployment.
+
 
 </Callout>
 
@@ -30,14 +34,17 @@ https://api.documentationai.app/mcp
 ```
 
 <Steps>
+
   <Step title="Start the connection from your MCP client" icon="terminal">
 
 Open your MCP-compatible client and add the Authoring MCP Server using the URL in the next section.
+
 
   </Step>
   <Step title="Sign in with your Documentation.AI account" icon="lock">
 
 Your client discovers the OAuth endpoints and opens a browser window for authentication.
+
 
   </Step>
   <Step title="Approve access" icon="check-circle">
@@ -45,6 +52,7 @@ Your client discovers the OAuth endpoints and opens a browser window for authent
 After you approve the consent screen, the client receives tokens and completes the connection.
 
 A successful connection shows the server as available in your MCP client.
+
 
   </Step>
 </Steps>
@@ -114,21 +122,25 @@ In Cursor settings, add a new MCP server:
 After authentication, select the documentation project you want to work on before using any documentation tools.
 
 <Steps>
+
   <Step title="List available projects" icon="folder">
 
 Call `list_projects` to see every organization and documentation project your account can access.
+
 
   </Step>
   <Step title="Set the active project" icon="settings">
 
 Call `select_project` with the organization and documentation IDs returned by `list_projects`.
 
+
   </Step>
   <Step title="Run read or write operations" icon="edit">
 
 Once a project is selected, use the tools below to inspect files, update content, manage branches, and deploy changes.
 
-A successful selection makes the current project available for subsequent tool calls in the same session.
+A successful selection makes the current project available for subsequent tool calls. Your selection persists across sessions, so you only need to select a project once. If your session is interrupted, the selection is automatically restored when you reconnect.
+
 
   </Step>
 </Steps>
@@ -151,6 +163,7 @@ Lists all organizations and documentation projects you have access to, along wit
 
 **Returns:** A list of organizations, each containing their documentation projects and your role, such as admin, editor, or viewer.
 
+
 </Expandable>
 
 <Expandable title="select_project">
@@ -158,12 +171,17 @@ Lists all organizations and documentation projects you have access to, along wit
 Sets the active organization and documentation project for the current session.
 
 <ParamField body="organizationId" param-type="string" required="true" show-location="false">
+
 Organization ID from `list_projects`
+
 </ParamField>
 
 <ParamField body="documentationId" param-type="string" required="true" show-location="false">
+
 Documentation ID from `list_projects`
+
 </ParamField>
+
 
 </Expandable>
 
@@ -176,8 +194,11 @@ Available to all roles, including viewer, editor, and admin. Use these when your
 Returns the complete `documentation.json`, including navigation, branding, SEO, and integrations.
 
 <ParamField body="branch" param-type="string" required="false" show-location="false">
+
 Branch name. Defaults to the deployment branch.
+
 </ParamField>
+
 
 </Expandable>
 
@@ -186,8 +207,11 @@ Branch name. Defaults to the deployment branch.
 Lists all files in the documentation repository with their paths and sizes.
 
 <ParamField body="branch" param-type="string" required="false" show-location="false">
+
 Branch name. Defaults to the deployment branch.
+
 </ParamField>
+
 
 </Expandable>
 
@@ -196,12 +220,17 @@ Branch name. Defaults to the deployment branch.
 Returns the full content of a documentation page.
 
 <ParamField body="path" param-type="string" required="true" show-location="false">
+
 File path relative to repository root, for example `getting-started/introduction.mdx`
+
 </ParamField>
 
 <ParamField body="branch" param-type="string" required="false" show-location="false">
+
 Branch name. Defaults to the deployment branch.
+
 </ParamField>
+
 
 </Expandable>
 
@@ -210,12 +239,17 @@ Branch name. Defaults to the deployment branch.
 Performs a hybrid search that combines semantic understanding and keyword matching.
 
 <ParamField body="query" param-type="string" required="true" show-location="false">
+
 Search query
+
 </ParamField>
 
 <ParamField body="limit" param-type="integer" required="false" show-location="false">
+
 Maximum results from 1 to 50. Defaults to 10.
+
 </ParamField>
+
 
 </Expandable>
 
@@ -228,16 +262,23 @@ Require editor or admin role. These tools make the Authoring MCP Server the righ
 Creates, updates, or deletes documentation files in a single Git commit. Supports up to 20 operations per request.
 
 <ParamField body="operations" param-type="array" required="true" show-location="false">
+
 Array of file operations. Each operation includes `type`, `path`, and `content`. `content` is required for create and update operations.
+
 </ParamField>
 
 <ParamField body="commitMessage" param-type="string" required="true" show-location="false">
+
 Git commit message with a maximum length of 500 characters
+
 </ParamField>
 
 <ParamField body="branch" param-type="string" required="false" show-location="false">
+
 Target branch. Defaults to the deployment branch.
+
 </ParamField>
+
 
 </Expandable>
 
@@ -246,12 +287,17 @@ Target branch. Defaults to the deployment branch.
 Creates a new Git branch.
 
 <ParamField body="branchName" param-type="string" required="true" show-location="false">
+
 Name for the new branch
+
 </ParamField>
 
 <ParamField body="sourceBranch" param-type="string" required="false" show-location="false">
+
 Branch to create from. Defaults to the deployment branch.
+
 </ParamField>
+
 
 </Expandable>
 
@@ -261,6 +307,7 @@ Lists all branches in the repository.
 
 **Parameters:** None
 
+
 </Expandable>
 
 <Expandable title="delete_branch">
@@ -268,8 +315,11 @@ Lists all branches in the repository.
 Deletes a branch. The deployment branch cannot be deleted.
 
 <ParamField body="branchName" param-type="string" required="true" show-location="false">
+
 Branch name to delete
+
 </ParamField>
+
 
 </Expandable>
 
@@ -278,16 +328,23 @@ Branch name to delete
 Merges one branch into another. Merging into the deployment branch triggers a live deployment.
 
 <ParamField body="base" param-type="string" required="true" show-location="false">
+
 Target branch to merge into
+
 </ParamField>
 
 <ParamField body="head" param-type="string" required="true" show-location="false">
+
 Source branch to merge from
+
 </ParamField>
 
 <ParamField body="commitMessage" param-type="string" required="false" show-location="false">
+
 Merge commit message
+
 </ParamField>
+
 
 </Expandable>
 
@@ -296,8 +353,11 @@ Merge commit message
 Lists pull requests in the repository.
 
 <ParamField body="state" param-type="string" required="false" show-location="false">
+
 Filter by state: `open`, `closed`, or `all`. Defaults to `open`.
+
 </ParamField>
+
 
 </Expandable>
 
@@ -326,6 +386,10 @@ If your team wants an AI client to read documentation without any ability to cha
 ## Related resources
 
 <Columns cols={2}>
+
   <Card title="Docs MCP Server" href="/ai/docs-mcp-server" icon="book-open" cta="Open the read-only server guide" />
+
   <Card title="MCP overview" href="/ai/mcp-server" icon="terminal" cta="See server options and when to use them" />
+
+
 </Columns>

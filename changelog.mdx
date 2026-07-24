@@ -2,6 +2,21 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-07-23" description="Confluence and Jira integrations, collaboration conflict resolution, and agent chat persistence" tags={["feature","improvement"]}>
+  ## Confluence Integration
+
+  You can now import and sync Confluence pages directly into your Documentation.AI workspace, making it easy to migrate existing Confluence content into your docs without manual copy-pasting.
+
+  ## Jira Integration
+
+  Connect Jira as a context source for the AI Documentation Agent. The agent can analyze Jira issues and use them as context to automatically generate or update documentation, so your docs stay aligned with what your engineering team is working on.
+
+  ## Improvements
+
+  - **Collaboration conflict resolution**: When publishing from collaboration mode, you'll see a per-file merge dialog if files changed upstream on Git since you started editing. Clean auto-merges are applied silently.
+  - **Agent chat persistence & cancellation**: Agent chat history now persists across sessions and devices, and resumes automatically after a refresh. Clicking Stop properly cancels the agent run server-side.
+</Update>
+
 <Update label="2026-07-10" description="Real-time collaboration with inline comments and mentions, plan updates, and editor improvements" tags={["feature","improvement"]}>
   ## Real-Time Collaboration
 

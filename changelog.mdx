@@ -8,13 +8,9 @@ description: 'Changes, fixes, and improvements across versions'
   Multiple teammates can now edit the same documentation pages simultaneously in the web editor. Changes sync instantly across all collaborators, including page content, navigation, and site configuration.
 
   - **Inline comments**: Select text and create a comment thread attached to that selection. Reply, edit, delete, resolve, and reopen threads. Comment highlights appear directly in the editor.
-
   - **Mentions**: Type @ in a comment to mention a teammate from your organization. Mentioned users receive a notification.
-
   - **Notifications**: A notification bell in the sidebar tracks unread mentions, replies, resolved, and reopened events. New notifications trigger a toast and sound. A daily email digest catches you up on missed activity.
-
   - **Collaborator presence**: Active collaborators appear as avatars in the editor navbar. Each person's cursor and selection are visible in real time.
-
   - **Role-based access**: Admins and Editors can edit and publish. Viewers can read and view comments but cannot edit.
 
   Publishing from collaboration mode supports Save, Save and Merge, and Save and Create PR actions. Publishing is serialized per branch to prevent conflicts between simultaneous editors.
@@ -24,11 +20,8 @@ description: 'Changes, fixes, and improvements across versions'
   ## Improvements
 
   - **Faster search**: Search input debounce reduced from 300ms to 200ms for snappier results.
-
   - **Ask AI in search**: The Ask AI prompt in search results is now always visible, pinned outside the scrollable results list.
-
   - **CodeBlock language aliases**: `node` and `nodejs` now highlight as JavaScript, and `curl` highlights as Bash. CodeGroup tabs auto-capitalize language names.
-
   - **Branch-based editor routing**: The editor URL now includes the branch name (for example, /editor/main). Browser back and forward navigation switches branches correctly.
 </Update>
 
@@ -38,9 +31,7 @@ description: 'Changes, fixes, and improvements across versions'
   Export your documentation pages as professionally formatted PDF files for offline sharing, compliance archives, or printed handouts. The export runs asynchronously in the background and emails you when the file is ready.
 
   - Trigger a full-site or section export from the dashboard **Settings → Advanced → Exports** panel.
-
   - Each export is processed in batches, merged into a single PDF, and stored with a 7-day download link.
-
   - Enable **Download as PDF** as a Page Action so readers can print individual pages directly from the table of contents sidebar. See [Page Actions](/page-actions).
 
   <Callout kind="info" collapsed="false">
@@ -52,7 +43,6 @@ description: 'Changes, fixes, and improvements across versions'
   Two new content components are now available in the web editor:
 
   - **SVG**: Embed SVG files with preserved interactivity, including hover states and clickable links. Upload a file, paste SVG code, or select from your existing image gallery via the slash command menu. SVGs render inside a shadow DOM for safe, isolated rendering.
-
   - **HTML Block**: Insert raw HTML directly into your pages with a toggle between live preview and code editing modes. Useful for custom embeds, interactive widgets, or layouts that go beyond standard markdown.
 
   Both components are accessible via slash commands (`/svg` and `/html`) in the visual editor and as JSX components in markdown mode.
@@ -72,19 +62,12 @@ description: 'Changes, fixes, and improvements across versions'
   ## Improvements
 
   - **Heading Copy Link&**: licking any heading on a published page now copies its anchor link to the clipboard and updates the browser URL hash. A brief check-icon animation confirms the copy, making it easy to share deep links to specific sections.
-
   - **Billing Overage Enforcement**: Credit deductions are now atomic with overage protection. When you reach your plan limit, deductions and associated side effects are blocked entirely, preventing unexpected overage charges.
-
   - **Search Ranking**: Page title matching now uses BM25 scoring with a heading-level boost, surfacing canonical top-level pages above same-titled subsections in search results.
-
   - **Sidebar Auto-Scroll**: The active page in the sidebar now smoothly scrolls into view on first render, so you land on the right context without manual scrolling.
-
   - **Sitemap Timestamps**: Sitemap `lastModified` dates now use actual per-page `updatedAt` timestamps from deployment data instead of the current date, giving search engines accurate freshness signals.
-
   - **Danger Zone Settings**: Unpublish and Delete documentation actions are now in a dedicated **Advanced → Danger Zone** settings panel, separated from general settings for clearer organization.
-
   - **Navigation Icons**: Dropdown menus, tab labels, and group headers in the sidebar and navbar now display configured icons, with active-state color highlighting.
-
   - **External Link Auto-Target&#x20;**: External links in your documentation now automatically open in a new browser tab with `rel="noopener noreferrer"` for security. Internal links and hash anchors are unaffected, and explicit `target` overrides are respected.
 </Update>
 
@@ -112,15 +95,10 @@ description: 'Changes, fixes, and improvements across versions'
   ## Editor Improvements
 
   - **Table of Contents Panel**: A new sidebar panel gives you a structural overview of your page, letting you jump to any heading instantly and spot issues like skipped heading levels without scrolling.
-
   - **Icon Picker & Color Picker**: Visually browse and select icons and colors directly in the editor instead of guessing names or copying hex codes from external tools.
-
   - **Drag & Drop Rearrange**: Components like CardGroup, Steps, and ParamFieldGroup now support drag-and-drop reordering with editable popovers, so you can reorganize content without cutting and pasting code.
-
   - **Turn Into**: Convert any block into a different component type (e.g. paragraph → Callout, list → Steps, Card → Expandable) without rewriting content or manually changing markup.
-
   - **Editor UI Polish**: Smoother transitions, better focus states, improved keyboard navigation, and more consistent spacing across the editor.
-
   - **Table Editor Fixes**: Resolved cell selection glitches, content loss on rapid edits, and inconsistent column resizing for more reliable table editing.
 </Update>
 
@@ -130,9 +108,7 @@ description: 'Changes, fixes, and improvements across versions'
   We’ve added visual change detection so you can review documentation edits in a clearer diff experience before accepting, publishing, or reverting them.
 
   - **Review AI changes**: Review agent-suggested changes file by file, then accept or reject individual suggestions or all suggestions at once. This also supports AI operations such as create, delete, rename, and move.
-
   - **Review saved changes**: Compare saved changes on your current branch against the default branch from the Changes view.
-
   - **Review unsaved changes**: Inspect unpublished edits before publishing, jump back into editing, revert a single page, or revert all pending changes.
 </Update>
 
@@ -144,11 +120,8 @@ description: 'Changes, fixes, and improvements across versions'
   **What you can do with it**
 
   - Connect supported AI tools to Documentation.AI using the Authoring MCP endpoint.
-
   - Let agents read and update documentation content, including pages and `documentation.json`.
-
   - Manage branches and merges as part of AI-assisted documentation workflows.
-
   - Use the same project permissions and role-based access controls that already apply to your documentation workspace.
 
   Learn more in [Authoring MCP Server](/ai/authoring-mcp-server) and [MCP Server overview](/ai/mcp-server).
@@ -160,13 +133,9 @@ description: 'Changes, fixes, and improvements across versions'
   **What you can do with it**
 
   - Read your site configuration and fetch documentation pages over API.
-
   - Search documentation and list available pages programmatically.
-
   - Push documentation updates as Git commits using API keys.
-
   - Create, list, delete, and merge branches through the API.
-
   - Inspect pull requests and automate documentation workflows outside an MCP client.
 
   See [API Reference overview](/api-reference/overview) for the API entry point.
@@ -178,11 +147,8 @@ description: 'Changes, fixes, and improvements across versions'
   **Highlights**
 
   - Expanded analytics coverage across traffic, feedback, and Ask AI usage.
-
   - Better insight into how readers engage with your docs, where they struggle, and which content needs improvement.
-
   - Improved Ask AI analytics for reviewing question volume, session activity, confidence signals, and satisfaction trends.
-
   - Easier analysis and reporting with built-in export and dashboard workflows.
 
   See [Analytics overview](/analytics/overview) for the full analytics experience.
@@ -196,11 +162,8 @@ description: 'Changes, fixes, and improvements across versions'
   AI Workflows let you automate recurring documentation tasks in the background so your docs stay accurate without repeating the same manual work. You can create a workflow from a built-in template or a custom setup, choose how it should run, and review the results from workflow history. Learn more in [Workflows](/ai/workflows).
 
   - Run documentation tasks on a schedule or after pull request merges.
-
   - Use built-in templates for jobs like broken link audits, grammar and typo checks, style guide enforcement, changelog generation, and code-aware documentation updates.
-
   - Add a trigger repository plus additional context repositories for repo-aware workflows.
-
   - Review run history, status, summaries, downloadable reports, and commits generated by completed runs.
 
   ### Branches and Previews
@@ -218,15 +181,10 @@ description: 'Changes, fixes, and improvements across versions'
   ## Improvements and bug fixes
 
   - **AI Assistant Captcha Protection**: Added hCaptcha integration to help prevent bot abuse. See [AI Assistant](/ai/ai-assistant#fallback-and-protection).
-
   - **Container Content Pages**: Navigation containers such as groups, products, and tabs can now have their own content pages instead of only acting as wrappers. See [Pages](/organize/pages) and [Groups](/organize/groups).
-
   - **AI Assistant Follow-up Suggestions**: Suggested follow-up questions now appear inline after each answer. See [AI Assistant](/ai/ai-assistant).
-
   - **Breadcrumb Navigation**: Automatic breadcrumbs now appear on all pages with parent containers. See [Pages](/organize/pages) and [Views](/organize/views).
-
   - **Documentation Image Quality**: Images now render in higher resolution with smarter responsive sizing. See [Images](/components/images).
-
   - Numerous additional improvements and bug fixes across the platform.
 </Update>
 
@@ -242,9 +200,7 @@ description: 'Changes, fixes, and improvements across versions'
   **When to use them**
 
   - You want a help center, knowledge base, or support hub layout where users browse by topic rather than following a fixed sidebar.
-
   - You need a category landing page that groups related articles visually, similar to Zendesk, Intercom, or Freshdesk help centers.
-
   - You want to complement your main documentation with a self-service support section that feels distinct from your API reference or guides.
 
   Together, these components let you create the classic help center pattern, a top-level collection grid that drills down into per-topic article lists, without leaving Documentation.AI or writing custom code.
@@ -308,11 +264,8 @@ description: 'Changes, fixes, and improvements across versions'
   ## Other improvements
 
   - Add helper text to password-gated pages with markdown support, including inline links; see [Access Control](/customize/access-control/overview).
-
   - Enable click-to-zoom on images so readers can inspect diagrams and screenshots in more detail.
-
   - The API Playground now uses OpenAPI `example` values to prefill parameter inputs so readers can run operations with realistic defaults.
-
   - Many other bug fixes and minor improvements
 </Update>
 
@@ -324,17 +277,11 @@ description: 'Changes, fixes, and improvements across versions'
   **Access levels and example use cases**
 
   - **Public**: Make your entire documentation site visible to anyone.
-
     - Ideal for fully public product docs and API reference that should be discoverable by customers and search engines.
-
   - **Partial**: Keep few docs public and few docs private.&#x20;
-
     - Gate a few pages for internal teams such as Support, Success, or Sales while keeping the rest of your docs public.
-
   - **Private**: Require authentication for all documentation.
-
     - Store internal code documentation, architecture notes, and engineering guides.
-
     - Centralize internal SOPs, runbooks, and operational checklists for on-call and support teams.
 </Update>
 
@@ -346,15 +293,12 @@ description: 'Changes, fixes, and improvements across versions'
   **Available Templates**
 
   - **Classic** - Traditional documentation layout with a clean, focused reading experience. Ideal for technical documentation and API references.
-
   - **Atlas** - Modern, visually rich layout with enhanced navigation and content presentation. Perfect for product documentation and user guides.
 
   **How to use**
 
   - Select templates from **Settings → General → Brand & Theme** in your dashboard
-
   - Configure templates directly in your `documentation.json` file using the `template` property
-
   - Further customize your selected template with colors, typography, branding, and navigation settings
 
   Learn more in our [Templates documentation](/customize/templates).
@@ -364,9 +308,7 @@ description: 'Changes, fixes, and improvements across versions'
   The default docs domain is migrating from `*.documentationai.io` to `*.documentatioai.com`.
 
   - Existing links automatically redirect; no action needed for most users.
-
   - Update references only if you hard‑code the old domain in firewalls, allowlists, scripts, or integrations.
-
   - Custom domains are unaffected and will continue to work as usual.&#x20;
 </Update>
 
@@ -382,21 +324,15 @@ description: 'Changes, fixes, and improvements across versions'
   \*\*What can you do today? \*\*
 
   - Draft new documentation pages from scratch or from short briefs.
-
   - Make existing docs more visually appealing using rich components (Cards, Columns, Callouts, Tabs, Steps, and more).
-
   - Generate and refine code samples or usage snippets for your APIs and SDKs.
-
   - Use web search inside the agent to bring in up-to-date external information when needed.
 
   **Current limitations (beta)**
 
   - The agent is currently available only on the web. You can use coding agents like Cursor or GitHub Copilot if you are updating using an IDE.
-
   - The agent understands Documentation.AI’s visual components and documentation structure, but does **not** yet take context from your codebases or support systems; these integrations are coming soon.
-
   - The agent cannot yet run in the background or autonomously; background workflows are coming soon.
-
   - All AI-generated content should be reviewed and edited before publishing
 </Update>
 
@@ -408,11 +344,8 @@ description: 'Changes, fixes, and improvements across versions'
   **Key capabilities**
 
   - MCP server for your docs is available by default when you publish your documentation
-
   - Let end users, IDE agents, and chat assistants query your docs through an MCP endpoint you control
-
   - Use structured page and API metadata to give agents more grounded and context‑aware responses
-
   - Help product teams deliver LLM‑native support and troubleshooting experiences directly inside their apps
 </Update>
 

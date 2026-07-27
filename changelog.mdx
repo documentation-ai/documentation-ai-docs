@@ -2,6 +2,34 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-07-27" description="GitLab integration, Git Settings page, large diff safety, and editor fixes" tags={["feature","improvement","fix"]}>
+  ## GitLab Integration
+
+  GitLab is now supported as a source repository alongside GitHub. You can connect a GitLab project (on gitlab.com or a self-hosted instance) and use it as the single source of truth for your documentation.
+
+  - **Connect a GitLab project** by providing a Project ID and access token. Self-hosted GitLab instances are supported via a custom host URL.
+  - **Auto-deploy on push**: Documentation.AI registers a webhook on your GitLab project so pushes to your deployment branch trigger a build automatically. A Maintainer-level token is required for webhook registration.
+  - **Merge requests**: Branch actions use the "Merge Request" label instead of "Pull Request" for GitLab repositories.
+  - **Token updates**: Replace an expired or revoked token directly from Git Settings without losing your connection.
+  - **Migrate from GitHub to GitLab**: Download your documentation as a zip, push it to a new GitLab project, then connect it from Git Settings.
+
+  <Callout kind="info" collapsed="false">
+    A Developer-level token (minimum role 30) can connect and publish but cannot register a webhook, so auto-deploy will not work. A Maintainer-level token (minimum role 40) enables both publishing and auto-deploy. You will see a warning at connection time if your token lacks webhook permissions.
+  </Callout>
+
+  See [GitLab Integration](/integrations/gitlab-integration) for setup instructions.
+
+  ## Git Settings
+
+  The settings page previously labeled "Source Repository" is now called **Git Settings**. A provider selector lets you switch between GitHub and GitLab configuration. The old URL (`/settings/source-repository`) redirects automatically.
+
+  ## Improvements
+
+  - **Large diff safety**: Publishing a very large diff (over 500 changed files) now fails with a clear conflict error instead of proceeding silently. If you hit this, refresh the editor to pull the latest branch state and retry. This affects both GitHub and GitLab.
+  - **File operation feedback**: Renaming or moving a file now shows a toast notification on both success and failure, so you always know whether the operation completed.
+  - **Editor branch routing**: The editor now redirects to the active collaboration branch on load, ensuring you land in the right context.
+</Update>
+
 <Update label="2026-07-23" description="Confluence and Jira integrations, collaboration conflict resolution, and agent chat persistence" tags={["feature","improvement"]}>
   ## Confluence Integration
 

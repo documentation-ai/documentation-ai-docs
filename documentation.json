@@ -461,7 +461,7 @@
               },
               {
                 "title": "GitLab",
-                "path": "integrations/gitlab-integration",
+                "path": "integrations/gitlab",
                 "icon": "gitlab"
               },
               {

@@ -460,6 +460,11 @@
                 "icon": "github"
               },
               {
+                "title": "GitLab",
+                "path": "integrations/gitlab",
+                "icon": "gitlab"
+              },
+              {
                 "group": "Analytics",
                 "icon": "trending-up",
                 "pages": [

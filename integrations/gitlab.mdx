@@ -1,29 +1,26 @@
 ---
 title: GitLab Integration
-description: Connect a GitLab project as your documentation source repository, with support for self-hosted instances, auto-deploy on push, and token management.
+description: >-
+  Connect a GitLab project as your documentation source repository, with support
+  for self-hosted instances, auto-deploy on push, and token management.
 ---
-
 ## Overview
 
 Connect a GitLab project on gitlab.com or a self-hosted instance and use it as the single source of truth for your documentation. Documentation.AI syncs content from your GitLab repository and can auto-deploy when you push changes.
 
-<Callout kind="info">
-
-Use this integration to sync and publish documentation from a Git repository. If you want to connect repositories for the AI agent's GitHub App context, see the [GitHub Integration](/integrations/github).
-
+<Callout kind="info" collapsed="false">
+  Use this integration to sync and publish documentation from a Git repository. If you want to connect repositories for the AI agent's GitHub App context, see the [GitHub Integration](/integrations/github).
 </Callout>
 
 ## Before you start
 
 Make sure you have the required access in both Documentation.AI and GitLab before you connect your project.
 
-<Callout kind="info">
-
-- An organization or workspace admin role in Documentation.AI
-- A GitLab project with at least Developer access, minimum role `30`
-- A project or personal access token with the `api` scope
-- At least one documentation project created in your Documentation.AI workspace
-
+<Callout kind="info" collapsed="false">
+  - An organization or workspace admin role in Documentation.AI
+  - A GitLab project with at least Developer access, minimum role `30`
+  - A project or personal access token with the `api` scope
+  - At least one documentation project created in your Documentation.AI workspace
 </Callout>
 
 ## Connect a GitLab project
@@ -31,27 +28,22 @@ Make sure you have the required access in both Documentation.AI and GitLab befor
 Follow these steps in Git Settings to connect your repository and enable syncing.
 
 <Steps>
-  <Step title="Open Git Settings" icon="settings">
-
-  In the Documentation.AI dashboard, go to **Settings → Git Settings**. Use the provider selector at the top of the page to switch from GitHub to **GitLab**.
-
+  <Step title="Open Git Settings" icon="settings" title-type="p">
+    In the Documentation.AI dashboard, go to **Settings → Git Settings**. Use the provider selector at the top of the page to switch from GitHub to **GitLab**.
   </Step>
-  <Step title="Enter your project details" icon="folder">
 
-  Enter your **GitLab Project ID** and your **access token**. You can use either the numeric project ID from your GitLab project's settings page or the namespaced path, such as `group/project`.
-
+  <Step title="Enter your project details" icon="folder" title-type="p">
+    Enter your **GitLab Project ID** and your **access token**. You can use either the numeric project ID from your GitLab project's settings page or the namespaced path, such as `group/project`.
   </Step>
-  <Step title="Connect a self-hosted instance" icon="cloud">
 
-  If your project is hosted on your own GitLab instance, enable the self-hosted option and enter the full instance URL, such as `https://gitlab.internal.company.com`. If you use gitlab.com, leave this option off.
-
+  <Step title="Connect a self-hosted instance" icon="cloud" title-type="p">
+    If your project is hosted on your own GitLab instance, enable the self-hosted option and enter the full instance URL, such as `https://gitlab.internal.company.com`. If you use gitlab.com, leave this option off.
   </Step>
-  <Step title="Connect and verify" icon="check-circle">
 
-  Click **Connect**. Documentation.AI validates the token and project, stores the connection, and attempts to register a webhook for auto-deploy.
+  <Step title="Connect and verify" icon="check-circle" title-type="p">
+    Click **Connect**. Documentation.AI validates the token and project, stores the connection, and attempts to register a webhook for auto-deploy.
 
-  If your token can access the project but cannot create webhooks, Git Settings shows a warning during setup. The repository still connects, but pushes will not trigger automatic deployments.
-
+    If your token can access the project but cannot create webhooks, Git Settings shows a warning during setup. The repository still connects, but pushes will not trigger automatic deployments.
   </Step>
 </Steps>
 
@@ -62,10 +54,8 @@ Your GitLab role determines whether Documentation.AI can only publish manually o
 - **Developer**, minimum role `30` — Connects the project and publishes documentation manually, but cannot register a webhook. Auto-deploy does not work at this permission level.
 - **Maintainer**, minimum role `40` — Connects the project, publishes documentation, and registers a webhook for auto-deploy. This is the recommended permission level.
 
-<Callout kind="tip">
-
-GitLab removed non-expiring tokens in v16.0. Rotate tokens on a schedule and update the token in Documentation.AI before it expires to avoid interrupted syncs or failed deploys.
-
+<Callout kind="tip" collapsed="false">
+  GitLab removed non-expiring tokens in v16.0. Rotate tokens on a schedule and update the token in Documentation.AI before it expires to avoid interrupted syncs or failed deploys.
 </Callout>
 
 ## Auto-deploy on push
@@ -81,68 +71,37 @@ You can still publish manually from the editor when the repository is connected 
 Replace expired or revoked tokens from Git Settings without reconnecting the project.
 
 <Steps>
-  <Step title="Open Git Settings" icon="settings">
-
-  Go to **Settings → Git Settings** and select **GitLab**.
-
+  <Step title="Open Git Settings" icon="settings" title-type="p">
+    Go to **Settings → Git Settings** and select **GitLab**.
   </Step>
-  <Step title="Update the token" icon="edit">
 
-  Click **Update Token** and enter a new access token with the required scope.
-
+  <Step title="Update the token" icon="edit" title-type="p">
+    Click **Update Token** and enter a new access token with the required scope.
   </Step>
-  <Step title="Verify" icon="check-circle">
 
-  The connection status updates immediately after the token is accepted. If the previous token had put the integration into an error state, Documentation.AI clears that error automatically.
-
+  <Step title="Verify" icon="check-circle" title-type="p">
+    The connection status updates immediately after the token is accepted. If the previous token had put the integration into an error state, Documentation.AI clears that error automatically.
   </Step>
 </Steps>
 
 When a token is expired, revoked, or otherwise rejected, the editor shows a blocking overlay with an inline **Update Token** button so you can fix the connection without leaving your work.
-
-## Migrate from GitHub to GitLab
-
-Move an existing documentation source repository from GitHub to GitLab by exporting the current source and reconnecting it.
-
-<Steps>
-  <Step title="Download your documentation" icon="download">
-
-  In **Git Settings**, download your documentation source as a zip file. This export works for both GitHub and GitLab-backed repositories.
-
-  </Step>
-  <Step title="Push to a new GitLab project" icon="upload">
-
-  Unzip the archive, create a new GitLab project, and push the files to that repository.
-
-  </Step>
-  <Step title="Connect the GitLab project" icon="arrow-right">
-
-  Return to **Git Settings**, switch the provider to **GitLab**, and connect the new project.
-
-  </Step>
-</Steps>
 
 ## Disconnect GitLab
 
 Disconnect the repository when you want to stop syncing or switch to a different provider.
 
 <Steps>
-  <Step title="Open Git Settings" icon="settings">
-
-  Go to **Settings → Git Settings** and select **GitLab**.
-
+  <Step title="Open Git Settings" icon="settings" title-type="p">
+    Go to **Settings → Git Settings** and select **GitLab**.
   </Step>
-  <Step title="Disconnect" icon="x-circle">
 
-  Click **Disconnect**. Documentation.AI removes the webhook from your GitLab project and then removes the repository connection.
-
+  <Step title="Disconnect" icon="x-circle" title-type="p">
+    Click **Disconnect**. Documentation.AI removes the webhook from your GitLab project and then removes the repository connection.
   </Step>
 </Steps>
 
-<Callout kind="alert">
-
-Disconnecting your Git provider stops all syncing and auto-deploy. Your published documentation stays live, but new changes do not deploy until you reconnect a provider.
-
+<Callout kind="alert" collapsed="false">
+  Disconnecting your Git provider stops all syncing and auto-deploy. Your published documentation stays live, but new changes do not deploy until you reconnect a provider.
 </Callout>
 
 ## Troubleshooting
@@ -150,24 +109,20 @@ Disconnecting your Git provider stops all syncing and auto-deploy. Your publishe
 Use these checks if the connection succeeds partially, auto-deploy does not work, or GitLab rejects your token.
 
 <ExpandableGroup>
-  <Expandable title="Webhook not registered">
-
-  The token usually has only Developer access. Update the connection with a Maintainer-level token, minimum role `40`, so Documentation.AI can create the project webhook and enable auto-deploy.
-
+  <Expandable title="Webhook not registered" default-open="false">
+    The token usually has only Developer access. Update the connection with a Maintainer-level token, minimum role `40`, so Documentation.AI can create the project webhook and enable auto-deploy.
   </Expandable>
-  <Expandable title="Token expired or rejected">
 
-  The editor shows a blocking overlay when Documentation.AI can no longer use the stored token. Click **Update Token**, enter a new valid token, and the error clears automatically after the token is accepted.
-
+  <Expandable title="Token expired or rejected" default-open="false">
+    The editor shows a blocking overlay when Documentation.AI can no longer use the stored token. Click **Update Token**, enter a new valid token, and the error clears automatically after the token is accepted.
   </Expandable>
-  <Expandable title="Cannot find Project ID">
 
-  Open your GitLab project's general settings page to find the numeric **Project ID**. If you prefer, enter the namespaced path instead, such as `group/project`.
-
+  <Expandable title="Cannot find Project ID" default-open="false">
+    Open your GitLab project's general settings page to find the numeric **Project ID**. If you prefer, enter the namespaced path instead, such as `group/project`.
   </Expandable>
-  <Expandable title="Self-hosted GitLab not connecting">
 
-  Confirm that Documentation.AI can reach your GitLab instance URL. Include the protocol, such as `https://`, and remove any trailing slash before saving the connection.
-
+  <Expandable title="Self-hosted GitLab not connecting" default-open="false">
+    Confirm that Documentation.AI can reach your GitLab instance URL. Include the protocol, such as `https://`, and remove any trailing slash before saving the connection.
   </Expandable>
 </ExpandableGroup>
+

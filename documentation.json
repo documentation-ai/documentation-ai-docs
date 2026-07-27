@@ -465,6 +465,16 @@
                 "icon": "gitlab"
               },
               {
+                "title": "Confluence",
+                "path": "integrations/confluence",
+                "icon": "book-open"
+              },
+              {
+                "title": "Jira",
+                "path": "integrations/jira",
+                "icon": "list-todo"
+              },
+              {
                 "group": "Analytics",
                 "icon": "trending-up",
                 "pages": [

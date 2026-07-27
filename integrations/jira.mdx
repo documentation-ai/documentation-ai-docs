@@ -1,0 +1,146 @@
+---
+title: Jira Integration
+description: Connect Jira as a context source for the AI Documentation Agent to search issues with JQL, read issue details, and keep your docs aligned with what your engineering team is building.
+---
+
+## Overview
+
+Use Jira as a live context source for the AI Documentation Agent. The Writer and Answer agents read Jira issues at runtime through an AI subagent, so they work from current issue data instead of a copied snapshot.
+
+The agent queries Jira on demand with JQL, or Jira Query Language, to find the exact issues it needs for a task. This works well for changelogs, release notes, feature documentation, and migration guides that need to reflect what your engineering team has shipped or is actively building.
+
+<Callout kind="info">
+
+The agent reads Jira live at runtime through your OAuth connection. It does not import or sync Jira issues into your Documentation.AI workspace.
+
+</Callout>
+
+## Before you start
+
+Make sure you have the access and project setup required to enable Jira for an AI agent.
+
+<Callout kind="info">
+
+- **Organization or workspace admin role** in Documentation.AI
+- **Atlassian account with Jira access** to the projects and issues you want the agent to read
+- **At least one documentation project** where you want to enable the Jira connector
+
+</Callout>
+
+## Connect Jira
+
+Connect Jira once at the organization level, then enable the connector in each documentation project that should use it.
+
+<Steps>
+  <Step title="Open organization integrations" icon="settings">
+
+  Go to **Settings** → **Organization Settings** → **Integrations**.
+
+  Find **Jira**, then click **Connect**.
+
+  </Step>
+  <Step title="Complete the Atlassian OAuth flow" icon="lock">
+
+  Sign in to your Atlassian account and approve access.
+
+  After you finish the OAuth flow, Documentation.AI redirects you back to the dashboard.
+
+  **Success check:** the integrations page shows Jira as connected.
+
+  </Step>
+  <Step title="Enable Jira for a documentation project" icon="folder">
+
+  Go to **Settings** → **Integrations** inside the specific documentation project that should use Jira.
+
+  Turn on the **Jira agent connector** for that project.
+
+  **Success check:** the project now shows Jira as an enabled context source for the AI agent.
+
+  </Step>
+  <Step title="Verify the active connection" icon="check-circle">
+
+  Confirm the connection status shows as active.
+
+  You should also see the connected Jira site name and URL, which confirms the agent can use that Jira instance at runtime.
+
+  </Step>
+</Steps>
+
+<Callout kind="info">
+
+The Jira OAuth connection is organization-level, but the Jira agent connector toggle is enabled per project. Connect once, then turn it on only in the projects that need Jira context.
+
+</Callout>
+
+## How the AI agent uses Jira
+
+The Jira connector gives the AI agent a focused set of tools for searching issues, reading details, and understanding release activity.
+
+| Tool | What it does |
+| --- | --- |
+| `listProjects` | Lists all Jira projects accessible to the connected account. |
+| `searchIssues` | Searches issues using JQL by project, status, fix version, label, or full-text. |
+| `getIssue` | Fetches full details of a single issue by key such as `DOCS-123`, including status, assignee, priority, description, fix versions, components, linked issues, and parent epic. |
+| `getIssueComments` | Reads comments on an issue for team discussions, decisions, and workarounds. |
+| `listBoards` | Lists Jira boards, optionally scoped to a project. |
+| `listSprints` | Lists sprints on a board, filterable by state such as active, closed, or future. |
+| `listReleases` | Lists a project's fix versions or releases with names, release dates, and status. |
+
+The agent decides which tools to call based on your prompt. If you ask for release notes, it may search issues by fix version and then read issue details or comments before drafting documentation.
+
+## Example prompts
+
+Use prompts like these when you want the AI agent to pull context from Jira while generating or updating docs.
+
+- **Search Jira for issues with fixVersion 2.1.0 in the DOCS project and write release notes**
+- **Find all issues in the API project closed in the last sprint and create a changelog entry**
+- **Read the details of DOCS-456 and create a feature documentation page based on the issue description and comments**
+- **List all releases in the MOBILE project and create a release history page with dates and status**
+- **Search for issues labeled breaking-change and update the migration guide accordingly**
+
+## Troubleshooting
+
+Fix most Jira connection problems by checking access, project settings, and the scope of the OAuth connection.
+
+<ExpandableGroup>
+  <Expandable title="Jira not appearing in integrations">
+
+  - Confirm you are signed in as an **organization or workspace admin**.
+  - Open **Settings** → **Organization Settings** → **Integrations**, not the project-level integrations page.
+  - Refresh the dashboard after your role changes if you were recently granted admin access.
+  - If Jira still does not appear, ask another org admin to verify integrations are available for your workspace.
+
+  </Expandable>
+  <Expandable title="Agent cannot find Jira issues">
+
+  - Confirm the Jira connector is enabled in the **specific documentation project** where you are running the agent.
+  - Check that the connected Atlassian account has access to the Jira project and issue keys you are referencing.
+  - Verify the issue key and project key are correct, such as `DOCS-456` instead of a similar key from another project.
+  - If you are using a search prompt, narrow the request with project names, labels, fix versions, or sprint context so the agent can build a more precise JQL query.
+  - Reconnect Jira if your Atlassian access changed recently and the OAuth grant no longer reflects current permissions.
+
+  </Expandable>
+  <Expandable title="Jira connector toggle is missing for a project">
+
+  - Confirm Jira is already connected at the **organization level**.
+  - Check that you are inside a valid documentation project with integrations enabled.
+  - Make sure the project is not archived or restricted in a way that hides integration settings.
+  - If the organization-level connection exists but the toggle still does not appear, disconnect and reconnect Jira, then reload the project settings page.
+
+  </Expandable>
+</ExpandableGroup>
+
+<Callout kind="info">
+
+Linear support is coming soon as an additional issue tracker context source with a similar setup flow.
+
+</Callout>
+
+## What's next
+
+<Columns cols={2}>
+  <Card title="Integrations overview" href="/integrations/overview" icon="book-open" />
+  <Card title="Confluence integration" href="/integrations/confluence" icon="book-open" />
+  <Card title="AI Documentation Agent" href="/ai/ai-documentation-agent" icon="zap" />
+  <Card title="GitHub integration" href="/integrations/github" icon="github" />
+</Columns>

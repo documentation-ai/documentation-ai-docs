@@ -91,6 +91,38 @@ Example prompts:
   The Agent reads from the specific context repositories linked to your documentation project. It does not browse all of your GitHub data, and it treats those repositories as read-only context while it plans and edits documentation.
 </Callout>
 
+### Use Jira issues as context
+
+When you connect Jira as a context source, the Agent can search issues using JQL, read issue details and comments, track sprints and releases, and use that information to generate or update documentation. This is useful for creating changelogs, release notes, or feature docs based on what your engineering team is actively working on.
+
+Example prompts:
+
+- *Search Jira for issues with fixVersion "2.1.0" and write release notes.*
+
+- *Read the details of DOCS-456 and create a feature documentation page based on the issue.*
+
+- *Find all closed issues in the last sprint and create a changelog entry.*
+
+<Callout kind="info" collapsed="false">
+  To enable Jira as a context source, see the [Jira integration guide](/integrations/jira).
+</Callout>
+
+### Use Confluence pages as context
+
+When you connect Confluence as a context source, the Agent can search pages using CQL, read page content, browse spaces, and use your Confluence wiki content as context while generating or updating your documentation. This is useful when your team maintains specs, design docs, or runbooks in Confluence.
+
+Example prompts:
+
+- *Search Confluence for pages about our authentication API and update the auth guide.*
+
+- *Find the Confluence page with our incident response runbook and create a documentation page from it.*
+
+- *Search the ENG space for architecture decisions and add a summary to our engineering docs.*
+
+<Callout kind="info" collapsed="false">
+  To enable Confluence as a context source, see the [Confluence integration guide](/integrations/confluence).
+</Callout>
+
 ### Attach files for additional context
 
 You can attach files directly to your Agent conversation to give it more context about your product, codebase, or existing content. This is useful when you want the Agent to reference specific material while drafting or editing pages.

@@ -1,0 +1,125 @@
+---
+title: Confluence Integration
+description: >-
+  Connect Confluence as a context source for the AI Documentation Agent to
+  search pages with CQL, read page content, and keep your docs aligned with your
+  team's wiki.
+---
+## Overview
+
+Use the Confluence integration to connect your Atlassian account and make Confluence available as an AI agent context source. The Writer and Answer agents read Confluence pages live at runtime through an AI subagent, not through an import or ETL pipeline. When a prompt needs wiki context, the agent queries Confluence on demand with CQL, then reads the relevant pages directly.
+
+## Before you start
+
+<Callout kind="info" collapsed="false">
+  You need:
+
+  - An organization or workspace admin role in Documentation.AI
+  - An Atlassian account with access to the Confluence content you want the agent to use
+  - At least one documentation project created in your Documentation.AI workspace
+</Callout>
+
+## Connect Confluence
+
+<Steps>
+  <Step title="Open the organization integrations page" icon="settings" title-type="p">
+    In the Documentation.AI dashboard, go to **Settings → Organization Settings → Integrations**. Find **Confluence**, then click **Connect** to start the organization-level connection.
+  </Step>
+
+  <Step title="Complete the Atlassian OAuth flow" icon="lock" title-type="p">
+    Sign in to Atlassian if prompted, then approve access for the Confluence account you want Documentation.AI to use. After the flow completes, Documentation.AI returns you to the integrations settings page.
+
+    A successful connection creates the Confluence account at the organization level and automatically attaches it to the documentation project that started the flow.
+  </Step>
+
+  <Step title="Enable the Confluence connector for a documentation project" icon="toggle-right" title-type="p">
+    Go to **Settings → Integrations** inside the specific documentation project where you want the AI agent to use Confluence. Turn on the **Confluence** agent connector for that project.
+
+    Your project now has permission to let the Writer and Answer agents query the connected Confluence site.
+  </Step>
+
+  <Step title="Verify the active connection" icon="check-circle" title-type="p">
+    Confirm the integration shows as active and displays the connected Confluence site name and URL. If the project connector is enabled, the AI agent can start using Confluence as context immediately.
+  </Step>
+</Steps>
+
+<Callout kind="info" collapsed="false">
+  The Confluence connection is managed at the organization level, but the agent connector is enabled per documentation project. Connect once, then choose which projects can use it.
+</Callout>
+
+## How the AI agent uses Confluence
+
+The Confluence subagent uses these tools to find and read the content your prompt needs.
+
+| Tool              | What it does                                                      |
+| ----------------- | ----------------------------------------------------------------- |
+| `listSpaces`      | Lists all Confluence spaces accessible to the connected account   |
+| `searchPages`     | Searches pages using CQL by text, space, label, or other criteria |
+| `getPage`         | Fetches full content of a single page by ID                       |
+| `listSpacePages`  | Lists pages within a specific space                               |
+| `getSpaceTree`    | Retrieves the page tree hierarchy for a space                     |
+| `getPageChildren` | Lists child pages under a specific page                           |
+| `getPageLabels`   | Lists labels attached to a page                                   |
+
+The agent decides which tools to call based on your prompt. For example, it may search with CQL first, inspect a space tree to narrow the scope, then fetch one or more pages to answer a question or write documentation.
+
+## Example prompts
+
+Use prompts like these when you want the AI agent to pull context from Confluence:
+
+- Summarize the deployment process documented in our Platform Engineering space.
+- Find Confluence pages about SSO setup and update the authentication guide to match them.
+- Search for pages labeled onboarding and draft a getting-started checklist for new support agents.
+- Compare the incident response steps in Confluence with the current runbook in this documentation project.
+
+## Troubleshooting
+
+Use these checks if the Confluence integration or project connector is not behaving as expected.
+
+<ExpandableGroup>
+  <Expandable title="Confluence not appearing in integrations" default-open="false">
+    If **Confluence** does not appear on the integrations page:
+
+    - Confirm you are viewing **Settings → Organization Settings → Integrations** as an organization or workspace admin.
+    - Check that your workspace has access to integrations in the current environment.
+    - Refresh the page after signing in again if your admin session has expired.
+  </Expandable>
+
+  <Expandable title="Agent cannot find Confluence pages" default-open="false">
+    If the agent returns weak results or cannot find expected pages:
+
+    - Confirm the connected Atlassian account can open those pages directly in Confluence.
+    - Check whether the pages live in the expected space and whether your prompt includes enough detail, such as a space name, page title, or label.
+    - Verify the Confluence connector is enabled for the current documentation project, not only connected at the organization level.
+    - Retry with a narrower prompt, such as asking for a specific space or topic, so the agent can form a more precise CQL query.
+  </Expandable>
+
+  <Expandable title="Confluence connector toggle is missing for a project" default-open="false">
+    If the project-level Confluence toggle is missing:
+
+    - Confirm an organization-level Confluence connection already exists in **Settings → Organization Settings → Integrations**.
+    - Check that you are in **Settings → Integrations** for a documentation project, not in organization settings.
+    - Reopen the project settings after completing OAuth. New connections are attached automatically, but the page may need a refresh to show the available connector.
+  </Expandable>
+</ExpandableGroup>
+
+## What's next
+
+<Columns cols="2">
+  <Card title="Integrations overview" href="/integrations/overview" icon="book-open" cta="Open page" horizontal="false">
+
+  </Card>
+
+  <Card title="Jira integration" href="/integrations/jira" icon="folder" cta="Open page" horizontal="false">
+
+  </Card>
+
+  <Card title="AI Documentation Agent" href="/ai/ai-documentation-agent" icon="zap" cta="Open page" horizontal="false">
+
+  </Card>
+
+  <Card title="GitHub integration" href="/integrations/github" icon="github" cta="Open page" horizontal="false">
+
+  </Card>
+</Columns>
+

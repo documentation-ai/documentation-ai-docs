@@ -36,6 +36,8 @@ Workflows depend on your plan and repository connection setup. Confirm these req
   - A documentation site synced to a **connected GitHub repository**
 
   - Any repository you want to use as a trigger repo or context repo connected in Documentation.AI
+
+  - Optionally, connect [Jira](/integrations/jira) or [Confluence](/integrations/confluence) as additional context sources for the AI agent
 </Callout>
 
 If your repositories are not connected, you can still explore the Workflows area, but repo-based workflow setup and repository selection will be limited.
@@ -150,6 +152,10 @@ The **trigger repo** is the single repository tied to the workflow's repo-based 
 
 <Callout kind="info" collapsed="false">
   You can only select repositories that are already connected in Documentation.AI.
+</Callout>
+
+<Callout kind="info" collapsed="false">
+  In addition to repository context, the AI agent can also read from connected [Jira](/integrations/jira) issues and [Confluence](/integrations/confluence) pages during workflow runs. Connect them from **Settings → Integrations** and enable them as agent connectors for your documentation project.
 </Callout>
 
 ## Review workflow runs

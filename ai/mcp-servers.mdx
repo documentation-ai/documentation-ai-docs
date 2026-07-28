@@ -1,36 +1,43 @@
 ---
-title: MCP Server
-description: Overview of Documentation.AI MCP servers for read-only documentation access and authoring workflows.
+title: MCP Servers
+description: Compare the Reader MCP Server and the Authoring MCP Server, and choose the right one for reading published docs or authoring them.
 ---
 
-## Choose the right MCP server
+## Two servers, two audiences
 
-Documentation.AI offers multiple MCP servers for different jobs. Use the Docs MCP Server when an external AI tool needs read-only access to your published documentation, and use the Authoring MCP Server when you need to edit content or manage documentation operations from an AI coding tool.
+Documentation.AI provides two MCP servers. They differ by **who connects to them**.
 
-## Compare MCP server types
+The **Reader MCP Server** is your endpoint, served from your documentation domain. Your readers connect to it to search and reference your published documentation: customers, support teams, internal users, and the AI tools they work in. This server was previously called the Docs MCP Server.
 
-| MCP server | Best for | Access | Typical use |
-| --- | --- | --- | --- |
-| **Docs MCP Server** | Research and grounded answers from published docs | Read-only | Let tools like ChatGPT, Claude, or Cursor search and reference your live documentation |
-| **Authoring MCP Server** | Authoring and operational workflows | Read and write | Create or update files, manage branches, and trigger documentation changes from supported tools |
+The **Authoring MCP Server** is Documentation.AI's endpoint. Your documentation team connects to it from an AI coding tool to edit pages, manage branches, and deploy changes.
+
+## Compare the servers
+
+| | Reader MCP Server | Authoring MCP Server |
+| --- | --- | --- |
+| **Who connects** | Your readers, support teams, and internal users | Your documentation team |
+| **Endpoint** | Your docs domain, for example `docs.yourdomain.com/_mcp` | `api.documentationai.app/mcp` |
+| **Access** | Read-only, published content | Read and write |
+| **Setup** | None. The endpoint is live as soon as you publish. | Connect your client, then sign in with OAuth 2.1 |
+| **Permissions** | Mirrors your documentation site's access rules | Your Documentation.AI workspace role |
 
 <Callout kind="info">
 
-The Docs MCP Server works with published content only. If you need private, authenticated, or write access, use the Authoring MCP Server.
+If you are choosing between them, ask who is connecting. If the answer is "someone reading my documentation," use the Reader MCP Server. If the answer is "someone changing my documentation," use the Authoring MCP Server.
 
 </Callout>
 
 ## Go to the server you need
 
 <Columns cols={2}>
-  <Card title="Docs MCP Server" href="/ai/docs-mcp-server" icon="book-open">
-    Read published documentation from MCP-compatible tools.
+  <Card title="Reader MCP Server" href="/ai/reader-mcp-server" icon="book-open">
+    Give AI tools read-only access to your published documentation.
   </Card>
-  <Card title="Authoring MCP Server" href="/ai/authoring-mcp-server" icon="settings">
-    Edit docs, manage branches, and run documentation workflows with authenticated access.
+  <Card title="Authoring MCP Server" href="/ai/authoring-mcp-server" icon="square-pen">
+    Edit docs, manage branches, and deploy from an MCP-compatible AI client.
   </Card>
 </Columns>
 
-## Choose based on your workflow
+## If you would rather use HTTP
 
-If you want an AI tool to research your published docs and answer questions with grounded context, start with the Docs MCP Server. If you want that tool to help author, update, or manage documentation, start with the Authoring MCP Server.
+The Documentation.AI REST API covers largely the same documentation-management tasks as the Authoring MCP Server, through a different interface. Use the REST API when you want direct HTTP access from your own scripts, services, or CI/CD, and use the Authoring MCP Server when you want an MCP-compatible AI client to do the work. See the [API reference overview](/api-reference/overview).

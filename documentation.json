@@ -417,12 +417,12 @@
                 "icon": "settings"
               },
               {
-                "group": "MCP Server",
+                "group": "MCP Servers",
                 "icon": "terminal",
                 "pages": [
                   {
-                    "title": "Docs MCP Server",
-                    "path": "ai/docs-mcp-server",
+                    "title": "Reader MCP Server",
+                    "path": "ai/reader-mcp-server",
                     "icon": "book-open"
                   },
                   {
@@ -431,7 +431,7 @@
                     "icon": "square-pen"
                   }
                 ],
-                "path": "ai/mcp-server"
+                "path": "ai/mcp-servers"
               },
               {
                 "title": "Page Actions",
@@ -679,6 +679,14 @@
     }
   },
   "redirects": [
+    {
+      "source": "/ai/docs-mcp-server",
+      "destination": "/ai/reader-mcp-server"
+    },
+    {
+      "source": "/ai/mcp-server",
+      "destination": "/ai/mcp-servers"
+    },
     {
       "source": "/page-actions",
       "destination": "/ai/page-actions"

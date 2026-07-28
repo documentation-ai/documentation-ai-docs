@@ -7,11 +7,13 @@ description: Connect AI tools to Documentation.AI for read/write documentation w
 
 Use the Authoring MCP Server to let an MCP-compatible AI client work directly in your documentation project. It provides read and write access for editing pages, updating `documentation.json`, managing branches, reviewing changes, and deploying through your normal documentation workflow.
 
+This is the server your **documentation team** connects to. It is Documentation.AI's endpoint, and it uses your workspace permissions. The server your readers connect to in order to search your published docs is the [Reader MCP Server](/ai/reader-mcp-server).
+
 The Authoring MCP Server and the Documentation.AI REST API cover largely the same documentation-management tasks, but they expose them through different interfaces. Choose the Authoring MCP Server when you want an MCP-compatible AI client or agent to do the work for you, and choose the REST API when you want direct HTTP access from your own scripts, services, or CI/CD. For endpoint details, see the [API reference overview](/api-reference/overview).
 
 <Callout kind="info">
 
-Use this server for authoring and documentation operations through an MCP client. If you need direct REST API access instead, use the Documentation.AI REST API. If your AI tool only needs read-only access to published content, use the [Docs MCP Server](/ai/docs-mcp-server).
+Use this server for authoring and documentation operations through an MCP client. If you need direct REST API access instead, use the Documentation.AI REST API. If your AI tool only needs read-only access to published content, use the [Reader MCP Server](/ai/reader-mcp-server).
 
 </Callout>
 
@@ -32,7 +34,7 @@ https://api.documentationai.app/mcp
 <Steps>
   <Step title="Start the connection from your MCP client" icon="terminal">
 
-Open your MCP-compatible client and add the Authoring MCP Server using the URL in the next section.
+Open your MCP-compatible client and add the Authoring MCP Server using the server URL above. For per-client configuration, see [Configure your MCP client](#configure-your-mcp-client).
 
   </Step>
   <Step title="Sign in with your Documentation.AI account" icon="lock">
@@ -53,10 +55,7 @@ No API keys or manual token management are required.
 
 ## Configure your MCP client
 
-### Claude Desktop
-
-Add this to your Claude Desktop MCP configuration, `claude_desktop_config.json`:
-
+<CodeGroup tabs="Claude Desktop,Claude Code,Cursor">
 ```json
 {
   "mcpServers": {
@@ -72,10 +71,6 @@ Add this to your Claude Desktop MCP configuration, `claude_desktop_config.json`:
   }
 }
 ```
-
-### Claude Code
-
-Add the server from your terminal:
 
 ```bash
 claude mcp add documentationai \
@@ -83,8 +78,6 @@ claude mcp add documentationai \
   --url https://api.documentationai.app/mcp
 ```
 
-Or add a `.mcp.json` file to your project root:
-
 ```json
 {
   "mcpServers": {
@@ -100,14 +93,11 @@ Or add a `.mcp.json` file to your project root:
   }
 }
 ```
+</CodeGroup>
 
-### Cursor
+For Claude Desktop, add the configuration to `claude_desktop_config.json`. For Cursor, add it to your `mcp.json`. For Claude Code, run the command from your terminal, or add the same JSON to a `.mcp.json` file in your project root.
 
-In Cursor settings, add a new MCP server:
-
-- **Name:** `documentationai`
-- **Type:** `command`
-- **Command:** `npx mcp-remote https://api.documentationai.app/mcp --timeout 120000`
+The `npx mcp-remote` configuration bridges clients that cannot add a remote MCP server directly. If your client supports remote or HTTP servers natively, you can point it at the server URL and let it handle the OAuth flow itself.
 
 ## Select a project
 
@@ -301,6 +291,44 @@ Filter by state: `open`, `closed`, or `all`. Defaults to `open`.
 
 </Expandable>
 
+## Example workflow
+
+This is the branch-and-review pattern the tools are designed around. Ask your MCP client to carry out the sequence, and it calls the tools in order.
+
+<Steps>
+  <Step title="Select the project" icon="folder">
+
+Call `list_projects`, then `select_project` with the organization and documentation IDs you want to work in.
+
+  </Step>
+  <Step title="Create a working branch" icon="git-branch">
+
+Call `create_branch` with a name such as `update-api-guides`. Working on a branch keeps the deployment branch untouched while changes are in progress.
+
+  </Step>
+  <Step title="Make your edits" icon="edit">
+
+Call `update_documentation` with your file operations, a commit message, and `branch` set to your working branch. Each call commits up to 20 operations at once, so group related edits together.
+
+  </Step>
+  <Step title="Review the changes" icon="eye">
+
+Use `get_page` and `list_pages` against the same branch to confirm the result, and `list_pull_requests` to check open reviews.
+
+  </Step>
+  <Step title="Merge and deploy" icon="check-circle">
+
+Call `merge_branches` with `base` set to your deployment branch and `head` set to your working branch. Merging into the deployment branch triggers a live deployment.
+
+  </Step>
+</Steps>
+
+<Callout kind="tip">
+
+To edit without deploying, stop after the review step and leave the branch open. Nothing reaches your live documentation until a merge into the deployment branch happens.
+
+</Callout>
+
 ## Resources
 
 The MCP server also exposes reference resources for automation and authoring workflows:
@@ -321,11 +349,37 @@ Your access level is determined by your role in the selected organization.
 | **Editor** | Read and write tools, including `update_documentation`, branch operations, merges, and pull requests |
 | **Admin** | All tools |
 
-If your team wants an AI client to read documentation without any ability to change it, use the [Docs MCP Server](/ai/docs-mcp-server) instead.
+If your team wants an AI client to read documentation without any ability to change it, use the [Reader MCP Server](/ai/reader-mcp-server) instead.
+
+## Troubleshooting
+
+<Expandable title="Authentication fails or the browser window never completes">
+
+Your client needs to reach the OAuth endpoints the server advertises. Confirm you are signed in to Documentation.AI in the same browser, then remove and re-add the server to restart the flow. If your client cannot add a remote server directly, use the `npx mcp-remote` configuration shown above.
+
+</Expandable>
+
+<Expandable title="A tool call reports that no project is selected">
+
+Project selection applies to the current session. Call `list_projects` and then `select_project` again, and re-select after restarting your client.
+
+</Expandable>
+
+<Expandable title="A write tool is rejected or unavailable">
+
+Write tools require the editor or admin role in the selected organization. If you hold the viewer role, only `get_site_config`, `list_pages`, `get_page`, and `search_documentation` are available. Check your role with `list_projects`, which returns your role for each project.
+
+</Expandable>
+
+<Expandable title="An update is rejected for having too many operations">
+
+`update_documentation` accepts up to 20 file operations per request. Split larger changes across several calls against the same branch, then merge once.
+
+</Expandable>
 
 ## Related resources
 
 <Columns cols={2}>
-  <Card title="Docs MCP Server" href="/ai/docs-mcp-server" icon="book-open" cta="Open the read-only server guide" />
-  <Card title="MCP overview" href="/ai/mcp-server" icon="terminal" cta="See server options and when to use them" />
+  <Card title="Reader MCP Server" href="/ai/reader-mcp-server" icon="book-open" cta="Open the read-only server guide" />
+  <Card title="MCP Servers overview" href="/ai/mcp-servers" icon="terminal" cta="See server options and when to use them" />
 </Columns>

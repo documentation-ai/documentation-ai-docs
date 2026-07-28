@@ -1,66 +1,150 @@
 ---
-title: Docs MCP Server
-description: Connect AI tools to Documentation.AI docs for read-only access to published documentation.
+title: Reader MCP Server
+description: Give AI tools read-only MCP access to your published documentation, so readers can search and reference your docs from ChatGPT, Claude, Cursor, and other MCP clients.
 ---
 
-## Expose published documentation to AI tools
+## Serve your documentation to AI tools
 
-The Docs MCP Server gives MCP-compatible tools read-only access to your published documentation. Use it when you want tools like ChatGPT, Claude, or Cursor to search, retrieve, and reference docs content without gaining permission to change anything.
+The Reader MCP Server is your own MCP endpoint, served from your documentation domain. It gives MCP-compatible tools read-only access to your published documentation so they can search, retrieve, and reference your content without any ability to change it.
 
-<Callout kind="info">
+This is the server your **readers** connect to: customers, support teams, solution engineers, and internal users, along with the AI tools they work in. If you are looking for the server your documentation team connects to in order to *write* docs, see the [Authoring MCP Server](/ai/authoring-mcp-server).
 
-The Docs MCP Server does not allow authoring, branch management, deployments, or dashboard actions. For those workflows, use the [Authoring MCP Server](/ai/authoring-mcp-server).
+<Callout kind="note">
+
+The Reader MCP Server was previously called the **Docs MCP Server**. Only the name changed. Your endpoint, its behavior, and any existing client configurations continue to work unchanged.
 
 </Callout>
 
-## Core capabilities
+<Callout kind="info">
 
-The Docs MCP Server exposes your published documentation through a single retrieval tool, `searchDocumentation`. Connected clients can use it to find the most relevant pages, headings, API reference sections, and snippets from your docs.
+The Reader MCP Server is read-only. It does not create, update, delete, or reorganize content, and it does not expose branch management, deployments, or dashboard actions. For those workflows, use the [Authoring MCP Server](/ai/authoring-mcp-server).
 
-Because the server is read-only, it works well when you want grounded answers from trusted documentation while keeping editing controls separate. It can support customer-facing docs, private customer documentation, and internal knowledge bases, as long as that content is available through your published documentation experience.
+</Callout>
 
-### What it can access
+## Find your endpoint
 
-The Docs MCP Server reflects the same documentation your site serves in its published state. In simple terms, if a reader can access content through the docs site, an MCP client connected in that same context can retrieve that content through the Docs MCP Server.
+The Reader MCP Server becomes available as soon as you publish your documentation. There is nothing to provision or enable.
 
-## Best-fit use cases
-
-Choose the Docs MCP Server when the goal is documentation retrieval, not documentation management.
-
-- **Customer-facing documentation**: Let customers connect AI tools to your published docs for product questions, onboarding, and API lookup.
-- **Private customer documentation**: Expose account-specific or workspace-specific published docs without extending access to authoring workflows.
-- **Internal knowledge bases**: Let employees, support teams, and solution engineers query internal documentation from MCP-compatible tools.
-- **Support and success workflows**: Help teams answer from the same published docs customers use.
-- **AI assistants and copilots**: Add a retrieval layer over your docs so responses stay tied to current published content.
-
-## Find the endpoint and understand access
-
-You can find your MCP endpoint in the dashboard under **MCP Server** in the sidebar.
-
-Your Docs MCP Server URL typically follows one of these formats:
+You can find your endpoint in the dashboard under **MCP Servers** in the sidebar. It follows the same shape as your documentation URL:
 
 - `https://docs.yourdomain.com/_mcp`
 - `https://yourdomain.com/docs/_mcp`
 
-Access works the same way your docs site does. The Docs MCP Server sits in front of published documentation, not your authoring environment, so it only exposes content available in that published context.
+## Understand what it can access
 
-<Callout kind="alert">
+The Reader MCP Server sits in front of your published documentation, not your authoring environment. It reflects your documentation in its published state, and it honors the same access rules your documentation site enforces.
 
-The Docs MCP Server becomes available when you publish documentation. It does not create, update, delete, or reorganize content.
+- **Public documentation** is available to any client that connects to the endpoint.
+- **Password-protected and internal documentation** stays behind the same access controls that protect the site itself. The MCP endpoint does not bypass them.
+
+<Callout kind="note">
+
+Dedicated authentication for MCP clients is currently in progress. It will let a client connect with an API key or OAuth to retrieve gated content directly. Granular access control is also planned, scoping a connected client to specific products, versions, languages, groups, or pages. See the [roadmap](/roadmap) for status.
 
 </Callout>
 
-## Use Authoring MCP Server when you need write access
+Because the server is read-only, it works well when you want grounded answers from trusted documentation while keeping editing controls entirely separate.
 
-Use the Authoring MCP Server when the AI tool needs to work with projects, files, branches, reviews, or deployments. That server is for authoring and operational workflows, while the Docs MCP Server is for read-only retrieval from published docs.
+<Callout kind="tip">
+
+Access is a property of your documentation site, not of the MCP server or of anyone's Documentation.AI workspace role. The **Viewer** role on the [Authoring MCP Server](/ai/authoring-mcp-server) is unrelated. That role governs your team's access to the project, while the Reader MCP Server governs what your published site already exposes.
+
+</Callout>
+
+## Configure your MCP client
+
+Add your endpoint to any MCP-compatible client. Replace `docs.yourdomain.com` with your own documentation domain.
+
+<CodeGroup tabs="Claude Desktop,Claude Code,Cursor">
+```json
+{
+  "mcpServers": {
+    "my-docs": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://docs.yourdomain.com/_mcp",
+        "--timeout",
+        "120000"
+      ]
+    }
+  }
+}
+```
+
+```bash
+claude mcp add my-docs \
+  --transport http \
+  --url https://docs.yourdomain.com/_mcp
+```
+
+```json
+{
+  "mcpServers": {
+    "my-docs": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://docs.yourdomain.com/_mcp",
+        "--timeout",
+        "120000"
+      ]
+    }
+  }
+}
+```
+</CodeGroup>
+
+For Claude Desktop, add the configuration to `claude_desktop_config.json`. For Cursor, add it to your `mcp.json`. For Claude Code, run the command from your terminal, or add the same JSON to a `.mcp.json` file in your project root.
+
+<Callout kind="tip">
+
+You can copy your endpoint straight from a documentation page using the **Copy MCP server URL** page action. See [Page Actions](/ai/page-actions).
+
+</Callout>
+
+## Available tools
+
+The Reader MCP Server exposes your published documentation through a retrieval tool, `searchDocumentation`. Connected clients use it to find the most relevant pages, headings, API reference sections, and snippets in your docs.
+
+Your MCP client discovers the tool and its parameters automatically when it connects, so you do not need to configure anything beyond the endpoint itself.
+
+## Best-fit use cases
+
+Choose the Reader MCP Server when the goal is documentation retrieval, not documentation management.
+
+- **Customer-facing documentation**: Let customers connect AI tools to your published docs for product questions, onboarding, and API lookup.
+- **Internal knowledge bases**: Let employees, support teams, and solution engineers query internal documentation from MCP-compatible tools.
+- **Support and success workflows**: Help your team answer from the same published docs your customers use.
+- **AI assistants and copilots**: Add a retrieval layer over your docs so responses stay tied to current published content.
+
+## Troubleshooting
+
+<Expandable title="The endpoint returns a 404">
+
+The Reader MCP Server exists only for published documentation. If you have not deployed yet, publish first, then retry the connection. Also confirm you are using the `_mcp` path on the same domain your documentation is served from.
+
+</Expandable>
+
+<Expandable title="The client connects but returns no results">
+
+Search covers published content. If you recently added or edited pages, confirm the changes have been deployed rather than left on a branch. If your documentation is protected, confirm the client is reaching it under the same access your site requires.
+
+</Expandable>
+
+<Expandable title="The client cannot discover the server">
+
+Some MCP clients require a remote-server bridge rather than a direct URL. If your client has no option to add a remote or HTTP server, use the `npx mcp-remote` configuration shown above.
+
+</Expandable>
 
 ## What to use next
 
 <Columns cols={2}>
-  <Card title="MCP Server overview" icon="book-open" href="/ai/mcp-server" cta="Open overview">
-    See how the Docs MCP Server and Authoring MCP Server fit together.
+  <Card title="MCP Servers overview" icon="terminal" href="/ai/mcp-servers" cta="Compare both servers">
+    See how the Reader MCP Server and the Authoring MCP Server fit together.
   </Card>
-  <Card title="Authoring MCP Server" icon="settings" href="/ai/authoring-mcp-server" cta="Open reference">
-    Setup instructions, supported tools, and the full read and write tool reference.
+  <Card title="Authoring MCP Server" icon="square-pen" href="/ai/authoring-mcp-server" cta="Open reference">
+    Setup, supported tools, and the full read and write tool reference.
   </Card>
 </Columns>

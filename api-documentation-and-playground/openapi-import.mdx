@@ -96,6 +96,31 @@ Use `hidden-apis` to exclude specific endpoints from automatic generation:
   The `hidden-apis` format must match exactly: uppercase HTTP method, single space, then the path as defined in your OpenAPI spec. For example, `"GET /users/{id}"` is valid, but `"get /users/{id}"` or `"GET/users/{id}"` will not work.
 </Callout>
 
+## Connect a Hosted OpenAPI Spec
+
+If your OpenAPI specification is already hosted at a public URL, connect it directly without uploading or pasting a file. This is useful when your spec is generated dynamically or maintained in a separate repository.
+
+### From the Editor
+
+In the editor's OpenAPI dialog, use the **From URL** tab to paste your spec URL (for example, `https://api.example.com/openapi.json`). Documentation.AI validates the URL and confirms the spec is valid OpenAPI 3.0+ before connecting.
+
+<Callout kind="info" collapsed="false">
+  The URL must be publicly reachable and return a valid OpenAPI 3.0+ specification. URLs that are unreachable or return non-OpenAPI content are rejected during validation.
+</Callout>
+
+### Hosted vs Uploaded Specs
+
+Hosted specs work differently from uploaded specs in a few ways:
+
+- **No file in your repository**: The spec is fetched from the source URL. No file is created in your documentation project.
+- **Read-only**: You cannot edit, rename, or delete a hosted spec from within Documentation.AI. Update the spec at the source URL and the changes appear on your docs site after the next refresh.
+- **Hide endpoints**: You can still hide individual endpoints using `hidden-apis` and remove the spec from your project at any time.
+- **Hosted badge**: A **Hosted** badge and a link to the source URL appear in the API info header so readers know the spec is sourced externally.
+
+<Callout kind="tip" collapsed="false">
+  Hosted spec content is cached with stale-while-revalidate behavior. The cached version renders immediately on return, and a background fetch refreshes it in place.
+</Callout>
+
 ## OpenAPI Configuration
 
 ### Supported File Formats
@@ -503,4 +528,3 @@ Your OpenAPI specification must include:
 - At least one path with one operation
 
 - Response definitions for all operations
-

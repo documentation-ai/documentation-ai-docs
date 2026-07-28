@@ -2,12 +2,27 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
-<Update label="2026-07-27" description="GitLab integration, Git Settings page, large diff safety, and editor fixes" tags={["feature"]}>
+<Update label="2026-07-28" description="GitLab integration, hosted OpenAPI specs by URL, deployments and analytics REST API endpoints, Reader MCP Server rename, and editor reliability fixes" tags={["feature","improvement","fix"]}>
   ## GitLab Integration
 
   GitLab is now supported as a source repository alongside GitHub. You can connect a GitLab project (on gitlab.com or a self-hosted instance) and use it as the single source of truth for your documentation.
 
   See [GitLab Integration](/integrations/gitlab) for setup instructions.
+
+  ## Connect Hosted OpenAPI Specs by URL
+
+  You can now connect an OpenAPI specification hosted at an external URL without uploading or pasting a file. Hosted specs are read-only and cached for fast rendering. See [OpenAPI Spec Import](/api-documentation-and-playground/openapi-import) for details.
+
+  ## Analytics REST API
+
+  The REST API now exposes analytics endpoints for traffic and AI assistant usage. Query traffic totals and daily page views, top pages, referrers, page feedback with written comments, AI assistant questions (including low-confidence filtering), answer ratings, and daily AI question volume. All endpoints accept date range parameters and are read-only, so a viewer API key is sufficient. See [API Reference](/api-reference/overview) for endpoint details.
+
+  ## Improvements
+
+  - **Deployments REST API endpoints**: The REST API now supports deployment operations, trigger a live deployment, deploy a preview branch, list recent deployments, and poll deployment status from CI/CD pipelines or scripts. See [API Reference](/api-reference/overview) for endpoint details.
+  - **Reader MCP Server rename**: The **Docs MCP Server** is now called the **Reader MCP Server** to clearly distinguish it from the [Authoring MCP Server](/ai/authoring-mcp-server). The endpoint, behavior, and existing client configurations are unchanged. See [Reader MCP Server](/ai/reader-mcp-server).
+  - **Editor bug fixes**: Resolved several editor reliability issues, including auto-reconnect after dropped collaboration rooms, publish gating during file operations, file operation failure notifications, and reliable persistence of deleted content.
+  - **Agent bug fixes**: Clicking a file link in an AI agent chat result now correctly scrolls to and highlights the specific blocks that were changed in the editor.
 </Update>
 
 <Update label="2026-07-23" description="Confluence and Jira integrations, collaboration conflict resolution, and agent chat persistence" tags={["feature","improvement"]}>

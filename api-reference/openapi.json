@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Documentation.AI Content API",
-    "description": "Programmatic access to read and update your documentation. Each API key is scoped to a single documentation project and carries a role (viewer, editor, or admin) that determines which endpoints are accessible.",
+    "description": "Programmatic access to read and update your documentation, publish deployments, and read analytics.\n\nEach API key is scoped to a single documentation project and carries a role — viewer, editor, or admin — that determines which endpoints it can reach. Because the key identifies the project, no endpoint takes a project identifier.\n\nAll dates are UTC. Timestamps are ISO 8601 strings.",
     "version": "1.0.0",
     "contact": {
       "name": "Documentation.AI Support",
@@ -44,6 +44,14 @@
     {
       "name": "Push",
       "description": "Push file operations as a single commit"
+    },
+    {
+      "name": "Deployments",
+      "description": "Trigger deployments and check their status"
+    },
+    {
+      "name": "Analytics",
+      "description": "Traffic, page feedback, and AI assistant usage"
     }
   ],
   "paths": {
@@ -496,6 +504,664 @@
           "403": { "$ref": "#/components/responses/Forbidden" }
         }
       }
+    },
+    "/deploy": {
+      "post": {
+        "operationId": "triggerDeployment",
+        "summary": "Deploy the live site",
+        "description": "Republishes the deployment branch as it currently stands. Commits nothing.\n\nUse it when content reached the branch some other way, or when an OpenAPI specification you reference by URL changed on its own host — nothing changed in Git, so nothing triggered a rebuild.\n\nRequires editor or admin role.",
+        "tags": ["Deployments"],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "commitSha": { "type": "string", "description": "Specific commit to deploy. Defaults to the current head of the deployment branch." }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Deployment queued. Poll `deploymentId` for progress.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/QueuedDeployment" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
+      }
+    },
+    "/deploy/preview": {
+      "post": {
+        "operationId": "triggerPreviewDeployment",
+        "summary": "Deploy a preview",
+        "description": "Publishes a branch to its own preview URL. The live site is untouched.\n\nRequires editor or admin role. Returns `403` if your plan does not include preview deployments.",
+        "tags": ["Deployments"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["branch"],
+                "additionalProperties": false,
+                "properties": {
+                  "branch": { "type": "string", "minLength": 1, "description": "Branch to preview", "example": "feature/new-docs" },
+                  "commitSha": { "type": "string", "description": "Specific commit to deploy. Defaults to the current head of the branch." }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Preview deployment queued. Poll `deploymentId` for progress.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/QueuedDeployment" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "branch": { "type": "string", "description": "The branch this preview was built from" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "422": {
+            "description": "Preview deployment could not be started",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
+      }
+    },
+    "/deployments": {
+      "get": {
+        "operationId": "listDeployments",
+        "summary": "List deployments",
+        "description": "Returns recent deployments for this documentation project, newest first.",
+        "tags": ["Deployments"],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of deployments to return",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1, "maximum": 100, "default": 20 }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Number of deployments to skip",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 0, "default": 0 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deployment list returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "deployments": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Deployment" }
+                    },
+                    "total": { "type": "integer", "description": "Deployments recorded for this project" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
+      }
+    },
+    "/deployments/{deploymentId}": {
+      "get": {
+        "operationId": "getDeployment",
+        "summary": "Get deployment status",
+        "description": "Returns the current state of a single deployment. Use this to poll a deployment started by `POST /deploy` or `POST /deploy/preview` until its status reaches `ready` or `error`.",
+        "tags": ["Deployments"],
+        "parameters": [
+          {
+            "name": "deploymentId",
+            "in": "path",
+            "description": "The `deploymentId` returned when the deployment was queued",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current deployment state",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Deployment" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
+      }
+    },
+    "/analytics/overview": {
+      "get": {
+        "operationId": "getAnalyticsOverview",
+        "summary": "Traffic totals",
+        "description": "Total page views and distinct sessions for a date range. Session count is distinct across the whole range, so it cannot be recovered by summing the daily series from `/analytics/traffic`.",
+        "tags": ["Analytics"],
+        "parameters": [
+          { "$ref": "#/components/parameters/StartDate" },
+          { "$ref": "#/components/parameters/EndDate" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Totals returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "startDate": { "type": "string", "description": "Resolved first day of the range", "example": "2026-05-01" },
+                    "endDate": { "type": "string", "description": "Resolved last day of the range", "example": "2026-07-28" },
+                    "pageViews": { "type": "integer", "example": 39259 },
+                    "sessions": { "type": "integer", "description": "Distinct sessions across the whole range", "example": 9643 }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" },
+          "502": { "$ref": "#/components/responses/AnalyticsUnavailable" }
+        }
+      }
+    },
+    "/analytics/traffic": {
+      "get": {
+        "operationId": "getAnalyticsTraffic",
+        "summary": "Daily traffic",
+        "description": "Page views and sessions per day. Days with no traffic are returned as zeroes, so the series always covers every day in the range and can be charted without gap handling.",
+        "tags": ["Analytics"],
+        "parameters": [
+          { "$ref": "#/components/parameters/StartDate" },
+          { "$ref": "#/components/parameters/EndDate" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daily series returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "startDate": { "type": "string" },
+                    "endDate": { "type": "string" },
+                    "series": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "date": { "type": "string", "description": "UTC day", "example": "2026-05-01" },
+                          "pageViews": { "type": "integer", "example": 223 },
+                          "sessions": { "type": "integer", "example": 45 }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" },
+          "502": { "$ref": "#/components/responses/AnalyticsUnavailable" }
+        }
+      }
+    },
+    "/analytics/pages": {
+      "get": {
+        "operationId": "getAnalyticsPages",
+        "summary": "Most viewed pages",
+        "description": "Pages ranked by view count, highest first. This is a top-N list: it takes a `limit` but cannot be paged, and returns no total.",
+        "tags": ["Analytics"],
+        "parameters": [
+          { "$ref": "#/components/parameters/StartDate" },
+          { "$ref": "#/components/parameters/EndDate" },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of pages to return",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1, "maximum": 100, "default": 20 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Page ranking returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "startDate": { "type": "string" },
+                    "endDate": { "type": "string" },
+                    "pages": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "pagePath": { "type": "string", "example": "/getting-started/introduction" },
+                          "pageTitle": { "type": "string" },
+                          "pageViews": { "type": "integer", "example": 2447 },
+                          "sessions": { "type": "integer", "example": 624 }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" },
+          "502": { "$ref": "#/components/responses/AnalyticsUnavailable" }
+        }
+      }
+    },
+    "/analytics/referrers": {
+      "get": {
+        "operationId": "getAnalyticsReferrers",
+        "summary": "Traffic sources",
+        "description": "Referrers ranked by page views, highest first. Values are reported exactly as received, with `(direct)` for visits that carried no referrer. This is a top-N list: it takes a `limit` but cannot be paged.",
+        "tags": ["Analytics"],
+        "parameters": [
+          { "$ref": "#/components/parameters/StartDate" },
+          { "$ref": "#/components/parameters/EndDate" },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of referrers to return",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1, "maximum": 100, "default": 10 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Referrer ranking returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "startDate": { "type": "string" },
+                    "endDate": { "type": "string" },
+                    "referrers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "referrer": { "type": "string", "description": "Full referring URL, or `(direct)` when the visit carried none", "example": "https://www.google.com/" },
+                          "pageViews": { "type": "integer", "example": 6015 },
+                          "percentage": { "type": "number", "description": "Share of page views in the range, 0-100", "example": 4.4 }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" },
+          "502": { "$ref": "#/components/responses/AnalyticsUnavailable" }
+        }
+      }
+    },
+    "/analytics/feedback": {
+      "get": {
+        "operationId": "getAnalyticsFeedback",
+        "summary": "Feedback by page",
+        "description": "Rating totals with one row per page, so you can find the pages readers are least happy with.\n\nThe `summary` block covers the whole date range, not just the rows returned. To read the actual written comments for a page, use `/analytics/feedback/comments`.",
+        "tags": ["Analytics"],
+        "parameters": [
+          { "$ref": "#/components/parameters/StartDate" },
+          { "$ref": "#/components/parameters/EndDate" },
+          { "$ref": "#/components/parameters/Limit" },
+          { "$ref": "#/components/parameters/Offset" },
+          {
+            "name": "pathContains",
+            "in": "query",
+            "description": "Return only pages whose path contains this text. Case-insensitive substring match against the page path only — it does not search titles or comment text.",
+            "required": false,
+            "schema": { "type": "string", "minLength": 1 },
+            "example": "/guides"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "Column to sort by",
+            "required": false,
+            "schema": { "type": "string", "enum": ["totalFeedback", "likes", "dislikes", "comments", "satisfactionRate"], "default": "totalFeedback" }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "Sort direction",
+            "required": false,
+            "schema": { "type": "string", "enum": ["asc", "desc"], "default": "desc" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Feedback breakdown returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "startDate": { "type": "string" },
+                    "endDate": { "type": "string" },
+                    "pages": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "pagePath": { "type": "string" },
+                          "pageTitle": { "type": "string" },
+                          "likes": { "type": "integer" },
+                          "dislikes": { "type": "integer" },
+                          "totalFeedback": { "type": "integer" },
+                          "comments": { "type": "integer", "description": "Entries that included written text" },
+                          "satisfactionRate": { "type": "number", "description": "Likes as a share of all feedback, 0-100" }
+                        }
+                      }
+                    },
+                    "summary": {
+                      "type": "object",
+                      "description": "Totals for the whole date range",
+                      "properties": {
+                        "totalFeedback": { "type": "integer" },
+                        "likes": { "type": "integer" },
+                        "dislikes": { "type": "integer" },
+                        "comments": { "type": "integer" },
+                        "satisfactionRate": { "type": "number" }
+                      }
+                    },
+                    "total": { "type": "integer", "description": "Pages with feedback in the range" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" },
+          "502": { "$ref": "#/components/responses/AnalyticsUnavailable" }
+        }
+      }
+    },
+    "/analytics/feedback/comments": {
+      "get": {
+        "operationId": "getAnalyticsFeedbackComments",
+        "summary": "Written feedback for a page",
+        "description": "Individual feedback entries for one page, newest first. Only entries that included written text are returned, so a page with ratings but no comments returns an empty list and a total of zero.",
+        "tags": ["Analytics"],
+        "parameters": [
+          {
+            "name": "pagePath",
+            "in": "query",
+            "description": "Exact page path to read comments for",
+            "required": true,
+            "schema": { "type": "string", "minLength": 1 },
+            "example": "/getting-started/introduction"
+          },
+          { "$ref": "#/components/parameters/StartDate" },
+          { "$ref": "#/components/parameters/EndDate" },
+          { "$ref": "#/components/parameters/Limit" },
+          { "$ref": "#/components/parameters/Offset" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comments returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "startDate": { "type": "string" },
+                    "endDate": { "type": "string" },
+                    "pagePath": { "type": "string" },
+                    "comments": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "type": { "type": "string", "enum": ["like", "dislike"] },
+                          "text": { "type": "string" },
+                          "sessionId": { "type": "string", "description": "Anonymous browser session identifier" },
+                          "submittedAt": { "type": "string", "format": "date-time" }
+                        }
+                      }
+                    },
+                    "total": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" },
+          "502": { "$ref": "#/components/responses/AnalyticsUnavailable" }
+        }
+      }
+    },
+    "/analytics/ai/questions": {
+      "get": {
+        "operationId": "getAnalyticsAiQuestions",
+        "summary": "AI assistant questions",
+        "description": "Questions asked of the AI assistant, newest first.\n\nSet `maxConfidence` to surface the answers the assistant was least sure of. These are the clearest signal of gaps in your documentation. Questions with no confidence score are left out when you use that filter, since there is nothing to compare against the threshold.",
+        "tags": ["Analytics"],
+        "parameters": [
+          { "$ref": "#/components/parameters/StartDate" },
+          { "$ref": "#/components/parameters/EndDate" },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of questions to return. Capped lower than other endpoints because full answer text is included.",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1, "maximum": 50, "default": 20 }
+          },
+          { "$ref": "#/components/parameters/Offset" },
+          {
+            "name": "sessionId",
+            "in": "query",
+            "description": "Return only questions from one session, to reconstruct a conversation. Cannot be combined with `maxConfidence`.",
+            "required": false,
+            "schema": { "type": "string", "minLength": 1 }
+          },
+          {
+            "name": "maxConfidence",
+            "in": "query",
+            "description": "Return only questions the assistant scored strictly below this value. Cannot be combined with `sessionId`.",
+            "required": false,
+            "schema": { "type": "number", "minimum": 0, "maximum": 1 },
+            "example": 0.5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Questions returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "startDate": { "type": "string" },
+                    "endDate": { "type": "string" },
+                    "questions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "question": { "type": "string", "example": "how to migrate content?" },
+                          "answer": { "type": "string" },
+                          "pagePath": { "type": "string", "description": "Page the question was asked from" },
+                          "sessionId": { "type": "string" },
+                          "confidenceScore": { "type": "number", "nullable": true, "description": "How sure the assistant was of its answer, from 0 to 1. Null when the answer was not scored.", "example": 0.98 },
+                          "askedAt": { "type": "string", "format": "date-time" }
+                        }
+                      }
+                    },
+                    "total": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" },
+          "502": { "$ref": "#/components/responses/AnalyticsUnavailable" }
+        }
+      }
+    },
+    "/analytics/ai/answer-feedback": {
+      "get": {
+        "operationId": "getAnalyticsAiAnswerFeedback",
+        "summary": "Ratings on AI answers",
+        "description": "Thumbs up and down left on individual AI answers, newest first. The `summary` block covers the whole date range, not just the returned page of results.",
+        "tags": ["Analytics"],
+        "parameters": [
+          { "$ref": "#/components/parameters/StartDate" },
+          { "$ref": "#/components/parameters/EndDate" },
+          { "$ref": "#/components/parameters/Limit" },
+          { "$ref": "#/components/parameters/Offset" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Answer ratings returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "startDate": { "type": "string" },
+                    "endDate": { "type": "string" },
+                    "entries": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "questionId": { "type": "string", "description": "Identifier of the answer that was rated" },
+                          "question": { "type": "string" },
+                          "answerSnippet": { "type": "string", "description": "Opening of the rated answer, truncated when the rating was captured" },
+                          "type": { "type": "string", "enum": ["like", "dislike"] },
+                          "pagePath": { "type": "string" },
+                          "sessionId": { "type": "string" },
+                          "submittedAt": { "type": "string", "format": "date-time" }
+                        }
+                      }
+                    },
+                    "summary": {
+                      "type": "object",
+                      "description": "Totals for the whole date range",
+                      "properties": {
+                        "totalFeedback": { "type": "integer" },
+                        "likes": { "type": "integer" },
+                        "dislikes": { "type": "integer" },
+                        "satisfactionRate": { "type": "number", "description": "Likes as a share of all ratings, 0-100" }
+                      }
+                    },
+                    "total": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" },
+          "502": { "$ref": "#/components/responses/AnalyticsUnavailable" }
+        }
+      }
+    },
+    "/analytics/ai/volume": {
+      "get": {
+        "operationId": "getAnalyticsAiVolume",
+        "summary": "Daily AI question volume",
+        "description": "Questions asked and distinct sessions per day. Days with no questions are returned as zeroes, so the series always covers every day in the range.",
+        "tags": ["Analytics"],
+        "parameters": [
+          { "$ref": "#/components/parameters/StartDate" },
+          { "$ref": "#/components/parameters/EndDate" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daily series returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "startDate": { "type": "string" },
+                    "endDate": { "type": "string" },
+                    "series": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "date": { "type": "string", "description": "UTC day", "example": "2026-05-01" },
+                          "questions": { "type": "integer" },
+                          "sessions": { "type": "integer", "description": "Distinct sessions that asked at least one question that day" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" },
+          "502": { "$ref": "#/components/responses/AnalyticsUnavailable" }
+        }
+      }
     }
   },
   "components": {
@@ -531,6 +1197,14 @@
           }
         }
       },
+      "NotFound": {
+        "description": "The requested resource does not exist, or belongs to a different documentation project",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
       "TooManyRequests": {
         "description": "Rate limit exceeded. Check `x-ratelimit-limit` and `retry-after` response headers.",
         "content": {
@@ -538,15 +1212,90 @@
             "schema": { "$ref": "#/components/schemas/Error" }
           }
         }
+      },
+      "AnalyticsUnavailable": {
+        "description": "The analytics store could not be reached. The request was valid — retry after a short delay.",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "StartDate": {
+        "name": "startDate",
+        "in": "query",
+        "description": "First UTC day to include, as `YYYY-MM-DD`. Defaults to six days before `endDate`. The range must not exceed 90 days.",
+        "required": false,
+        "schema": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "example": "2026-05-01"
+      },
+      "EndDate": {
+        "name": "endDate",
+        "in": "query",
+        "description": "Last UTC day to include, as `YYYY-MM-DD`. Inclusive — the whole day is counted. Defaults to today.",
+        "required": false,
+        "schema": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "example": "2026-05-31"
+      },
+      "Limit": {
+        "name": "limit",
+        "in": "query",
+        "description": "Maximum number of rows to return",
+        "required": false,
+        "schema": { "type": "integer", "minimum": 1, "maximum": 100, "default": 20 }
+      },
+      "Offset": {
+        "name": "offset",
+        "in": "query",
+        "description": "Number of rows to skip. Combined with `total`, this is how you page through results.",
+        "required": false,
+        "schema": { "type": "integer", "minimum": 0, "default": 0 }
       }
     },
     "schemas": {
       "Error": {
         "type": "object",
         "properties": {
-          "statusCode": { "type": "integer" },
-          "error": { "type": "string" },
-          "message": { "type": "string" }
+          "statusCode": { "type": "integer", "example": 400 },
+          "error": { "type": "string", "example": "Bad Request" },
+          "message": { "type": "string", "example": "Date range must not exceed 90 days (requested 152)" }
+        }
+      },
+      "QueuedDeployment": {
+        "type": "object",
+        "description": "Returned when a deployment is accepted. The build has not run yet — poll `deploymentId` until its status reaches `ready` or `error`.",
+        "properties": {
+          "deploymentId": { "type": "string", "format": "uuid", "description": "Pass to `GET /deployments/{deploymentId}` to follow progress", "example": "9f1c2e64-3b47-4a8d-91f5-7c2e0a6d5b31" },
+          "status": { "type": "string", "enum": ["pending", "building", "ready", "error", "cancelled"], "example": "pending" },
+          "url": { "type": "string", "description": "Where the result will be published", "example": "https://docs.acme.com" }
+        }
+      },
+      "Deployment": {
+        "type": "object",
+        "description": "A recorded deployment and its current state.",
+        "properties": {
+          "deploymentId": { "type": "string", "format": "uuid", "example": "9f1c2e64-3b47-4a8d-91f5-7c2e0a6d5b31" },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "building", "ready", "error", "cancelled"],
+            "description": "`pending` and `building` are in progress; `ready`, `error` and `cancelled` are final.",
+            "example": "ready"
+          },
+          "url": { "type": "string", "nullable": true, "description": "Published address. Null until the deployment succeeds.", "example": "https://docs.acme.com" },
+          "branch": { "type": "string", "nullable": true, "description": "Branch this deployment was built from", "example": "main" },
+          "isPreview": { "type": "boolean", "description": "True for preview deployments, which never affect the live site", "example": false },
+          "triggerType": {
+            "type": "string",
+            "nullable": true,
+            "enum": ["user", "auto", "system", "api", null],
+            "description": "What started it: `user` (dashboard), `auto` (repository push), `system` (internal), or `api` (this API).",
+            "example": "api"
+          },
+          "logs": { "type": "string", "nullable": true, "description": "Failure detail. Populated only when status is `error`, null otherwise." },
+          "createdAt": { "type": "string", "format": "date-time", "example": "2026-07-28T10:00:00.000Z" },
+          "updatedAt": { "type": "string", "format": "date-time", "example": "2026-07-28T10:01:32.000Z" }
         }
       }
     }

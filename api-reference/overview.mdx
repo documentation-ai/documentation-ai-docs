@@ -1,11 +1,13 @@
 ---
 title: REST API
-description: Programmatic access to read and update your documentation through the Documentation.AI REST API.
+description: Read and update your documentation, publish deployments, and pull analytics through the Documentation.AI REST API.
 ---
 
 ## Overview
 
-The Documentation.AI REST API provides programmatic access to your documentation project through a standard REST interface. You can read pages, search content, manage branches, and push file changes, the same operations available in the dashboard, accessible from your own scripts, CI/CD pipelines, or backend services.
+The Documentation.AI REST API provides programmatic access to your documentation project through a standard REST interface. You can read pages, search content, manage branches, push file changes, publish deployments, and read analytics, the same operations available in the dashboard, accessible from your own scripts, CI/CD pipelines, or backend services.
+
+Every key is scoped to one documentation project, so no endpoint takes a project identifier.
 
 The Documentation.AI REST API and the [Authoring MCP Server](/ai/authoring-mcp-server) cover largely the same documentation-management actions through different interfaces. Use the REST API when you need direct HTTP access from scripts, backends, or CI/CD, and use the Authoring MCP Server when you are working from an MCP-compatible AI client or agent.
 
@@ -59,11 +61,13 @@ Every API key carries a role that determines which endpoints are accessible.
 
 | Role | Read endpoints | Write endpoints |
 | --- | --- | --- |
-| **Viewer** | All read endpoints | None |
-| **Editor** | All read endpoints | Push, branches, merge |
+| **Viewer** | All read endpoints, including analytics | None |
+| **Editor** | All read endpoints | Push, branches, merge, deploy |
 | **Admin** | All read endpoints | All write endpoints |
 
 Write endpoints return `403 Forbidden` if the API key role does not have sufficient permissions.
+
+Deploying sits behind **editor** because it publishes to your live site. Analytics is read-only, so a **viewer** key is enough.
 
 ## Rate Limiting
 
@@ -130,6 +134,72 @@ curl -X POST https://api.documentationai.app/api/v1/push \
 <Callout kind="info">
   Pushing to the deployment branch (usually `main`) triggers a live deployment. Use a feature branch for draft changes, then merge when ready.
 </Callout>
+
+## Deployments
+
+Pushing already deploys, so you only need `/deploy` when nothing changed in Git. The common case is an OpenAPI specification you reference by URL: it changed on your own host, so no commit exists to trigger a rebuild.
+
+```bash
+curl -X POST https://api.documentationai.app/api/v1/deploy \
+  -H "Authorization: Bearer dai_your_api_key"
+```
+
+The response is `202 Accepted` with a deployment to poll, not a finished build:
+
+```json
+{
+  "deploymentId": "9f1c2e64-3b47-4a8d-91f5-7c2e0a6d5b31",
+  "status": "pending",
+  "url": "https://docs.acme.com"
+}
+```
+
+Poll it until `status` reaches `ready` or `error`:
+
+```bash
+curl https://api.documentationai.app/api/v1/deployments/9f1c2e64-3b47-4a8d-91f5-7c2e0a6d5b31 \
+  -H "Authorization: Bearer dai_your_api_key"
+```
+
+When the status is `error`, the `logs` field carries the reason.
+
+## Analytics
+
+Analytics endpoints are read-only, so a viewer key is enough.
+
+Dates are whole UTC days in `YYYY-MM-DD` form, and `endDate` is inclusive. Omit them to get the last seven days. A single request covers at most **90 days**; ask for more and you get `400`.
+
+Find the questions your AI assistant answered least confidently, which is the fastest way to spot gaps in your documentation:
+
+```bash
+curl -G https://api.documentationai.app/api/v1/analytics/ai/questions \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -d startDate=2026-05-01 \
+  -d endDate=2026-05-31 \
+  -d maxConfidence=0.5
+```
+
+```json
+{
+  "startDate": "2026-05-01",
+  "endDate": "2026-05-31",
+  "questions": [
+    {
+      "question": "how do I rotate an API key?",
+      "answer": "I could not find anything about rotating keys in the documentation.",
+      "pagePath": "/docs",
+      "sessionId": "ms4f2jlbbsym28yd",
+      "confidenceScore": 0.21,
+      "askedAt": "2026-05-14T09:22:11.108Z"
+    }
+  ],
+  "total": 40
+}
+```
+
+Page through results with `limit` and `offset`, using `total` to know when to stop. `/analytics/pages` and `/analytics/referrers` are the exception: they are top-N rankings, so they take a `limit` but cannot be paged.
+
+The two daily series, `/analytics/traffic` and `/analytics/ai/volume`, return one entry per day including days with no activity, so you can chart them without filling gaps yourself.
 
 ## Endpoints
 

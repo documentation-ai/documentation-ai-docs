@@ -1,11 +1,11 @@
 ---
 title: Reader MCP Server
-description: Give AI tools read-only MCP access to your published documentation, so readers can search and reference your docs from ChatGPT, Claude, Cursor, and other MCP clients.
+description: Give AI tools read-only MCP access to your publicly published documentation, so readers can search and reference your docs from ChatGPT, Claude, Cursor, and other MCP clients.
 ---
 
 ## Serve your documentation to AI tools
 
-The Reader MCP Server is your own MCP endpoint, served from your documentation domain. It gives MCP-compatible tools read-only access to your published documentation so they can search, retrieve, and reference your content without any ability to change it.
+The Reader MCP Server is your own MCP endpoint, served from your documentation domain. It gives MCP-compatible tools read-only access to your publicly published documentation so they can search, retrieve, and reference your content without any ability to change it.
 
 This is the server your **readers** connect to: customers, support teams, solution engineers, and internal users, along with the AI tools they work in. If you are looking for the server your documentation team connects to in order to *write* docs, see the [Authoring MCP Server](/ai/authoring-mcp-server).
 
@@ -32,22 +32,21 @@ You can find your endpoint in the dashboard under **MCP Servers** in the sidebar
 
 ## Understand what it can access
 
-The Reader MCP Server sits in front of your published documentation, not your authoring environment. It reflects your documentation in its published state, and it honors the same access rules your documentation site enforces.
+The Reader MCP Server serves your **publicly available published documentation**. It sits in front of your published site, not your authoring environment, and it exposes only content that is open to anyone.
 
-- **Public documentation** is available to any client that connects to the endpoint.
-- **Password-protected and internal documentation** stays behind the same access controls that protect the site itself. The MCP endpoint does not bypass them.
+<Callout kind="alert">
 
-<Callout kind="note">
-
-Dedicated authentication for MCP clients is currently in progress. It will let a client connect with an API key or OAuth to retrieve gated content directly. Granular access control is also planned, scoping a connected client to specific products, versions, languages, groups, or pages. See the [roadmap](/roadmap) for status.
+Private, password-protected, internal, and partial documentation is **not served** through the Reader MCP Server today. If your documentation is gated, that content is not available to connected clients.
 
 </Callout>
+
+Authenticated access is on the immediate roadmap as the **Reader MCP Server with authentication**. It will let a client authenticate with an API key or OAuth to retrieve gated content, together with granular access control that scopes a connected client to specific products, versions, languages, groups, or pages. See the [roadmap](/roadmap) for status.
 
 Because the server is read-only, it works well when you want grounded answers from trusted documentation while keeping editing controls entirely separate.
 
 <Callout kind="tip">
 
-Access is a property of your documentation site, not of the MCP server or of anyone's Documentation.AI workspace role. The **Viewer** role on the [Authoring MCP Server](/ai/authoring-mcp-server) is unrelated. That role governs your team's access to the project, while the Reader MCP Server governs what your published site already exposes.
+The Reader MCP Server is not connected to Documentation.AI workspace roles. The **Viewer** role on the [Authoring MCP Server](/ai/authoring-mcp-server) is unrelated: that role governs your team's access to the project, while the Reader MCP Server serves only what your site publishes publicly.
 
 </Callout>
 
@@ -114,7 +113,6 @@ Your MCP client discovers the tool and its parameters automatically when it conn
 Choose the Reader MCP Server when the goal is documentation retrieval, not documentation management.
 
 - **Customer-facing documentation**: Let customers connect AI tools to your published docs for product questions, onboarding, and API lookup.
-- **Internal knowledge bases**: Let employees, support teams, and solution engineers query internal documentation from MCP-compatible tools.
 - **Support and success workflows**: Help your team answer from the same published docs your customers use.
 - **AI assistants and copilots**: Add a retrieval layer over your docs so responses stay tied to current published content.
 
@@ -128,7 +126,7 @@ The Reader MCP Server exists only for published documentation. If you have not d
 
 <Expandable title="The client connects but returns no results">
 
-Search covers published content. If you recently added or edited pages, confirm the changes have been deployed rather than left on a branch. If your documentation is protected, confirm the client is reaching it under the same access your site requires.
+Search covers publicly published content. If you recently added or edited pages, confirm the changes have been deployed rather than left on a branch. If your documentation is private, password-protected, or partially gated, that content is not served through the endpoint today.
 
 </Expandable>
 

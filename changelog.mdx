@@ -2,36 +2,22 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
-<Update label="2026-07-28" description="Hosted OpenAPI specs by URL, Reader MCP Server rename, and editor reliability fixes" tags={["feature","improvement","fix"]}>
-  ## Connect Hosted OpenAPI Specs by URL
-
-  You can now connect an OpenAPI specification hosted at an external URL without uploading or pasting a file. In the editor's OpenAPI dialog, use the **From URL** tab to paste a spec URL (for example, `https://api.example.com/openapi.json`). Documentation.AI validates the URL and confirms the spec is valid OpenAPI 3.0+ before connecting.
-
-  Hosted specs are read-only. No file is added to your repository, and the spec cannot be edited, renamed, or deleted from within Documentation.AI. You can still hide individual endpoints and remove the spec from your project. A **Hosted** badge and a link to the source URL appear in the API info header.
-
-  Hosted spec content is cached with stale-while-revalidate behavior: the cached version renders immediately on return, and a background fetch refreshes it in place.
-
-  See [OpenAPI Spec Import](/api-documentation-and-playground/openapi-import) for details.
-
-  ## Reader MCP Server Rename
-
-  The **Docs MCP Server** is now called the **Reader MCP Server** to clearly distinguish it from the [Authoring MCP Server](/ai/authoring-mcp-server). The endpoint, behavior, and existing client configurations are unchanged. See [Reader MCP Server](/ai/reader-mcp-server).
-
-  ## Fixes and Improvements
-
-  - **Editor reconnects after dropped collaboration rooms**: If the server drops a collaboration room after a rename, create, or reset, the editor now automatically reconnects instead of silently stopping sync. No manual refresh is needed.
-  - **Publish gated during file operations**: The Publish button is disabled while file rename, move, or create operations are in progress, preventing race conditions.
-  - **File operation feedback**: File rename, move, and create failures now show a toast notification instead of silently failing.
-  - **Agent change reveal**: Clicking a file link in an AI agent chat result now scrolls to and highlights the specific blocks that were changed in the editor.
-  - **Deleted content persists**: Emptying a file in the MDX code editor now reliably persists the empty state to the server. Previously, cleared content could resurface on reopen.
-</Update>
-
-<Update label="2026-07-27" description="GitLab integration, Git Settings page, large diff safety, and editor fixes" tags={["feature"]}>
+<Update label="2026-07-28" description="GitLab integration, hosted OpenAPI specs by URL, Reader MCP Server rename, and editor reliability fixes" tags={["feature","improvement","fix"]}>
   ## GitLab Integration
 
   GitLab is now supported as a source repository alongside GitHub. You can connect a GitLab project (on gitlab.com or a self-hosted instance) and use it as the single source of truth for your documentation.
 
   See [GitLab Integration](/integrations/gitlab) for setup instructions.
+
+  ## Connect Hosted OpenAPI Specs by URL
+
+  You can now connect an OpenAPI specification hosted at an external URL without uploading or pasting a file. Hosted specs are read-only and cached for fast rendering. See [OpenAPI Spec Import](/api-documentation-and-playground/openapi-import) for details.
+
+  ## Improvements
+
+  - **Reader MCP Server rename**: The **Docs MCP Server** is now called the **Reader MCP Server** to clearly distinguish it from the [Authoring MCP Server](/ai/authoring-mcp-server). The endpoint, behavior, and existing client configurations are unchanged. See [Reader MCP Server](/ai/reader-mcp-server).
+  - **Editor bug fixes**: Resolved several editor reliability issues, including auto-reconnect after dropped collaboration rooms, publish gating during file operations, file operation failure notifications, and reliable persistence of deleted content.
+  - **Agent bug fixes**: Clicking a file link in an AI agent chat result now correctly scrolls to and highlights the specific blocks that were changed in the editor.
 </Update>
 
 <Update label="2026-07-23" description="Confluence and Jira integrations, collaboration conflict resolution, and agent chat persistence" tags={["feature","improvement"]}>

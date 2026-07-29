@@ -2,7 +2,7 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
-<Update label="2026-07-28" description="GitLab integration, hosted OpenAPI specs by URL, deployments and analytics REST API endpoints, Reader MCP Server rename, and editor reliability fixes" tags={["feature","improvement","fix"]}>
+<Update label="2026-07-28" description="GitLab integration, hosted OpenAPI specs by URL, deployments and analytics REST API endpoints, Reader MCP Server rename, MCP tool annotations, repository archive export, and platform reliability fixes" tags={["feature","improvement","fix"]}>
   ## GitLab Integration
 
   GitLab is now supported as a source repository alongside GitHub. You can connect a GitLab project (on gitlab.com or a self-hosted instance) and use it as the single source of truth for your documentation.
@@ -23,6 +23,21 @@ description: 'Changes, fixes, and improvements across versions'
   - **Reader MCP Server rename**: The **Docs MCP Server** is now called the **Reader MCP Server** to clearly distinguish it from the [Authoring MCP Server](/ai/authoring-mcp-server). The endpoint, behavior, and existing client configurations are unchanged. See [Reader MCP Server](/ai/reader-mcp-server).
   - **Editor bug fixes**: Resolved several editor reliability issues, including auto-reconnect after dropped collaboration rooms, publish gating during file operations, file operation failure notifications, and reliable persistence of deleted content.
   - **Agent bug fixes**: Clicking a file link in an AI agent chat result now correctly scrolls to and highlights the specific blocks that were changed in the editor.
+  - **MCP tool annotations**: MCP tools now declare read-only and destructive annotations, so MCP clients no longer prompt for confirmation on read-only operations like `get_page`.
+  - **BoardCard flexible props**: `BoardCard` now accepts both `due-date`/`dueDate` and `created-at`/`createdAt` for date props, so either naming convention works in MDX.
+  - **Expandable improvements**: Tighter header spacing and cleaner content rendering when collapsed.
+  - **Search fix for nested pages**: Fixed a bug where deeply nested pages with long paths could not be found in search due to slug truncation.
+  - **Custom domain reuse**: Custom domains now properly become available for reuse after a documentation or organization is deleted.
+  - **Merge safety for large diffs**: Publishing now refuses to merge when the upstream diff is too large to fully evaluate, preventing potential silent data overwrites on large repositories.
+  - **Tab alignment on scroll**: Fixed the tab underline indicator jumping out of position when tabs are horizontally scrolled.
+  - **Repository archive export**: You can now export your documentation repository as a ZIP file from the dashboard, making it easier to migrate away from the managed hosted repository.
+</Update>
+
+<Update label="2026-07-29" description="Bug fixes for images in table cells and HTML table elements in deployments" tags={["fix"]}>
+  ## Bug Fixes
+
+  - **Images and videos in table cells**: Fixed a bug where images and videos embedded in markdown table cells would disappear when saving a page. They are now correctly preserved in both the editor and published output.
+  - **HTML table elements in deployments**: Fixed a bug where standard HTML table elements (`<thead>`, `<tbody>`, `<tr>`, `<td>`, `<th>`) were incorrectly blocked during deployment validation. These elements are valid MDX and are now allowed.
 </Update>
 
 <Update label="2026-07-23" description="Confluence and Jira integrations, collaboration conflict resolution, and agent chat persistence" tags={["feature","improvement"]}>

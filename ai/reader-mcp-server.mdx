@@ -1,11 +1,11 @@
 ---
 title: Reader MCP Server
-description: Give AI tools read-only MCP access to your publicly published documentation, so readers can search and reference your docs from ChatGPT, Claude, Cursor, and other MCP clients.
+description: Give AI tools read-only MCP access to your published documentation, including private and gated content with authentication, so readers can search and reference your docs from ChatGPT, Claude, Cursor, and other MCP clients.
 ---
 
 ## Serve your documentation to AI tools
 
-The Reader MCP Server is your own MCP endpoint, served from your documentation domain. It gives MCP-compatible tools read-only access to your publicly published documentation so they can search, retrieve, and reference your content without any ability to change it.
+The Reader MCP Server is your own MCP endpoint, served from your documentation domain. It gives MCP-compatible tools read-only access to your published documentation so they can search, retrieve, and reference your content without any ability to change it.
 
 This is the server your **readers** connect to: customers, support teams, solution engineers, and internal users, along with the AI tools they work in. If you are looking for the server your documentation team connects to in order to *write* docs, see the [Authoring MCP Server](/ai/authoring-mcp-server).
 
@@ -32,21 +32,19 @@ You can find your endpoint in the dashboard under **MCP Servers** in the sidebar
 
 ## Understand what it can access
 
-The Reader MCP Server serves your **publicly available published documentation**. It sits in front of your published site, not your authoring environment, and it exposes only content that is open to anyone.
+The Reader MCP Server serves your published documentation. It sits in front of your published site, not your authoring environment.
 
-<Callout kind="alert">
+For **public documentation**, the server exposes content that is open to anyone. No authentication is required. Readers connect their MCP client and can search immediately.
 
-Private, password-protected, internal, and partial documentation is **not served** through the Reader MCP Server today. If your documentation is gated, that content is not available to connected clients.
+For **private, password-protected, or partial documentation**, the server uses OAuth 2.1 with PKCE to authenticate connected clients. When a reader connects an MCP client to a gated site, the client automatically discovers the OAuth endpoints, opens a browser for sign-in through your existing access control method (password, JWT, or OAuth 2.0), and receives a scoped credential after consent. The credential determines which content the client can access based on the access roles assigned to it.
 
-</Callout>
-
-Authenticated access is on the immediate roadmap as the **Reader MCP Server with authentication**. It will let a client authenticate with an API key or OAuth to retrieve gated content, together with granular access control that scopes a connected client to specific products, versions, languages, groups, or pages. See the [roadmap](/roadmap) for status.
+Access control must be enabled on your documentation project before the Reader MCP Server can serve gated content. See [Access Control](/customize/access-control/overview) for setup details.
 
 Because the server is read-only, it works well when you want grounded answers from trusted documentation while keeping editing controls entirely separate.
 
 <Callout kind="tip">
 
-The Reader MCP Server is not connected to Documentation.AI workspace roles. The **Viewer** role on the [Authoring MCP Server](/ai/authoring-mcp-server) is unrelated: that role governs your team's access to the project, while the Reader MCP Server serves only what your site publishes publicly.
+The Reader MCP Server is not connected to Documentation.AI workspace roles. Reader access is controlled through MCP credentials and your site's access control configuration, not through workspace roles like the [Authoring MCP Server](/ai/authoring-mcp-server).
 
 </Callout>
 
@@ -102,6 +100,89 @@ You can copy your endpoint straight from a documentation page using the **Copy M
 
 </Callout>
 
+## Accessing private documentation
+
+When a reader connects an MCP client to a documentation site with access control enabled, the connection flow works differently than for public sites.
+
+<Steps>
+  <Step title="Connect the MCP client" icon="plug">
+
+Add the Reader MCP Server endpoint to the MCP client the same way as for a public site. The client sends its first request without credentials.
+
+  </Step>
+  <Step title="The client discovers OAuth endpoints" icon="search">
+
+The server responds with a 401 that points the client to its OAuth discovery URLs. The client fetches the authorization server metadata automatically, including the PKCE requirements and supported scopes.
+
+  </Step>
+  <Step title="Sign in through your access control method" icon="lock">
+
+The client opens a browser window for sign-in. The sign-in page is the same one your readers already use: a password gate, a JWT login redirect, or an OAuth 2.0 provider login, depending on your access control configuration.
+
+  </Step>
+  <Step title="Approve the consent screen" icon="check-circle">
+
+After signing in, a consent screen shows the MCP client name and the callback it will redirect to. Approving grants the client a scoped credential tied to the reader's session.
+
+  </Step>
+  <Step title="Start searching" icon="message-circle">
+
+The client receives a credential and completes the connection. The reader can now search and retrieve the gated content their access roles permit.
+
+  </Step>
+</Steps>
+
+Credentials issued through the OAuth flow are called **browser credentials**. They expire after 90 days by default, and reconnecting the same MCP client automatically replaces the previous credential.
+
+## Manage MCP credentials
+
+Organization admins can create, configure, and revoke MCP credentials from the dashboard. Go to **MCP Servers** in the sidebar to open the credentials panel.
+
+<Callout kind="info">
+
+MCP credentials require access control to be enabled on your documentation project. If access control is not configured, the credentials panel is not available. See [Access Control](/customize/access-control/overview) to get started.
+
+</Callout>
+
+### Create a credential
+
+Create a credential when you want to grant an MCP client access to your gated documentation without requiring each reader to complete the OAuth flow individually. This is useful for service accounts, shared team tools, or CI/CD integrations.
+
+1. Click **Create Credential** in the MCP credentials panel.
+2. Enter a name to identify the credential, such as `Support chatbot` or `Engineering team`.
+3. Select the access roles to assign. Omitting all roles grants access to unrestricted content only. Selecting a role limits the credential to content permitted by that role.
+4. Choose an expiry preset: 30, 60, 90, 180 days, or 1 year. You can also set no expiry for credentials that should persist indefinitely.
+5. Click **Create**. The credential token is shown once. Copy and store it immediately, as it cannot be retrieved later.
+
+Credentials created this way are called **dashboard credentials**. Each documentation project supports up to 25 active dashboard credentials.
+
+### Edit access roles
+
+You can change the access roles on a credential at any time without reissuing the token. The existing token continues to work with the updated roles.
+
+### Revoke credentials
+
+Revoke a credential to immediately block access. Revocation is permanent and takes effect instantly.
+
+- **Revoke a single credential**: Click the revoke button next to a credential in the list.
+- **Revoke all credentials**: Click **Revoke All** to revoke every active credential for the documentation project at once.
+
+### Configure callback URLs
+
+Callback URLs control which MCP clients are allowed to complete the OAuth authorization flow. Common client schemes (such as `claude:`, `cursor:`, `vscode:`) and localhost loopback addresses are trusted by default. Add custom callback URLs when you need to allow a client that is not in the built-in list.
+
+Add callback URLs in the MCP credentials panel. Changes take effect immediately without requiring a redeployment. You can add up to 50 callback URLs per documentation project.
+
+### Credential types
+
+| | Dashboard credentials | Browser credentials |
+| --- | --- | --- |
+| **Who creates them** | Organization admin via dashboard | Issued automatically during the OAuth flow |
+| **Limit** | 25 active per project | No limit |
+| **Expiry** | Configurable, including no expiry | Always expires (90 days default) |
+| **Use case** | Service accounts, shared tools, CI/CD | Individual readers connecting their own MCP clients |
+| **Token shown** | Once at creation, never retrievable | Never shown to the user |
+
 ## Available tools
 
 The Reader MCP Server exposes your published documentation through a retrieval tool, `searchDocumentation`. Connected clients use it to find the most relevant pages, headings, API reference sections, and snippets in your docs.
@@ -126,7 +207,7 @@ The Reader MCP Server exists only for published documentation. If you have not d
 
 <Expandable title="The client connects but returns no results">
 
-Search covers publicly published content. If you recently added or edited pages, confirm the changes have been deployed rather than left on a branch. If your documentation is private, password-protected, or partially gated, that content is not served through the endpoint today.
+Search covers your published content. If you recently added or edited pages, confirm the changes have been deployed rather than left on a branch. For private or gated documentation, make sure the MCP client has completed the OAuth authentication flow described in [Accessing private documentation](#accessing-private-documentation).
 
 </Expandable>
 

@@ -2,6 +2,32 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-08-01" description="Reader MCP Server authentication for private docs, MCP credentials management, MCP tool annotations, and editor reliability fixes" tags={["feature","improvement","fix"]}>
+  ## Reader MCP Server Authentication
+
+  The Reader MCP Server now supports OAuth 2.1 with PKCE so connected MCP clients can access private, password-protected, and partial documentation. When a reader connects an MCP client to a gated site, the client discovers the OAuth endpoints automatically, opens a browser for sign-in through your existing access control method (password, JWT, or OAuth 2.0), and receives a scoped credential after consent.
+
+  Admins manage MCP credentials from the dashboard under **MCP Servers**:
+
+  - Create credentials with custom names, scoped access roles, and expiry presets (30, 60, 90, 180 days, or 1 year).
+  - Update access roles on existing credentials without reissuing tokens.
+  - Revoke individual or all credentials instantly.
+  - Configure callback URLs to control which MCP clients can complete the OAuth flow.
+  - Dashboard-issued credentials support up to 25 active tokens per project. Browser-issued credentials (minted automatically through the OAuth flow) are uncapped and always expire.
+
+  See [Reader MCP Server](/ai/reader-mcp-server) for setup and configuration details.
+
+  ## MCP Tool Annotations
+
+  All MCP tools now declare read-only and destructive hints. MCP clients can distinguish safe read-only calls (such as `get_page` or `searchDocumentation`) from destructive ones (such as `update_documentation`) without showing confirmation prompts for reads. This applies to both the [Reader MCP Server](/ai/reader-mcp-server) and the [Authoring MCP Server](/ai/authoring-mcp-server).
+
+  ## Fixes
+
+  - **Search index fix**: Pages with deeply nested paths no longer disappear from search results due to a slug truncation issue that caused duplicate chunk IDs.
+  - **Collaboration publish fix**: Pages no longer disappear from `documentation.json` after publishing in collaboration mode.
+  - **Editor image fix**: Images inside table cells are no longer silently stripped on save. HTML table elements (`thead`, `tbody`, `tr`, `td`, `th`) in the code editor are now accepted by the deployment validator.
+</Update>
+
 <Update label="2026-07-28" description="GitLab integration, hosted OpenAPI specs by URL, deployments and analytics REST API endpoints, Reader MCP Server rename, and editor reliability fixes" tags={["feature","improvement","fix"]}>
   ## GitLab Integration
 

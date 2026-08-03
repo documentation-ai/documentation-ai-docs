@@ -129,6 +129,8 @@ You can switch projects at any time by calling `select_project` again.
 
 The server exposes project selection, read, and write tools for repository workflows.
 
+All tools declare read-only and destructive annotations. Your MCP client can use these hints to skip confirmation prompts for safe operations like `get_page` or `search_documentation`, while still warning before destructive operations like `update_documentation`.
+
 ### Project selection
 
 These tools are available immediately after authentication.

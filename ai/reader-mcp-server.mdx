@@ -1,11 +1,11 @@
 ---
 title: Reader MCP Server
-description: Give AI tools read-only MCP access to your publicly published documentation, so readers can search and reference your docs from ChatGPT, Claude, Cursor, and other MCP clients.
+description: Give AI tools read-only MCP access to your published documentation, including private and gated sites, so readers can search and reference your docs from ChatGPT, Claude, Cursor, and other MCP clients.
 ---
 
 ## Serve your documentation to AI tools
 
-The Reader MCP Server is your own MCP endpoint, served from your documentation domain. It gives MCP-compatible tools read-only access to your publicly published documentation so they can search, retrieve, and reference your content without any ability to change it.
+The Reader MCP Server is your own MCP endpoint, served from your documentation domain. It gives MCP-compatible tools read-only access to your published documentation so they can search, retrieve, and reference your content without any ability to change it. Public documentation is available without authentication. Private, partial, and password-protected documentation is accessible through OAuth 2.1 authentication.
 
 This is the server your **readers** connect to: customers, support teams, solution engineers, and internal users, along with the AI tools they work in. If you are looking for the server your documentation team connects to in order to *write* docs, see the [Authoring MCP Server](/ai/authoring-mcp-server).
 
@@ -30,25 +30,97 @@ You can find your endpoint in the dashboard under **MCP Servers** in the sidebar
 - `https://docs.yourdomain.com/_mcp`
 - `https://yourdomain.com/docs/_mcp`
 
+If your documentation has [access control](/customize/access-control/overview) enabled, your authenticated endpoint is:
+
+- `https://docs.yourdomain.com/_mcp/auth`
+- `https://yourdomain.com/docs/_mcp/auth`
+
+Partially private sites expose both endpoints: `/_mcp` for public content and `/_mcp/auth` for gated content.
+
 ## Understand what it can access
 
-The Reader MCP Server serves your **publicly available published documentation**. It sits in front of your published site, not your authoring environment, and it exposes only content that is open to anyone.
+The Reader MCP Server serves your published documentation. It sits in front of your published site, not your authoring environment.
 
-<Callout kind="alert">
+For **public** documentation, the server exposes content that is open to anyone. No authentication is required.
 
-Private, password-protected, internal, and partial documentation is **not served** through the Reader MCP Server today. If your documentation is gated, that content is not available to connected clients.
-
-</Callout>
-
-Authenticated access is on the immediate roadmap as the **Reader MCP Server with authentication**. It will let a client authenticate with an API key or OAuth to retrieve gated content, together with granular access control that scopes a connected client to specific products, versions, languages, groups, or pages. See the [roadmap](/roadmap) for status.
+For **private, partial, or password-protected** documentation, the server uses OAuth 2.1 to authenticate connected clients. When a client connects to the `/_mcp/auth` endpoint, it triggers an OAuth flow: the client opens a browser, the user approves the connection and signs in through your site's existing authentication method (password, JWT, or OAuth 2.0), and an MCP credential is minted automatically. The client then receives a token it can use for subsequent requests.
 
 Because the server is read-only, it works well when you want grounded answers from trusted documentation while keeping editing controls entirely separate.
 
 <Callout kind="tip">
 
-The Reader MCP Server is not connected to Documentation.AI workspace roles. The **Viewer** role on the [Authoring MCP Server](/ai/authoring-mcp-server) is unrelated: that role governs your team's access to the project, while the Reader MCP Server serves only what your site publishes publicly.
+The Reader MCP Server is not connected to Documentation.AI workspace roles. The **Viewer** role on the [Authoring MCP Server](/ai/authoring-mcp-server) is unrelated: that role governs your team's access to the project, while the Reader MCP Server serves what your site publishes.
 
 </Callout>
+
+## Authenticate with OAuth 2.1
+
+When your documentation has [access control](/customize/access-control/overview) enabled, MCP clients authenticate through OAuth 2.1 to access gated content. The flow works with any authentication method you have configured (password, JWT, or OAuth 2.0).
+
+<Steps>
+  <Step title="Connect your MCP client to the authenticated endpoint" icon="link" title-type="p">
+
+    Use the `/_mcp/auth` endpoint instead of `/_mcp`. For partially private sites, use `/_mcp/auth` to access both public and gated content.
+
+  </Step>
+
+  <Step title="Approve the connection in your browser" icon="check-circle" title-type="p">
+
+    The MCP client opens a browser window showing a consent screen. Review the client name and the redirect URI, then approve the connection.
+
+  </Step>
+
+  <Step title="Sign in through your site's authentication" icon="lock" title-type="p">
+
+    After approving, you are redirected to your documentation site's sign-in page. Complete authentication using whatever method your site uses (password, JWT, or OAuth 2.0).
+
+  </Step>
+
+  <Step title="Start using the server" icon="play" title-type="p">
+
+    Once authenticated, the client receives a token and can search and retrieve content from your documentation. The token is valid until it expires or is revoked.
+
+  </Step>
+</Steps>
+
+Built-in support for Claude Desktop, Cursor, VS Code, Claude Web, and ChatGPT connectors means these clients handle the OAuth flow automatically. No manual token management is needed for those clients.
+
+<Callout kind="info">
+
+For password-gated sites, a dedicated sign-in page is shown within the OAuth flow so users can enter their credentials without leaving the MCP authentication process.
+
+</Callout>
+
+## Manage credentials
+
+For clients that do not support OAuth 2.1 directly, or for machine-to-machine access where no browser is available, you can create and manage credentials from the dashboard.
+
+### Create a credential
+
+1. Go to **MCP Servers** in the dashboard sidebar.
+2. Under the Reader MCP panel, click **Create Credential**.
+3. Enter a name, select access roles, and optionally set an expiry date.
+4. Click **Create** to generate the credential.
+
+The token is shown **once** after creation. Copy it immediately and store it securely. A ready-made client configuration JSON is also provided so you can paste it directly into your MCP client.
+
+### View and edit credentials
+
+All credentials appear in a table showing the name, source, access roles, last used time, and expiry. You can edit access roles on an existing credential without re-issuing the token.
+
+### Revoke a credential
+
+Revoke individual credentials from the credential table, or revoke all credentials at once. Revocation takes effect immediately.
+
+<Callout kind="alert">
+
+Revoking a credential is permanent. Any client using that token will lose access immediately. Create a new credential to restore access.
+
+</Callout>
+
+### Configure OAuth redirect URIs
+
+For MCP clients that use OAuth redirect URIs, manage the allowed callback URLs from the dashboard. Built-in URIs for Claude, ChatGPT, and Cursor are included by default. Add custom URIs for other clients as needed.
 
 ## Configure your MCP client
 
@@ -96,6 +168,12 @@ claude mcp add my-docs \
 
 For Claude Desktop, add the configuration to `claude_desktop_config.json`. For Cursor, add it to your `mcp.json`. For Claude Code, run the command from your terminal, or add the same JSON to a `.mcp.json` file in your project root.
 
+<Callout kind="info">
+
+If your documentation has access control enabled, replace `/_mcp` with `/_mcp/auth` in the endpoint URL. Clients with built-in OAuth support (Claude Desktop, Cursor, VS Code, ChatGPT) will handle the authentication flow automatically.
+
+</Callout>
+
 <Callout kind="tip">
 
 You can copy your endpoint straight from a documentation page using the **Copy MCP server URL** page action. See [Page Actions](/ai/page-actions).
@@ -126,7 +204,7 @@ The Reader MCP Server exists only for published documentation. If you have not d
 
 <Expandable title="The client connects but returns no results">
 
-Search covers publicly published content. If you recently added or edited pages, confirm the changes have been deployed rather than left on a branch. If your documentation is private, password-protected, or partially gated, that content is not served through the endpoint today.
+Search covers published content. If you recently added or edited pages, confirm the changes have been deployed rather than left on a branch. If your documentation is private, password-protected, or partially gated, make sure you are connecting to the `/_mcp/auth` endpoint and that the client has completed the OAuth flow.
 
 </Expandable>
 

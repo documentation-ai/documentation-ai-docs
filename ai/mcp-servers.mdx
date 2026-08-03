@@ -7,7 +7,7 @@ description: Compare the Reader MCP Server and the Authoring MCP Server, and cho
 
 Documentation.AI provides two MCP servers. They differ by **who connects to them**.
 
-The **Reader MCP Server** is your endpoint, served from your documentation domain. Your readers connect to it to search and reference your published documentation: customers, support teams, internal users, and the AI tools they work in. This server was previously called the Docs MCP Server.
+The **Reader MCP Server** is your endpoint, served from your documentation domain. Your readers connect to it to search and reference your published documentation: customers, support teams, internal users, and the AI tools they work in. Public content is available without authentication. Private, partial, and password-protected content is accessible through OAuth 2.1 or machine-to-machine credentials. This server was previously called the Docs MCP Server.
 
 The **Authoring MCP Server** is Documentation.AI's endpoint. Your documentation team connects to it from an AI coding tool to edit pages, manage branches, and deploy changes.
 
@@ -16,10 +16,10 @@ The **Authoring MCP Server** is Documentation.AI's endpoint. Your documentation 
 | | Reader MCP Server | Authoring MCP Server |
 | --- | --- | --- |
 | **Who connects** | Your readers, support teams, and internal users | Your documentation team |
-| **Endpoint** | Your docs domain, for example `docs.yourdomain.com/_mcp` | `api.documentationai.app/mcp` |
-| **Access** | Read-only, publicly published content | Read and write |
-| **Setup** | None. The endpoint is live as soon as you publish. | Connect your client, then sign in with OAuth 2.1 |
-| **Permissions** | Public content only. Private, protected, and partial docs are not served yet. | Your Documentation.AI workspace role |
+| **Endpoint** | Your docs domain, for example `docs.yourdomain.com/_mcp` (or `/_mcp/auth` for access-controlled sites) | `api.documentationai.app/mcp` |
+| **Access** | Read-only. Public content without authentication, gated content with OAuth 2.1 or machine-to-machine credentials | Read and write |
+| **Setup** | None for public sites. For access-controlled sites, connect with OAuth 2.1 or use machine-to-machine credentials. | Connect your client, then sign in with OAuth 2.1 |
+| **Permissions** | Public content, or gated content scoped by access roles on MCP credentials | Your Documentation.AI workspace role |
 
 <Callout kind="info">
 

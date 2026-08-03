@@ -2,6 +2,39 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-08-03" description="Reader MCP Server authentication with OAuth 2.1, MCP credential management, collaborative editing for CSS and Scripts, and critical editor fixes" tags={["feature","improvement","fix"]}>
+  ## Reader MCP Server with Authentication
+
+  The Reader MCP Server now supports authenticated access to private, partial, and password-protected documentation through two authentication types: OAuth 2.1 for interactive client connections, and machine-to-machine credentials for automated access without a browser. When your documentation has access control enabled, MCP clients connect through a full OAuth flow: the client opens a browser, the user approves the connection and signs in through your site's existing authentication, and an MCP credential is minted automatically. For clients that do not support OAuth or for automated access, admins can create machine-to-machine credentials with a `dmcp_`-prefixed token from the dashboard. Public sites continue to use the existing `/_mcp` endpoint. Access-controlled sites use the new `/_mcp/auth` endpoint.
+
+  Built-in support for Claude Desktop, Cursor, VS Code, Claude Web, and ChatGPT connectors means no manual configuration is needed for those clients. For other clients, you can create machine-to-machine credentials from the dashboard.
+
+  See [Reader MCP Server](/ai/reader-mcp-server) for setup instructions.
+
+  ## MCP Credential Management
+
+  Manage credentials for the Reader MCP Server directly from the dashboard. Create machine-to-machine credentials with a name, access roles, and a configurable expiry (30 days, 60 days, 90 days, 180 days, 1 year, or never). Tokens use a `dmcp_` prefix and are shown once at creation time. View all credentials in a table, edit access roles on existing credentials without re-issuing them, and revoke individual credentials or all at once. Up to 25 active credentials are supported per documentation project.
+
+  See [Reader MCP Server](/ai/reader-mcp-server) for details.
+
+  ## Improvements
+
+  - **MCP tool annotations**: All MCP tools now declare standard annotations (readOnlyHint, destructiveHint, idempotentHint) per the MCP specification. MCP clients like Claude and Cursor use these to decide which tools require a confirmation prompt, so read-only tools no longer trigger unnecessary confirmation dialogs.
+  - **Collaborative editing expanded**: Real-time collaborative editing now covers Custom CSS settings and Scripts settings editors, not just page content and navigation. OpenAPI files are also handled correctly in the collaboration editor.
+  - **AI assistant chat optimization**: The AI assistant chat now sends only the last message to the server per turn instead of the full conversation history, reducing payload size and preventing false-positive blocks from WAFs and firewalls on earlier messages.
+
+  ## Fixes
+
+  - **Editor going silent after publish**: Resolved a critical issue where the editor would stop syncing after publishing, causing pages to disappear from the navigation and subsequent edits to be lost.
+  - **Documentation.json duplication**: Fixed `documentation.json` being duplicated when two clients simultaneously revert or reset the same file, which could corrupt the entire site navigation.
+  - **Images in table cells**: Fixed images and videos inside table cells being silently removed on every save.
+  - **HTML table validation**: Fixed HTML table elements (`<table>`, `<thead>`, `<tbody>`, `<tr>`, `<td>`, `<th>`) being incorrectly blocked during deployment validation.
+  - **Tabs and CodeGroup underline**: Fixed the active tab underline being misaligned when the tab bar is horizontally scrolled.
+  - **BoardCard date props**: Fixed `BoardCard` date attributes not working when written in camelCase (`dueDate`, `createdAt`) in MDX. Both camelCase and kebab-case (`due-date`, `created-at`) are now accepted.
+  - **Expandable padding**: Fixed excessive vertical padding on Expandable component buttons.
+  - **Search speed**: Reduced search input debounce from 300ms to 200ms for faster results.
+</Update>
+
 <Update label="2026-07-28" description="GitLab integration, hosted OpenAPI specs by URL, deployments and analytics REST API endpoints, Reader MCP Server rename, and editor reliability fixes" tags={["feature","improvement","fix"]}>
   ## GitLab Integration
 

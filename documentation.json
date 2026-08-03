@@ -619,7 +619,8 @@
                 "title": "Changelog",
                 "path": "changelog",
                 "icon": "scroll",
-                "show-parent-label": false
+                "show-parent-label": false,
+                "show-sidebar": false
               }
             ]
           }

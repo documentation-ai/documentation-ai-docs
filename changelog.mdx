@@ -2,6 +2,24 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-08-05" description="Branch recovery screen, AI credit rollover, and critical editor reliability fixes" tags={["feature","improvement","fix"]}>
+  ## Branch Recovery Screen
+
+  When the editor opens on a branch that no longer exists (deleted, renamed, or inaccessible), it now shows a recovery screen listing available branches instead of a blank page. The deployment branch appears first with a **Live** badge, and a **Check again** button reloads the branch list.
+
+  ## Improvements
+
+  - **AI credit rollover**: Unused AI credits now carry forward at 50% of the remaining balance, up to a maximum of 1.5× your monthly allocation. Credits no longer expire at the end of each cycle. See [AI Credits](/ai/ai-credits).
+
+  ## Fixes
+
+  - **File content doubling on rename or move**: Renaming or moving a file while a collaboration room was active could double the file's content. The server now fully persists the room state before the file path changes.
+  - **Publish destroying collaboration rooms**: Publishing no longer destroys live collaboration rooms. A stale stored SHA caused the server to purge active rooms on every publish, leading to data loss. The workspace state is now saved with the correct commit SHA before reload.
+  - **False "page already exists" warning**: Creating a page no longer triggers a false duplicate warning. A stale selection index was breaking all navigation mutations (create, edit, delete) with "Navigation structure mismatch" errors. Orphaned MDX files from failed navigation operations are also prevented.
+  - **Closing last file showing raw JSON**: Closing the last open file no longer falls through to showing raw `documentation.json` in the editor.
+  - **Chat titles on retry**: Chat sessions that previously failed to get an auto-generated title now correctly retrieve the conversation history to name the chat.
+</Update>
+
 <Update label="2026-08-03" description="Reader MCP Server authentication and critical editor fixes and improvements" tags={["feature","improvement","fix"]}>
   ## Reader MCP Server with Authentication
 
@@ -408,4 +426,3 @@ description: 'Changes, fixes, and improvements across versions'
   - Use structured page and API metadata to give agents more grounded and context‑aware responses
   - Help product teams deliver LLM‑native support and troubleshooting experiences directly inside their apps
 </Update>
-

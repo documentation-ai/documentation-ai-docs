@@ -2,6 +2,40 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-08-11" description="Self-Heal by User Feedback workflow, agent analytics, branch recovery, per-user content, and critical fixes" tags={["feature","improvement","fix"]}>
+  ## Self-Heal by User Feedback Workflow
+
+  A new built-in workflow template automatically analyzes page ratings, user comments, and AI assistant confidence scores from the past 30 days to find documentation gaps and propose fixes. The workflow follows an evidence-first approach: it uses feedback signals to identify where problems exist, then researches with other tools before making any edits.
+
+  This workflow requires the **User & Agent Feedback** connector, which you can enable from Agent Settings. When a required connector is not yet active, the workflow creation form prompts you to enable it before proceeding.
+
+  See [Workflows](/ai/workflows) for setup instructions.
+
+  ## Agent Analytics
+
+  You can now track how AI agents interact with your documentation site and which pages they access. The analytics dashboard surfaces agent-level traffic data alongside human visitor metrics, so you can see which documentation pages are being read by AI agents, how often, and from which sources.
+
+  See [Analytics Overview](/analytics/overview) for details.
+
+  ## Improvements
+
+  - **Per-user content in MDX**: Personalize pages with `{user.firstname}`, `{user.company}`, and `{user.accessRoles}` variables. Role-based access is now enforced across the renderer, markdown export, and sidebar. See [Access Control](/customize/access-control/overview).
+  - **Branch recovery screen**: Deleted or inaccessible branches now show a "Branch Not Available" screen with available alternatives instead of a blank page.
+  - **AI credits policy**: Credits reset on a 30-day cycle with 50% of unused credits carrying forward (up to 1.5x monthly allocation). See [AI Credits](/ai/ai-credits).
+  - **Workflow UX**: Compact pill-button trigger selector, connector include/exclude selector, "Agent" sidebar renamed to "Agent Settings", and post-action redirect to workflow detail view.
+  - **Partial mode for JWT and OAuth**: JWT and OAuth 2.0 access control now support Partial mode alongside Private mode. See [Access Control](/customize/access-control/overview).
+  - **AI Assistant error messages**: Errors now show human-readable messages instead of raw or empty states.
+
+  ## Fixes
+
+  - **Search indexing failure on API reference pages**: Double quotes in OpenAPI descriptions broke JSX syntax, causing HTTP 500 on API reference pages.
+  - **Double deployments on editor publish**: A webhook misfire caused editor-originated commits to trigger two deployments.
+  - **Gated pages in search results**: Role-restricted pages were indexed without their roles, appearing as public content.
+  - **Editor rejecting documents with keyboard or comment marks**: These marks caused 500 errors that locked users out of their editor session.
+  - **Navigation false "page already exists" errors**: False duplicate warnings, stale index after reorder/delete, and orphaned MDX files from failed page creates.
+  - **File duplication on rename or move**: Renaming or moving files in collaborative mode could create duplicate entries.
+</Update>
+
 <Update label="2026-08-03" description="Reader MCP Server authentication and critical editor fixes and improvements" tags={["feature","improvement","fix"]}>
   ## Reader MCP Server with Authentication
 

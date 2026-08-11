@@ -18,31 +18,47 @@ Analytics gives you a high-level view of how people use your documentation so yo
 
 ## What you can track
 
-You can open Analytics from the sidebar. It currently includes three main data groups:
+You can open Analytics from the sidebar. The dashboard is organized into four tabs:
 
-- **Traffic**: user behavior metrics that show how people discover, navigate, and engage with your docs over time.
+- **Overview**: a summary dashboard with stat cards and ranked bar charts that show period-over-period trends for human views, AI agent views, user feedback, and AI assistant usage.
+
+- **Traffic**: page views and engagement broken down by audience type, with sub-tabs for People, AI Agents, and Bots & Crawlers.
 
 - **Feedback**: page-level reactions that highlight where content works well and where readers struggle.
 
-- **Ask AI Analytics**: insights into how readers use the AI assistant, what they ask, and where they ask it from.
+- **AI Assistant**: insights into how readers use the AI assistant, what they ask, and where they ask it from.
+
+Each tab loads its own data independently, so you can navigate between them without waiting for a single page-blocking load.
 
 Use these metrics to understand how readers move through your docs, where they get stuck, and how effectively your content and AI experiences answer their questions.
 
+## Overview tab
+
+The Overview tab is the default landing tab. It gives you a quick snapshot of documentation performance with stat cards showing period-over-period deltas for:
+
+- **Human Views**: total page views from real visitors
+- **AI Agent Views**: page views from AI agents and crawlers
+- **User Feedback**: total feedback reactions (likes and dislikes)
+- **AI Assistant Questions Answered**: questions answered by the AI assistant
+
+Below the stat cards, four ranked bar charts show:
+
+- **Top Traffic Sources**: where your visitors come from
+- **Top AI Agents**: which AI agents and crawlers are reading your docs
+- **Most Read by People**: the most viewed pages among human visitors
+- **Most Read by AI Agents**: the most viewed pages among automated agents
+
+Use the date range picker to filter all Overview metrics by period.
+
 ## Traffic
 
-Traffic analytics gives you a date-filtered view of how readers discover and engage with your documentation.
+Traffic analytics gives you a date-filtered view of how different audiences discover and engage with your documentation. The Traffic tab is organized into three sub-tabs:
 
-You can track:
+- **People**: page views over time, top pages, and top referrer sources for human visitors
+- **AI Agents**: page views over time, top pages, and agent-level breakdowns for AI tools and assistants
+- **Bots & Crawlers**: page views over time, top pages, and agent-level breakdowns for search engine crawlers and other automated bots
 
-- **Total Page Views** and **Total Sessions**
-
-- **Average Session Duration** and **Bounce Rate**
-
-- **Page Views Over Time**, including unique visitors for the selected period
-
-- **Most Popular Pages** based on traffic volume
-
-- **Traffic Sources** so you can see where visitors are coming from
+Each sub-tab shows page views over time, top pages, and top sources specific to that audience type, so you can understand how each group discovers and consumes your documentation.
 
 <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1774542469414-i1x2pk25x7l-analytics.jpg?q=85&fm=auto&auto=compress%2Cformat" width="1444" height="825" alt="Traffic analytics dashboard in Documentation.AI showing summary metrics, page views over time, popular pages, and traffic sources" />
 
@@ -72,9 +88,9 @@ After a thumbs up or thumbs down reaction, you can optionally prompt readers for
   User feedback is a powerful signal for prioritizing updates, refining unclear topics, and validating whether recent changes are helping readers.
 </Callout>
 
-## Ask AI Analytics
+## AI Assistant
 
-Ask AI Analytics gives you a dedicated view into how readers use the AI assistant across your documentation. You can use it to understand usage volume, answer quality, and which conversations may need follow-up improvements in your docs.
+The AI Assistant tab gives you a dedicated view into how readers use the AI assistant across your documentation. You can use it to understand usage volume, answer quality, and which conversations may need follow-up improvements in your docs.
 
 You can filter the AI Assistant view by date range and review four summary metrics:
 

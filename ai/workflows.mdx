@@ -18,7 +18,7 @@ Each workflow starts from a template or a custom setup. After you create it, the
 
 ## Where to find workflows
 
-Open the dashboard, then go to **AI Agents** → **Workflows**. The Workflows area is where you create workflows, review previous runs, and inspect results.
+Open the dashboard, then go to **Agent Settings** → **Workflows**. The Workflows area is where you create workflows, review previous runs, and inspect results.
 
 <Callout kind="info" collapsed="false">
   Workflows are currently in beta. Expect the feature set to expand, and review workflow output before you merge or publish changes.
@@ -33,11 +33,13 @@ Workflows depend on your plan and repository connection setup. Confirm these req
 
   - A **Standard** plan or higher
 
-  - A documentation site synced to a **connected GitHub repository**
+  - A documentation site synced to a **connected Git repository** (GitHub or GitLab)
 
   - Any repository you want to use as a trigger repo or context repo connected in Documentation.AI
 
   - Optionally, connect [Jira](/integrations/jira) or [Confluence](/integrations/confluence) as additional context sources for the AI agent
+
+  - Optionally, enable the **User & Agent Feedback** connector from Agent Settings to use the Self-Heal by User Feedback template
 </Callout>
 
 If your repositories are not connected, you can still explore the Workflows area, but repo-based workflow setup and repository selection will be limited.
@@ -75,6 +77,10 @@ Start with a built-in template when you want a focused workflow for a common tas
     Check documentation structure for navigation issues and identify areas that need cleanup.
   </Card>
 
+  <Card title="Self-Heal by User Feedback" icon="message-square" horizontal="false">
+    Analyze page ratings, user comments, and AI assistant confidence scores to find documentation gaps and propose fixes backed by evidence. Requires the User & Agent Feedback connector.
+  </Card>
+
   <Card title="Custom" icon="settings" horizontal="false">
     Create a workflow for a task that does not fit one of the built-in templates.
   </Card>
@@ -88,7 +94,7 @@ Create your first workflow from the Workflows page in a few steps. The setup flo
 
 <Steps>
   <Step title="Open the Workflows page" icon="home" title-type="p">
-    In the dashboard, go to **AI Agents** → **Workflows**.
+    In the dashboard, go to **Agent Settings** → **Workflows**.
 
     If your account and documentation site meet the requirements, you can start a new workflow from this page.
   </Step>
@@ -115,6 +121,12 @@ Create your first workflow from the Workflows page in a few steps. The setup flo
     Choose one **trigger repository** for repo-based runs. This repository determines where the workflow watches for repository-driven activity.
 
     You can also add **additional context repositories**. These repositories give the workflow more source material to reference while planning and executing the task.
+  </Step>
+
+  <Step title="Select connectors" icon="plug" title-type="p">
+    The workflow form includes a connector selector that lets you include or exclude specific connectors for this workflow: GitHub, Jira, Confluence, and User Feedback.
+
+    If a template requires a connector that is not yet enabled, the create button prompts you to enable it before proceeding.
   </Step>
 
   <Step title="Save and verify the workflow" icon="check-circle" title-type="p">
@@ -191,7 +203,7 @@ The current Workflows experience covers the most common user-facing automation p
 
   - Workflows are in **beta**
 
-  - Workflows require a documentation site synced to a **connected GitHub repository**
+  - Workflows require a documentation site synced to a **connected Git repository** (GitHub or GitLab)
 
   - You can only choose from **connected repositories** for trigger and context selection
 

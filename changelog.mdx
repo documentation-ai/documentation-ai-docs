@@ -2,7 +2,7 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
-<Update label="2026-08-11" description="Self-Heal by User Feedback workflow, analytics dashboard redesign, per-user content in MDX, branch recovery, and critical fixes" tags={["feature","improvement","fix"]}>
+<Update label="2026-08-11" description="Self-Heal by User Feedback workflow, agent analytics, branch recovery, per-user content, and critical fixes" tags={["feature","improvement","fix"]}>
   ## Self-Heal by User Feedback Workflow
 
   A new built-in workflow template automatically analyzes page ratings, user comments, and AI assistant confidence scores from the past 30 days to find documentation gaps and propose fixes. The workflow follows an evidence-first approach: it uses feedback signals to identify where problems exist, then researches with other tools before making any edits.
@@ -11,41 +11,29 @@ description: 'Changes, fixes, and improvements across versions'
 
   See [Workflows](/ai/workflows) for setup instructions.
 
-  ## Analytics Dashboard Redesign
+  ## Agent Analytics
 
-  The analytics dashboard is redesigned with a new tab structure and richer visualizations.
-
-  - **Overview tab** (now the default landing tab): Stat cards with period-over-period deltas for human views, AI agent views, user feedback, and AI assistant questions answered. Four ranked bar charts show top traffic sources, top AI agents, most read pages by people, and most read pages by AI agents.
-  - **Traffic tab**: Three sub-tabs (People, AI Agents, Bots & Crawlers) each showing page views over time, top pages, and top sources. People shows referrer breakdowns; Bots & Crawlers shows agent-level breakdowns.
-  - **Independent tab loading**: Each tab fetches its own data independently, so the dashboard no longer blocks on a single load.
+  You can now track how AI agents interact with your documentation site and which pages they access. The analytics dashboard surfaces agent-level traffic data alongside human visitor metrics, so you can see which documentation pages are being read by AI agents, how often, and from which sources.
 
   See [Analytics Overview](/analytics/overview) for details.
 
-  ## Per-User Content in MDX
-
-  You can now use `{user.firstname}`, `{user.company}`, and `{user.accessRoles}` directly inside MDX page content to personalize documentation for authenticated readers. Anonymous visitors see blank values for these variables.
-
-  The signed-in reader's identity is also available as `window.dai.user` in custom scripts, so you can build personalized experiences beyond standard MDX content.
-
-  Additionally, role-based page access is now enforced consistently across the page renderer, raw markdown export (`/md/`), and the navigation sidebar. Previously, gated pages hidden from the sidebar could still return full markdown to anyone with a valid session. JWT and OAuth 2.0 authentication now support Partial mode alongside Private mode.
-
-  See [Access Control](/customize/access-control/overview) for configuration details.
-
   ## Improvements
 
-  - **Branch recovery screen**: When you open an editor URL for a branch that no longer exists (deleted, renamed, or inaccessible), the editor now shows a "Branch Not Available" screen listing available branches instead of a blank page.
-  - **AI credits policy**: Credits now reset on a 30-day cycle (not tied to your billing cycle). When your cycle resets, 50% of unused credits carry forward, up to a maximum of 1.5x your monthly allocation. See [AI Credits](/ai/ai-credits).
-  - **Workflow UX**: The trigger type selector is redesigned as compact pill buttons. The default trigger type is now "On schedule" (was "On pull request merge"). The workflow form includes a connector selector to include or exclude specific connectors (GitHub, Jira, Confluence, User Feedback). The sidebar label is renamed from "Agent" to "Agent Settings". After creating, editing, or deleting a workflow, you are taken to the workflow detail view.
-  - **AI Assistant error messages**: When the AI Assistant encounters an error, it now displays a human-readable message instead of a raw or empty error state.
+  - **Per-user content in MDX**: Personalize pages with `{user.firstname}`, `{user.company}`, and `{user.accessRoles}` variables. Role-based access is now enforced across the renderer, markdown export, and sidebar. See [Access Control](/customize/access-control/overview).
+  - **Branch recovery screen**: Deleted or inaccessible branches now show a "Branch Not Available" screen with available alternatives instead of a blank page.
+  - **AI credits policy**: Credits reset on a 30-day cycle with 50% of unused credits carrying forward (up to 1.5x monthly allocation). See [AI Credits](/ai/ai-credits).
+  - **Workflow UX**: Compact pill-button trigger selector, connector include/exclude selector, "Agent" sidebar renamed to "Agent Settings", and post-action redirect to workflow detail view.
+  - **Partial mode for JWT and OAuth**: JWT and OAuth 2.0 access control now support Partial mode alongside Private mode. See [Access Control](/customize/access-control/overview).
+  - **AI Assistant error messages**: Errors now show human-readable messages instead of raw or empty states.
 
   ## Fixes
 
-  - **Search indexing failure on API reference pages**: Fixed OpenAPI spec descriptions containing double quotes breaking JSX syntax in generated MDX pages, which caused API reference pages to fail search indexing and return HTTP 500 on the live site.
-  - **Double deployments on editor publish**: Fixed publishing from the editor triggering two deployments instead of one due to a webhook misfire that failed to recognize editor-originated commits.
-  - **Gated pages appearing in search results**: Fixed pages with access roles being indexed without their roles, making role-restricted content appear in search results as if it were public.
-  - **Editor refusing documents with keyboard or comment marks**: Fixed documents containing keyboard shortcut marks or comment marks causing 500 errors that locked users out of their editor session.
-  - **Navigation false "page already exists" errors**: Fixed a false duplicate warning during page creation, stale navigation index errors after reorder or delete, and failed page creates leaving orphaned MDX files.
-  - **File duplication on rename or move**: Fixed renaming or moving files in collaborative mode creating duplicate entries in some cases.
+  - **Search indexing failure on API reference pages**: Double quotes in OpenAPI descriptions broke JSX syntax, causing HTTP 500 on API reference pages.
+  - **Double deployments on editor publish**: A webhook misfire caused editor-originated commits to trigger two deployments.
+  - **Gated pages in search results**: Role-restricted pages were indexed without their roles, appearing as public content.
+  - **Editor rejecting documents with keyboard or comment marks**: These marks caused 500 errors that locked users out of their editor session.
+  - **Navigation false "page already exists" errors**: False duplicate warnings, stale index after reorder/delete, and orphaned MDX files from failed page creates.
+  - **File duplication on rename or move**: Renaming or moving files in collaborative mode could create duplicate entries.
 </Update>
 
 <Update label="2026-08-03" description="Reader MCP Server authentication and critical editor fixes and improvements" tags={["feature","improvement","fix"]}>

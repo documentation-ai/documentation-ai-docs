@@ -3,13 +3,19 @@ title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
 <Update label="2026-08-11" description="Self-Heal by User Feedback workflow, agent analytics, branch recovery, per-user content, and critical fixes" tags={["feature","improvement","fix"]}>
-  ## Self-Heal by User Feedback Workflow
+  ## Self-Heal by User & Agent Feedback Workflow
 
   A new built-in workflow template automatically analyzes page ratings, user comments, and AI assistant confidence scores from the past 30 days to find documentation gaps and propose fixes. The workflow follows an evidence-first approach: it uses feedback signals to identify where problems exist, then researches with other tools before making any edits.
 
-  This workflow requires the **User & Agent Feedback** connector, which you can enable from Agent Settings. When a required connector is not yet active, the workflow creation form prompts you to enable it before proceeding.
+  This workflow requires the **User & Agent Feedback** connector. When the connector is not yet active, the workflow creation form prompts you to enable it before proceeding.
 
   See [Workflows](/ai/workflows) for setup instructions.
+
+  ## User & Agent Feedback Connector
+
+  A new connector is now available that surfaces both reader feedback (page ratings, written comments) and agent feedback (AI assistant confidence scores, low-confidence questions, and disliked AI answers) as context for AI workflows. Enable it from **Agent Settings** to make these signals available to workflows that need them.
+
+  The connector powers the Self-Heal by User & Agent Feedback workflow below and can also be included or excluded per workflow from the connector selector in the workflow creation form.
 
   ## Agent Analytics
 

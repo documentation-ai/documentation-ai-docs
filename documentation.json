@@ -43,7 +43,8 @@
                 "icon": "star",
                 "show-parent-label": false,
                 "show-page-navigation": false,
-                "ask-feedback": false
+                "ask-feedback": false,
+                "show-toc": false
               },
               {
                 "title": "Core concepts",

@@ -2,6 +2,42 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-08-18" description="Broken Link Audit, workflow template categories, seat limit increases, and llms.txt auth support" tags={["feature","improvement","fix"]}>
+  ## Broken Link Audit
+
+  The Broken Link Audit workflow is now fully implemented. It scans your published live site for broken internal links, anchors, redirects, and external URLs, then produces a report with an AI-written summary. The audit runs as a durable background job and handles large sites with thousands of pages.
+
+  - Scans internal links, anchor links, redirect chains, external URLs, navbar buttons, and redirect destinations
+  - External links are checked with HEAD requests and a fallback scraper for bot-walled pages
+  - Results are grouped by issue type and include a natural-language summary
+  - Use **Chat with Agent** on a finished run to open the findings in the editor chat and propose fixes
+
+  See [Workflows](/ai/workflows) for setup instructions.
+
+  ## Workflow Template Categories
+
+  Built-in workflow templates are now organized into two categories in the template picker:
+
+  - **Self-updating**: Templates that generate or update documentation content (Documentation Update from Code, API Sync from Code, Changelog Generation, Self-Heal by User Feedback)
+  - **Auditing**: Templates that check and report on documentation health (Broken Link Audit, Grammar and Typo Check, Style Guide Enforcement, Navigation Audit)
+
+  The picker UI has been redesigned with cleaner card layouts and more descriptive icons.
+
+  ## Improvements
+
+  - **Chat with Agent on finished runs**: Completed workflow runs that produced findings now show a **Chat with Agent** button alongside the existing report and commit link. Clicking it opens the editor chat pre-loaded with the run's findings so you can ask follow-up questions or request fixes.
+  - **Seat limit increases**: All paid plans now include more editor seats. Starter increased from 1 to 5, Standard from 3 to 10, and Professional from 10 to 20. See [Usage Limits](/account-and-billing/usage-limits).
+  - **llms.txt for partial auth sites**: Sites with partial authentication now serve an llms.txt file containing only public pages. Fully private sites continue to skip llms.txt generation. See [Robots.txt and llms.txt](/seo-and-geo/robots-txt-and-llm-txt).
+  - **External links in navigation tabs and dropdowns**: External links configured in tabs and dropdowns are now preserved on auth-filtered sites and open in a new browser tab.
+  - **Style attributes in MDX**: Inline `style="..."` attributes (commonly used in embedded iframes and video embeds) are now correctly converted to JSX-compatible objects at the rendering layer.
+  - **Deferred syntax highlighting during AI streaming**: Code blocks in AI agent responses render as plain text while the response is streaming, then switch to full syntax highlighting once the message completes. This eliminates re-rendering flicker during generation.
+
+  ## Fixes
+
+  - **External tab links**: Navigation tabs with a custom external `href` now correctly navigate to the configured URL instead of constructing a docs page path.
+  - **Link checker false positives**: Local image paths no longer produce broken-link findings, and unresolvable external hostnames are classified as broken instead of unverified.
+</Update>
+
 <Update label="2026-08-11" description="Self-Heal by User Feedback workflow, agent analytics, branch recovery, per-user content, and critical fixes" tags={["feature","improvement","fix"]}>
   ## Self-Heal by User & Agent Feedback Workflow
 

@@ -145,5 +145,17 @@ In this example:
 
 - Setting `seo.llms-txt:enabled` to `false` disables the `llms.txt` file.
 
+### llms.txt and access control
+
+How `llms.txt` is generated depends on your site's access control mode:
+
+- **Public sites**: All published pages are included in `llms.txt`.
+- **Partial auth sites**: Only public pages are included. Pages gated behind authentication are excluded so that private content is not exposed to AI crawlers.
+- **Private sites**: `llms.txt` generation is skipped entirely. Fully private documentation should not be indexed by AI models.
+
+The same logic applies to your sitemap: public pages on partial auth sites are included, while private pages are excluded. Fully private sites do not generate a sitemap.
+
+See [Access Control](/customize/access-control/overview) for details on configuring public, partial, and private access modes.
+
 
 

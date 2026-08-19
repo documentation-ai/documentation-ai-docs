@@ -48,19 +48,14 @@ If your repositories are not connected, you can still explore the Workflows area
 
 Start with a built-in template when you want a focused workflow for a common task. Choose **Custom** when none of the preset templates matches your process.
 
+Templates are organized into two categories in the template picker:
+
+- **Self-updating** templates generate or update documentation content based on code changes, repository activity, or user feedback.
+- **Auditing** templates check and report on documentation health without modifying content directly.
+
+### Self-updating templates
+
 <Columns cols="2">
-  <Card title="Broken Link Audit" icon="external-link" horizontal="false">
-    Scan your documentation for broken links and review the results in the workflow run history.
-  </Card>
-
-  <Card title="Grammar and Typo Check" icon="check-circle" horizontal="false">
-    Find writing issues across your documentation and generate suggested fixes.
-  </Card>
-
-  <Card title="Style Guide Enforcement" icon="book-open" horizontal="false">
-    Check content against your documentation standards and highlight places that need revision.
-  </Card>
-
   <Card title="Documentation Update from Code" icon="code" horizontal="false">
     Use connected repository context to update docs when code changes affect product behavior.
   </Card>
@@ -73,14 +68,32 @@ Start with a built-in template when you want a focused workflow for a common tas
     Create changelog content based on recent repository activity and documentation context.
   </Card>
 
-  <Card title="Navigation Audit" icon="folder" horizontal="false">
-    Check documentation structure for navigation issues and identify areas that need cleanup.
-  </Card>
-
   <Card title="Self-Heal by User Feedback" icon="message-square" horizontal="false">
     Analyze page ratings, user comments, and AI assistant confidence scores to find documentation gaps and propose fixes backed by evidence. Requires the User & Agent Feedback connector.
   </Card>
+</Columns>
 
+### Auditing templates
+
+<Columns cols="2">
+  <Card title="Broken Link Audit" icon="external-link" horizontal="false">
+    Scan your published live site for broken internal links, anchors, redirects, and external URLs. Results include a grouped findings report with an AI-written summary. Use Chat with Agent on a finished run to open the findings in the editor chat and propose fixes.
+  </Card>
+
+  <Card title="Grammar and Typo Check" icon="check-circle" horizontal="false">
+    Find writing issues across your documentation and generate suggested fixes.
+  </Card>
+
+  <Card title="Style Guide Enforcement" icon="book-open" horizontal="false">
+    Check content against your documentation standards and highlight places that need revision.
+  </Card>
+
+  <Card title="Navigation Audit" icon="folder" horizontal="false">
+    Check documentation structure for navigation issues and identify areas that need cleanup.
+  </Card>
+</Columns>
+
+<Columns cols="1">
   <Card title="Custom" icon="settings" horizontal="false">
     Create a workflow for a task that does not fit one of the built-in templates.
   </Card>
@@ -184,7 +197,7 @@ When a run finishes, the result can include:
 
 - A commit link when the run produced a commit
 
-- An option to open the completed run in chat
+- A **Chat with Agent** button that opens the editor chat pre-loaded with the run's findings, so you can ask follow-up questions or request fixes based on the results
 
 Those outputs help you decide whether to accept the result, investigate further, or continue the task in a conversational workflow.
 

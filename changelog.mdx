@@ -2,6 +2,34 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-08-18" description="Broken Link Audit, seat limit increases, and llms.txt auth support" tags={["feature","improvement","fix"]}>
+  ## Broken Link Audit
+
+  A new workflow that scans your published site for broken internal links, anchors, redirects, and external URLs, then produces a report with an AI-written summary. It runs as a durable background job and handles large sites with thousands of pages.
+
+  - Scans internal links, anchor links, redirect chains, external URLs, navbar buttons, and redirect destinations
+  - Results are grouped by issue type with a natural-language summary
+  - Use **Chat with Agent** on a finished run to open findings in the editor chat and propose fixes
+
+  See [Workflows](/ai/workflows) for setup instructions.
+
+  ## Seat Limit Increases
+
+  All paid plans now include more editor seats: Starter 1→5, Standard 3→10, Professional 10→Unlimited.&#x20;
+
+  ## Improvements
+
+  - **Chat with Agent on finished runs**: Completed workflow runs with findings now show a **Chat with Agent** button alongside the existing report and commit link. Clicking it opens the editor agent  pre-loaded with the run's findings so you can ask follow-up questions or request fixes.
+  - **llms.txt for partial auth sites**: Sites with partial authentication now serve an llms.txt file containing only public pages. Fully private sites continue to skip llms.txt generation. See [Robots.txt and llms.txt](/seo-and-geo/robots-txt-and-llm-txt).
+  - **External links in nav tabs and dropdowns**: External links configured in tabs and dropdowns are now preserved on auth-filtered sites and open in a new browser tab.
+  - **Style attributes in MDX**: Inline `style="..."` attributes (commonly used in embedded iframes and video embeds) are now correctly converted to JSX-compatible objects at the rendering layer.
+
+  ## Fixes
+
+  - **External tab links**: Navigation tabs with a custom external `href` now correctly navigate to the configured URL instead of constructing a docs page path.
+  - **Link checker false positives**: Local image paths no longer produce broken-link findings, and unresolvable external hostnames are classified as broken instead of unverified.
+</Update>
+
 <Update label="2026-08-11" description="Self-Heal by User Feedback workflow, agent analytics, branch recovery, per-user content, and critical fixes" tags={["feature","improvement","fix"]}>
   ## Self-Heal by User & Agent Feedback Workflow
 

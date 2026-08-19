@@ -15,7 +15,7 @@ description: 'Changes, fixes, and improvements across versions'
 
   ## Seat Limit Increases
 
-  All paid plans now include more editor seats: Starter 1→5, Standard 3→10, Professional 10→Unlimited.&#x20;
+  All paid plans now include more editor seats: Starter 1→5, Standard 3→10, Professional 10→20.&#x20;
 
   ## Improvements
 
@@ -30,7 +30,7 @@ description: 'Changes, fixes, and improvements across versions'
   - **Link checker false positives**: Local image paths no longer produce broken-link findings, and unresolvable external hostnames are classified as broken instead of unverified.
 </Update>
 
-<Update label="2026-08-11" description="Self-Heal by User Feedback workflow, agent analytics, branch recovery, per-user content, and critical fixes" tags={["feature","improvement","fix"]}>
+<Update label="2026-08-11" description="Self-Heal by User Feedback workflow, analytics dashboard restructure, branch recovery, per-user content, and critical fixes" tags={["feature","improvement","fix"]}>
   ## Self-Heal by User & Agent Feedback Workflow
 
   A new built-in workflow template automatically analyzes page ratings, user comments, and AI assistant confidence scores from the past 30 days to find documentation gaps and propose fixes. The workflow follows an evidence-first approach: it uses feedback signals to identify where problems exist, then researches with other tools before making any edits.
@@ -45,9 +45,11 @@ description: 'Changes, fixes, and improvements across versions'
 
   The connector powers the Self-Heal by User & Agent Feedback workflow below and can also be included or excluded per workflow from the connector selector in the workflow creation form.
 
-  ## Agent Analytics
+  ## Analytics Dashboard
 
-  You can now track how AI agents interact with your documentation site and which pages they access. The analytics dashboard surfaces agent-level traffic data alongside human visitor metrics, so you can see which documentation pages are being read by AI agents, how often, and from which sources.
+  The analytics dashboard was restructured with a new tab layout. The **Overview** tab is now the default, with stat cards showing period-over-period trends for human views, AI agent views, user feedback, and AI assistant usage. The **Traffic** tab breaks down page views by audience with sub-tabs for People, AI Agents, and Bots and Crawlers. Each tab loads its data independently for faster navigation.
+
+  Bot and AI agent visits are now tracked separately, so you can see which pages are read by AI tools like Claude, ChatGPT, Cursor, and Perplexity, plus search engine crawlers and other automated agents.
 
   See [Analytics Overview](/analytics/overview) for details.
 
@@ -68,6 +70,7 @@ description: 'Changes, fixes, and improvements across versions'
   - **Editor rejecting documents with keyboard or comment marks**: These marks caused 500 errors that locked users out of their editor session.
   - **Navigation false "page already exists" errors**: False duplicate warnings, stale index after reorder/delete, and orphaned MDX files from failed page creates.
   - **File duplication on rename or move**: Renaming or moving files in collaborative mode could create duplicate entries.
+  - **GitLab branch-not-found errors**: GitLab-specific error messages are now handled correctly instead of showing raw error text.
 </Update>
 
 <Update label="2026-08-03" description="Reader MCP Server authentication and critical editor fixes and improvements" tags={["feature","improvement","fix"]}>

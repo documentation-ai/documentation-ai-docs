@@ -2,6 +2,16 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-08-25" description="MCP tool schema fix for claude.ai compatibility and AI assistant rendering improvement" tags={["fix","improvement"]}>
+  ## Improvements
+
+  - **AI assistant code rendering**: The AI assistant now renders code blocks as plain text while streaming a response and applies full syntax highlighting only after the message completes. This prevents slowdown during long AI responses.
+
+  ## Fixes
+
+  - **MCP tool schema compatibility**: The Reader MCP Server now advertises tool schemas using JSON Schema 2020-12 instead of draft-07. This fixes an issue where MCP clients such as claude.ai could connect to the server but failed when calling the search tool.
+</Update>
+
 <Update label="2026-08-18" description="Broken Link Audit, seat limit increases, and llms.txt auth support" tags={["feature","improvement","fix"]}>
   ## Broken Link Audit
 

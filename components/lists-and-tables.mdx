@@ -66,28 +66,49 @@ A basic table is inserted:
 
 #### Row controls
 
-Hover near the left edge of a row to reveal the row toolbar:
+Hover near the left edge of a row and click the row handle to open the row menu:
 
-- **H** – Toggle header styling on or off for that row.
-- **Up/Down arrows** – Move the current row up or down.
-- **Trash** (when present) – Delete the row.
+- **Insert row above** – Add a new row immediately above the current one.
+- **Insert row below** – Add a new row immediately below the current one.
+- **Move up / Move down** – Reorder the current row without copy-paste.
+- **Sort ascending / Sort descending** – Reorder all rows based on the values in the current row.
+- **Toggle header row** – Turn a content row into a header row (bold styling) or demote it back.
+- **Duplicate row** – Create a copy of the current row, inserted directly below.
+- **Clear contents** – Remove all text from the current row while keeping the row itself.
+- **Delete row** – Remove the row entirely.
+
+<Callout kind="info">
+
+You cannot insert a row above the header row (the first row). To add a row at the top, insert below the header and then move it up.
+
+</Callout>
 
 <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1765030002586-qgj869j4x8e-pasted-image-1765030001626.png?q=85&fm=auto&auto=compress%2Cformat" width="1600" height="394" alt="Row controls for a table in the Web Editor" />
 
-Use these controls to:
-
-- Turn a content row into a header row or demote it back.
-- Reorder rows without copy-paste.
+To quickly add a row at the end of the table, hover below the last row and click the **+** button that appears. You can also drag this button to add or remove multiple rows at once.
 
 #### Column controls
 
-Hover over the top of a column to reveal the column toolbar (three-dot icon):
+Hover over the top of a column and click the column handle to open the column menu:
 
-- Change **alignment** for the column (left, center, or right).
-- Move the column left or right using the arrows.
-- Delete the column if you no longer need it.
+- **Insert column left / Insert column right** – Add a new column on either side of the current one.
+- **Move left / Move right** – Reorder the current column.
+- **Sort ascending / Sort descending** – Reorder all rows based on the values in the current column.
+- **Change alignment** – Set the column to left, center, or right alignment.
+- **Toggle header column** – Style the first column as a header (bold).
+- **Duplicate column** – Create a copy of the current column, inserted to the right.
+- **Clear contents** – Remove all text from the current column while keeping the column itself.
+- **Delete column** – Remove the column entirely.
+
+<Callout kind="info">
+
+You cannot insert a column to the left of the first column when it is a header column. Insert to the right instead and then move it left.
+
+</Callout>
 
 <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1765030142734-ea23f17ce86-pasted-image-1765030141117.png?q=85&fm=auto&auto=compress%2Cformat" width="1600" height="499" alt="Column controls for a table in the Web Editor" />
+
+To quickly add a column at the end of the table, hover to the right of the last column and click the **+** button that appears. You can also drag this button to add or remove multiple columns at once.
 
 If you need more complex, API-style tables, you can also use dedicated components like [`<ParamField>`](/components/paramfield) and [`<ResponseField>`](/components/responsefield).
 

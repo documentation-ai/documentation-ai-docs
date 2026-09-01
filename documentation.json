@@ -722,5 +722,6 @@
       "source": "/components/collection",
       "destination": "/components/collection-list"
     }
-  ]
+  ],
+  "description": "asdasdasd"
 }

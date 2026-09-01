@@ -3,16 +3,17 @@ title: Quickstart
 description: 'Create, customize, and publish your first Documentation.AI site in minutes.'
 type: tutorial
 ---
+import Counter from "/snippets/counter.jsx"
+
 ## Overview
 
 When you create a new documentation, Documentation.AI automatically generates a personalized, branded documentation site. This includes:
 
+<Counter />
+
 - A live URL
-
 - Starter pages and navigation
-
 - Your brand colors and logo fetched from your website (if available and if you choose personalization)
-
 - AI‑powered search and assistance
 
 This quickstart walks you through accessing your site, choosing an editing workflow, making your first update, and publishing changes.
@@ -50,11 +51,8 @@ You will now update the auto-generated **Getting Started** page. Follow the step
     Open the **Getting Started** page from the sidebar in the dashboard.
 
     1. Click **Edit Page**.
-
     2. Place your cursor anywhere in the page.
-
     3. Type to / see the list of components available.
-
     4. Start writing and click **Publish** to push the change live.
 
     - You can also use the built-in AI Documentation Agent to generate or refine content directly in the editor.
@@ -66,25 +64,18 @@ You will now update the auto-generated **Getting Started** page. Follow the step
 
   <Step title="Code Editor workflow" icon="git-branch" title-type="p">
     1. Set up Git integration in **Settings → Integrations**.
-
     2. Clone your repository:
-
        ```bash
        git clone https://github.com/your-org/your-docs.git
        ```
-
     3. Edit the `getting-started` pages in your editor.
-
     4. Add a component such as a callout:
-
        ```mdx
        <Callout kind="info">
          Remember to keep your API key secret.
        </Callout>
        ```
-
     5. Commit and push:
-
        ```bash
        git add .
        git commit -m "First content update"
@@ -121,11 +112,8 @@ If you want branded docs like `docs.yourcompany.com`, configure a custom domain.
 
 <Expandable title="How to configure a custom domain" default-open="false">
   1. Go to **Overview → Custom Domain**.
-
   2. Enter your domain (for example, `docs.yourcompany.com`).
-
   3. Add the DNS records shown.
-
   4. Wait for verification and SSL provisioning.
 
   See full instructions: [Custom Domain Setup](/customize/custom-domain)

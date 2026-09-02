@@ -51,7 +51,7 @@
     },
     {
       "name": "Analytics",
-      "description": "Traffic, page feedback, and AI assistant usage"
+      "description": "Traffic, page feedback, AI assistant usage, and search analytics"
     }
   ],
   "paths": {
@@ -1151,6 +1151,187 @@
                         }
                       }
                     }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" },
+          "502": { "$ref": "#/components/responses/AnalyticsUnavailable" }
+        }
+      }
+    },
+    "/analytics/search": {
+      "get": {
+        "operationId": "getAnalyticsSearch",
+        "summary": "Search summary",
+        "description": "Total searches, sessions, no-result rate, and click-through rate for a date range. Returns zeroes when the range contains no search activity.",
+        "tags": ["Analytics"],
+        "parameters": [
+          { "$ref": "#/components/parameters/StartDate" },
+          { "$ref": "#/components/parameters/EndDate" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search summary returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "startDate": { "type": "string" },
+                    "endDate": { "type": "string" },
+                    "totalSearches": { "type": "integer" },
+                    "sessions": { "type": "integer", "description": "Distinct sessions that performed at least one search" },
+                    "noResultRate": { "type": "number", "description": "Share of searches that returned zero results, 0-1" },
+                    "clickThroughRate": { "type": "number", "description": "Share of searches where a result was clicked, 0-1" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" },
+          "502": { "$ref": "#/components/responses/AnalyticsUnavailable" }
+        }
+      }
+    },
+    "/analytics/search/volume": {
+      "get": {
+        "operationId": "getAnalyticsSearchVolume",
+        "summary": "Daily search volume",
+        "description": "Searches and sessions per day. Days with no searches are returned as zeroes, so the series always covers every day in the range.",
+        "tags": ["Analytics"],
+        "parameters": [
+          { "$ref": "#/components/parameters/StartDate" },
+          { "$ref": "#/components/parameters/EndDate" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daily search series returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "startDate": { "type": "string" },
+                    "endDate": { "type": "string" },
+                    "series": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "date": { "type": "string" },
+                          "searches": { "type": "integer" },
+                          "sessions": { "type": "integer", "description": "Distinct sessions that searched that day" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" },
+          "502": { "$ref": "#/components/responses/AnalyticsUnavailable" }
+        }
+      }
+    },
+    "/analytics/search/queries": {
+      "get": {
+        "operationId": "getAnalyticsSearchQueries",
+        "summary": "Popular search queries",
+        "description": "Search queries ranked by frequency, highest first. Set noResultsOnly to true to return only queries that returned zero results, which is the fastest way to find content gaps.",
+        "tags": ["Analytics"],
+        "parameters": [
+          { "$ref": "#/components/parameters/StartDate" },
+          { "$ref": "#/components/parameters/EndDate" },
+          { "$ref": "#/components/parameters/Limit" },
+          { "$ref": "#/components/parameters/Offset" },
+          {
+            "name": "noResultsOnly",
+            "in": "query",
+            "description": "Return only queries that produced zero results",
+            "required": false,
+            "schema": { "type": "boolean", "default": false }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Popular search queries returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "startDate": { "type": "string" },
+                    "endDate": { "type": "string" },
+                    "queries": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "query": { "type": "string" },
+                          "count": { "type": "integer", "description": "Number of times this query was searched" },
+                          "noResults": { "type": "boolean", "description": "Whether this query returned zero results" },
+                          "clicks": { "type": "integer" },
+                          "aiEscalations": { "type": "integer", "description": "Number of times the user escalated to the AI assistant after this search" }
+                        }
+                      }
+                    },
+                    "total": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" },
+          "502": { "$ref": "#/components/responses/AnalyticsUnavailable" }
+        }
+      }
+    },
+    "/analytics/search/results": {
+      "get": {
+        "operationId": "getAnalyticsSearchResults",
+        "summary": "Per-page search performance",
+        "description": "Pages ranked by search activity, showing where searches most often produce no results. Use this to find pages where content or discoverability needs improvement.",
+        "tags": ["Analytics"],
+        "parameters": [
+          { "$ref": "#/components/parameters/StartDate" },
+          { "$ref": "#/components/parameters/EndDate" },
+          { "$ref": "#/components/parameters/Limit" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Per-page search performance returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "startDate": { "type": "string" },
+                    "endDate": { "type": "string" },
+                    "pages": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "pagePath": { "type": "string" },
+                          "pageTitle": { "type": "string" },
+                          "totalSearches": { "type": "integer", "description": "Number of searches performed from this page" },
+                          "noResultSearches": { "type": "integer", "description": "Searches from this page that returned zero results" },
+                          "noResultRate": { "type": "number", "description": "Share of searches from this page that returned zero results, 0-1" }
+                        }
+                      }
+                    },
+                    "total": { "type": "integer" }
                   }
                 }
               }

@@ -1,0 +1,213 @@
+---
+title: Reusable Snippets
+description: Create reusable MDX and JSX snippets once, insert them across pages, and keep shared documentation synchronized through the web or code editor.
+---
+
+## Reuse shared content across your documentation
+
+Reusable snippets let you define a content block once and insert it into multiple pages. When you update the source snippet, every importing page uses the updated content after the next render or deployment.
+
+## How snippets work
+
+Snippets are repository files stored in the top-level `snippets/` directory. Documentation.AI supports Markdown snippets in `.md` and `.mdx` files, plus React component snippets in `.jsx` files.
+
+The editor inserts a reference to the source file rather than copying its content into the page. Each inserted snippet appears as an atomic, non-editable block with a live preview. Because pages reference the same source file, shared content stays consistent across the documentation.
+
+## Create a snippet
+
+Create snippets from the web editor when you want Documentation.AI to generate the file and open it for editing. Create them from the code editor when you prefer to manage files directly.
+
+### From the web editor
+
+Use the `Snippet` slash command to create a new snippet.
+
+<Steps>
+  <Step title="Open the snippet picker" icon="plus" title-type="p">
+
+    Open an editable MDX page, type `/`, and select **Snippet** from the command list.
+
+  </Step>
+
+  <Step title="Start a new snippet" icon="edit" title-type="p">
+
+    Select **Create new snippet** in the picker dialog.
+
+  </Step>
+
+  <Step title="Choose the snippet details" icon="settings" title-type="p">
+
+    Enter a name, choose **Markdown** or **React Component**, and add an optional description for a React component.
+
+    Documentation.AI converts the name to kebab-case and creates the file under `snippets/`. Markdown snippets use the `.mdx` extension. React components use `.jsx`.
+
+  </Step>
+
+  <Step title="Create and edit the file" icon="code" title-type="p">
+
+    Select **Create & Open**. Documentation.AI creates the file and opens it in the editor.
+
+    Your new source file is now available to insert into pages through the snippet picker.
+
+  </Step>
+</Steps>
+
+### From the code editor
+
+Create a file directly under the top-level `snippets/` directory. Use `.md` or `.mdx` for Markdown and MDX content, or `.jsx` for a React component.
+
+For example:
+
+```text
+snippets/
+├── api-authentication.mdx
+└── status-card.jsx
+```
+
+Use a kebab-case filename so the editor can derive a readable component name when it displays the snippet. The file path becomes the source of truth for every page that imports the snippet.
+
+## Insert a snippet into a page
+
+### In the web editor
+
+Insert an existing snippet with the `Snippet` slash command.
+
+<Steps>
+  <Step title="Open the snippet picker" icon="plus" title-type="p">
+
+    Open an editable MDX page, type `/`, and select **Snippet**.
+
+  </Step>
+
+  <Step title="Find the source file" icon="search" title-type="p">
+
+    Search the picker for a snippet by name. The picker searches recursively below the `snippets/` directory and lists `.md`, `.mdx`, and `.jsx` files.
+
+  </Step>
+
+  <Step title="Insert the snippet" icon="check-circle" title-type="p">
+
+    Select the snippet to add it to the page. The editor inserts an atomic reference and displays a live preview of the source content.
+
+  </Step>
+</Steps>
+
+The preview renders the snippet's current content instead of displaying only its filename. Use the pencil button on the snippet block to open and edit the source file.
+
+### In the code editor
+
+Import a snippet with a default import and render the generated component name as a self-closing element.
+
+<CodeGroup tabs="MDX snippet,JSX snippet">
+
+```mdx
+import ApiAuthentication from "/snippets/api-authentication.mdx"
+
+<ApiAuthentication />
+```
+
+```mdx
+import StatusCard from "/snippets/status-card.jsx"
+
+<StatusCard />
+```
+
+</CodeGroup>
+
+The import path must point to a file under `snippets/`. Documentation.AI recognizes default imports as visible snippet references. Named imports remain ordinary ESM and are not converted into snippet blocks by the editor.
+
+## MDX snippets
+
+MDX snippets contain Markdown or MDX content, including text, headings, code blocks, and Documentation.AI components. Use them for reusable instructions, prerequisites, warnings, or other content blocks that should appear consistently across several pages.
+
+The editor removes frontmatter from the live preview, but the source file can still use frontmatter. A newly created Markdown snippet starts with:
+
+```mdx
+---
+title: api-authentication
+---
+```
+
+Add the reusable content below the frontmatter:
+
+```mdx
+---
+title: api-authentication
+---
+
+Authenticate requests with an API key in the `Authorization` header.
+
+<Callout kind="info">
+
+Keep API keys out of client-side code and public repositories.
+
+</Callout>
+```
+
+When you insert the snippet, the page renders the body content and supported MDX components. The snippet's frontmatter does not appear inside the importing page.
+
+## JSX snippets
+
+JSX snippets are React components stored in `.jsx` files. Documentation.AI compiles them in the browser and renders the component in the snippet preview. React hooks, component state, and browser APIs are supported.
+
+A JSX snippet can export a component with a name that matches the filename-derived component name. For example, `status-card.jsx` can contain:
+
+```jsx
+export const description = "Displays the current publishing status"
+
+export const StatusCard = () => {
+  return (
+    <div className="my-6 rounded-lg border p-4">
+      <strong>Publishing status</strong>
+      <p>Your documentation is ready to publish.</p>
+    </div>
+  )
+}
+```
+
+The optional `description` export provides searchable metadata. It does not affect the rendered component.
+
+<Callout kind="info">
+
+JSX snippets do not support imports from external packages. Use React features and browser APIs available in the snippet environment, but do not import arbitrary npm packages.
+
+</Callout>
+
+The editor reports syntax, missing-component, and runtime errors in the snippet preview. Keep the component self-contained because the snippet node does not currently provide a props editor or pass attributes from the importing page.
+
+## Manage snippets
+
+Edit the source file to update a reusable snippet. Pages that import the snippet render the updated source, so one change keeps every occurrence aligned.
+
+Removing a snippet from a page deletes only that occurrence. The source file remains in `snippets/`, and other pages that use the same snippet are unchanged.
+
+If a source file is renamed, moved, or deleted, its existing reference remains on the page and displays **Unable to load snippet**. The edit control is disabled until the source file is available again, but you can remove the broken reference from the page.
+
+## Deployment and search
+
+Documentation.AI validates snippets during deployment and deploys each snippet as an independent file. MDX snippet content is expanded into importing pages during search indexing, so reusable prose and headings can be found through documentation search.
+
+<Callout kind="tip">
+
+Write a useful description for JSX snippets and clear content for MDX snippets. MDX body content is indexed with importing pages, while a JSX snippet's `description` is used as its searchable text.
+
+</Callout>
+
+Snippet imports inside code blocks are treated as example code. Documentation.AI does not expand those imports during search indexing, so you can safely show import syntax in a code sample.
+
+## What's next
+
+<Columns cols={2}>
+
+<Card title="Use the web editor" href="/write-and-publish/web-editor" icon="edit">
+
+Create, edit, preview, and publish documentation from your browser.
+
+</Card>
+
+<Card title="Use the code editor" href="/write-and-publish/code-editor" icon="code">
+
+Manage documentation files and reusable snippets directly in your repository.
+
+</Card>
+
+</Columns>

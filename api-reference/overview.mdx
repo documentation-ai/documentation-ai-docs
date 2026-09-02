@@ -201,6 +201,61 @@ Page through results with `limit` and `offset`, using `total` to know when to st
 
 The two daily series, `/analytics/traffic` and `/analytics/ai/volume`, return one entry per day including days with no activity, so you can chart them without filling gaps yourself.
 
+### Search Analytics
+
+Search analytics endpoints show how readers use search and where they run into dead ends. All four endpoints accept the same date range rules as other analytics endpoints.
+
+Get a summary of search activity:
+
+```bash
+curl -G https://api.documentationai.app/api/v1/analytics/search \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -d startDate=2026-08-01 \
+  -d endDate=2026-08-31
+```
+
+```json
+{
+  "startDate": "2026-08-01",
+  "endDate": "2026-08-31",
+  "totalSearches": 1240,
+  "sessions": 820,
+  "noResultRate": 0.15,
+  "clickThroughRate": 0.42
+}
+```
+
+Get daily search volume for charting:
+
+```bash
+curl -G https://api.documentationai.app/api/v1/analytics/search/volume \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -d startDate=2026-08-01 \
+  -d endDate=2026-08-31
+```
+
+Get the most popular search queries, or filter to only no-result queries:
+
+```bash
+curl -G https://api.documentationai.app/api/v1/analytics/search/queries \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -d startDate=2026-08-01 \
+  -d endDate=2026-08-31 \
+  -d noResultsOnly=true \
+  -d limit=20
+```
+
+Get per-page search performance to find where searches most often fail:
+
+```bash
+curl -G https://api.documentationai.app/api/v1/analytics/search/results \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -d startDate=2026-08-01 \
+  -d endDate=2026-08-31
+```
+
+Page through query results with `limit` and `offset`, using `total` to know when to stop.
+
 ## Endpoints
 
 See the endpoint reference below for complete details on every available operation, including request parameters, response schemas, and examples.

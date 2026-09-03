@@ -9,8 +9,8 @@ description: 'Changes, fixes, and improvements across versions'
 
   - Insert snippets in the web editor through the `/snippet` slash command, with a live preview of the rendered content
   - Add optional descriptions to snippets for search and identification
-  - Support for both `.mdx` prose snippets (with variable substitution like `{name}`) and `.jsx` component snippets (compiled and rendered safely)
-  - Nesting support: `.mdx` snippets can import other snippets up to a depth limit
+  - Support for both `.mdx` prose snippets and `.jsx` component snippets
+  - Nesting support: `.mdx` snippets can import other snippets up to a depth limit of 5.&#x20;
   - Snippet content is automatically expanded into importing pages during search indexing, so readers searching for content inside a snippet will find it
   - Renaming or deleting a snippet revalidates all pages that import it
 

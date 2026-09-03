@@ -64,6 +64,20 @@ Add the `intercom` key under `integrations` in your `documentation.json`:
 
 3. Copy the **App ID** displayed in the installation instructions.
 
+## User metadata
+
+When a reader starts an Intercom conversation from your documentation site, the widget automatically sends the following attributes to Intercom as custom properties on the conversation:
+
+| Attribute | Description |
+| -------- | ----------- |
+| Organization ID | The unique identifier for your organization |
+| Organization name | The display name of your organization |
+| Plan type | The current Documentation.AI plan (Starter, Standard, Professional) |
+| Documentation ID | The unique identifier for this documentation project |
+| Documentation name | The display name of this documentation project |
+
+Your support team sees these attributes in the Intercom inbox alongside the conversation, so they can immediately identify which account and documentation project the user is asking about without asking for additional context.
+
 ## What's next
 
 - [Analytics and Chat Integrations](/integrations/overview) - overview of all supported integrations

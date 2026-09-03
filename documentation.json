@@ -73,6 +73,11 @@
                 "icon": "code"
               },
               {
+                "title": "Reusable Snippets",
+                "path": "write-and-publish/snippets",
+                "icon": "puzzle"
+              },
+              {
                 "group": "Components",
                 "path": "components/components",
                 "icon": "component",

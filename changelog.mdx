@@ -60,7 +60,7 @@ description: 'Changes, fixes, and improvements across versions'
   - **Chat with Agent on finished runs**: Completed workflow runs with findings now show a **Chat with Agent** button alongside the existing report and commit link. Clicking it opens the editor agent  pre-loaded with the run's findings so you can ask follow-up questions or request fixes.
   - **llms.txt for partial auth sites**: Sites with partial authentication now serve an llms.txt file containing only public pages. Fully private sites continue to skip llms.txt generation. See [Robots.txt and llms.txt](/seo-and-geo/robots-txt-and-llm-txt).
   - **External links in nav tabs and dropdowns**: External links configured in tabs and dropdowns are now preserved on auth-filtered sites and open in a new browser tab.
-  - **Style attributes in MDX**: Inline `style="..."` attributes (commonly used in embedded iframes and video embeds) are now correctly converted to JSX-compatible objects at the rendering layer.
+  - **Style attributes in MDX**: Inline `style="..."` attributes (commonly used in embedded iframes and video embeds) are now correctly converted to React-compatible objects at the rendering layer.
 
   ## Fixes
 
@@ -100,7 +100,7 @@ description: 'Changes, fixes, and improvements across versions'
 
   ## Fixes
 
-  - **Search indexing failure on API reference pages**: Double quotes in OpenAPI descriptions broke JSX syntax, causing HTTP 500 on API reference pages.
+  - **Search indexing failure on API reference pages**: Double quotes in OpenAPI descriptions broke React syntax, causing HTTP 500 on API reference pages.
   - **Double deployments on editor publish**: A webhook misfire caused editor-originated commits to trigger two deployments.
   - **Gated pages in search results**: Role-restricted pages were indexed without their roles, appearing as public content.
   - **Editor rejecting documents with keyboard or comment marks**: These marks caused 500 errors that locked users out of their editor session.
@@ -211,7 +211,7 @@ description: 'Changes, fixes, and improvements across versions'
   - **SVG**: Embed SVG files with preserved interactivity, including hover states and clickable links. Upload a file, paste SVG code, or select from your existing image gallery via the slash command menu. SVGs render inside a shadow DOM for safe, isolated rendering.
   - **HTML Block**: Insert raw HTML directly into your pages with a toggle between live preview and code editing modes. Useful for custom embeds, interactive widgets, or layouts that go beyond standard markdown.
 
-  Both components are accessible via slash commands (`/svg` and `/html`) in the visual editor and as JSX components in markdown mode.
+  Both components are accessible via slash commands (`/svg` and `/html`) in the visual editor and as React components in markdown mode.
 
   ## SEO Meta Overrides
 

@@ -1,6 +1,6 @@
 ---
 title: Reusable Snippets
-description: Create reusable MDX and JSX snippets once, insert them across pages, and keep shared documentation synchronized through the web or code editor.
+description: Create reusable text and React component snippets once, insert them across pages, and keep shared documentation synchronized through the web or code editor.
 ---
 
 ## Reuse shared content across your documentation
@@ -9,7 +9,7 @@ Reusable snippets let you define a content block once and insert it into multipl
 
 ## How snippets work
 
-Snippets are repository files stored in the top-level `snippets/` directory. Documentation.AI supports Markdown snippets in `.md` and `.mdx` files, plus React component snippets in `.jsx` files.
+Snippets are repository files stored in the top-level `snippets/` directory. Documentation.AI supports Markdown snippets in `.md` and `.mdx` files (MDX is a Markdown format that lets you write text and embed React components), plus React component snippets in `.jsx` files.
 
 The editor inserts a reference to the source file rather than copying its content into the page. Each inserted snippet appears as an atomic, non-editable block with a live preview. Because pages reference the same source file, shared content stays consistent across the documentation.
 
@@ -97,7 +97,7 @@ The preview renders the snippet's current content instead of displaying only its
 
 Import a snippet with a default import and render the generated component name as a self-closing element.
 
-<CodeGroup tabs="MDX snippet,JSX snippet">
+<CodeGroup tabs="MDX snippet,React snippet">
 
 ```mdx
 import ApiAuthentication from "/snippets/api-authentication.mdx"
@@ -145,11 +145,11 @@ Keep API keys out of client-side code and public repositories.
 
 When you insert the snippet, the page renders the body content and supported MDX components. The snippet's frontmatter does not appear inside the importing page.
 
-## JSX snippets
+## React component snippets
 
-JSX snippets are React components stored in `.jsx` files. Documentation.AI compiles them in the browser and renders the component in the snippet preview. React hooks, component state, and browser APIs are supported.
+React component snippets are stored in `.jsx` files. Documentation.AI compiles them in the browser and renders the component in the snippet preview. React hooks, component state, and browser APIs are supported.
 
-A JSX snippet can export a component with a name that matches the filename-derived component name. For example, `status-card.jsx` can contain:
+A React component snippet can export a component with a name that matches the filename-derived component name. For example, `status-card.jsx` can contain:
 
 ```jsx
 export const description = "Displays the current publishing status"
@@ -168,7 +168,7 @@ The optional `description` export provides searchable metadata. It does not affe
 
 <Callout kind="info">
 
-JSX snippets do not support imports from external packages. Use React features and browser APIs available in the snippet environment, but do not import arbitrary npm packages.
+React component snippets do not support imports from external packages. Use React features and browser APIs available in the snippet environment, but do not import arbitrary npm packages.
 
 </Callout>
 
@@ -188,7 +188,7 @@ Documentation.AI validates snippets during deployment and deploys each snippet a
 
 <Callout kind="tip">
 
-Write a useful description for JSX snippets and clear content for MDX snippets. MDX body content is indexed with importing pages, while a JSX snippet's `description` is used as its searchable text.
+Write a useful description for React component snippets and clear content for MDX snippets. MDX body content is indexed with importing pages, while a React component snippet's `description` is used as its searchable text.
 
 </Callout>
 

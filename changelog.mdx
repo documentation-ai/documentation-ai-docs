@@ -5,7 +5,7 @@ description: 'Changes, fixes, and improvements across versions'
 <Update label="2026-09-02" description="Reusable snippets, search analytics, Intercom metadata, and bug fixes" tags={["feature","improvement","fix"]}>
   ## Reusable Snippets
 
-  Create reusable `.mdx` and `.jsx` snippets under the `snippets/` directory and insert them into multiple pages. Snippets stay in sync: edit a snippet once, and every page that uses it updates automatically on the next deployment.
+  Create reusable `.mdx` and `.jsx` snippets under the `snippets/` directory and insert them into multiple pages. Snippets stay in sync: edit a snippet once, and every page that uses it updates automatically when you publish.
 
   - Insert snippets in the web editor through the `/snippet` slash command, with a live preview of the rendered content
   - Add optional descriptions to snippets for search and identification
@@ -23,21 +23,16 @@ description: 'Changes, fixes, and improvements across versions'
   - Summary metrics: total searches, sessions, no-result rate, and click-through rate
   - Searches-over-time chart with daily volume
   - Result-performance breakdown showing pages where searches most often yield no results
-  - Searchable event table with filters and pagination, including individual search queries, results shown, clicks, and AI escalations
   - CSV export for sharing or offline analysis
 
   See [Analytics overview](/analytics/overview) for details.
 
-  ## Improvements
+  ## Improvements and Fixes
 
-  - **Intercom user metadata**: The Intercom widget now sends organization ID, organization name, plan type, documentation ID, and documentation name as custom attributes on each conversation, giving your support team instant context about the user's account. See [Intercom](/integrations/intercom).
   - **Sidebar label capitalization**: Sidebar and breadcrumb labels now preserve their authored capitalization instead of being automatically title-cased.
   - **Sidebar animation speed**: Reduced expand/collapse transition duration for snappier sidebar interactions.
 
-  ## Fixes
-
-  - **Tag pushes no longer trigger deployments**: Pushing a tag to GitHub or GitLab no longer creates a failed deployment or an unintended preview branch. Only branch pushes trigger auto-deploy.
-  - **OAuth redirect URI behind reverse proxies**: OAuth 2.0 initiation and callback now derive the redirect origin from `x-forwarded-host` and `x-forwarded-proto` headers, so providers such as Azure AD receive your public URL instead of the internal service URL.
+  * **Tag pushes no longer trigger deployments**: Pushing a tag to GitHub or GitLab no longer creates a failed deployment or an unintended preview branch. Only branch pushes trigger auto-deploy.
 </Update>
 
 <Update label="2026-08-18" description="Broken Link Audit, seat limit increases, and llms.txt auth support" tags={["feature","improvement","fix"]}>

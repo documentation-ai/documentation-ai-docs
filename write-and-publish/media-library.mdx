@@ -1,0 +1,296 @@
+---
+title: Media Library
+description: >-
+  Upload, insert, reuse, replace, and delete images, videos, and files in your
+  documentation, from the web editor or from a Git repository.
+---
+The media library stores every image, video, PDF, and file you upload to a documentation. Each file gets a permanent URL you can insert, reuse, and replace from the web editor or reference in MDX. The library keeps one copy of every file, so duplicate uploads are detected and reused automatically.
+
+<Callout kind="info" collapsed="false">
+  **Before you begin**
+
+  - You need the **Editor** or **Admin** role to upload, insert, or replace files. Only **Admins** can delete files.
+  - Check that the file is a supported type and within your plan's size limit. See [Limits and supported file types](#limits-and-supported-file-types).
+  - If you work in Git, keep the documentation open in the [web editor](/write-and-publish/web-editor) as well. Files are uploaded there, not committed to the repository.
+</Callout>
+
+## Web editor
+
+### How to upload a file
+
+<Steps>
+  <Step title="Open the Media tab" icon="images" title-type="p">
+    In the web editor, select **Media** in the secondary navigation bar. Files already in this documentation appear as tiles.
+  </Step>
+
+  <Step title="Add the file" icon="upload" title-type="p">
+    Click **Upload media** and choose the file, or drag it from your computer onto the Media tab.
+
+    If you want to upload several files at once, select or drag them together. Each one shows its own progress in the tray at the bottom-right.
+  </Step>
+
+  <Step title="Describe the image" icon="text" title-type="p">
+    If the file is an image, the editor shows **Describe this file**. Type what the image shows and click **Save**. This becomes the alt text that screen readers read.
+
+    If the image is decorative, click **Skip**.
+  </Step>
+</Steps>
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1788844659125-k7m4msitaol-media-tab-hover-actions.png?fm=auto&auto=compress%2Cformat" width="572" height="505" alt="Media tab in the web editor with Upload media, search, and a hovered tile showing the insert, copy URL, and open actions" caption="The Media tab. Hover a tile to insert it, copy its URL, or open it." />
+
+If the editor says "That file is already in your library", the existing file is reused. You do not need to do anything.
+
+If you would rather upload while inserting, use the **Upload** tile in the `/image`, `/video`, or `/file` picker instead. See [How to add an image, video, or file to a page](#how-to-add-an-image-video-or-file-to-a-page).
+
+### How to add an image, video, or file to a page
+
+Open the page first. Insert always goes into the page that is currently open.
+
+Then use whichever method suits what you are doing:
+
+- **If the file is already in the library**, hover its tile in the **Media** tab and click **Insert into page** (images and videos) or **Insert link into page** (everything else). Or drag the tile onto the page and drop it where you want it.
+- **If you are typing and want to add something in place**, type <kbd>/</kbd> on an empty line and choose:
+  - **Image** for a screenshot, diagram, or logo
+  - **Video** for a video file, or a YouTube, Vimeo, or Loom link
+  - **File** for a PDF, spreadsheet, presentation, ZIP, audio clip, or font
+    In the picker, select a tile or click **Upload** to add a new file, then click **Insert**.
+- **If the file is still on your computer**, drop it onto the page or paste it from the clipboard. An image opens a small dialog so you can name it and add alt text. Any other supported file uploads and appears as a link at the drop point.
+
+What lands on the page depends on the kind of file:
+
+| Kind                                      | Result                                                  |
+| ----------------------------------------- | ------------------------------------------------------- |
+| Image                                     | An image block with the file's alt text                 |
+| Video file                                | A video player with a preview frame                     |
+| Video link (YouTube and similar)          | An embedded player                                      |
+| PDF, document, data, archive, audio, font | A link. Its text is the file's description, or its name |
+
+To adjust size, alignment, or captions after inserting, see [Images](/components/images) and [Videos and iframes](/components/videos-and-iframes).
+
+### How to reuse a file on another page
+
+Open the other page, then insert the file from the **Media** tab or the slash-command picker as described above. Do not upload it again. Every page that uses the file points at the same URL, so a later replacement updates all of them together.
+
+### How to find a file
+
+If the **Media** tab shows too many tiles, type part of the file name in the search box at the top.
+
+If you need filters or a list view, click the expand icon in the tab header (**Open the media library**). In the **Media library** window you can:
+
+- Search by file name or alt text
+- Filter by **Type** (Images, Video, Documents, Data, Audio, Archives, Fonts), **Size**, or **Added** date
+- Sort by **Newest**, **Oldest**, **Name**, or **Largest**
+- Switch to **List view** to see name, type, and date in columns
+- Change **Show** to load 30, 60, or 120 files at a time, and click **Load more** for the next batch
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1788844650681-nb09sp8l6mi-media-library-window.png?fm=auto&auto=compress%2Cformat" width="1224" height="444" alt="Media library window with search, Type, Size, Added, Sort, and Show controls above a grid of files" caption="The Media library window with filters, sorting, and view controls." />
+
+Click any tile to open its detail panel.
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1788844646686-i5taotwnpqk-media-detail-panel.png?fm=auto&auto=compress%2Cformat" width="444" height="1112" alt="Detail panel for an image showing alt text, URL with copy button, type, size, dimensions, uploader, and the Insert into page, Download, Replace file, and Delete actions" caption="The detail panel. Edit alt text, copy the URL, or insert, replace, and delete the file." style="width: 420px; height: auto; margin: 0 auto;" />
+
+### How to change a file's alt text or link text
+
+1. Click the file's tile to open the detail panel.
+2. Edit the field at the top:
+   - For an image, this is **Alt text**.
+   - For any other file, this is **Description**. It is used as the link text the next time someone inserts the file.
+3. Click **Save alt text**.
+
+Changing the description does not rewrite links already on pages. If you want to change existing link text, edit it on the page like any other link.
+
+### How to update a file everywhere it is used
+
+Use **Replace file** when you have a newer version of a file. Every page that uses it shows the new version without any edits to those pages.
+
+<Steps>
+  <Step title="Open the file" icon="mouse-pointer-click" title-type="p">
+    Click the file's tile in the **Media** tab or the **Media library** window to open its detail panel.
+  </Step>
+
+  <Step title="Choose the replacement" icon="refresh-cw" title-type="p">
+    Click **Replace file** and choose the new file. It must be the same type as the original, for example a PNG for a PNG or a PDF for a PDF.
+
+    If you need to switch formats, insert the new file separately and remove the old one instead.
+  </Step>
+
+  <Step title="Wait for the confirmation" icon="check-circle" title-type="p">
+    A toast shows **Uploading…**, then **Replacing across your documentation…**, then **File replaced**.
+
+    If the file is an image, its tile shows a **Replacing** overlay for up to a minute while the CDN refreshes. Reload a page after that to see the new version.
+  </Step>
+</Steps>
+
+If you see "Someone else replaced this file first", reload and check the current version before replacing again.
+
+### How to delete a file
+
+<Callout kind="danger" collapsed="false">
+  **Admin only.** Deletion does not check whether pages still use the file. Pages keep working, but the deleted image, video, or link target shows as missing. If you only need newer content, use [Replace file](#how-to-update-a-file-everywhere-it-is-used) instead.
+</Callout>
+
+- **To delete one file**, open its detail panel, click **Delete**, and confirm.
+- **To delete several files**, open the **Media library** window, hover tiles and tick their checkboxes (or click **Select all**), click **Delete** in the bar at the bottom, and confirm. You can delete up to 100 files at once.
+
+Deleting frees storage immediately.
+
+### How to see who uploaded, replaced, or deleted a file
+
+You must be an organization admin.
+
+1. Open the **Media library** window from the **Media** tab.
+2. Click **Activity** in the bottom bar. Each entry shows the action, the file, the person, and the time.
+3. If you need the list outside the dashboard, click **Export CSV**.
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1788844642004-1d4siyl43gz-media-activity-panel.png?fm=auto&auto=compress%2Cformat" width="508" height="1112" alt="Activity panel listing uploads, replacements, and deletions with the person and time for each, and an Export CSV button" caption="The Activity panel records every upload, replace, and delete." style="width: 420px; height: auto; margin: 0 auto;" />
+
+## Code editor (Git)
+
+Media files are not committed to your repository. You upload them in the dashboard, then reference their URLs in `.mdx` files. For the branch and pull request flow around those edits, see [Code editor](/write-and-publish/code-editor).
+
+### How to get a file's URL
+
+1. Open the documentation in the [web editor](/write-and-publish/web-editor) and select the **Media** tab.
+2. If the file is not there yet, click **Upload media** and add it. You do not need to insert it into a page.
+3. Hover the tile and click **Copy URL**.
+
+### How to add an image or file in MDX
+
+Paste the URL into the component that matches the kind of file. These are the same snippets the web editor writes.
+
+If you want an image:
+
+```mdx
+<Image
+  src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1788844659125-k7m4msitaol-media-tab-hover-actions.png"
+  alt="Media tab in the web editor with a hovered tile"
+  width="572"
+  height="505"
+/>
+```
+
+Renders as:
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1788844659125-k7m4msitaol-media-tab-hover-actions.png?fm=auto&auto=compress%2Cformat" width="572" height="505" alt="Media tab in the web editor with a hovered tile" style="width: 420px; height: auto; margin: 0 auto;" />
+
+If you want readers to open or download a file, write a Markdown link:
+
+```mdx
+[Open the demonstration (PDF)](https://file-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1788846660209-arams5u6ft-demonstration.pdf)
+```
+
+Renders as:
+
+[Open the demonstration (PDF)](https://file-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1788846660209-arams5u6ft-demonstration.pdf)
+
+Commit and push as usual. The file is already hosted, so it renders as soon as the build completes. For all props, see [Images](/components/images) and [Files](/components/files). For video, see [Videos and iframes](/components/videos-and-iframes).
+
+### How to update a file without changing your MDX
+
+Replace it in the web editor. Open the **Media** tab, click the file, click **Replace file**, and choose the new version of the same type. The URL stays the same, so no commit is needed. See [How to update a file everywhere it is used](#how-to-update-a-file-everywhere-it-is-used).
+
+### How to swap or remove a file
+
+- **If you want a different file**, upload it, copy its URL, and change the `src` or link target in your MDX. The old file stays in the library until an admin deletes it.
+- **If you want to remove a file entirely**, delete every reference in MDX first, publish, then ask an admin to delete the file from the library.
+
+## Common questions
+
+<ExpandableGroup>
+  <Expandable title="Does replacing a file change its URL?" default-open="false">
+    No. The URL stays the same, so every page and component that uses the file automatically shows the new version. This is the main reason to prefer **Replace file** over deleting and re-uploading.
+  </Expandable>
+
+  <Expandable title="Why does the editor say a file is already in my library?" default-open="false">
+    The media library detects duplicate files by their content hash, not just their file name. If you upload a file that is already stored, the existing copy is reused automatically. You can still upload a file with the same name if its contents are different.
+  </Expandable>
+
+  <Expandable title="Can I organize files into folders or add tags?" default-open="false">
+    Not yet. Files are organized by documentation project, type (images, video, documents, etc.), and upload date. Use search and filters in the Media library window to find what you need.
+  </Expandable>
+
+  <Expandable title="What happens when I delete a file that pages still use?" default-open="false">
+    Deletion does not check for usage. Pages keep working, but the deleted image, video, or link target shows as missing. Remove the file from pages first, or use **Replace file** if you only need newer content.
+  </Expandable>
+
+  <Expandable title="Can I upload files directly in Git?" default-open="false">
+    No. Media files are hosted in the dashboard's media library, not committed to your repository. In a Git workflow, you upload files through the web editor's Media tab, copy the CDN URL, and reference it in MDX. See [Code editor (Git)](#code-editor-git).
+  </Expandable>
+
+  <Expandable title="Who can delete files?" default-open="false">
+    Only organization admins can delete files. Editors and admins can upload, insert, and replace files. See the permissions note at the top of this page.
+  </Expandable>
+</ExpandableGroup>
+
+## How to check storage usage
+
+1. Go to **Settings** → **Organization Settings** → **Media Storage**.
+2. Read **Storage used** for how much of your quota is in use and how much remains.
+3. Read **Per-file limits** for the largest file your plan accepts for images, video and audio, and documents.
+4. If you are an admin and want to know which documentation uses the most space, read **Usage by documentation**.
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1788844655323-ybgq0tx13t-media-storage-settings.png?fm=auto&auto=compress%2Cformat" width="1668" height="700" alt="Media Storage settings page showing storage used out of the quota, per-file limits by type, and usage by documentation" caption="Media Storage in organization settings." />
+
+If usage is above 80%, a warning also appears in the media library. If you go over the limit, free space by deleting files or upgrade the plan. Uploads and publishing pause until you are under the limit; sites you have already published keep serving. See [Limits and supported file types](#limits-and-supported-file-types).
+
+## If an upload is refused
+
+The message in the upload tray tells you why. Match it below:
+
+- **"A file named "…" already exists in this documentation"**: Rename the file, or use the existing one from the library.
+- **"File size exceeds your plan's limit of …MB"**: Compress or resize the file. For video and documents, the message names the cheapest plan that accepts it.
+- **"Storage limit reached"**: Delete unused files or upgrade. See [How to check storage usage](#how-to-check-storage-usage).
+- **"The file extension of "…" does not match its content"**: The file is not really the type its name says. Re-export it in the intended format.
+- **"Files of this type cannot be uploaded"**: Programs, scripts, macro-enabled Office files, and HTML are never accepted. Put them in a ZIP if readers need them.
+- **"SVG contains …"**: Remove the script or embedded content from the SVG, or export a PNG instead.
+- **"Uploading … files is not available yet"**: Delivery for that kind of file is not enabled in your environment. Contact support.
+
+## Limits and supported file types
+
+Each plan sets a maximum size per file and a total storage quota shared by every documentation in the organization.
+
+| Plan         | Total storage | Images | Video and audio | Documents and files |
+| ------------ | ------------- | ------ | --------------- | ------------------- |
+| Starter      | 1 GB          | 10 MB  | 20 MB           | 10 MB               |
+| Standard     | 5 GB          | 10 MB  | 30 MB           | 20 MB               |
+| Professional | 20 GB         | 10 MB  | 50 MB           | 30 MB               |
+| Enterprise   | 100 GB        | 10 MB  | 50 MB           | 30 MB               |
+
+AppSumo Tier 1 and Tier 2 use the Standard limits. AppSumo Tier 3 and Tier 4 use the Professional limits. Images are capped at 10 MB on every plan.
+
+| Kind      | Formats                                                    | Size limit column   |
+| --------- | ---------------------------------------------------------- | ------------------- |
+| Images    | JPEG, PNG, GIF, WebP, SVG, ICO, HEIC/HEIF, AVIF, BMP, TIFF | Images              |
+| Video     | MP4, M4V, WebM, MOV                                        | Video and audio     |
+| Audio     | MP3, WAV, OGG, M4A, AAC                                    | Video and audio     |
+| Documents | PDF, DOCX, DOC, XLSX, XLS, PPTX, PPT, ODT, ODS, ODP        | Documents and files |
+| Data      | CSV, TSV, JSON, YAML, XML, TXT, LOG, MD, MDX               | Documents and files |
+| Archives  | ZIP, GZ, TGZ, TAR                                          | Documents and files |
+| Fonts     | WOFF, WOFF2, TTF, OTF                                      | Documents and files |
+
+Never accepted, on any plan: programs and installers (`.exe`, `.msi`, `.dmg`, `.apk`, `.jar`), scripts (`.js`, `.sh`, `.ps1`, `.bat`), macro-enabled Office files (`.docm`, `.xlsm`, `.pptm`), and web pages (`.html`, `.htm`). Uploads are verified on the server: the file's contents must match its extension, and SVG files containing scripts or embedded documents are rejected.
+
+## Related
+
+<Columns cols="3">
+  <Card title="Images" href="/components/images" icon="image" horizontal="false">
+    Component props, supported formats, and sizing for the Image component.
+  </Card>
+
+  <Card title="Videos and iframes" href="/components/videos-and-iframes" icon="video" horizontal="false">
+    Embed uploaded videos or platform links with the Video and Iframe components.
+  </Card>
+
+  <Card title="Files" href="/components/files" icon="paperclip" horizontal="false">
+    Link PDFs, documents, archives, audio, and fonts with the File slash command.
+  </Card>
+
+  <Card title="Web editor" href="/write-and-publish/web-editor" icon="globe" horizontal="false">
+    Insert and manage media visually without touching Git.
+  </Card>
+
+  <Card title="Code editor" href="/write-and-publish/code-editor" icon="code" horizontal="false">
+    Reference media URLs in MDX and manage files alongside a Git workflow.
+  </Card>
+</Columns>
+

@@ -1,43 +1,61 @@
 ---
 title: Videos and iframes
 description: >-
-  Reference for embedding videos and iframes using the editor UI and the Video /
-  Iframe components.
+  Reference for uploading and embedding videos and iframes using the editor UI
+  and the Video / Iframe components.
 type: reference
 ---
 ## Overview
 
 Use videos and iframes to embed rich, interactive content directly in your docs, such as:
 
-- Product walkthroughs and demos (YouTube, Vimeo, Loom)
+- Product walkthroughs and demos uploaded to your [media library](/write-and-publish/media-library) (MP4, WebM, MOV)
 
-- Self-hosted video files (MP4, WebM, OGG)
+- Hosted videos from platforms like YouTube, Vimeo, and Loom
 
 - External tools and dashboards (forms, analytics, sandboxes)
 
 In Documentation.AI you can:
 
-- Use the **Web Editor** to paste links or embed codes and adjust layout visually.
+- Use the **Web Editor** to upload a video, pick one from the library, or paste a link or embed code, then adjust layout visually.
 
 - Use the **Code Editor** to write `<Video>` and `<Iframe>` components in MDX for full control.
 
-For static images, see [Images](/components/images). For showing embed code examples (such as iframe snippets) as code instead of rendering them, use [Code and Groups](/components/code-blocks-and-groups).
+For static images, see [Images](/components/images). For downloadable files and audio, see [Files](/components/files). For showing embed code examples (such as iframe snippets) as code instead of rendering them, use [Code and Groups](/components/code-blocks-and-groups).
 
 <Callout kind="info" collapsed="false">
-  Please note that we do not support uploading videos directly on to the platform. You need to use a 3rd party platform such as YouTube, Vimeo, Loom or even MP4 URL.&#x20;
+  Uploaded videos are hosted by Documentation.AI and served from a CDN. The per-file limit depends on your plan: 20 MB on Starter, 30 MB on Standard, and 50 MB on Professional and Enterprise. For longer or larger videos, host them on a video platform and embed the link.
 </Callout>
 
 ## Using with Web Editor
 
-### Insert a video or iframe
+### Insert an uploaded video
 
 1. Place your cursor on a new line in the Web Editor.
 
 2. Type <kbd>/</kbd> and select **Video**.
 
+3. In the **Select video** dialog, either:
+
+   - Click the **Upload** tile, choose a video file, confirm or edit its name, and click **Upload**, or
+
+   - Search and select a video that is already in your media library.
+
+4. Click **Insert video**.
+
+The video appears in your document as a native player with a poster frame captured from the first frame at upload. Uploaded videos also count toward your organization's [storage quota](/write-and-publish/media-library#limits-and-supported-file-types).
+
+You can also insert videos from the **Media** tab in the editor's secondary navbar: hover a video tile and click **Insert into page**, or drag the tile onto the page. Dropping a video file directly onto the page uploads and inserts it in one step.
+
+### Insert a video link or embed code
+
+1. Type <kbd>/</kbd> and select **Video**.
+
+2. In the **Select video** dialog, click **URL or embed code**.
+
 3. In the **Video URL or Embed Code** dialog, paste either:
 
-   - A **video URL** (YouTube, Vimeo, Loom, MP4 URL, etc.), or
+   - A **video URL** (YouTube, Vimeo, Loom, a direct MP4 URL, and so on), or
 
    - An `iframe` **embed code** copied from another tool.
 
@@ -71,13 +89,17 @@ Hover over the embedded video or iframe to reveal controls:
 
 Use these controls to keep layouts consistent with nearby content and images.
 
+### Replace an uploaded video
+
+To swap the content of an uploaded video without editing any page, open it in the [media library](/write-and-publish/media-library#how-to-update-a-file-everywhere-it-is-used) and click **Replace file**. The URL stays the same, a fresh poster frame is captured, and every page using the video shows the new version.
+
 ## Using with Code Editor
 
 In the Code Editor, you work directly in MDX using the `<Video>` and `<Iframe>` components.
 
 ### `<Video>` component (iframe mode)
 
-Use iframe mode for platforms that provide an embed URL, such as YouTube, Vimeo, Loom, or Wistia.
+Use iframe mode for platforms that provide an embed URL, such as YouTube, Vimeo, Loom, or Wistia. This is the default mode when `render-type` is not set.
 
 ```tsx
 <Video
@@ -96,7 +118,7 @@ Key props:
 
 - `width` / `height` (string): Player dimensions in pixels.
 
-- `title` (string): Accessible title for screen readers.
+- `title` (string): Accessible title for screen readers. Defaults to "Embedded video".
 
 - `allow-full-screen` (boolean-like): Allow fullscreen playback (defaults to `true`).
 
@@ -104,24 +126,27 @@ Key props:
 
 - `style` (string): Inline styles for alignment and sizing.
 
-### `<Video>` component (HTML5 mode)
+### `<Video>` component (video mode)
 
-Use HTML5 mode for self-hosted video files, with native browser controls.
+Use video mode for video files, including videos uploaded to the media library. Set `render-type="video"` so the file plays in a native HTML5 player instead of being embedded as an iframe. This is what the Web Editor writes when you insert an uploaded video.
 
 ```tsx
 <Video
-  src="https://example.com/video/feature-walkthrough.mp4"
+  src="https://video-cdn.documentation.ai/org-.../doc-.../1757300000000-abc123-feature-walkthrough.mp4"
+  poster="https://blob-cdn.documentation.ai/org-.../doc-.../1757300000000-abc123-feature-walkthrough-poster.jpg"
+  render-type="video"
   width="672"
   height="378"
   controls="true"
-  poster="https://example.com/video/feature-walkthrough-poster.jpg"
-  preload="metadata"
-  fetchPriority="high"
   style="width: 100%; max-width: 672px; height: auto;"
 />
 ```
 
-Additional props for HTML5 playback:
+Additional props for video mode:
+
+- `render-type` (string): Set to `"video"` for file playback. Omit or use `"iframe"` for platform embeds.
+
+- `poster` (string): Poster image shown before playback. Uploaded videos get one automatically; copy it from the media library's insert snippet.
 
 - `controls` (boolean-like): Show video controls (defaults to `true`).
 
@@ -131,11 +156,15 @@ Additional props for HTML5 playback:
 
 - `loop` (boolean-like): Loop playback.
 
-- `poster` (string): Poster image shown before playback.
-
-- `preload` (string): `none`, `metadata`, or `auto`.
-
 - `fetchPriority` (string): `high`, `low`, or `auto`.
+
+- `title` (string): Accessible label for the player.
+
+Preloading is handled automatically: with a `poster`, the browser loads nothing until the reader presses play; without one, it loads the video's metadata so the player shows a first frame instead of a black box.
+
+<Callout kind="info" collapsed="false">
+  Boolean-like props must be the string `"true"` to enable. Values such as `"1"` or `"yes"` are treated as false. Bare JSX booleans like `muted` also work.
+</Callout>
 
 ### `<Iframe>` component
 
@@ -177,21 +206,23 @@ Use [Code and Groups](/components/code-blocks-and-groups) when you want to show 
 
 Commonly used video sources:
 
-- **Video platforms:** YouTube, Vimeo, Loom, Wistia
+- **Uploaded files (video mode):** MP4, M4V, WebM, MOV, served from `video-cdn.documentation.ai`
 
-- **Video formats (HTML5):** MP4, WebM, OGG
+- **Video platforms (iframe mode):** YouTube, Vimeo, Loom, Wistia
 
 Most platforms provide both a shareable URL and an iframe embed code; use whichever best matches your workflow (Web Editor block or MDX component).
 
 ### Accessibility and layout best practices
 
-- Always set a meaningful `title` on `<Video>` (iframe mode) and `<Iframe>` for better screen reader support.
+- Always set a meaningful `title` on `<Video>` and `<Iframe>` for better screen reader support.
 
 - Specify `width` and `height` to improve layout stability and avoid content shifting as media loads.
 
 - Use responsive styles (for example, `style="width: 100%; max-width: 672px; height: auto;"`) so embeds look good on smaller screens.
 
-- For important, above-the-fold media, consider `priority="true"` or `fetchPriority="high"`; otherwise, rely on lazy loading to keep pages fast.
+- Keep a `poster` on uploaded videos so the page does not load video bytes until the reader plays it.
+
+- For important, above-the-fold embeds, consider `priority="true"` (iframe mode) or `fetchPriority="high"` (video mode); otherwise, rely on lazy loading to keep pages fast.
 
 ### Security considerations for iframes
 
@@ -203,3 +234,12 @@ Most platforms provide both a shareable URL and an iframe embed code; use whiche
 
 - Only embed content from origins you trust, especially when allowing scripts or same-origin access.
 
+### Specifications
+
+- **Uploaded formats:** MP4, M4V, WebM, MOV.
+
+- **Per-file limit:** 20 MB (Starter), 30 MB (Standard), 50 MB (Professional and Enterprise).
+
+- **Poster:** Captured automatically at upload and stored with the video.
+
+- **Replace:** Keeps the URL. Same file type only.

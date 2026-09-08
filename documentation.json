@@ -113,6 +113,11 @@
                     "icon": "video"
                   },
                   {
+                    "title": "Files",
+                    "path": "components/files",
+                    "icon": "paperclip"
+                  },
+                  {
                     "title": "Code and Groups",
                     "path": "components/code-blocks-and-groups",
                     "icon": "code"
@@ -188,6 +193,11 @@
                 "title": "Branches & Previews",
                 "path": "write-and-publish/branches-and-previews",
                 "icon": "git-branch"
+              },
+              {
+                "title": "Media Library",
+                "path": "write-and-publish/media-library",
+                "icon": "images"
               },
               {
                 "title": "Using Cursor",
@@ -275,19 +285,9 @@
                 "icon": "search-check-icon",
                 "pages": [
                   {
-                    "title": "Metadata",
-                    "path": "seo-and-geo/metadata",
-                    "icon": "tags"
-                  },
-                  {
-                    "title": "Robots.txt",
-                    "path": "seo-and-geo/robots-txt",
+                    "title": "Robots.txt & llms.txt",
+                    "path": "seo-and-geo/robots-txt-and-llm-txt",
                     "icon": "file"
-                  },
-                  {
-                    "title": "llms.txt",
-                    "path": "seo-and-geo/llms-txt",
-                    "icon": "bot"
                   },
                   {
                     "title": "Sitemap",
@@ -832,10 +832,6 @@
     {
       "source": "/customize/custom-css-and-javascript",
       "destination": "/customize/custom-css"
-    },
-    {
-      "source": "/seo-and-geo/robots-txt-and-llm-txt",
-      "destination": "/seo-and-geo/robots-txt"
     }
   ]
 }

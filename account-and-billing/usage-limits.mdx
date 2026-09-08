@@ -90,6 +90,57 @@ description: Understand your plan limits and monitor your organization's usage.
 
 - Consider upgrading if regularly hitting limits
 
+## Media Storage
+
+Images, video, audio, and files uploaded to the [media library](/write-and-publish/media-library) count toward one storage quota shared by every documentation in your organization. Each plan also caps the size of a single file by type.
+
+| Plan         | Total storage | Images | Video and audio | Documents and files |
+| ------------ | ------------- | ------ | --------------- | ------------------- |
+| Starter      | 1 GB          | 10 MB  | 20 MB           | 10 MB               |
+| Standard     | 5 GB          | 10 MB  | 30 MB           | 20 MB               |
+| Professional | 20 GB         | 10 MB  | 50 MB           | 30 MB               |
+| Enterprise   | 100 GB        | 10 MB  | 50 MB           | 30 MB               |
+
+AppSumo Tier 1 and 2 use the Standard limits; Tier 3 and 4 use the Professional limits.
+
+### Supported File Types
+
+| Kind      | Formats                                                    | Size limit column     |
+| --------- | ---------------------------------------------------------- | --------------------- |
+| Images    | JPEG, PNG, GIF, WebP, SVG, ICO, HEIC/HEIF, AVIF, BMP, TIFF | Images                |
+| Video     | MP4, M4V, WebM, MOV                                        | Video and audio       |
+| Audio     | MP3, WAV, OGG, M4A, AAC                                    | Video and audio       |
+| Documents | PDF, DOCX, DOC, XLSX, XLS, PPTX, PPT, ODT, ODS, ODP        | Documents and files   |
+| Data      | CSV, TSV, JSON, YAML, XML, TXT, LOG, MD, MDX               | Documents and files   |
+| Archives  | ZIP, GZ, TGZ, TAR                                          | Documents and files   |
+| Fonts     | WOFF, WOFF2, TTF, OTF                                      | Documents and files   |
+
+Never accepted, on any plan: programs and installers (`.exe`, `.msi`, `.dmg`, `.apk`, `.jar`), scripts (`.js`, `.sh`, `.ps1`, `.bat`), macro-enabled Office files (`.docm`, `.xlsm`, `.pptm`), and web pages (`.html`, `.htm`). Uploads are verified on the server: the file's contents must match its extension, and SVG files containing scripts or embedded documents are rejected.
+
+### What Counts Toward Storage
+
+- Every file in a documentation's media library, including poster frames generated for uploaded videos
+
+- Files uploaded before the media library existed do not count until they are adopted into the library
+
+- AI assistant attachments, PDF exports, and OpenAPI specs are not counted
+
+### When You Reach Storage Limits
+
+- **80% used**: A warning appears in the media library and in Media Storage settings
+
+- **100% used**: New uploads are refused and publishing is blocked until usage is back under the limit
+
+- Already-published sites keep serving, and deleting files always works
+
+### Managing Media Storage
+
+1. Go to **Settings** → **Organization Settings** → **Media Storage**
+
+2. Review used space, per-file limits, and (as an admin) usage by documentation
+
+3. Delete unused files from the media library, or upgrade to a plan with more storage
+
 ## Monitoring Your Usage
 
 ### Check Current Usage

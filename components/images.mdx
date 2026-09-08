@@ -13,6 +13,8 @@ Use images to illustrate concepts, show UI, and make your documentation easier t
 
 - Built-in support for accessibility via required `alt` text.
 
+Uploaded images are stored in your documentation's [media library](/write-and-publish/media-library), so you can reuse, replace, and manage them from one place.
+
 You can add images in two ways:
 
 - **Web Editor:** Insert and manage images visually.
@@ -35,15 +37,25 @@ Use the Web Editor to insert and manage images without writing code. For more on
 
 3. Select **Image**.
 
-4. In the picker that appears, either:
+4. In the **Select image** dialog, either:
 
-   - Click **Upload image** to choose a file from your computer, or
+   - Click the **Upload** tile, choose a file from your computer, confirm or edit its name, and click **Upload**, or
 
-   - Select an already uploaded image from the list.
+   - Search and select an image that is already in your media library.
 
-The selected image is inserted into the page and served from an optimized CDN.
+5. Click **Insert image**.
 
-<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1767252085148-y3nnwqv3vm-pasted-image-1767252083236.png?q=85&fm=auto&auto=compress%2Cformat" width="500" height="331" alt="Upload image picker in Web Editor" caption="Upload image picker in Web Editor" style="width: 500px; height: auto; cursor: pointer; margin: 0 auto;" />
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1788844671480-znnsf6c16d-select-image-picker.png?fm=auto&auto=compress%2Cformat" width="562" height="376" alt="Select image dialog with an Upload tile, a selected image, and the Insert image button" caption="The Select image picker. Upload a new image or pick one from the library." style="width: 562px; height: auto; margin: 0 auto;" />
+
+The selected image is inserted into the page and served from an optimized CDN. Its alt text defaults to the alt text saved in the media library, or the file name.
+
+### Other ways to insert
+
+- **Media tab:** Open the **Media** tab in the editor's secondary navbar, hover an image, and click **Insert into page**, or drag the tile onto the page.
+
+- **Paste or drop:** Paste an image from the clipboard or drop an image file onto the page. The image dialog opens so you can name the file and add alt text before it is inserted.
+
+If you upload an image that already exists in the library, the existing file is reused instead of being stored twice.
 
 <Callout kind="info" collapsed="false">
   Prefer writing in code?
@@ -87,6 +99,10 @@ Hover over an image to reveal controls:
   You can copy the image URL from image properties and reuse it in other components, such as `<Card image="...">`, `<Columns>`, or additional `<Image>` blocks.
 </Callout>
 
+### Replace an image
+
+To update an image everywhere it is used without editing any page, open it in the [media library](/write-and-publish/media-library#how-to-update-a-file-everywhere-it-is-used) and click **Replace file**. The URL stays the same, so every page and component that references it shows the new version once the CDN refreshes, usually within a minute. The replacement must be the same format as the original.
+
 ## Using with Code Editor
 
 When editing pages as MDX (for example in the [Code Editor](/write-and-publish/code-editor)), use the `<Image>` component to add images directly in code.
@@ -95,12 +111,14 @@ When editing pages as MDX (for example in the [Code Editor](/write-and-publish/c
 
 ```jsx
 <Image
-  src="https://your-cdn.com/image.png"
+  src="https://blob-cdn.documentation.ai/org-.../doc-.../1757300000000-abc123-dashboard-overview.png"
   alt="Description of the image"
   width="800"
   height="600"
 />
 ```
+
+To get a URL for an uploaded image, open the **Media** tab in the web editor, hover the image, and click **Copy URL**. See [Media library](/write-and-publish/media-library#code-editor-git) for the Git-based workflow.
 
 <Image uid="fcb073e1-1a69-4d5b-86e8-41b52dac9802" src="https://fdjsuzcsbmpqsraaooua.supabase.co/storage/v1/object/public/documentation-images/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1758638266765-vc81ki2xs9-abstract-image.webp" width="672" height="343" alt="Abstract geometric pattern with colorful shapes" />
 
@@ -200,7 +218,13 @@ You can reference external images directly in MDX:
 
 - **Alt text:** Required for all images (for accessibility and SEO).
 
-- **Supported formats:** JPEG, JPG, PNG, GIF, WebP, SVG, ICO.
+- **Supported formats:** JPEG, PNG, GIF, WebP, SVG, ICO, HEIC/HEIF, AVIF, BMP, TIFF.
 
-- **CDN:** Images uploaded via the Web Editor are automatically optimized and cached.
+- **Per-file limit:** 10 MB on every plan. Compress or resize larger images before uploading.
+
+- **SVG:** Scanned on upload. SVGs containing scripts, event handlers, or embedded documents are rejected.
+
+- **CDN:** Images uploaded via the Web Editor are automatically optimized and cached, and served from `blob-cdn.documentation.ai`.
+
+- **Replace:** Keeps the URL. Same format only.
 

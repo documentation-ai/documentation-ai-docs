@@ -78,11 +78,6 @@
                 "icon": "puzzle"
               },
               {
-                "title": "Media Library",
-                "path": "write-and-publish/media-library",
-                "icon": "images"
-              },
-              {
                 "group": "Components",
                 "path": "components/components",
                 "icon": "component",
@@ -198,6 +193,11 @@
                 "title": "Branches & Previews",
                 "path": "write-and-publish/branches-and-previews",
                 "icon": "git-branch"
+              },
+              {
+                "title": "Media Library",
+                "path": "write-and-publish/media-library",
+                "icon": "images"
               },
               {
                 "title": "Using Cursor",

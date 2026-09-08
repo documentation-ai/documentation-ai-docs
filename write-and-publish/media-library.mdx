@@ -1,18 +1,18 @@
 ---
 title: Media Library
 description: >-
-  How to upload, insert, reuse, replace, and delete images, videos, and files in
-  your documentation, from the web editor or from a Git repository.
+  Upload, insert, reuse, replace, and delete images, videos, and files in your
+  documentation, from the web editor or from a Git repository.
 ---
-This guide shows you how to get images, videos, PDFs, and other files into your documentation pages using the media library, and how to manage those files afterwards.
+The media library stores every image, video, PDF, and file you upload to a documentation. Each file gets a permanent URL you can insert, reuse, and replace from the web editor or reference in MDX. The library keeps one copy of every file, so duplicate uploads are detected and reused automatically.
 
-The library keeps one copy of every file you upload to a documentation. Each file has a permanent URL. In the web editor you insert files with a click. In a Git workflow you paste the file's URL into MDX.
+<Callout kind="info" collapsed="false">
+  **Before you begin**
 
-Before you begin:
-
-- You need the **Editor** or **Admin** role to upload, insert, or replace files. Only **Admins** can delete files.
-- Check that the file is a supported type and within your plan's size limit. See [Limits and supported file types](#limits-and-supported-file-types).
-- If you work in Git, have the documentation open in the [web editor](/write-and-publish/web-editor) as well. Files are uploaded there, not committed to the repository.
+  - You need the **Editor** or **Admin** role to upload, insert, or replace files. Only **Admins** can delete files.
+  - Check that the file is a supported type and within your plan's size limit. See [Limits and supported file types](#limits-and-supported-file-types).
+  - If you work in Git, keep the documentation open in the [web editor](/write-and-publish/web-editor) as well. Files are uploaded there, not committed to the repository.
+</Callout>
 
 ## Web editor
 
@@ -53,7 +53,7 @@ Then use whichever method suits what you are doing:
   - **Image** for a screenshot, diagram, or logo
   - **Video** for a video file, or a YouTube, Vimeo, or Loom link
   - **File** for a PDF, spreadsheet, presentation, ZIP, audio clip, or font
-  In the picker, select a tile or click **Upload** to add a new file, then click **Insert**.
+    In the picker, select a tile or click **Upload** to add a new file, then click **Insert**.
 - **If the file is still on your computer**, drop it onto the page or paste it from the clipboard. An image opens a small dialog so you can name it and add alt text. Any other supported file uploads and appears as a link at the drop point.
 
 What lands on the page depends on the kind of file:
@@ -125,9 +125,9 @@ If you see "Someone else replaced this file first", reload and check the current
 
 ### How to delete a file
 
-You must be an organization admin.
-
-Before deleting, remove the file from any pages that use it. Deletion does not check for usage: pages keep working, but the deleted image, video, or link target shows as missing. If you only need newer content, use [Replace file](#how-to-update-a-file-everywhere-it-is-used) instead.
+<Callout kind="danger" collapsed="false">
+  **Admin only.** Deletion does not check whether pages still use the file. Pages keep working, but the deleted image, video, or link target shows as missing. If you only need newer content, use [Replace file](#how-to-update-a-file-everywhere-it-is-used) instead.
+</Callout>
 
 - **To delete one file**, open its detail panel, click **Delete**, and confirm.
 - **To delete several files**, open the **Media library** window, hover tiles and tick their checkboxes (or click **Select all**), click **Delete** in the bar at the bottom, and confirm. You can delete up to 100 files at once.
@@ -194,6 +194,34 @@ Replace it in the web editor. Open the **Media** tab, click the file, click **Re
 - **If you want a different file**, upload it, copy its URL, and change the `src` or link target in your MDX. The old file stays in the library until an admin deletes it.
 - **If you want to remove a file entirely**, delete every reference in MDX first, publish, then ask an admin to delete the file from the library.
 
+## Common questions
+
+<ExpandableGroup>
+  <Expandable title="Does replacing a file change its URL?" default-open="false">
+    No. The URL stays the same, so every page and component that uses the file automatically shows the new version. This is the main reason to prefer **Replace file** over deleting and re-uploading.
+  </Expandable>
+
+  <Expandable title="Why does the editor say a file is already in my library?" default-open="false">
+    The media library detects duplicate files by their content hash, not just their file name. If you upload a file that is already stored, the existing copy is reused automatically. You can still upload a file with the same name if its contents are different.
+  </Expandable>
+
+  <Expandable title="Can I organize files into folders or add tags?" default-open="false">
+    Not yet. Files are organized by documentation project, type (images, video, documents, etc.), and upload date. Use search and filters in the Media library window to find what you need.
+  </Expandable>
+
+  <Expandable title="What happens when I delete a file that pages still use?" default-open="false">
+    Deletion does not check for usage. Pages keep working, but the deleted image, video, or link target shows as missing. Remove the file from pages first, or use **Replace file** if you only need newer content.
+  </Expandable>
+
+  <Expandable title="Can I upload files directly in Git?" default-open="false">
+    No. Media files are hosted in the dashboard's media library, not committed to your repository. In a Git workflow, you upload files through the web editor's Media tab, copy the CDN URL, and reference it in MDX. See [Code editor (Git)](#code-editor-git).
+  </Expandable>
+
+  <Expandable title="Who can delete files?" default-open="false">
+    Only organization admins can delete files. Editors and admins can upload, insert, and replace files. See the permissions note at the top of this page.
+  </Expandable>
+</ExpandableGroup>
+
 ## How to check storage usage
 
 1. Go to **Settings** → **Organization Settings** → **Media Storage**.
@@ -244,7 +272,25 @@ Never accepted, on any plan: programs and installers (`.exe`, `.msi`, `.dmg`, `.
 
 ## Related
 
-- [Images](/components/images), [Videos and iframes](/components/videos-and-iframes), and [Files](/components/files) for component props and supported formats
-- [Limits and supported file types](#limits-and-supported-file-types) for plan quotas and per-file sizes
-- [Web editor](/write-and-publish/web-editor) and [Code editor](/write-and-publish/code-editor) for the two authoring workflows
+<Columns cols="3">
+  <Card title="Images" href="/components/images" icon="image" horizontal="false">
+    Component props, supported formats, and sizing for the Image component.
+  </Card>
+
+  <Card title="Videos and iframes" href="/components/videos-and-iframes" icon="video" horizontal="false">
+    Embed uploaded videos or platform links with the Video and Iframe components.
+  </Card>
+
+  <Card title="Files" href="/components/files" icon="paperclip" horizontal="false">
+    Link PDFs, documents, archives, audio, and fonts with the File slash command.
+  </Card>
+
+  <Card title="Web editor" href="/write-and-publish/web-editor" icon="globe" horizontal="false">
+    Insert and manage media visually without touching Git.
+  </Card>
+
+  <Card title="Code editor" href="/write-and-publish/code-editor" icon="code" horizontal="false">
+    Reference media URLs in MDX and manage files alongside a Git workflow.
+  </Card>
+</Columns>
 

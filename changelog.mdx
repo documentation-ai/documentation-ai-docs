@@ -2,6 +2,54 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-09-08" description="Media Library, Video Upload, AI assistant reliability, reader experience fixes, and access control enforcement" tags={["feature","improvement","fix"]}>
+  ## Media Library
+
+  A full media management system for every file in your documentation. Upload, browse, search, and insert images, videos, audio, PDFs, documents, archives, and fonts from a dedicated **Media** tab in the editor or the full-screen media library.
+
+  - Upload files by dragging them onto the editor or through the **Upload media** button, with per-file progress and rejected-file feedback
+  - Replace an image or file while keeping the same URL. Every page that references it updates on the next publish without any edits to those pages
+  - Replaced images refresh across the CDN immediately instead of serving stale cached versions
+  - Bulk-select and delete up to 100 files at once
+  - Search by filename or alt text, filter by media type, and sort by name, date, or size
+  - Switch between grid and list views
+  - Preview video, audio, and PDF content in the detail panel
+  - Browse large libraries with configurable pagination (30, 60, or 120 items per page) and auto-loading in the editor sidebar
+  - Add alt text when uploading images, prompted automatically by the editor
+
+  The `/image`, `/video`, and `/file` slash commands now open a media picker that shows your existing library first. Type a file name to search, or click **Upload** to add a new file.
+
+  Per-organization storage quotas are enforced: uploads and new publishes pause when you exceed your quota. Already-published sites continue serving.
+
+  Learn more in [Media Library](/write-and-publish/media-library).
+
+  ## Video Upload
+
+  Upload video files directly to your documentation and embed them on any page with a native video player — no external hosting, iframe embeds, or third-party video platforms required. Videos are stored and served from your media library alongside your other assets.
+
+  - Upload video files through the media library or by dragging them onto the editor, with support for MP4 and WebM formats
+  - Use the `/video` slash command in the editor to insert an uploaded video or paste an external embed URL
+  - Videos render with a native HTML5 player including playback controls, fullscreen support, and responsive sizing
+  - Set an optional poster image so readers see a thumbnail before playback starts
+  - Uploaded videos count toward your organization's storage quota and appear in the media library with type filtering
+
+  Learn more in [Videos and Iframes](/components/videos-and-iframes).
+
+  ## Improvements
+
+  - **AI Assistant stream recovery**: If your network connection drops during an AI response, the assistant automatically resumes the response without duplicating content.
+  - **Insufficient AI credits indicator**: Running out of AI credits now shows a clear status message instead of a generic error. See [AI Credits](/ai/ai-credits).
+
+  ## Fixes
+
+  - **Page renames and moves across directories**: Renaming or moving a page now correctly updates all paths. Missing destination folders are created automatically, and existing destinations are rejected instead of being silently overwritten.
+  - **Role-based access enforcement**: Role-based page restrictions are now enforced only when the setting is enabled. Password-authenticated sites no longer apply stale role mappings, and anonymous readers no longer see gated page names in the navigation.
+  - **PDF export in Atlas theme**: Long pages now paginate fully instead of cutting off. The sticky header and chat widget are excluded from PDF output.
+  - **Video embeds without a poster image**: Video players now preload metadata so an initial frame appears instead of a black rectangle.
+  - **OAuth redirect URI behind reverse proxy**: Fixed OAuth login failures for sites behind a reverse proxy by using the customer-facing domain instead of the internal service URL.
+  - **Repository link handling**: Repository and commit links in the dashboard now correctly handle `.git` suffixes, trailing slashes, and GitHub/GitLab route differences.
+</Update>
+
 <Update label="2026-09-02" description="Reusable snippets, search analytics, Intercom metadata, and bug fixes" tags={["feature","improvement","fix"]}>
   ## Reusable Snippets
 

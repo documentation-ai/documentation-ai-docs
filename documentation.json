@@ -78,6 +78,11 @@
                 "icon": "puzzle"
               },
               {
+                "title": "Media Library",
+                "path": "write-and-publish/media-library",
+                "icon": "images"
+              },
+              {
                 "group": "Components",
                 "path": "components/components",
                 "icon": "component",
@@ -111,6 +116,11 @@
                     "title": "Videos and Iframes",
                     "path": "components/videos-and-iframes",
                     "icon": "video"
+                  },
+                  {
+                    "title": "Files",
+                    "path": "components/files",
+                    "icon": "paperclip"
                   },
                   {
                     "title": "Code and Groups",

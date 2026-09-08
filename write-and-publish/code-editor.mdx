@@ -232,6 +232,20 @@ Use absolute paths from the docs root:
 
 This keeps links stable even if you move files or change navigation groups.
 
+### Images, video, and files
+
+Media files are not committed to the repository. Upload them to the documentation's [media library](/write-and-publish/media-library#code-editor-git) from the dashboard, copy the CDN URL, and reference it in MDX:
+
+````mdx
+<Image src="https://blob-cdn.documentation.ai/org-.../doc-.../1757300000000-abc123-overview.png" alt="Dashboard overview" />
+
+<Video src="https://video-cdn.documentation.ai/org-.../doc-.../1757300000000-abc123-walkthrough.mp4" poster="https://blob-cdn.documentation.ai/org-.../doc-.../1757300000000-abc123-walkthrough-poster.jpg" render-type="video" />
+
+[Download the API reference (PDF)](https://file-cdn.documentation.ai/org-.../doc-.../1757300000000-abc123-api-reference.pdf)
+````
+
+Replacing a file in the library keeps its URL, so pages update without a commit. See [Images](/components/images), [Videos and iframes](/components/videos-and-iframes), and [Files](/components/files) for props.
+
 ## Git workflow and collaboration
 
 Documentation.AI uses your Git repository as the single source of truth. A typical cycle:

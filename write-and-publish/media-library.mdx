@@ -158,9 +158,7 @@ Media files are not committed to your repository. You upload them in the dashboa
 2. If the file is not there yet, click **Upload media** and add it. You do not need to insert it into a page.
 3. Hover the tile and click **Copy URL**.
 
-If you also need a video's poster URL, switch any page to Markdown mode and insert the video from the **Media** tab. The inserted snippet contains both the video URL and the poster URL. Copy them, then undo the insert.
-
-### How to add an image, video, or file in MDX
+### How to add an image or file in MDX
 
 Paste the URL into the component that matches the kind of file. These are the same snippets the web editor writes.
 
@@ -168,28 +166,28 @@ If you want an image:
 
 ```mdx
 <Image
-  src="https://blob-cdn.documentation.ai/org-.../doc-.../1757300000000-abc123-dashboard-overview.png"
-  alt="Dashboard overview with the Media tab selected"
+  src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1788844659125-k7m4msitaol-media-tab-hover-actions.png"
+  alt="Media tab in the web editor with a hovered tile"
+  width="572"
+  height="505"
 />
 ```
 
-If you want a video file to play in the page, set `render-type="video"` and include the poster:
+Renders as:
 
-```mdx
-<Video
-  src="https://video-cdn.documentation.ai/org-.../doc-.../1757300000000-abc123-feature-walkthrough.mp4"
-  poster="https://blob-cdn.documentation.ai/org-.../doc-.../1757300000000-abc123-feature-walkthrough-poster.jpg"
-  render-type="video"
-/>
-```
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1788844659125-k7m4msitaol-media-tab-hover-actions.png?fm=auto&auto=compress%2Cformat" width="572" height="505" alt="Media tab in the web editor with a hovered tile" style="width: 420px; height: auto; margin: 0 auto;" />
 
 If you want readers to open or download a file, write a Markdown link:
 
 ```mdx
-[Download the API reference (PDF)](https://file-cdn.documentation.ai/org-.../doc-.../1757300000000-abc123-api-reference.pdf)
+[Open the demonstration (PDF)](https://file-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1788846660209-arams5u6ft-demonstration.pdf)
 ```
 
-Commit and push as usual. The file is already hosted, so it renders as soon as the build completes. For all props, see [Images](/components/images), [Videos and iframes](/components/videos-and-iframes), and [Files](/components/files).
+Renders as:
+
+[Open the demonstration (PDF)](https://file-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1788846660209-arams5u6ft-demonstration.pdf)
+
+Commit and push as usual. The file is already hosted, so it renders as soon as the build completes. For all props, see [Images](/components/images) and [Files](/components/files). For video, see [Videos and iframes](/components/videos-and-iframes).
 
 ### How to update a file without changing your MDX
 

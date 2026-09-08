@@ -2,7 +2,7 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
-<Update label="2026-09-08" description="Media Library, AI assistant reliability, reader experience fixes, and access control enforcement" tags={["feature","improvement","fix"]}>
+<Update label="2026-09-08" description="Media Library, Video Upload, AI assistant reliability, reader experience fixes, and access control enforcement" tags={["feature","improvement","fix"]}>
   ## Media Library
 
   A full media management system for every file in your documentation. Upload, browse, search, and insert images, videos, audio, PDFs, documents, archives, and fonts from a dedicated **Media** tab in the editor or the full-screen media library.
@@ -23,22 +23,31 @@ description: 'Changes, fixes, and improvements across versions'
 
   Learn more in [Media Library](/write-and-publish/media-library).
 
+  ## Video Upload
+
+  Upload video files directly to your documentation and embed them on any page with a native video player — no external hosting, iframe embeds, or third-party video platforms required. Videos are stored and served from your media library alongside your other assets.
+
+  - Upload video files through the media library or by dragging them onto the editor, with support for MP4 and WebM formats
+  - Use the `/video` slash command in the editor to insert an uploaded video or paste an external embed URL
+  - Videos render with a native HTML5 player including playback controls, fullscreen support, and responsive sizing
+  - Set an optional poster image so readers see a thumbnail before playback starts
+  - Uploaded videos count toward your organization's storage quota and appear in the media library with type filtering
+
+  Learn more in [Videos and Iframes](/components/videos-and-iframes).
+
   ## Improvements
 
   - **AI Assistant stream recovery**: If your network connection drops during an AI response, the assistant automatically resumes the response without duplicating content.
   - **Insufficient AI credits indicator**: Running out of AI credits now shows a clear status message instead of a generic error. See [AI Credits](/ai/ai-credits).
-  - **AI streaming keepalive**: Long-running AI responses now send periodic keepalive signals to prevent timeouts from proxies and load balancers.
-  - **Per-file limits removed from storage settings**: The per-file limit section has been removed from the media storage settings panel. File size limits still apply; see the [limits table](/write-and-publish/media-library#limits-and-supported-file-types) on the Media Library page.
-  - **Cached pages for authenticated readers**: Signed-in readers on sites without role-based page restrictions now receive cached pages, improving load performance while keeping responses private and non-indexable.
 
   ## Fixes
 
-  - **Page renames and moves across directories**: Renaming or moving a page across directories now correctly updates all paths on the server, in the editor, and in `documentation.json`. Missing destination folders are created automatically, and existing destinations are rejected instead of being silently overwritten.
-  - **Role-based access enforcement**: Role-based page restrictions are now enforced only when the site's role-based access setting is enabled. Password-authenticated sites no longer apply stale role mappings left over from previous JWT or OAuth settings, and anonymous readers of protected sites no longer see gated page names and paths in the navigation.
-  - **PDF export in Atlas theme**: Long pages now paginate fully instead of cutting off at the visible viewport. The sticky header and chat widget are excluded from PDF output.
+  - **Page renames and moves across directories**: Renaming or moving a page now correctly updates all paths. Missing destination folders are created automatically, and existing destinations are rejected instead of being silently overwritten.
+  - **Role-based access enforcement**: Role-based page restrictions are now enforced only when the setting is enabled. Password-authenticated sites no longer apply stale role mappings, and anonymous readers no longer see gated page names in the navigation.
+  - **PDF export in Atlas theme**: Long pages now paginate fully instead of cutting off. The sticky header and chat widget are excluded from PDF output.
   - **Video embeds without a poster image**: Video players now preload metadata so an initial frame appears instead of a black rectangle.
-  - **OAuth redirect URI behind reverse proxy**: Fixed OAuth login failures for documentation sites behind a reverse proxy. OAuth callback URLs now use the customer-facing domain from forwarded host headers instead of the internal service URL.
-  - **Repository link handling**: Repository and commit links in the dashboard now correctly handle URLs ending in `.git`, trailing slashes, and differences between GitHub and GitLab route patterns.
+  - **OAuth redirect URI behind reverse proxy**: Fixed OAuth login failures for sites behind a reverse proxy by using the customer-facing domain instead of the internal service URL.
+  - **Repository link handling**: Repository and commit links in the dashboard now correctly handle `.git` suffixes, trailing slashes, and GitHub/GitLab route differences.
 </Update>
 
 <Update label="2026-09-02" description="Reusable snippets, search analytics, Intercom metadata, and bug fixes" tags={["feature","improvement","fix"]}>

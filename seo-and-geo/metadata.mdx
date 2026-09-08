@@ -1,0 +1,202 @@
+---
+title: Metadata
+description: Control page-level SEO metadata and social sharing previews with automatic defaults and frontmatter overrides for titles, images, and URLs.
+---
+
+## Overview
+
+Documentation.AI automatically generates SEO metadata for every published page. You can override page-level values in MDX frontmatter when you need different search, social sharing, or canonical URL behavior.
+
+Automatically generated metadata includes:
+
+- Meta title and meta description
+- Canonical URL
+- Open Graph image
+- Open Graph title, description, URL, type, and image
+- Twitter card title, description, card type, and image
+- Site-level JSON-LD structured data using the `WebSite` and `Organization` schemas
+
+You can customize metadata visually through the web editor or directly in the MDX frontmatter at the top of the page file.
+
+## How to edit page metadata
+
+### In the web editor
+
+<Steps>
+<Step title="Open the page" icon="file-text">
+
+Open the web editor and select the page you want to edit from the navigation sidebar. Edit the page title and description directly at the top of the editor.
+
+</Step>
+
+<Step title="Edit the SEO & Meta section" icon="settings">
+
+In the navigation sidebar, click the three-dot menu (⋮) next to the page, then select **Edit Page Settings**. Expand the **SEO & Meta** section to edit the meta title, meta description, canonical URL, OG image URL, and JSON-LD schema.
+
+</Step>
+
+<Step title="Save and publish" icon="rocket">
+
+Click **Update Page** to save your changes, then publish your documentation so the updated metadata appears on your live site.
+
+</Step>
+</Steps>
+
+<Callout kind="info" collapsed="false">
+
+Edit the page title and description directly in the editor without opening the page settings dialog.
+
+</Callout>
+
+### In MDX frontmatter
+
+Technical users can edit metadata fields directly in the YAML frontmatter block at the top of each MDX file. See the [page configuration reference](/customize/page-configuration#properties) for the complete field list.
+
+## Meta title
+
+Documentation.AI uses the page `title` as the browser tab title and formats it as `Page Title - Site Name`. The same title is used for Open Graph metadata, Twitter cards, and automatically generated OG images.
+
+Set `metaTitle` when the title you want search engines and social platforms to display differs from the visible page title. The visible H1 remains the value of `title`. If you omit `metaTitle`, Documentation.AI falls back to `title`. You can set `metaTitle` in the **SEO & Meta** panel of the web editor or in MDX frontmatter.
+
+<CodeGroup show-lines="true" tabs={[]}>
+
+```yaml
+title: Authenticate API requests
+metaTitle: API authentication methods | Acme API
+description: Send authenticated requests to the Acme API using API keys.
+```
+
+</CodeGroup>
+
+## Meta description
+
+Documentation.AI uses the page `description` as the SEO meta description and the description shown in social sharing previews. Set `metaDescription` when you need a search snippet or social preview that differs from the visible page description.
+
+If you omit `metaDescription`, Documentation.AI falls back to `description`. You can set `metaDescription` in the **SEO & Meta** panel of the web editor or in MDX frontmatter.
+
+<CodeGroup show-lines="true" tabs={[]}>
+
+```yaml
+title: Rate limits
+description: Learn how many requests each API plan supports.
+metaDescription: Check Acme API request limits, response headers, and retry guidance for each plan.
+```
+
+</CodeGroup>
+
+## Canonical URL
+
+Documentation.AI builds the canonical URL from your site domain and the page path. For example, a page at `/introduction` on `https://docs.example.com` receives this canonical URL:
+
+```text
+https://docs.example.com/introduction
+```
+
+Set `canonical` when the page should point search engines to a different URL. Use an absolute URL. A common use case is a versioned documentation page that should point to the equivalent page in the latest version. You can set `canonical` in the **SEO & Meta** panel of the web editor or in MDX frontmatter.
+
+<CodeGroup show-lines="true" tabs={[]}>
+
+```yaml
+title: API authentication
+description: Authenticate requests to the Acme API.
+canonical: https://docs.example.com/latest/api/authentication
+```
+
+</CodeGroup>
+
+## Open Graph image
+
+When you do not provide a custom image, Documentation.AI generates a 1200 by 630 pixel Open Graph image through its internal image endpoint. The generated image can include:
+
+- The page title
+- The parent navigation group
+- The site name
+- The page description, when available
+- The site's configured dark logo
+
+Documentation.AI uses the generated image for both Open Graph and Twitter card previews. Set `ogImage` to replace it with a custom image. A 1200 by 630 pixel image is recommended. You can set `ogImage` in the **SEO & Meta** panel of the web editor or in MDX frontmatter.
+
+<CodeGroup show-lines="true" tabs={[]}>
+
+```yaml
+title: Webhook events
+description: Subscribe to events and process notifications from Acme API.
+ogImage: https://cdn.acme.com/docs/webhook-events-og.png
+```
+
+</CodeGroup>
+
+<Callout kind="info">
+
+Custom OG images must use publicly accessible absolute URLs so social platforms can fetch them.
+
+</Callout>
+
+## Open Graph and Twitter cards
+
+Documentation.AI automatically generates social metadata for every accessible published page. No additional configuration is required.
+
+The generated Open Graph metadata includes:
+
+- `og:title`
+- `og:description`
+- `og:url`
+- `og:type` with the value `article`
+- `og:image` with a 1200 by 630 pixel image
+
+The generated Twitter metadata includes:
+
+- `twitter:card` with the value `summary_large_image`
+- `twitter:title`
+- `twitter:description`
+- `twitter:image`
+
+Published and modified timestamps are included when they are available. Both platforms use the page-level title, description, canonical URL, and selected OG image described above.
+
+<Callout kind="info">
+
+Protected and private pages return `noindex, nofollow` and do not expose their real title, description, canonical URL, or OG image to unauthorized visitors.
+
+</Callout>
+
+## Structured data (JSON-LD)
+
+Documentation.AI automatically adds site-level JSON-LD to each page using the `WebSite` and `Organization` schemas. The generated data uses your site name, domain URL, and configured logo, and does not require frontmatter configuration.
+
+The `jsonLd` frontmatter field, also accepted as `jsonld`, is defined for page-level Schema.org data such as `Article`, `TechArticle`, `FAQPage`, or `HowTo`. The current renderer does not output document-level `jsonLd` values, so adding this field does not currently add page-specific structured data to the published HTML. You can set `jsonLd` in the **SEO & Meta** panel of the web editor or in MDX frontmatter.
+
+When you use the JSON-LD field in the web editor's **SEO & Meta** panel, enter valid JSON. Invalid JSON is silently skipped, so make sure the input is properly formatted.
+
+The field format is shown below for reference:
+
+<CodeGroup show-lines="true" tabs={[]}>
+
+```yaml
+title: Rotate an API key
+description: Replace an exposed API key without interrupting API access.
+jsonLd:
+  "@context": https://schema.org
+  "@type": HowTo
+  name: Rotate an API key
+  description: Replace an exposed API key without interrupting API access.
+  step:
+    - "@type": HowToStep
+      name: Create a replacement key
+      text: Create a new API key in the Acme dashboard.
+    - "@type": HowToStep
+      name: Update your integration
+      text: Replace the old key in your application configuration.
+    - "@type": HowToStep
+      name: Revoke the old key
+      text: Revoke the exposed key after the replacement is active.
+```
+
+</CodeGroup>
+
+For the complete frontmatter field list, see the [page configuration reference](/customize/page-configuration#properties).
+
+<Callout kind="info">
+
+SEO metadata applies to published pages. Changes take effect after the next publish. Verify the rendered tags with your browser's developer tools or a social preview tool such as [metatags.io](https://metatags.io/). See the [page configuration reference](/customize/page-configuration#properties) for every available frontmatter field.
+
+</Callout>

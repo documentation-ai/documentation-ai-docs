@@ -1,0 +1,119 @@
+---
+title: llms.txt
+description: Make your documentation easier for AI models to discover and understand with an automatically generated llms.txt file.
+---
+
+## Overview
+
+`llms.txt` is a standardized text file served at `/llms.txt` on your live documentation site. It helps AI models and LLM-powered tools discover and understand your documentation.
+
+When enabled, Documentation.AI generates the file during deployment. Each published page appears with its title, description, and a link to the Markdown version of the page. The file is organized by navigation sections, including tabs, groups, products, versions, and languages.
+
+Toggle generation from the **SEO** section in Site Config or configure it in `documentation.json`. See [Site-level SEO configuration](/customize/site-configuration#seo-configuration) for related settings.
+
+<Callout kind="info" collapsed="false">
+
+`llms.txt` always reflects the last published version of your documentation. Publish your changes to update the file on your live site.
+
+</Callout>
+
+## Enable or disable llms.txt
+
+Turn `llms.txt` on or off for your documentation. When enabled, Documentation.AI generates and serves the file. When disabled, the file is not served.
+
+### Using the Editor
+
+Use Site Config in the Editor to toggle `llms.txt` without editing files.
+
+<Steps>
+  <Step title="Open Site Config" icon="settings" title-type="p">
+    In the Editor, click **Site Config** in the top toolbar, then select **SEO**.
+  </Step>
+
+  <Step title="Toggle llms.txt generation" icon="toggle-right" title-type="p">
+
+    - Enable `llms.txt` to generate and serve the file at `/llms.txt`.
+    - Disable `llms.txt` if you do not want Documentation.AI to expose this file to AI crawlers.
+
+  </Step>
+
+  <Step title="Publish and verify" icon="check-circle" title-type="p">
+
+    - Changes appear in the **Changes** panel alongside content edits.
+    - Publish your documentation so the `llms.txt` change is applied to your live site.
+    - Open `/llms.txt` on your docs domain to confirm that the file is served when enabled or no longer available when disabled.
+
+  </Step>
+</Steps>
+
+### Using documentation.json
+
+Set `seo.llms-txt:enabled` to `true` or `false` in your `documentation.json` file.
+
+<CodeGroup tabs="JSON">
+
+```json
+{
+  "seo": {
+    "llms-txt:enabled": true
+  }
+}
+```
+
+</CodeGroup>
+
+Set the value to `true` to generate and serve `llms.txt`. Set it to `false` to disable generation and serving.
+
+## How llms.txt is generated
+
+During deployment, Documentation.AI iterates over the published pages in your navigation. Each page becomes an entry with a link to its Markdown representation.
+
+```text
+- [Page Title](https://docs.example.com/page-path.md): Page description
+```
+
+Documentation.AI groups entries by the navigation section that contains each page. Depending on your configuration, sections can represent a tab, group, product, version, or language.
+
+External links in your navigation are excluded because Documentation.AI cannot generate Markdown page content for them.
+
+Documentation.AI also generates an `llms-search.txt` file in parallel. This file contains the same page entries as `llms.txt` and adds the extracted H1 to H3 headings from each page, giving AI search tools more context about page content.
+
+<Callout kind="info" collapsed="false">
+
+Generation is skipped for preview deployments. Publish your documentation to generate updated `llms.txt` and `llms-search.txt` files.
+
+</Callout>
+
+## llms.txt and access control
+
+Access control determines which pages Documentation.AI includes in `llms.txt`.
+
+- **Public sites**: All published pages are included.
+- **Partial auth sites**: Only public pages are included. Pages gated behind authentication are excluded so private content is not exposed to AI crawlers.
+- **Private sites**: `llms.txt` generation is skipped entirely.
+
+The same access logic applies to your [sitemap](/seo-and-geo/sitemap). For related crawler behavior, see [robots.txt](/seo-and-geo/robots-txt). Configure public, partial, and private access modes in [Access Control](/customize/access-control/overview).
+
+## Access and verify llms.txt
+
+Verify the published file from your live documentation site after you publish a configuration change.
+
+<Steps>
+  <Step title="Open your live docs site" icon="monitor" title-type="p">
+    Open your published documentation site in a browser. Use the live domain rather than an Editor preview or preview deployment.
+  </Step>
+
+  <Step title="Open the llms.txt file" icon="file-text" title-type="p">
+
+    - Append `/llms.txt` to your documentation site's domain.
+    - When `llms.txt` is enabled, confirm that the URL returns the file with an HTTP 200 response.
+    - When `llms.txt` is disabled, confirm that the file is no longer served after you republish the documentation.
+
+  </Step>
+</Steps>
+
+<Callout kind="info" collapsed="false">
+
+Custom domains and subpath deployments use the same relative path. Open `/llms.txt` from the live documentation domain, regardless of whether your site uses a custom domain or a deployment subpath.
+
+</Callout>

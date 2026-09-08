@@ -1,0 +1,116 @@
+---
+title: Robots.txt
+description: Control search engine indexing and link following for your Documentation.AI site, then verify the published robots.txt configuration.
+---
+
+## Overview
+
+Documentation.AI automatically generates and serves a `robots.txt` file at `/robots.txt` on your live docs site. The file includes directives for search engine indexing and link following, along with a reference to your sitemap.
+
+Configure these directives from the **SEO** section in Site Config in the Editor top toolbar, or directly in [`documentation.json`](/customize/site-configuration#seo-configuration).
+
+<Callout kind="info" collapsed="false">
+
+`robots.txt` always reflects the last published version of your documentation. Publish your docs after any SEO configuration change to update the file on your live site.
+
+</Callout>
+
+## Enable or disable indexing and following
+
+Control how search engines treat your docs by enabling or disabling indexing and link following. Documentation.AI stores these settings under `seo.robots:index` and `seo.robots:follow` in `documentation.json`. Both settings default to `true`.
+
+### Using the Editor
+
+Use Site Config when you want to change robots behavior without editing configuration files.
+
+<Steps>
+  <Step title="Open Site Config" icon="settings" title-type="p">
+
+    In the Editor, click **Site Config** in the top toolbar, then select **SEO**.
+
+  </Step>
+
+  <Step title="Adjust robots directives" icon="toggle-right" title-type="p">
+
+    - Turn indexing **on or off** to control whether search engines index your docs pages. This maps to `seo.robots:index`.
+    - Turn following **on or off** to control whether search engines follow links on your docs pages. This maps to `seo.robots:follow`.
+
+  </Step>
+
+  <Step title="Publish changes" icon="rocket" title-type="p">
+
+    - Changes appear in the **Changes** panel alongside content edits.
+    - Publish your documentation so the updated robots configuration is included in the build.
+    - After publishing completes, reload `/robots.txt` on your live site to confirm that it reflects the new settings.
+
+  </Step>
+</Steps>
+
+<Callout kind="info" collapsed="false">
+
+Site Config changes to robots directives only take effect after a new publish. If `/robots.txt` does not look updated, check that the latest publish finished successfully and that you are viewing the correct environment or domain.
+
+</Callout>
+
+### Using documentation.json
+
+Define robots behavior directly in `documentation.json` when you manage site configuration in source control.
+
+<CodeGroup tabs="JSON">
+
+```json
+{
+  "seo": {
+    "robots:index": true,
+    "robots:follow": true
+  }
+}
+```
+
+</CodeGroup>
+
+`seo.robots:index` controls whether search engines may index your documentation pages. Set it to `false` to return a non-indexing directive.
+
+`seo.robots:follow` controls whether search engines may follow links from your documentation pages. Set it to `false` to return a non-following directive.
+
+## Access and verify robots.txt
+
+Verify the published file from your live site after changing either robots directive.
+
+<Steps>
+  <Step title="Open your live docs site" icon="monitor" title-type="p">
+
+    Open the public domain or custom domain where your documentation is published.
+
+  </Step>
+
+  <Step title="Open robots.txt" icon="file" title-type="p">
+
+    Append `/robots.txt` to your docs base URL. Confirm that the request returns HTTP `200` and that the file contains the expected indexing, following, and sitemap directives.
+
+  </Step>
+
+  <Step title="Check crawler access" icon="check-circle" title-type="p">
+
+    Confirm that search engine tools such as Google Search Console can access the published file.
+
+  </Step>
+</Steps>
+
+<Callout kind="info" collapsed="false">
+
+Custom domains and subpath deployments use the same relative path. Open `/robots.txt` from the base URL where your documentation is published.
+
+</Callout>
+
+## Robots and access control
+
+Access control can override the indexing behavior you configure for a public documentation site. Private or protected pages always receive `noindex, nofollow` directives, and unauthorized visitors do not receive the pages' real metadata.
+
+A fully private site returns a robots file that disallows crawling. Configure which pages require authentication from [Access control](/customize/access-control/overview).
+
+<Callout kind="info" collapsed="false">
+
+Sitemap generation is separate from robots indexing. Disabling indexing does not disable the sitemap. See [Sitemaps](/seo-and-geo/sitemap) for sitemap configuration and behavior.
+
+</Callout>

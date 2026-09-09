@@ -33,6 +33,8 @@ description: 'Changes, fixes, and improvements across versions'
 
   - **AI Assistant stream recovery**: If your network connection drops during an AI response, the assistant automatically resumes the response without duplicating content.
   - **Insufficient AI credits indicator**: Running out of AI credits now shows a clear status message instead of a generic error. See [AI Credits](/ai/ai-credits).
+  - **AI streaming reliability**: Long-running AI responses now send keepalive signals to prevent connection drops by browsers, proxies, and load balancers during periods when the agent is thinking or waiting on a tool.
+  - **Faster private documentation pages**: Signed-in readers on sites without role-based page restrictions now receive cached pages, reducing load times for authenticated traffic.
 
   ## Fixes
 
@@ -41,6 +43,7 @@ description: 'Changes, fixes, and improvements across versions'
   - **Video embeds without a poster image**: Video players now preload metadata so an initial frame appears instead of a black rectangle.
   - **OAuth redirect URI behind reverse proxy**: Fixed OAuth login failures for sites behind a reverse proxy by using the customer-facing domain instead of the internal service URL.
   - **Repository link handling**: Repository and commit links in the dashboard now correctly handle `.git` suffixes, trailing slashes, and GitHub/GitLab route differences.
+  - **Role-based access enforcement on deployed sites**: JWT and OAuth role restrictions now correctly reach deployed sites and honor the dashboard access-control switch. Password-protected sites no longer enforce stale role tags, and unauthenticated users no longer see protected navigation alongside the login gate.
 </Update>
 
 <Update label="2026-09-02" description="Reusable snippets, search analytics, Intercom metadata, and bug fixes" tags={["feature","improvement","fix"]}>

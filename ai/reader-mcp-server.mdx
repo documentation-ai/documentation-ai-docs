@@ -1,15 +1,15 @@
 ---
 title: Reader MCP Server
 description: >-
-  Give AI tools read-only MCP access to your published documentation, including
+  Give AI agents read-only MCP access to your published documentation, including
   private and gated sites, so readers can search and reference your docs from
   ChatGPT, Claude, Cursor, and other MCP clients.
 ---
-## Serve your documentation to AI tools
+## Serve your documentation to AI agents
 
-The Reader MCP Server is your own MCP endpoint, served from your documentation domain. It gives MCP-compatible tools read-only access to your published documentation so they can search, retrieve, and reference your content without any ability to change it. Public documentation is available without authentication. Private, partial, and password-protected documentation is accessible through two authentication types: OAuth 2.1 for interactive client connections, and machine-to-machine credentials for automated access without a browser.
+The Reader MCP Server is your own MCP endpoint, served from your documentation domain. It gives MCP-compatible agents read-only access to your published documentation so they can search, retrieve, and reference your content without any ability to change it. Public documentation is available without authentication. Private, partial, and password-protected documentation is accessible through two authentication types: OAuth 2.1 for interactive client connections, and machine-to-machine credentials for automated access without a browser.
 
-This is the server your **readers** connect to: customers, support teams, solution engineers, and internal users, along with the AI tools they work in. If you are looking for the server your documentation team connects to in order to _write_ docs, see the [Authoring MCP Server](/ai/authoring-mcp-server).
+This is the server your **readers** connect to: customers, support teams, solution engineers, and internal users, along with the AI agents they work in. If you are looking for the server your documentation team connects to in order to _write_ docs, see the [Authoring MCP Server](/ai/authoring-mcp-server).
 
 <Callout kind="note" collapsed="false">
   The Reader MCP Server was previously called the **Docs MCP Server**. Only the name changed. Your endpoint, its behavior, and any existing client configurations continue to work unchanged.
@@ -191,9 +191,9 @@ Your MCP client discovers the tool and its parameters automatically when it conn
 
 Choose the Reader MCP Server when the goal is documentation retrieval, not documentation management.
 
-- **Customer-facing documentation**: Let customers connect AI tools to your published docs for product questions, onboarding, and API lookup.
+- **Customer-facing documentation**: Let customers connect AI agents to your published docs for product questions, onboarding, and API lookup.
 - **Support and success workflows**: Help your team answer from the same published docs your customers use.
-- **AI assistants and copilots**: Add a retrieval layer over your docs so responses stay tied to current published content.
+- **AI agents and copilots**: Add a retrieval layer over your docs so responses stay tied to current published content.
 
 ## Troubleshooting
 
@@ -220,4 +220,3 @@ Choose the Reader MCP Server when the goal is documentation retrieval, not docum
     Setup, supported tools, and the full read and write tool reference.
   </Card>
 </Columns>
-

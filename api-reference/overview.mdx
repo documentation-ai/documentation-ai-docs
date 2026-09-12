@@ -1,8 +1,9 @@
 ---
 title: REST API
-description: Read and update your documentation, publish deployments, and pull analytics through the Documentation.AI REST API.
+description: >-
+  Read and update your documentation, publish deployments, and pull analytics
+  through the Documentation.AI REST API.
 ---
-
 ## Overview
 
 The Documentation.AI REST API provides programmatic access to your documentation project through a standard REST interface. You can read pages, search content, manage branches, push file changes, publish deployments, and read analytics, the same operations available in the dashboard, accessible from your own scripts, CI/CD pipelines, or backend services.
@@ -28,19 +29,17 @@ Before using the Documentation.AI REST API, make sure you have the following:
 5. Choose a name, role (Viewer, Editor, or Admin), and expiration
 6. Copy the generated key immediately; it will only be shown once
 
-<Callout kind="alert">
+<Callout kind="alert" collapsed="false">
   Store your API key securely. Do not commit it to version control or expose it in client-side code. Use environment variables or a secrets manager.
 </Callout>
 
-<Callout kind="info">
-
-If you want AI-assisted authoring instead of direct HTTP requests, use the [Authoring MCP Server](/ai/authoring-mcp-server). This page covers the REST API.
-
+<Callout kind="info" collapsed="false">
+  If you want AI-assisted authoring instead of direct HTTP requests, use the [Authoring MCP Server](/ai/authoring-mcp-server). This page covers the REST API.
 </Callout>
 
 ## Base URL
 
-```
+```typescript
 https://api.documentationai.app/api/v1
 ```
 
@@ -59,11 +58,11 @@ API keys are generated from the dashboard under **Settings → API Keys**. Each 
 
 Every API key carries a role that determines which endpoints are accessible.
 
-| Role | Read endpoints | Write endpoints |
-| --- | --- | --- |
-| **Viewer** | All read endpoints, including analytics | None |
-| **Editor** | All read endpoints | Push, branches, merge, deploy |
-| **Admin** | All read endpoints | All write endpoints |
+| Role       | Read endpoints                          | Write endpoints               |
+| ---------- | --------------------------------------- | ----------------------------- |
+| **Viewer** | All read endpoints, including analytics | None                          |
+| **Editor** | All read endpoints                      | Push, branches, merge, deploy |
+| **Admin**  | All read endpoints                      | All write endpoints           |
 
 Write endpoints return `403 Forbidden` if the API key role does not have sufficient permissions.
 
@@ -73,12 +72,12 @@ Deploying sits behind **editor** because it publishes to your live site. Analyti
 
 Each API key has a per-minute request limit configured at creation time. Rate limit information is included in every response via headers:
 
-| Header | Description |
-| --- | --- |
-| `x-ratelimit-limit` | Maximum requests per minute |
-| `x-ratelimit-remaining` | Requests remaining in the current window |
-| `x-ratelimit-reset` | Unix timestamp when the window resets |
-| `retry-after` | Seconds to wait before retrying (only on 429 responses) |
+| Header                  | Description                                             |
+| ----------------------- | ------------------------------------------------------- |
+| `x-ratelimit-limit`     | Maximum requests per minute                             |
+| `x-ratelimit-remaining` | Requests remaining in the current window                |
+| `x-ratelimit-reset`     | Unix timestamp when the window resets                   |
+| `retry-after`           | Seconds to wait before retrying (only on 429 responses) |
 
 When the limit is exceeded, the API returns `429 Too Many Requests`.
 
@@ -86,29 +85,29 @@ When the limit is exceeded, the API returns `429 Too Many Requests`.
 
 List all pages in your documentation:
 
-<CodeGroup>
-```bash cURL
-curl https://api.documentationai.app/api/v1/pages \
-  -H "Authorization: Bearer dai_your_api_key"
-```
+<CodeGroup show-lines="true" tabs={["cURL","Node.js","Python"]}>
+  ```bash cURL
+  curl https://api.documentationai.app/api/v1/pages \
+    -H "Authorization: Bearer dai_your_api_key"
+  ```
 
-```javascript Node.js
-const response = await fetch('https://api.documentationai.app/api/v1/pages', {
-  headers: { 'Authorization': 'Bearer dai_your_api_key' }
-});
-const data = await response.json();
-console.log(data.pages);
-```
+  ```javascript Node.js
+  const response = await fetch('https://api.documentationai.app/api/v1/pages', {
+    headers: { 'Authorization': 'Bearer dai_your_api_key' }
+  });
+  const data = await response.json();
+  console.log(data.pages);
+  ```
 
-```python Python
-import requests
+  ```python Python
+  import requests
 
-response = requests.get(
-    'https://api.documentationai.app/api/v1/pages',
-    headers={'Authorization': 'Bearer dai_your_api_key'}
-)
-print(response.json()['pages'])
-```
+  response = requests.get(
+      'https://api.documentationai.app/api/v1/pages',
+      headers={'Authorization': 'Bearer dai_your_api_key'}
+  )
+  print(response.json()['pages'])
+  ```
 </CodeGroup>
 
 ## Push Changes
@@ -131,7 +130,7 @@ curl -X POST https://api.documentationai.app/api/v1/push \
   }'
 ```
 
-<Callout kind="info">
+<Callout kind="info" collapsed="false">
   Pushing to the deployment branch (usually `main`) triggers a live deployment. Use a feature branch for draft changes, then merge when ready.
 </Callout>
 

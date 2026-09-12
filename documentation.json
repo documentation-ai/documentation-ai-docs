@@ -609,6 +609,37 @@
                 "icon": "bar-chart4-icon"
               }
             ]
+          },
+          {
+            "group": "Paper Guide",
+            "expandable": true,
+            "pages": [
+              {
+                "title": "Introduction",
+                "path": "paper-guide/introduction",
+                "icon": "star"
+              },
+              {
+                "title": "Getting Started",
+                "path": "paper-guide/getting-started",
+                "icon": "zap"
+              },
+              {
+                "title": "Features",
+                "path": "paper-guide/features",
+                "icon": "layout-grid"
+              },
+              {
+                "title": "Collaboration",
+                "path": "paper-guide/collaboration",
+                "icon": "users"
+              },
+              {
+                "title": "FAQ",
+                "path": "paper-guide/faq",
+                "icon": "help-circle"
+              }
+            ]
           }
         ]
       },

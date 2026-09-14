@@ -4,7 +4,7 @@ description: Manage team members and understand user permissions in your organiz
 ---
 ## User Roles Overview
 
-Documentation.ai has two user roles for organization members:
+Documentation.ai has three user roles for organization members:
 
 ### Admin Role
 
@@ -19,6 +19,24 @@ Documentation.ai has two user roles for organization members:
 - Make changes to projects and settings
 
 - Publish documentation
+
+- Delete and unpublish documentation
+
+### Editor Role
+
+**Content editing and publishing permissions:**
+
+- Create, edit, and delete documentation files
+
+- Restructure navigation and edit page settings
+
+- Create branches, submit pull requests, and merge branches
+
+- Save and publish documentation changes
+
+- Cannot manage organization members or settings
+
+- Cannot delete or unpublish documentation
 
 ### Viewer Role
 
@@ -50,7 +68,7 @@ Documentation.ai has two user roles for organization members:
 
    - Multiple users: `user1@example.com, user2@example.com, user3@example.com`
 
-5. Select the role (Admin or Viewer)
+5. Select the role (Admin, Editor, or Viewer)
 
 6. Click **Invite**
 
@@ -84,7 +102,7 @@ Access the members list at **Settings** → **Organization Settings** → **Memb
 
 3. Select **Change Role**
 
-4. Choose new role (Admin or Viewer)
+4. Choose new role (Admin, Editor, or Viewer)
 
 5. Click **Save**
 
@@ -122,6 +140,8 @@ Access the members list at **Settings** → **Organization Settings** → **Memb
 
 - Admins have full control across all documentation projects
 
+- Editors can create, edit, and publish documentation across all projects
+
 - Viewers have read-only access across all documentation projects
 
 ### Multi-Organization Users
@@ -137,6 +157,8 @@ Access the members list at **Settings** → **Organization Settings** → **Memb
 ### Role Assignment
 
 - **Use Admin role for**: Team leads, content managers, developers who need full access
+
+- **Use Editor role for**: Technical writers, developers, and contributors who need to create, edit, and publish documentation but don't need to manage the organization
 
 - **Use Viewer role for**: Stakeholders, clients, or team members who only need to read documentation
 

@@ -1,54 +1,35 @@
 ---
 title: Authoring MCP Server
 description: >-
-  Connect AI agents to your documentation project to read, edit, review, and
-  publish documentation as a collaborator in the web editor.
+  Connect AI clients to Documentation.AI to read, edit, and publish your
+  documentation, and see every tool the server provides.
 ---
 ## Overview
 
-Use the Authoring MCP Server to let an MCP-compatible AI client work directly in your documentation project. The agent can read pages, write and reorganize content, update `documentation.json`, review what changed, and publish, using the same editing workflow your team uses in the web editor.
+The Authoring MCP Server lets an MCP-compatible AI client work in your documentation project. It can read pages, write and reorganize content, update `documentation.json`, manage branches, and publish changes.
 
-This is the server your **documentation team** connects to. It is Documentation.AI's endpoint, and it uses your organization role. The server your readers connect to in order to search your published docs is the [Reader MCP Server](/ai/reader-mcp-server).
-
-The Authoring MCP Server and the Documentation.AI REST API cover similar documentation-management tasks through different interfaces. Choose the Authoring MCP Server when you want an AI client or agent to do the work, and choose the REST API when you want direct HTTP access from your own scripts, services, or CI/CD. For endpoint details, see the [API reference overview](/api-reference/overview).
+This is the server your **documentation team** connects to, and it uses your role in your Documentation.AI organization. To give readers AI access to your published docs, use the [Reader MCP Server](/ai/reader-mcp-server). To work over HTTP from your own scripts or CI/CD, use the [REST API](/api-reference/overview).
 
 ## How edits work
 
-The agent works as a collaborator in the [real-time editor](/write-and-publish/collaboration). It does not commit to your repository on its own.
-
-- **Edits are unpublished changes.** Every change the agent makes appears immediately in the editor for anyone on the same branch, and in the Changes panel, just like a teammate's edits. Nothing reaches your repository or your live site until the changes are published.
-- **Your team sees who is editing.** The agent appears in the editor under your name together with the name of the AI client, and teammates see a notice naming who published.
-- **Publishing includes everyone's work.** Publishing a branch publishes every unpublished change on it, including edits teammates made in the editor. Review the pending changes before you ask the agent to publish.
-- **Only the live branch updates your site.** Publishing the branch your site deploys from, or merging another branch into it, updates your live documentation. Publishing any other branch saves the changes to that branch only.
+- Changes the agent makes appear in the web editor as unpublished changes, the same as a teammate's edits.
+- Nothing goes live until the changes are published.
+- Publishing a branch includes every unpublished change on it, including your teammates' edits.
 
 <Callout kind="alert" collapsed="false">
-  The server acts with your Documentation.AI permissions, so an editor or admin can publish to the live site through it. Connect it only to AI clients you trust, and ask the agent to work on a separate branch when you want a review before anything goes live.
+  The server acts with your Documentation.AI permissions. Connect it only to AI clients you trust, and ask the agent to work on a separate branch when you want a review before anything goes live.
 </Callout>
 
 ## Setup and authentication
 
-Add the server URL to your MCP client, then sign in with your Documentation.AI account. The server uses OAuth, so there are no API keys or tokens to manage.
+Add the server URL to your MCP client, then sign in with your Documentation.AI account. No API keys are needed.
 
 ```text
 https://api.documentation.ai/mcp
 ```
 
-<Steps>
-  <Step title="Add the server to your client" icon="terminal" title-type="p">
-    Add the server URL in your MCP-compatible client. For client-specific instructions, see [Configure your MCP client](#configure-your-mcp-client).
-  </Step>
-
-  <Step title="Sign in with your Documentation.AI account" icon="lock" title-type="p">
-    Your client discovers the sign-in endpoints and opens a browser window. Sign in with the account you use for the Documentation.AI dashboard.
-  </Step>
-
-  <Step title="Approve access" icon="check-circle" title-type="p">
-    After you approve access, the client finishes connecting and lists the server's tools.
-  </Step>
-</Steps>
-
 <Callout kind="info" collapsed="false">
-  If you connected with the earlier URL, `https://api.documentationai.app/mcp`, it keeps working. When you switch to the new URL, your client asks you to sign in once more.
+  The earlier URL, `https://api.documentationai.app/mcp`, keeps working. If you switch to the new URL, sign in once more.
 </Callout>
 
 ## Configure your MCP client
@@ -104,9 +85,9 @@ https://api.documentation.ai/mcp
   </Tab>
 
   <Tab title="Other clients" icon="plug">
-    If your client supports remote MCP servers over HTTP, give it the server URL and let it handle sign-in.
+    If your client supports remote MCP servers, give it the server URL and sign in when prompted.
 
-    If your client can only run local servers, bridge the connection with `mcp-remote`:
+    If your client can only run local servers, connect through `mcp-remote`:
 
     ```json
     {
@@ -123,102 +104,71 @@ https://api.documentation.ai/mcp
 
 ## Choose a project and branch
 
-Every tool call works on one documentation project and one branch. You rarely need to set these by hand: tell the agent which documentation and branch to work on, and it calls the right tools.
-
-- **Project.** `list_projects` returns your organizations, their documentation projects, and your role in each. Pass `organizationId` and `documentationId` together on any call to target a project for that call only, or call `select_project` to set a default. Your default project is remembered for seven days.
-- **Branch.** Tools work on your live branch unless you say otherwise. Pass `branch` on a single call, or pass `branch` to `select_project` to use it for the rest of the session. `list_branches` lists your branches and marks the live one.
+Tell the agent which documentation project and branch to work on. It finds and selects the project with `list_projects` and `select_project`, and works on your live branch unless you name a different one.
 
 ## Example workflow
 
-This is the branch-and-review pattern the tools are designed around. Describe the task to your AI client, and it calls the tools in order.
+Describe the task to your AI client in plain language, and it calls the tools for you.
 
 <Steps>
   <Step title="Choose where to work" icon="folder" title-type="p">
-    Ask the agent to use your documentation project and to create a branch for the work, such as `update-api-guides`. It calls `list_projects`, `create_branch`, and `select_project` with that branch.
-  </Step>
-
-  <Step title="Read before editing" icon="book-open" title-type="p">
-    The agent finds pages with `search` or `list_pages`, reads them with `get_page`, and checks component syntax with `get_component_reference`.
+    Ask the agent to use your documentation project and to create a branch for the work, such as `update-api-guides`.
   </Step>
 
   <Step title="Make the changes" icon="edit" title-type="p">
-    The agent edits with `update_page`, adds pages with `create_page`, reorganizes with `move_page`, and changes navigation or settings with `update_site_config`. Each change appears in the editor as an unpublished change.
+    Ask for the changes you want. The agent reads the relevant pages and edits them.
   </Step>
 
   <Step title="Review" icon="eye" title-type="p">
-    Ask the agent to summarize what changed. It uses `list_changes` and `diff_page`, and you can review the same changes in the editor's Changes panel.
+    Ask the agent to summarize what changed, or review the changes in the editor's Changes panel.
   </Step>
 
   <Step title="Publish the branch" icon="upload" title-type="p">
-    The agent calls `publish` with a summary of the changes. Because this is not your live branch, the changes are saved to the branch and your site is unchanged.
+    Ask the agent to publish. The changes are saved to the branch, and your live site is unchanged.
   </Step>
 
   <Step title="Go live" icon="rocket" title-type="p">
-    When the branch is ready, the agent calls `merge_branches` with `base` set to your live branch and `head` set to the working branch. This updates your live documentation.
+    When the branch is ready, ask the agent to merge it into your live branch.
   </Step>
 </Steps>
 
 <Callout kind="tip" collapsed="false">
-  For small fixes, the agent can edit the live branch directly. The edits stay unpublished until it calls `publish`, so you can review them in the Changes panel first.
+  For small fixes, the agent can edit your live branch directly. The edits stay unpublished until you ask it to publish, so you can review them first.
 </Callout>
 
 ## Tools reference
 
-The server provides 25 tools. Each tool declares whether it only reads, changes content, or makes a change that is hard to undo, and MCP clients use this to decide when to ask for your confirmation.
+The server provides 25 tools. Read-only tools never change your documentation. Destructive tools make changes that are hard to undo, so most clients ask you to confirm them first.
 
-| Tool                      | What it does                                                | Minimum role | Behavior                 |
-| ------------------------- | ----------------------------------------------------------- | ------------ | ------------------------ |
-| `list_projects`           | Lists your organizations, documentation projects, and roles | Viewer       | Read-only                |
-| `select_project`          | Sets the default project and, optionally, branch            | Viewer       | Changes session settings |
-| `get_component_reference` | Returns MDX component syntax and examples                   | Viewer       | Read-only                |
-| `get_config_reference`    | Returns the `documentation.json` reference                  | Viewer       | Read-only                |
-| `get_site_config`         | Returns `documentation.json`                                | Viewer       | Read-only                |
-| `list_pages`              | Lists files on a branch                                     | Viewer       | Read-only                |
-| `get_page`                | Returns the current content of a file                       | Viewer       | Read-only                |
-| `search`                  | Searches your live documentation                            | Viewer       | Read-only                |
-| `fetch`                   | Returns a page found by `search`                            | Viewer       | Read-only                |
-| `list_changes`            | Lists unpublished changes on a branch                       | Viewer       | Read-only                |
-| `diff_page`               | Shows the unpublished changes to one file                   | Viewer       | Read-only                |
-| `list_branches`           | Lists branches and marks the live one                       | Viewer       | Read-only                |
-| `list_pull_requests`      | Lists pull requests                                         | Viewer       | Read-only                |
-| `create_page`             | Creates a page or other file                                | Editor       | Changes content          |
-| `update_page`             | Replaces exact text in a page                               | Editor       | Changes content          |
-| `rewrite_page`            | Replaces the content of a page                              | Editor       | Changes content          |
-| `update_site_config`      | Updates values in `documentation.json`                      | Editor       | Changes content          |
-| `resolve_conflict`        | Saves the reconciled version of a conflicting file          | Editor       | Changes content          |
-| `create_branch`           | Creates a branch                                            | Editor       | Changes content          |
-| `move_page`               | Moves or renames a file                                     | Editor       | Destructive              |
-| `delete_page`             | Deletes a file                                              | Editor       | Destructive              |
-| `publish`                 | Publishes all unpublished changes on a branch               | Editor       | Destructive              |
-| `revert_changes`          | Discards unpublished changes                                | Editor       | Destructive              |
-| `merge_branches`          | Merges one branch into another                              | Editor       | Destructive              |
-| `delete_branch`           | Deletes a branch                                            | Editor       | Destructive              |
+| Tool                      | What it does                                                | Minimum role | Behavior        |
+| ------------------------- | ----------------------------------------------------------- | ------------ | --------------- |
+| `list_projects`           | Lists your organizations, documentation projects, and roles | Viewer       | Read-only       |
+| `select_project`          | Sets the default project and branch                         | Viewer       | Session setting |
+| `get_component_reference` | Returns MDX component syntax and examples                   | Viewer       | Read-only       |
+| `get_config_reference`    | Returns the `documentation.json` settings reference         | Viewer       | Read-only       |
+| `get_site_config`         | Returns `documentation.json`                                | Viewer       | Read-only       |
+| `list_pages`              | Lists the files in your project                             | Viewer       | Read-only       |
+| `get_page`                | Returns the content of a file                               | Viewer       | Read-only       |
+| `search`                  | Searches your published documentation                       | Viewer       | Read-only       |
+| `fetch`                   | Returns a page from a search result                         | Viewer       | Read-only       |
+| `list_changes`            | Lists unpublished changes on a branch                       | Viewer       | Read-only       |
+| `diff_page`               | Shows the unpublished changes to a file                     | Viewer       | Read-only       |
+| `list_branches`           | Lists branches and shows which one is live                  | Viewer       | Read-only       |
+| `list_pull_requests`      | Lists pull requests                                         | Viewer       | Read-only       |
+| `create_page`             | Creates a page or another file                              | Editor       | Makes changes   |
+| `update_page`             | Replaces specific text in a page                            | Editor       | Makes changes   |
+| `rewrite_page`            | Replaces the full content of a page                         | Editor       | Makes changes   |
+| `update_site_config`      | Changes values in `documentation.json`                      | Editor       | Makes changes   |
+| `resolve_conflict`        | Saves the resolved version of a conflicting file            | Editor       | Makes changes   |
+| `create_branch`           | Creates a branch                                            | Editor       | Makes changes   |
+| `move_page`               | Moves or renames a file                                     | Editor       | Destructive     |
+| `delete_page`             | Deletes a file                                              | Editor       | Destructive     |
+| `publish`                 | Publishes the unpublished changes on a branch               | Editor       | Destructive     |
+| `revert_changes`          | Discards unpublished changes                                | Editor       | Destructive     |
+| `merge_branches`          | Merges one branch into another                              | Editor       | Destructive     |
+| `delete_branch`           | Deletes a branch                                            | Editor       | Destructive     |
 
-### Common parameters
-
-These parameters work the same way wherever a tool accepts them.
-
-<ParamField body="organizationId" param-type="string" required="false" deprecated="false" show-location="false">
-  Organization ID from `list_projects`. Pass it together with `documentationId` to target a project for one call. Omit both to use your default project.
-</ParamField>
-
-<ParamField body="documentationId" param-type="string" required="false" deprecated="false" show-location="false">
-  Documentation project ID from `list_projects`. Pass it together with `organizationId`.
-</ParamField>
-
-<ParamField body="branch" param-type="string" required="false" deprecated="false" show-location="false">
-  Branch name from `list_branches`. Defaults to the branch set with `select_project`, or your live branch.
-</ParamField>
-
-<ParamField body="limit" param-type="integer" required="false" deprecated="false" show-location="false">
-  List tools only. Maximum entries to return, from 1 to 500. Defaults to 200.
-</ParamField>
-
-<ParamField body="cursor" param-type="string" required="false" deprecated="false" show-location="false">
-  List tools only. The `nextCursor` value from the previous call, to get the next set of results.
-</ParamField>
-
-File paths are relative to the project root and include the extension, such as `guides/setup.mdx`. Navigation entries in `documentation.json` use the path without the extension, such as `guides/setup`.
+Most tools also accept `organizationId` and `documentationId` to work on a specific project, and `branch` to work on a specific branch. Tools that return lists accept `limit` and `cursor` to page through results.
 
 ### Projects
 
@@ -229,7 +179,7 @@ File paths are relative to the project root and include the extension, such as `
 </Expandable>
 
 <Expandable title="select_project" default-open="false">
-  Sets the default documentation project for later calls, and optionally a default branch for the rest of the session. The project is remembered for seven days.
+  Sets the documentation project, and optionally the branch, that later calls use by default.
 
   <ParamField body="organizationId" param-type="string" required="true" deprecated="false" show-location="false">
     Organization ID from `list_projects`
@@ -240,46 +190,44 @@ File paths are relative to the project root and include the extension, such as `
   </ParamField>
 
   <ParamField body="branch" param-type="string" required="false" deprecated="false" show-location="false">
-    Branch to use by default for this session. Omit it to use your live branch.
+    Branch to work on. Defaults to your live branch.
   </ParamField>
 </Expandable>
 
 ### Authoring reference
 
-These tools work without selecting a project.
-
 <Expandable title="get_component_reference" default-open="false">
-  Returns the Documentation.AI MDX component reference, including attributes, allowed values, and examples, plus page frontmatter, reusable snippets, and custom CSS and scripts.
+  Returns the syntax, attributes, and examples for Documentation.AI MDX components.
 
   <ParamField body="component" param-type="string" required="false" deprecated="false" show-location="false">
-    Section to return, such as `Callout` or `Reusable snippets`. Omit it for the full reference.
+    Component to describe, such as `Callout`. Omit it for every component.
   </ParamField>
 </Expandable>
 
 <Expandable title="get_config_reference" default-open="false">
-  Returns the `documentation.json` reference, generated from the same schema that validates your configuration.
+  Returns the reference for `documentation.json` settings.
 
   <ParamField body="section" param-type="string" required="false" deprecated="false" show-location="false">
-    Setting or structure to describe, such as `navigation`, `redirects`, or `customCss`. Omit it for an overview of every setting.
+    Setting to describe, such as `navigation` or `redirects`. Omit it for an overview of every setting.
   </ParamField>
 </Expandable>
 
 ### Read content
 
 <Expandable title="get_site_config" default-open="false">
-  Returns `documentation.json` from a branch, including unpublished changes to navigation, branding, SEO, redirects, and integrations. If the file is not valid JSON, the tool returns the parse error and the raw file so it can be repaired.
+  Returns your `documentation.json`, including navigation, branding, and site settings.
 
-  **Parameters:** Common parameters only
+  **Parameters:** `branch` (optional)
 </Expandable>
 
 <Expandable title="list_pages" default-open="false">
-  Lists every file on a branch, including unpublished additions, with its path and size. The list includes `documentation.json`, OpenAPI specs, and other files as well as pages.
+  Lists the files in your documentation project.
 
-  **Parameters:** Common parameters only
+  **Parameters:** `branch` (optional)
 </Expandable>
 
 <Expandable title="get_page" default-open="false">
-  Returns the current content of one file, including unpublished changes and frontmatter. Files over 200 KB are truncated, and the result says so.
+  Returns the content of a file, including unpublished changes.
 
   <ParamField body="path" param-type="string" required="true" deprecated="false" show-location="false">
     File path including the extension, such as `guides/setup.mdx`
@@ -287,91 +235,85 @@ These tools work without selecting a project.
 </Expandable>
 
 <Expandable title="search" default-open="false">
-  Searches your live documentation by meaning and keywords, and returns each match with its title, file path, URL, and a snippet. Results reflect your last live deployment, so unpublished changes and other branches are not searched.
+  Searches your published documentation and returns matching pages with a title, link, and snippet.
 
   <ParamField body="query" param-type="string" required="true" deprecated="false" show-location="false">
-    Topic or keywords to search for
+    What to search for
   </ParamField>
 
   <ParamField body="limit" param-type="integer" required="false" deprecated="false" show-location="false">
-    Maximum results, from 1 to 50. Defaults to 10.
-  </ParamField>
-
-  <ParamField body="semanticRatio" param-type="number" required="false" deprecated="false" show-location="false">
-    Balance between meaning and exact wording, from `0` (keywords only) to `1` (meaning only). Defaults to `0.75`.
+    Maximum number of results, from 1 to 50. Defaults to 10.
   </ParamField>
 </Expandable>
 
 <Expandable title="fetch" default-open="false">
-  Returns the current content of a page found by `search`, with its title, URL, and metadata. The content includes unpublished changes, so it can be newer than the published page.
+  Returns the content of a page from a search result.
 
   <ParamField body="id" param-type="string" required="true" deprecated="false" show-location="false">
-    The `id` from a search result. A path without the extension also works.
+    The `id` from a search result
   </ParamField>
 </Expandable>
 
 ### Edit content
 
-These tools create unpublished changes on the branch. Nothing reaches your live site until the changes are published.
-
 <Expandable title="create_page" default-open="false">
-  Creates a new file. Use it for pages and for other files such as stylesheets, scripts, and snippets. An MDX page must start with frontmatter that includes a `title`. Creating a file that already exists fails instead of overwriting it.
+  Creates a page or another file, such as a stylesheet or snippet, and can add the page to the navigation.
 
   <ParamField body="path" param-type="string" required="true" deprecated="false" show-location="false">
     File path including the extension, such as `guides/webhooks.mdx`
   </ParamField>
 
   <ParamField body="content" param-type="string" required="true" deprecated="false" show-location="false">
-    The complete file content, including frontmatter for an MDX page
+    The file content. An MDX page starts with frontmatter that includes a `title`.
   </ParamField>
 
   <ParamField body="addToNav" param-type="object" required="false" deprecated="false" show-location="false">
-    Adds the page to the navigation in the same call. Set `title`, and either `after` (the navigation path of a page to follow) or `parent` (the JSON pointer of a group or tab, with an optional `position`).
+    Where to add the page in the navigation, and the title to show there
   </ParamField>
 </Expandable>
 
 <Expandable title="update_page" default-open="false">
-  Replaces exact text in a page. Each `old_string` must match the page's current text exactly and appear only once, unless `replaceAll` is set. If any edit matches nothing, the whole call is refused, the page is left unchanged, and the current text is returned.
+  Replaces specific text in a page.
 
   <ParamField body="path" param-type="string" required="true" deprecated="false" show-location="false">
     File path including the extension
   </ParamField>
 
   <ParamField body="edits" param-type="array" required="true" deprecated="false" show-location="false">
-    Up to 100 replacements, applied in order. Each has `old_string` and `new_string`. An empty `new_string` deletes the text.
+    The replacements to make. Each has the text to find, `old_string`, and the text to use instead, `new_string`.
   </ParamField>
 
   <ParamField body="replaceAll" param-type="boolean" required="false" deprecated="false" show-location="false">
-    Replace every occurrence instead of refusing when the text appears more than once. Defaults to `false`.
+    Replace every occurrence of the text. Defaults to `false`.
   </ParamField>
 </Expandable>
 
 <Expandable title="rewrite_page" default-open="false">
-  Replaces the content of a page for changes too structural to express as replacements. The change is applied line by line, so teammates' concurrent edits are preserved where possible.
+  Replaces the full content of a page.
 
   <ParamField body="path" param-type="string" required="true" deprecated="false" show-location="false">
     File path including the extension
   </ParamField>
 
   <ParamField body="content" param-type="string" required="true" deprecated="false" show-location="false">
-    The complete new file content, including frontmatter
+    The new content of the page, including frontmatter
   </ParamField>
 </Expandable>
 
 <Expandable title="move_page" default-open="false">
-  Moves or renames a file, keeping its content and editing history, and updates every navigation entry that points to it. Moving a page changes its URL once published, so add a redirect to keep existing links working. The move fails if a file already exists at the destination.
+  Moves or renames a file and updates its navigation entries. Add a redirect to keep links to the old URL working.
 
   <ParamField body="path" param-type="string" required="true" deprecated="false" show-location="false">
     Current file path including the extension
   </ParamField>
 
   <ParamField body="destination" param-type="string" required="true" deprecated="false" show-location="false">
-    Full destination path including the extension, not just a new file name
+    New file path including the extension
   </ParamField>
 </Expandable>
 
 <Expandable title="delete_page" default-open="false">
-  Deletes a file and removes its navigation entries. `revert_changes` restores it until the deletion is published.
+  Deletes a file and removes it from the navigation.
 
   <ParamField body="path" param-type="string" required="true" deprecated="false" show-location="false">
     File path including the extension
@@ -379,23 +321,23 @@ These tools create unpublished changes on the branch. Nothing reaches your live 
 </Expandable>
 
 <Expandable title="update_site_config" default-open="false">
-  Updates `documentation.json` by adding, replacing, or removing values at JSON pointers. The change is validated first: a change that would break the site, such as a navigation entry for a page that does not exist, is refused with the reason, and the file is left unchanged.
+  Changes values in `documentation.json`, such as navigation entries, colors, or redirects.
 
   <ParamField body="patches" param-type="array" required="true" deprecated="false" show-location="false">
-    Up to 100 changes, applied in order. Each has `op` (`add`, `replace`, or `remove`), `path` (a JSON pointer such as `/navigation/tabs/0/groups/1/pages/-`), and `value` for `add` and `replace`.
+    The changes to make. Each has an `op` (`add`, `replace`, or `remove`), the `path` of the setting, and a `value` for `add` and `replace`.
   </ParamField>
 </Expandable>
 
 ### Review and publish
 
 <Expandable title="list_changes" default-open="false">
-  Lists unpublished changes on a branch, with each file's status: added, modified, or deleted. It includes changes from everyone working on the branch.
+  Lists the unpublished changes on a branch.
 
-  **Parameters:** Common parameters only
+  **Parameters:** `branch` (optional)
 </Expandable>
 
 <Expandable title="diff_page" default-open="false">
-  Shows a line-by-line comparison of the unpublished changes to one file. Comparisons over 100 KB are truncated.
+  Shows the unpublished changes to a file.
 
   <ParamField body="path" param-type="string" required="true" deprecated="false" show-location="false">
     File path including the extension
@@ -403,27 +345,27 @@ These tools create unpublished changes on the branch. Nothing reaches your live 
 </Expandable>
 
 <Expandable title="publish" default-open="false">
-  Publishes every unpublished change on the branch, including teammates' edits. Publishing your live branch updates your live site. If newer published content conflicts with the changes, nothing is published and the tool returns each conflicting file with the disputed passages.
+  Publishes all unpublished changes on a branch. Publishing your live branch updates your live site.
 
   <ParamField body="commitMessage" param-type="string" required="true" deprecated="false" show-location="false">
-    Summary of the changes, from 1 to 500 characters
+    A short summary of the changes
   </ParamField>
 </Expandable>
 
 <Expandable title="resolve_conflict" default-open="false">
-  Saves the reconciled version of a file after `publish` reports a conflict. Start from the merged file the conflict returned, settle each disputed passage, then call `publish` again.
+  Saves the resolved version of a file when publishing reports a conflict.
 
   <ParamField body="path" param-type="string" required="true" deprecated="false" show-location="false">
     File path from the conflict
   </ParamField>
 
   <ParamField body="content" param-type="string" required="true" deprecated="false" show-location="false">
-    The complete reconciled file, including frontmatter
+    The resolved content of the file
   </ParamField>
 </Expandable>
 
 <Expandable title="revert_changes" default-open="false">
-  Discards unpublished changes to one file, or to every file on the branch, including teammates' changes. Discarded work cannot be recovered, and changes that are already published are not affected.
+  Discards unpublished changes to one file, or to every file on a branch.
 
   <ParamField body="path" param-type="string" required="false" deprecated="false" show-location="false">
     File to restore. Omit it to discard every unpublished change on the branch.
@@ -433,13 +375,13 @@ These tools create unpublished changes on the branch. Nothing reaches your live 
 ### Branches
 
 <Expandable title="list_branches" default-open="false">
-  Lists branches with the latest published change on each, marks the live branch, and shows whether direct publishing is restricted.
+  Lists your branches and shows which one is live.
 
-  **Parameters:** `limit` and `cursor`
+  **Parameters:** None
 </Expandable>
 
 <Expandable title="list_pull_requests" default-open="false">
-  Lists pull requests with their source and target branches, status, and link.
+  Lists pull requests for your documentation.
 
   <ParamField body="state" param-type="string" required="false" deprecated="false" show-location="false">
     `open`, `closed`, or `all`. Defaults to `open`.
@@ -447,10 +389,10 @@ These tools create unpublished changes on the branch. Nothing reaches your live 
 </Expandable>
 
 <Expandable title="create_branch" default-open="false">
-  Creates a branch from the latest published state of another branch. Unpublished changes are not copied.
+  Creates a branch.
 
   <ParamField body="branchName" param-type="string" required="true" deprecated="false" show-location="false">
-    Name for the new branch, without spaces
+    Name for the new branch
   </ParamField>
 
   <ParamField body="sourceBranch" param-type="string" required="false" deprecated="false" show-location="false">
@@ -459,7 +401,7 @@ These tools create unpublished changes on the branch. Nothing reaches your live 
 </Expandable>
 
 <Expandable title="merge_branches" default-open="false">
-  Merges the published changes from one branch into another. Merging into your live branch updates your live site. Unpublished changes on the source branch are not included. If both branches changed the same passage, nothing is merged.
+  Merges one branch into another. Merging into your live branch updates your live site.
 
   <ParamField body="base" param-type="string" required="true" deprecated="false" show-location="false">
     Branch that receives the changes
@@ -470,12 +412,12 @@ These tools create unpublished changes on the branch. Nothing reaches your live 
   </ParamField>
 
   <ParamField body="commitMessage" param-type="string" required="false" deprecated="false" show-location="false">
-    Summary of the merge
+    A short summary of the merge
   </ParamField>
 </Expandable>
 
 <Expandable title="delete_branch" default-open="false">
-  Deletes a branch. Your live branch cannot be deleted, and there is no undo.
+  Deletes a branch. Your live branch cannot be deleted.
 
   <ParamField body="branchName" param-type="string" required="true" deprecated="false" show-location="false">
     Branch to delete
@@ -484,64 +426,50 @@ These tools create unpublished changes on the branch. Nothing reaches your live 
 
 ## Resources
 
-The server also exposes reference resources. Many clients do not load resources automatically, which is why the same information is available from `get_component_reference`, `get_config_reference`, and `get_site_config`.
+The server also provides these reference resources:
 
-| Resource             | URI                     | Description                                                           |
-| -------------------- | ----------------------- | --------------------------------------------------------------------- |
-| Components Reference | `docs://components`     | MDX components with attributes and usage examples                     |
-| Config Reference     | `docs://config-schema`  | The complete `documentation.json` reference                           |
-| Project Config       | `docs://project/config` | The current `documentation.json` for your selected project and branch |
+| Resource             | URI                     | Description                                 |
+| -------------------- | ----------------------- | ------------------------------------------- |
+| Components Reference | `docs://components`     | MDX components with attributes and examples |
+| Config Reference     | `docs://config-schema`  | The `documentation.json` settings reference |
+| Project Config       | `docs://project/config` | Your project's current `documentation.json` |
 
 ## Role-based access
 
-Your role in the organization that owns a project decides what you can do in that project.
+Your role in your Documentation.AI organization decides which tools you can use.
 
-| Role       | Access                                                                                                                                                                                                                                              |
-| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Viewer** | Read and review tools: `list_projects`, `select_project`, `get_component_reference`, `get_config_reference`, `get_site_config`, `list_pages`, `get_page`, `search`, `fetch`, `list_changes`, `diff_page`, `list_branches`, and `list_pull_requests` |
-| **Editor** | All tools, including editing, publishing, and branch operations                                                                                                                                                                                     |
-| **Admin**  | All tools                                                                                                                                                                                                                                           |
+| Role       | Access                                 |
+| ---------- | -------------------------------------- |
+| **Viewer** | Read-only tools, plus `select_project` |
+| **Editor** | All tools                              |
+| **Admin**  | All tools                              |
 
-Your role is checked on every call. If you are an editor in one organization and a viewer in another, your client lists the editing tools, but they are refused on projects where you are a viewer.
-
-If your team wants an AI client to read published documentation without any ability to change it, use the [Reader MCP Server](/ai/reader-mcp-server) instead.
-
-## Limits
-
-- List tools return up to 200 entries per call by default and up to 500 on request. Pass `nextCursor` as `cursor` to get more.
-- `search` returns up to 50 results per call.
-- `get_page` returns files up to 200 KB, and `diff_page` returns comparisons up to 100 KB. Larger results are truncated and marked.
-- Each user can make up to 120 requests per minute.
-- A session closes after 30 minutes without activity. Your client starts a new session on its next request.
+If you want an AI client to read your published documentation without being able to change it, use the [Reader MCP Server](/ai/reader-mcp-server) instead.
 
 ## Troubleshooting
 
 <Expandable title="Sign-in fails or the browser window never completes" default-open="false">
-  Make sure you are signed in to the Documentation.AI dashboard in the same browser, then remove the server from your client and add it again to restart sign-in. If your client cannot connect to remote servers, use the `mcp-remote` configuration under **Other clients**.
+  Make sure you are signed in to the Documentation.AI dashboard in the same browser, then remove the server from your client and add it again. If your client cannot connect to remote servers, use the `mcp-remote` configuration under **Other clients**.
 </Expandable>
 
 <Expandable title="A tool says no documentation project is selected" default-open="false">
-  Ask the agent to call `list_projects` and then `select_project`, or to pass `organizationId` and `documentationId` on the call. The error message also lists the projects you can access.
+  Ask the agent to list your projects and select the one you want to work on.
 </Expandable>
 
 <Expandable title="An editing tool is refused" default-open="false">
-  Editing, publishing, and branch changes require the editor or admin role in the organization that owns the project. Check your role with `list_projects`.
+  Editing, publishing, and branch changes require the editor or admin role. Ask an admin in your organization to update your role.
 </Expandable>
 
-<Expandable title="An edit reports that the text was not found" default-open="false">
-  The page changed since the agent read it, or the text is stored differently from how it was written. Saving normalizes pages, for example by adding default attributes to components. The failed call returns the page's current text, so the agent can rebuild the edit from it.
+<Expandable title="Publishing reports a conflict" default-open="false">
+  Someone published changes to the same part of a page, so nothing was published. Ask the agent to resolve the conflict, then publish again.
 </Expandable>
 
-<Expandable title="Publishing reports conflicts" default-open="false">
-  Nothing was published. Someone published newer changes to the same passages. Ask the agent to reconcile each file with `resolve_conflict`, then publish again.
+<Expandable title="Search does not find a new page" default-open="false">
+  Search covers your published documentation, so new or unpublished pages do not appear yet. Ask the agent to list your pages instead.
 </Expandable>
 
-<Expandable title="Search does not find a page that was just added" default-open="false">
-  `search` reads your last live deployment. Pages that are unpublished, or only on another branch, do not appear until they are published to your live branch. Use `list_pages` and `get_page` to find them.
-</Expandable>
-
-<Expandable title="New tools do not appear after an update" default-open="false">
-  Start a new conversation, or reconnect the server in your client, so it loads the current tool list.
+<Expandable title="New tools do not appear" default-open="false">
+  Start a new conversation, or reconnect the server in your client.
 </Expandable>
 
 ## Related resources

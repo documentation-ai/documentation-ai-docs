@@ -52,14 +52,14 @@ Use `documentation.json` when you manage site configuration in version control o
 
 ```json
 {
-  "css": [
+  "customCss": [
     { "src": "styles/custom.css" },
     { "src": "https://cdn.example.com/external-styles.css" }
   ]
 }
 ```
 
-Each item in the `css` array supports one field:
+Each item in the `customCss` array is an object with one field. A plain string instead of an object is ignored.
 
 - **`src`** (string, required): Relative path to a `.css` file in your project, or an external HTTPS URL
 
@@ -69,9 +69,11 @@ Follow these rules when adding a stylesheet:
 
 - Files must use a **`.css`** extension
 - Paths are **relative to the project root**, such as `styles/brand.css`
-- Maximum file size is **5 MB**
-- The file must already exist in your documentation project before you reference it
-- External URLs must use **HTTPS**
+- Maximum file size is **1 MB** per file
+- The file must exist in your documentation project when you publish
+- External URLs should use **HTTPS**, because browsers block HTTP stylesheets on HTTPS sites
+
+A project stylesheet that is missing, larger than 1 MB, or has an invalid path does not fail your deployment. It is skipped, and the rest of your site publishes as usual.
 
 <Callout kind="info">
 
@@ -290,7 +292,7 @@ Styles load in this order:
 
 1. **Built-in base styles** for layout and components
 2. **Theme CSS variables** from the `documentation.json` colors configuration
-3. **Custom CSS stylesheets** from your `css` array, in the order listed
+3. **Custom CSS stylesheets** from your `customCss` array, in the order listed
 
 Because custom stylesheets load last, they can override earlier styles.
 
@@ -328,6 +330,11 @@ Because custom stylesheets load last, they can override earlier styles.
   <Expandable title="External stylesheet is not loading">
 
   Verify that the URL is accessible over HTTPS and that the host allows cross-origin requests. If the server blocks the request or redirects to a non-HTTPS endpoint, the stylesheet may fail to load.
+
+  </Expandable>
+  <Expandable title="A stylesheet from the project is ignored">
+
+  Stylesheets that break the [file requirements](#file-requirements) are skipped when your site deploys. Check that the entry is an object with `src`, that the path is relative and ends in `.css`, that the file exists on the branch you published, and that it is 1 MB or smaller.
 
   </Expandable>
 </ExpandableGroup>

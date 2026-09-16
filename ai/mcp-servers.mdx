@@ -9,17 +9,17 @@ Documentation.AI provides two MCP servers. They differ by **who connects to them
 
 The **Reader MCP Server** is your endpoint, served from your documentation domain. Your readers connect to it to search and reference your published documentation: customers, support teams, internal users, and the AI agents they work in. Public content is available without authentication. Private, partial, and password-protected content is accessible through OAuth 2.1 or machine-to-machine credentials. This server was previously called the Docs MCP Server.
 
-The **Authoring MCP Server** is Documentation.AI's endpoint. Your documentation team connects to it from an AI coding tool to edit pages, manage branches, and deploy changes.
+The **Authoring MCP Server** is Documentation.AI's endpoint. Your documentation team connects to it from an AI client to edit pages alongside teammates in the web editor, manage branches, and publish changes.
 
 ## Compare the servers
 
 | | Reader MCP Server | Authoring MCP Server |
 | --- | --- | --- |
 | **Who connects** | Your readers, support teams, and internal users | Your documentation team |
-| **Endpoint** | Your docs domain, for example `docs.yourdomain.com/_mcp` (or `/_mcp/auth` for access-controlled sites) | `api.documentationai.app/mcp` |
-| **Access** | Read-only. Public content without authentication, gated content with OAuth 2.1 or machine-to-machine credentials | Read and write |
+| **Endpoint** | Your docs domain, for example `docs.yourdomain.com/_mcp` (or `/_mcp/auth` for access-controlled sites) | `api.documentation.ai/mcp` |
+| **Access** | Read-only. Public content without authentication, gated content with OAuth 2.1 or machine-to-machine credentials | Read and write. Edits stay unpublished until you publish them |
 | **Setup** | None for public sites. For access-controlled sites, connect with OAuth 2.1 or use machine-to-machine credentials. | Connect your client, then sign in with OAuth 2.1 |
-| **Permissions** | Public content, or gated content scoped by access roles on MCP credentials | Your Documentation.AI workspace role |
+| **Permissions** | Public content, or gated content scoped by access roles on MCP credentials | Your role in the Documentation.AI organization |
 
 <Callout kind="info">
 
@@ -34,10 +34,10 @@ If you are choosing between them, ask who is connecting. If the answer is "someo
     Give AI agents read-only access to your published documentation.
   </Card>
   <Card title="Authoring MCP Server" href="/ai/authoring-mcp-server" icon="square-pen">
-    Edit docs, manage branches, and deploy from an MCP-compatible AI client.
+    Edit docs, manage branches, and publish from an MCP-compatible AI client.
   </Card>
 </Columns>
 
 ## If you would rather use HTTP
 
-The Documentation.AI REST API covers largely the same documentation-management tasks as the Authoring MCP Server, through a different interface. Use the REST API when you want direct HTTP access from your own scripts, services, or CI/CD, and use the Authoring MCP Server when you want an MCP-compatible AI client to do the work. See the [API reference overview](/api-reference/overview).
+The Documentation.AI REST API covers similar documentation-management tasks to the Authoring MCP Server, through a different interface. Use the REST API when you want direct HTTP access from your own scripts, services, or CI/CD, and use the Authoring MCP Server when you want an MCP-compatible AI client to do the work. See the [API reference overview](/api-reference/overview).

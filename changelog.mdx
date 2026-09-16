@@ -2,6 +2,20 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-09-16" description="Dimension-scoped search, wider editor column, faster authenticated page loads, and deployment reliability fixes" tags={["improvement","fix"]}>
+  ## Improvements
+
+  - **Dimension-scoped search**: Search results now respect the version, language, and product context selected by the reader. When a reader is viewing a specific version or language, search only returns pages from that context. See [Dimensions](/organize/dimensions).
+  - **Wider editor column**: The editor content column is now wider, giving more room for wide blocks like Board and tables without horizontal scrolling.
+  - **Faster page loads for authenticated readers**: Access-controlled sites that use password, JWT, or OAuth without role-based access now serve authenticated readers from a cached document instead of rendering each page request individually. Pages load faster with no change to access control behavior.
+
+  ## Fixes
+
+  - **Quotes in component titles**: Titles containing quotation marks on Expandable, Card, Step, and Tab components no longer cause deployment failures. The editor now correctly serializes quotes in MDX component attributes.
+  - **Table of contents anchor links**: Anchor links in the table of contents and Step/Update components now resolve correctly when titles contain special characters or encoded entities.
+  - **Role-based access toggle**: Turning off role-based access now properly removes page restrictions even if `access-roles` tags remain in the navigation. Password-protected sites ignore leftover role tags from a previous JWT or OAuth configuration, and the authentication gate no longer exposes the full site navigation to unauthenticated visitors.
+</Update>
+
 <Update label="2026-09-08" description="Media Library, Video Upload, AI assistant reliability, reader experience fixes, and access control enforcement" tags={["feature","improvement","fix"]}>
   ## Media Library
 

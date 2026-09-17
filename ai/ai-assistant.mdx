@@ -70,7 +70,7 @@ Configure the AI Assistant from its dedicated settings area. You can control whe
 
 ### Conversation behavior
 
-- **Custom Instructions** – add assistant-specific guidance to shape tone, scope, or response behavior. Custom instructions are limited to **200 words**.
+- **Custom Instructions** – add assistant-specific guidance to shape tone, scope, or response behavior. Custom instructions are limited to **500 words**.
 
 - **Starter Questions** – add up to **3** suggested questions to help users begin. Each starter question can be up to **200 characters**.
 
@@ -81,6 +81,34 @@ Configure the AI Assistant from its dedicated settings area. You can control whe
 - **Fallback to support** – route users to support when the assistant cannot answer confidently. You can configure fallback to a support email address or a support URL.
 
 - **Invisible CAPTCHA bot protection** – protect the assistant from automated abuse without adding a visible challenge for most users.
+
+### Strict dimensions
+
+Control whether the AI assistant searches across all dimensions or stays scoped to the reader's current context.
+
+- **When enabled** – the assistant only answers from the reader's current product, version, and language, preventing cross-dimension answers that could confuse readers.
+
+- **When disabled or omitted** – the assistant searches across all dimensions and indicates where the answer came from.
+
+- **When to use it** – enable strict mode when your content varies significantly across dimensions and cross-dimension answers may be misleading or incorrect.
+
+- **How to enable** – in the dashboard, go to Editor → Site Config → Dimensions (Layers icon) → toggle "Strict mode" on.
+
+- **Config key** – set `search.strict-dimensions` to `true` in `documentation.json`:
+
+  ```json
+  {
+    "search": {
+      "strict-dimensions": true
+    }
+  }
+  ```
+
+<Callout kind="info">
+
+Learn more about how dimensions work in [Dimensions](/organize/dimensions).
+
+</Callout>
 
 ## Where users access the assistant
 

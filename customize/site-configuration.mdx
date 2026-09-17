@@ -42,7 +42,6 @@ Templates control the overall layout and visual style of your documentation site
 Use the `template` field in `documentation.json` to pick between the built-in layouts:
 
 - `"classic"` - Default layout focused on a familiar docs experience
-
 - `"atlas"` - Alternative layout optimized for richer navigation and content density
 
 You can declare the template field as `template: "classic" | "atlas"`.
@@ -232,11 +231,9 @@ flowchart TB
 
 **Dimensions → Views → Content**
 
-1. **Dimensions** define *where* in your documentation the reader currently is (e.g., which product, version, or language)
-
-2. **Views** define *how* content is organized and navigated within that context (e.g., tabs or dropdowns)
-
-3. **Content** defines *what* the reader sees (e.g., groups and pages of documentation)
+1. **Dimensions** define _where_ in your documentation the reader currently is (e.g., which product, version, or language)
+2. **Views** define _how_ content is organized and navigated within that context (e.g., tabs or dropdowns)
+3. **Content** defines _what_ the reader sees (e.g., groups and pages of documentation)
 
 <Callout kind="note" collapsed="false">
   **Navigation Rule**: Each container must choose exactly ONE child type. For
@@ -252,9 +249,7 @@ When using [partial access control](/customize/access-control/password#partial-a
   Controls visibility when access control mode is `partial`. Can be applied to dimensions, views, and content nodes.
 
   - `true` makes this node and its descendants public
-
   - `false` makes this node and its descendants protected
-
   - Omit to inherit from the nearest parent that defines it
 
   The closest explicit value wins for any subtree.
@@ -288,13 +283,9 @@ Dimensions describe the organizational axes of your documentation. They define c
 ### Dimension Behavior
 
 - **Optional**: Use dimensions only when needed for your documentation structure
-
 - **Flexible Order**: Dimensions can be nested in any order (e.g., `products → versions → languages` or `versions → languages`)
-
 - **Single Root**: Navigation must start with one dimension type at the root level
-
 - **User Selection**: When users select a dimension value, the system filters content to show only what belongs to that context
-
 - **UI Display**: Currently rendered as dropdown selectors at the top of your documentation
 
 ### Dimension Configuration
@@ -315,7 +306,7 @@ Each dimension item must have a unique identifier and can contain nested dimensi
   Controls visibility for this dimension and its descendants in partial access control mode. See [Visibility Control](#visibility-control-with-public).
 </ParamField>
 
-<CodeGroup show-lines="true" tabs={[]}>
+<CodeGroup show-lines="true">
   ```json
   {
     "navigation": {
@@ -393,7 +384,7 @@ Each dimension item must have a unique identifier and can contain nested dimensi
 
 You can nest multiple dimensions to create sophisticated organizational structures. Dimensions can be combined in any order based on your documentation needs.
 
-<CodeGroup show-lines="true" tabs={[]}>
+<CodeGroup show-lines="true">
   ```json
   {
     "navigation": {
@@ -595,7 +586,7 @@ You can nest multiple dimensions to create sophisticated organizational structur
 <Callout kind="note" collapsed="false">
   **Dimension Order Matters**: The order of nested dimensions affects user
   experience. Consider what users will select first. For example, `products →
-                versions` works well when users first choose a product, then its version. Use
+                  versions` works well when users first choose a product, then its version. Use
   `versions → products` if version selection is more important for your use
   case.
 </Callout>
@@ -697,9 +688,7 @@ Tabs create horizontal navigation sections that are visible at the top of your d
 **Tab Children** (choose ONE):
 
 - `dropdowns` - Array of dropdown items
-
 - `groups` - Array of content groups
-
 - `pages` - Array of individual pages
 
 ### Dropdown Configuration
@@ -760,11 +749,8 @@ Dropdowns create collapsible sections in the sidebar for hierarchical navigation
 **Dropdown Children** (choose ONE):
 
 - `tabs` - Array of tab items
-
 - `dropdowns` - Array of nested dropdown items
-
 - `groups` - Array of content groups
-
 - `pages` - Array of individual pages
 
 ---
@@ -777,7 +763,7 @@ The content layer contains your actual documentation files organized into groups
 
 For straightforward documentation without version or product variants, start directly with views or content.
 
-<CodeGroup show-lines="true" tabs={[]}>
+<CodeGroup show-lines="true">
   ```json
   {
     "navigation": {
@@ -916,7 +902,6 @@ Groups organize related pages into collapsible sections within your sidebar navi
 **Group Children** (choose ONE):
 
 - Array of individual page items
-
 - Array mixing page items with nested group items
 
 ### Pages Configuration
@@ -1070,9 +1055,7 @@ Pages arrays support flexible organization by mixing individual pages with neste
 This example demonstrates:
 
 - **Individual pages** (`Overview`, `External Design System`) appear alongside
-
 - **Nested group items** (`Layout Components`) with their own page collections
-
 - All coexisting within the same `pages` array
 
 ## OpenAPI Integration
@@ -1080,21 +1063,13 @@ This example demonstrates:
 Generate comprehensive API documentation automatically from OpenAPI specifications. Documentation.AI supports two connection types: group-level for automatic endpoint generation, and page-level for injecting OpenAPI content into custom pages. Below is the list of feature that are supported.&#x20;
 
 - **Automatic endpoint generation** - Creates individual `.mdx` files for each API endpoint
-
 - **Selectively hide endpoints** - Use `hidden-apis` to exclude specific endpoints from generation
-
 - **Connect individual endpoints** - Link a specific endpoint to a custom page with `openapi` on pages
-
 - **Interactive examples** - Request/response components with syntax highlighting
-
 - **Parameter documentation** - Automatic ParamField generation from schema
-
 - **Authentication docs** - Security scheme documentation from OpenAPI security definitions
-
 - **Status code handling** - Multiple response examples per endpoint
-
 - **Tag-based grouping** - Endpoints are organized by their OpenAPI tags
-
 - **Inheritance** - Child elements inherit parent OpenAPI specs unless overridden
 
 ### Group-level OpenAPI Connection
@@ -1219,21 +1194,15 @@ Add the `openapi` property to a page with the format `"filepath METHOD /endpoint
 **Auto mode** (default) injects comprehensive documentation:
 
 - Parameter documentation with types and descriptions
-
 - Endpoint description from OpenAPI spec
-
 - Request code examples in multiple languages
-
 - Response examples for all status codes
-
 - Interactive API playground
 
 **Custom mode** injects minimal content, preserving your custom page structure:
 
 - Interactive API playground
-
 - Request code examples
-
 - Response examples
 
 ```json
@@ -1453,6 +1422,26 @@ Configure search engine optimization and meta tag behavior.
   Generate and serve `/llms.txt` and `/llms-full.txt` files for LLM consumption. Default: `true`. See [Robots.txt & llms.txt](/seo-and-geo/robots-txt-and-llm-txt) for details.
 </ParamField>
 
+## Search Configuration
+
+Configure AI assistant retrieval behavior to control how search results are scoped across documentation dimensions.
+
+```json
+{
+  "search": {
+    "strict-dimensions": true
+  }
+}
+```
+
+<ParamField path="strict-dimensions" param-type="boolean" required="false" deprecated="false" show-location="true">
+  When `true`, the AI assistant only answers from the reader's current product, version, and language. When `false` or omitted, the assistant searches across all dimensions and indicates where the answer came from. See [AI Assistant](/ai/ai-assistant#strict-dimensions) for behavioral details.
+</ParamField>
+
+<Callout kind="info" collapsed="false">
+  Strict dimensions only applies to documentation projects that use [Dimensions](/organize/dimensions). If your project has no dimensions, this setting has no effect.
+</Callout>
+
 ## Navigation Examples
 
 Comprehensive examples demonstrating different navigation architectures for various use cases.
@@ -1658,7 +1647,7 @@ Complex documentation with products, versions, and language support.
 
 Demonstrating the three standard UI template patterns.
 
-<CodeGroup show-lines="true" tabs={[]}>
+<CodeGroup show-lines="true">
   ```json
   {
     "navigation": {

@@ -1,8 +1,59 @@
 ---
-title: From GitBook
-description: "Migrate to Documentation.AI: From GitBook guide."
+title: Migrate from GitBook
+description: >-
+  See what moves when you migrate a GitBook site to Documentation.AI, and what
+  you decide along the way.
 ---
+You can migrate a GitBook site from its live address or from its Git Sync repository. The steps are the same as for every platform. See [Migrate to Documentation.AI](/migrations/overview).
 
-# From GitBook
+## What you can migrate from
 
-[How-to Guide] Follow this From GitBook guide to move your content with minimal friction and preserved structure.
+- **Your live site**, such as `https://acme.gitbook.io/docs`. The migrator reads the Markdown copy that GitBook publishes for each page.
+- **Your Git Sync repository**, with its `SUMMARY.md` and `.gitbook.yaml` files. Tell your assistant the folder where you cloned it.
+
+## What moves
+
+| In GitBook                                          | In Documentation.AI                                                  |
+| --------------------------------------------------- | -------------------------------------------------------------------- |
+| Sections on a live site                             | Tabs                                                                 |
+| Section groups, such as a **Resources** menu        | A tab with a dropdown for each section                               |
+| The table of contents, including nested pages       | The same sidebar groups and pages, in the same order                 |
+| A page with subpages                                | A group that opens on that page                                      |
+| Hint blocks                                         | `Callout`                                                            |
+| Tabs                                                | `Tabs`                                                               |
+| Steppers                                            | `Steps`                                                              |
+| Expandable `details` blocks                         | `Expandable`                                                         |
+| Embeds                                              | An embedded frame, or a link when the site does not allow framing    |
+| Tables shown as cards                               | Cards in columns                                                     |
+| Updates                                             | `Update` entries                                                     |
+| Code blocks, including their titles                 | Code blocks with titles                                              |
+| API operations written as OpenAPI blocks            | A reference on the page: method, path, parameters, and response fields |
+| Redirects in `.gitbook.yaml`                        | Redirects                                                            |
+| Colors, logo, favicon, and header links             | Your site's look, which you review at the second decision            |
+
+<Callout kind="tip" collapsed="false">
+  If your API reference loads an OpenAPI file from a URL, give that address to your assistant. The migrator can then bring the specification with your pages.
+</Callout>
+
+## What needs your decision
+
+- Files in your repository that the table of contents does not list, at the first decision
+- Sections and variants when you migrate from a repository, which you arrange at the first decision
+- Buttons, drawings, math, and conditional content, at the second decision
+
+## What does not move
+
+- **Ask** buttons that open GitBook's assistant. They work only in GitBook.
+- Your footer, custom fonts, and banner. See [What does not move](/migrations/overview#what-does-not-move).
+
+## Related
+
+<Columns cols="2">
+  <Card title="Migrate to Documentation.AI" href="/migrations/overview" icon="arrow-right-left" horizontal="false">
+    The steps and decisions of a migration.
+  </Card>
+
+  <Card title="Redirects" href="/customize/redirects-and-rewrites" icon="repeat" horizontal="false">
+    How redirects work on your Documentation.AI site.
+  </Card>
+</Columns>

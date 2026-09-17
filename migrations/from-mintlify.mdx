@@ -1,8 +1,57 @@
 ---
-title: From Mintlify
-description: "Migrate to Documentation.AI: From Mintlify guide."
+title: Migrate from Mintlify
+description: >-
+  See what moves when you migrate a Mintlify site to Documentation.AI, and what
+  you decide along the way.
 ---
+You can migrate a Mintlify site from its live address or from its repository. The steps are the same as for every platform. See [Migrate to Documentation.AI](/migrations/overview).
 
-# From Mintlify
+## What you can migrate from
 
-[How-to Guide] Follow this From Mintlify guide to move your content with minimal friction and preserved structure.
+- **Your live site**, such as `https://docs.acme.com`. The migrator reads the Markdown copy that Mintlify publishes for each page.
+- **Your repository**, with its `docs.json` or `mint.json` file. Tell your assistant the folder where you cloned it.
+
+## What moves
+
+| In Mintlify                                                          | In Documentation.AI                                                    |
+| -------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Tabs, groups, anchors, dropdowns, menus, languages, and versions     | The same navigation, in the same order                                 |
+| Hidden pages and tabs                                                | Copied. At the first decision, you choose whether to add them to the sidebar |
+| Sidebar icons and tags                                               | Sidebar icons and badges                                               |
+| `Note`, `Tip`, `Info`, `Warning`, `Check`, and `Danger`              | `Callout`                                                              |
+| `Accordion` and `AccordionGroup`                                     | `Expandable` and `ExpandableGroup`                                     |
+| `Card`, `CardGroup`, and `Columns`                                   | `Card` and `Columns`                                                   |
+| `Tabs`, `Steps`, `CodeGroup`, and `Update`                           | The same components                                                    |
+| `Frame` and videos                                                   | `Image` and `Video`                                                    |
+| `ParamField`, `ResponseField`, `RequestExample`, and `ResponseExample` | API components                                                      |
+| `Tree` and `FileTree`                                                | Expandable folders                                                     |
+| Snippets imported without props                                      | The snippet's content, on each page that uses it                       |
+| OpenAPI endpoint pages                                               | Endpoint pages with method badges in the sidebar                       |
+| Redirects                                                            | Redirects                                                              |
+| Custom heading IDs                                                   | Links to those headings keep working                                   |
+| Colors, logo, favicon, and navbar links                              | Your site's look, which you review at the second decision              |
+
+## What needs your decision
+
+At the second decision, your assistant shows each of these with the pages that use it:
+
+- Custom React components from your `snippets` or `components` folder
+- Snippets used with props
+- Expressions written in braces, such as `{user.name}`
+
+## What does not move
+
+- Generated SDK reference pages
+- Your footer, custom fonts, and banner. See [What does not move](/migrations/overview#what-does-not-move).
+
+## Related
+
+<Columns cols="2">
+  <Card title="Migrate to Documentation.AI" href="/migrations/overview" icon="arrow-right-left" horizontal="false">
+    The steps and decisions of a migration.
+  </Card>
+
+  <Card title="OpenAPI Import" href="/api-documentation-and-playground/openapi-import" icon="file-code" horizontal="false">
+    How Documentation.AI builds endpoint pages from a specification.
+  </Card>
+</Columns>

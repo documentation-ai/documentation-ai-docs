@@ -59,6 +59,63 @@
             ]
           },
           {
+            "group": "Migration",
+            "expandable": true,
+            "pages": [
+              {
+                "title": "Migrate to Documentation.AI",
+                "path": "migrations/overview",
+                "icon": "arrow-right-left"
+              },
+              {
+                "title": "Install the Migrator",
+                "path": "migrations/install",
+                "icon": "download"
+              },
+              {
+                "group": "Source Platforms",
+                "icon": "boxes",
+                "pages": [
+                  {
+                    "title": "From Mintlify",
+                    "path": "migrations/from-mintlify",
+                    "icon": "leaf"
+                  },
+                  {
+                    "title": "From GitBook",
+                    "path": "migrations/from-gitbook",
+                    "icon": "book-marked"
+                  },
+                  {
+                    "title": "From ReadMe",
+                    "path": "migrations/from-readme",
+                    "icon": "book-open-text"
+                  },
+                  {
+                    "title": "From Document360",
+                    "path": "migrations/from-document360",
+                    "icon": "library"
+                  },
+                  {
+                    "title": "From Docusaurus, Nextra, or Fern",
+                    "path": "migrations/from-docusaurus",
+                    "icon": "square-code"
+                  },
+                  {
+                    "title": "From Other Sites and Markdown",
+                    "path": "migrations/from-markdown",
+                    "icon": "file-text"
+                  }
+                ]
+              },
+              {
+                "title": "Migration Checklist",
+                "path": "migrations/migration-checklist",
+                "icon": "list-checks"
+              }
+            ]
+          },
+          {
             "group": "Write and Publish",
             "expandable": true,
             "pages": [

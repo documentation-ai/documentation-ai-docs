@@ -1,0 +1,48 @@
+---
+title: Migrate from Document360
+description: >-
+  See what moves when you migrate a Document360 knowledge base to
+  Documentation.AI, and what you decide along the way.
+---
+You can migrate a Document360 knowledge base from an export file or from its live site. The steps are the same as for every platform. See [Migrate to Documentation.AI](/migrations/overview).
+
+## What you can migrate from
+
+- **An export from Document360**, as the ZIP file or its unzipped folder. It includes your articles, categories, and media. Tell your assistant where the file is.
+- **Your live site**, such as `https://docs.acme.com`.
+
+## What moves
+
+| In Document360                                   | In Documentation.AI                                        |
+| ------------------------------------------------ | ---------------------------------------------------------- |
+| Categories and their order                       | Sidebar groups and pages, in the same order                |
+| Articles from the WYSIWYG and Markdown editors   | Pages                                                      |
+| Info, warning, error, and success boxes          | `Callout` with the matching style                          |
+| Expandable `details` sections                    | `Expandable`                                               |
+| FAQ blocks                                       | A group of expandable questions                            |
+| Tabs                                             | `Tabs`                                                     |
+| Tables                                           | Tables                                                     |
+| Embedded frames and videos                       | Embedded frames and `Video`                                |
+| Images and files in the export                   | Files in your media library                                |
+
+## What needs your decision
+
+- **Snippets.** An export contains snippet placeholders, such as `{{snippet.contact}}`, but not the snippet text. At the second decision, give your assistant the text for each snippet. Pages that use a snippet without its text wait until you do.
+- **Workspaces and languages.** If your export mixes several, choose which to migrate at the first decision.
+- **Articles outside any category.** The first decision lists them so you can place them or leave them out.
+
+## What does not move
+
+- Your footer, custom fonts, and banner. See [What does not move](/migrations/overview#what-does-not-move).
+
+## Related
+
+<Columns cols="2">
+  <Card title="Migrate to Documentation.AI" href="/migrations/overview" icon="arrow-right-left" horizontal="false">
+    The steps and decisions of a migration.
+  </Card>
+
+  <Card title="Reusable Snippets" href="/write-and-publish/snippets" icon="puzzle" horizontal="false">
+    Keep shared text in one place on Documentation.AI.
+  </Card>
+</Columns>

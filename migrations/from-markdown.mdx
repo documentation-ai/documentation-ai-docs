@@ -1,8 +1,54 @@
 ---
-title: From Markdown Folders
-description: "Migrate to Documentation.AI: From Markdown Folders guide."
+title: Migrate from other sites and Markdown
+description: >-
+  Migrate any live documentation site, a folder of Markdown, MDX, or HTML
+  files, or a MadCap Flare site to Documentation.AI.
 ---
+If your platform does not have its own page, you can still migrate from its live site or from a folder of files. The steps are the same as for every platform. See [Migrate to Documentation.AI](/migrations/overview).
 
-# From Markdown Folders
+## What you can migrate from
 
-[How-to Guide] Follow this From Markdown Folders guide to move your content with minimal friction and preserved structure.
+- **Any live documentation site**, such as `https://docs.acme.com`. The migrator finds pages through the site's sitemap, its sidebar, and the links between pages.
+- **A folder of Markdown, MDX, or HTML files**, such as a repository you cloned. Tell your assistant where it is.
+- **A MadCap Flare site** that you publish as HTML.
+
+## How the structure is read
+
+- **On a live site**, the sidebar order is used where the site shows one. Otherwise the order comes from the sitemap.
+- **In a folder of files**, the structure comes from the folders. You review it at the first decision.
+- **On a MadCap Flare site**, the table of contents is read from the files the site publishes with it. If the site publishes more than one help system, you choose one at the first decision. Migrate each other help system separately.
+
+## What moves
+
+| On your old site                                     | In Documentation.AI            |
+| ---------------------------------------------------- | ------------------------------ |
+| Pages                                                | Pages, word for word           |
+| Expandable `details` sections and MadCap drop-downs  | `Expandable`                   |
+| Admonitions, such as notes and warnings              | `Callout`                      |
+| Cards                                                | `Card` and `Columns`           |
+| MadCap tile grids                                    | Cards in columns               |
+| MadCap linked tables of contents                     | Lists of links                 |
+| Embedded frames and videos                           | Embedded frames and `Video`    |
+| Images and files                                     | Files in your media library    |
+
+## What needs your decision
+
+- **Other components**, such as custom HTML widgets. At the second decision, your assistant shows each kind with the pages that use it.
+- **Pages the sidebar does not list.** At the first decision, you choose whether to add them.
+
+## What does not move
+
+- **Scripts and styles** from your old pages. Documentation.AI pages do not run page scripts.
+- Your footer, custom fonts, and banner. See [What does not move](/migrations/overview#what-does-not-move).
+
+## Related
+
+<Columns cols="2">
+  <Card title="Migrate to Documentation.AI" href="/migrations/overview" icon="arrow-right-left" horizontal="false">
+    The steps and decisions of a migration.
+  </Card>
+
+  <Card title="Custom Scripts" href="/customize/custom-scripts" icon="file-code" horizontal="false">
+    Add scripts to your whole site when you need them.
+  </Card>
+</Columns>

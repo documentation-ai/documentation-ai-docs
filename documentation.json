@@ -491,6 +491,11 @@
                 "icon": "gitlab"
               },
               {
+                "title": "Webhooks",
+                "path": "integrations/deployment-webhooks",
+                "icon": "webhook"
+              },
+              {
                 "title": "Confluence",
                 "path": "integrations/confluence",
                 "icon": "book-open"

@@ -36,7 +36,7 @@ Every commit on the deployment branch reaches your endpoint, whether it came fro
 <Callout kind="info" collapsed="false">
   - A documentation project connected to [GitHub](/integrations/github) or [GitLab](/integrations/gitlab)
   - A Documentation.AI plan with REST API access (Standard or above)
-  - An API key from **Settings → API Keys**. A **Viewer** key is enough, because the endpoint only reads deployments.
+  - An API key from **Settings → API Keys**. A **Viewer** key is enough, because the endpoint only reads deployments. See [Getting Your API Key](/api-reference/overview#getting-your-api-key).
   - Permission to add webhooks to the repository: admin on GitHub, Maintainer on GitLab
   - An HTTPS endpoint that your Git provider can reach
 </Callout>
@@ -195,4 +195,3 @@ A redeploy started with [`POST /deploy`](/api-reference/post-deploy) doesn't cre
     Open the webhook's **Recent Deliveries** tab to see the response your endpoint returned. The endpoint should answer with a `2xx` status within a few seconds, for every branch. You can redeliver any event from that tab.
   </Expandable>
 </ExpandableGroup>
-

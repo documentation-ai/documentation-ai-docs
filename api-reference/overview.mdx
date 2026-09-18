@@ -68,11 +68,11 @@ Write endpoints return `403 Forbidden` if the API key role does not have suffici
 
 Deploying sits behind **editor** because it publishes to your live site. Analytics is read-only, so a **viewer** key is enough.
 
-Starting or cancelling a PDF export needs **editor**. Listing exports and downloading a PDF need only **viewer**.
+Starting a PDF export needs **editor**. Reading the current export, and the link it carries, needs only **viewer**.
 
 ## Rate Limiting
 
-Each API key has a per-minute request limit configured at creation time, counted across every endpoint. Starting and cancelling PDF exports has an additional limit of 10 requests a minute per key.
+Each API key has a per-minute request limit configured at creation time, counted across every endpoint. Starting a PDF export has an additional limit of 10 requests a minute per key.
 
 Rate limit information is included in every response via headers:
 
@@ -187,7 +187,8 @@ The response is `202 Accepted` with an export to poll:
   "status": "pending",
   "progress": { "completed": 0, "total": null },
   "fileSize": null,
-  "downloadable": false,
+  "downloadUrl": null,
+  "downloadUrlExpiresAt": null,
   "deploymentId": "64e41663-5ac8-422e-a941-00aff79963ed",
   "source": "api",
   "errorMessage": null,
@@ -196,20 +197,20 @@ The response is `202 Accepted` with an export to poll:
 }
 ```
 
-Poll it until `status` reaches `completed`, `failed`, or `cancelled`. `progress` counts pages as they render:
+Poll `GET /exports/pdf` until `downloadUrl` appears. It always returns the export in progress, or the most recent one, so there is no id to keep between calls. `progress` counts pages as they render:
 
 ```bash
-curl https://api.documentationai.app/api/v1/exports/pdf/6fa5a52d-d8b7-4b24-ac92-a55378f5eec4 \
+curl https://api.documentationai.app/api/v1/exports/pdf \
   -H "Authorization: Bearer dai_your_api_key"
 ```
 
-When `downloadable` is `true`, download the file:
+Then download the PDF from the link, with no API key:
 
 ```bash
-curl -o documentation.pdf \
-  https://api.documentationai.app/api/v1/exports/pdf/6fa5a52d-d8b7-4b24-ac92-a55378f5eec4/download \
-  -H "Authorization: Bearer dai_your_api_key"
+curl -o documentation.pdf "$DOWNLOAD_URL"
 ```
+
+The link points straight at our storage, so the file never passes through the API and a large export downloads at full speed. It stops working after an hour, or once a newer export replaces the file; read the export again for a fresh one.
 
 ### Reusing an export
 
@@ -224,15 +225,15 @@ curl -X POST https://api.documentationai.app/api/v1/exports/pdf \
 
 ### Limits
 
-- One export runs per documentation at a time. Starting another returns `409 Conflict`, and the message names the export in progress.
+- One export runs per documentation at a time. Starting another returns `409 Conflict`; poll `GET /exports/pdf` to follow the one already running.
 - Exports started through the API are limited to one every 5 minutes and 10 per 24 hours for each documentation. Past either limit, the API returns `429` with a `retry-after` header. A request answered with an existing export does not count, and neither do exports started from the dashboard. `force` does not bypass these limits.
 - A site can be exported with up to 8,000 pages in its navigation.
 
-### Files and history
+### The exported file
 
-- A PDF stays available until a newer export of the same documentation completes and replaces it. Earlier exports stay in `GET /exports/pdf`, with `downloadable` set to `false`.
-- `DELETE /exports/pdf/{exportId}` cancels an export that is still running, or deletes the file of a finished one.
+- A PDF stays available until a newer export of the same documentation completes and replaces it. Only the most recent export is kept.
 - A page that cannot be rendered, for example because its MDX does not compile, is left out of the PDF rather than failing the export.
+- Exports started from the dashboard appear here too, so `exportId` can change between polls if a teammate starts one while yours is running.
 
 <Callout kind="info" collapsed="false">
   Starting an export from the dashboard replaces an export that is still running, including one started through the API.

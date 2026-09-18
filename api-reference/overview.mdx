@@ -6,7 +6,7 @@ description: >-
 ---
 ## Overview
 
-The Documentation.AI REST API provides programmatic access to your documentation project through a standard REST interface. You can read pages, search content, manage branches, push file changes, publish deployments, and read analytics, the same operations available in the dashboard, accessible from your own scripts, CI/CD pipelines, or backend services.
+The Documentation.AI REST API provides programmatic access to your documentation project through a standard REST interface. You can read pages, search content, manage branches, push file changes, publish deployments, export your site as a PDF, and read analytics, the same operations available in the dashboard, accessible from your own scripts, CI/CD pipelines, or backend services.
 
 Every key is scoped to one documentation project, so no endpoint takes a project identifier.
 
@@ -61,25 +61,31 @@ Every API key carries a role that determines which endpoints are accessible.
 | Role       | Read endpoints                          | Write endpoints               |
 | ---------- | --------------------------------------- | ----------------------------- |
 | **Viewer** | All read endpoints, including analytics | None                          |
-| **Editor** | All read endpoints                      | Push, branches, merge, deploy |
+| **Editor** | All read endpoints                      | Push, branches, merge, deploy, PDF exports |
 | **Admin**  | All read endpoints                      | All write endpoints           |
 
 Write endpoints return `403 Forbidden` if the API key role does not have sufficient permissions.
 
 Deploying sits behind **editor** because it publishes to your live site. Analytics is read-only, so a **viewer** key is enough.
 
+Starting a PDF export needs **editor**. Reading the current export, and the link it carries, needs only **viewer**.
+
 ## Rate Limiting
 
-Each API key has a per-minute request limit configured at creation time. Rate limit information is included in every response via headers:
+Each API key has a per-minute request limit configured at creation time, counted across every endpoint. Starting a PDF export has an additional limit of 10 requests a minute per key.
+
+Rate limit information is included in every response via headers:
 
 | Header                  | Description                                             |
 | ----------------------- | ------------------------------------------------------- |
 | `x-ratelimit-limit`     | Maximum requests per minute                             |
 | `x-ratelimit-remaining` | Requests remaining in the current window                |
-| `x-ratelimit-reset`     | Unix timestamp when the window resets                   |
+| `x-ratelimit-reset`     | Seconds until the window resets                         |
 | `retry-after`           | Seconds to wait before retrying (only on 429 responses) |
 
-When the limit is exceeded, the API returns `429 Too Many Requests`.
+When a request counts against more than one limit, the headers describe the limit closest to being reached.
+
+When a limit is exceeded, the API returns `429 Too Many Requests`.
 
 ## Quick Example
 
@@ -161,6 +167,81 @@ curl https://api.documentationai.app/api/v1/deployments/9f1c2e64-3b47-4a8d-91f5-
 ```
 
 When the status is `error`, the `logs` field carries the reason.
+
+## PDF Exports
+
+Export your live site as a single PDF, for offline reading, compliance archives, or sharing outside your docs. Pages are rendered in navigation order. PDF export is available on the Standard, Professional, and Enterprise plans.
+
+Start an export:
+
+```bash
+curl -X POST https://api.documentationai.app/api/v1/exports/pdf \
+  -H "Authorization: Bearer dai_your_api_key"
+```
+
+The response is `202 Accepted` with an export to poll:
+
+```json
+{
+  "exportId": "6fa5a52d-d8b7-4b24-ac92-a55378f5eec4",
+  "status": "pending",
+  "progress": { "completed": 0, "total": null },
+  "fileSize": null,
+  "downloadUrl": null,
+  "downloadUrlExpiresAt": null,
+  "deploymentId": "64e41663-5ac8-422e-a941-00aff79963ed",
+  "source": "api",
+  "errorMessage": null,
+  "createdAt": "2026-09-17T13:04:12.000Z",
+  "completedAt": null
+}
+```
+
+Poll `GET /exports/pdf` until `downloadUrl` appears. It always returns the export in progress, or the most recent one, so there is no id to keep between calls. `progress` counts pages as they render:
+
+```bash
+curl https://api.documentationai.app/api/v1/exports/pdf \
+  -H "Authorization: Bearer dai_your_api_key"
+```
+
+Then download the PDF from the link, with no API key:
+
+```bash
+curl -o documentation.pdf "$DOWNLOAD_URL"
+```
+
+The link points straight at our storage, so the file never passes through the API and a large export downloads at full speed. It stops working after an hour, or once a newer export replaces the file; read the export again for a fresh one.
+
+<Callout kind="alert" collapsed="false">
+  Anyone holding the link can download the PDF until it expires, without an API key. Treat it like a password: don't log it, commit it, or share it, and fetch a fresh one when you need it rather than storing it.
+</Callout>
+
+### Reusing an export
+
+If your live site has not changed since the last completed export, `POST /exports/pdf` returns that export with `200 OK` instead of rendering again. This makes it safe to call on every CI run. To render again anyway, pass `force`:
+
+```bash
+curl -X POST https://api.documentationai.app/api/v1/exports/pdf \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{ "force": true }'
+```
+
+### Limits
+
+- One export runs per documentation at a time. Starting another returns `409 Conflict`; poll `GET /exports/pdf` to follow the one already running.
+- Exports started through the API are limited to one every 5 minutes and 10 per 24 hours for each documentation. Past either limit, the API returns `429` with a `retry-after` header. A request answered with an existing export does not count, and neither do exports started from the dashboard. `force` does not bypass these limits.
+- A site can be exported with up to 8,000 pages in its navigation.
+
+### The exported file
+
+- A PDF stays available until a newer export of the same documentation completes and replaces it. Only the most recent export is kept.
+- A page that cannot be rendered, for example because its MDX does not compile, is left out of the PDF rather than failing the export.
+- Exports started from the dashboard appear here too, so `exportId` can change between polls if a teammate starts one while yours is running.
+
+<Callout kind="info" collapsed="false">
+  Starting an export from the dashboard replaces an export that is still running, including one started through the API.
+</Callout>
 
 ## Analytics
 

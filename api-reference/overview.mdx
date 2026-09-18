@@ -212,6 +212,10 @@ curl -o documentation.pdf "$DOWNLOAD_URL"
 
 The link points straight at our storage, so the file never passes through the API and a large export downloads at full speed. It stops working after an hour, or once a newer export replaces the file; read the export again for a fresh one.
 
+<Callout kind="alert" collapsed="false">
+  Anyone holding the link can download the PDF until it expires, without an API key. Treat it like a password: don't log it, commit it, or share it, and fetch a fresh one when you need it rather than storing it.
+</Callout>
+
 ### Reusing an export
 
 If your live site has not changed since the last completed export, `POST /exports/pdf` returns that export with `200 OK` instead of rendering again. This makes it safe to call on every CI run. To render again anyway, pass `force`:

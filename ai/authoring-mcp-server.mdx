@@ -138,7 +138,7 @@ Describe the task to your AI client in plain language, and it calls the tools fo
 
 ## Tools reference
 
-The server provides 25 tools. Read-only tools never change your documentation. Destructive tools make changes that are hard to undo, so most clients ask you to confirm them first.
+The server provides 26 tools. Read-only tools never change your documentation. Destructive tools can overwrite or discard content, including your teammates' unpublished edits, so most clients ask you to confirm them first.
 
 | Tool                      | What it does                                                | Minimum role | Behavior        |
 | ------------------------- | ----------------------------------------------------------- | ------------ | --------------- |
@@ -156,15 +156,16 @@ The server provides 25 tools. Read-only tools never change your documentation. D
 | `list_branches`           | Lists branches and shows which one is live                  | Viewer       | Read-only       |
 | `list_pull_requests`      | Lists pull requests                                         | Viewer       | Read-only       |
 | `create_page`             | Creates a page or another file                              | Editor       | Makes changes   |
-| `update_page`             | Replaces specific text in a page                            | Editor       | Makes changes   |
-| `rewrite_page`            | Replaces the full content of a page                         | Editor       | Makes changes   |
-| `update_site_config`      | Changes values in `documentation.json`                      | Editor       | Makes changes   |
-| `resolve_conflict`        | Saves the resolved version of a conflicting file            | Editor       | Makes changes   |
 | `create_branch`           | Creates a branch                                            | Editor       | Makes changes   |
+| `update_page`             | Replaces specific text in a page                            | Editor       | Destructive     |
+| `rewrite_page`            | Replaces the full content of a page                         | Editor       | Destructive     |
+| `update_site_config`      | Changes values in `documentation.json`                      | Editor       | Destructive     |
+| `resolve_conflict`        | Saves the resolved version of a conflicting file            | Editor       | Destructive     |
 | `move_page`               | Moves or renames a file                                     | Editor       | Destructive     |
 | `delete_page`             | Deletes a file                                              | Editor       | Destructive     |
 | `publish`                 | Publishes the unpublished changes on a branch               | Editor       | Destructive     |
-| `revert_changes`          | Discards unpublished changes                                | Editor       | Destructive     |
+| `revert_page`             | Discards unpublished changes to one file                    | Editor       | Destructive     |
+| `revert_all_changes`      | Discards every unpublished change on a branch               | Editor       | Destructive     |
 | `merge_branches`          | Merges one branch into another                              | Editor       | Destructive     |
 | `delete_branch`           | Deletes a branch                                            | Editor       | Destructive     |
 
@@ -364,12 +365,18 @@ Most tools also accept `organizationId` and `documentationId` to work on a speci
   </ParamField>
 </Expandable>
 
-<Expandable title="revert_changes" default-open="false">
-  Discards unpublished changes to one file, or to every file on a branch.
+<Expandable title="revert_page" default-open="false">
+  Discards the unpublished changes to one file and restores its published content. Your teammates' unpublished edits to that file are discarded too.
 
-  <ParamField body="path" param-type="string" required="false" deprecated="false" show-location="false">
-    File to restore. Omit it to discard every unpublished change on the branch.
+  <ParamField body="path" param-type="string" required="true" deprecated="false" show-location="false">
+    File to restore, including the extension
   </ParamField>
+</Expandable>
+
+<Expandable title="revert_all_changes" default-open="false">
+  Discards every unpublished change on a branch, across all files and all collaborators, and restores its published state. Check `list_changes` first to see what will be discarded.
+
+  **Parameters:** `branch` (optional)
 </Expandable>
 
 ### Branches

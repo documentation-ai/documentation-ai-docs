@@ -50,7 +50,7 @@
       "description": "Trigger deployments and check their status"
     },
     {
-      "name": "PDF Exports",
+      "name": "PDF Export",
       "description": "Export the live site as a PDF and download it"
     },
     {
@@ -681,7 +681,7 @@
         "operationId": "requestPdfExport",
         "summary": "Export the site as a PDF",
         "description": "Exports the live site as a single PDF, rendering every page in navigation order. The export runs in the background: a new export returns `202`, then poll `GET /exports/pdf` until `downloadUrl` is set.\n\nIf the latest completed export was built from the deployment that is live now, it is returned with `200`, already carrying its `downloadUrl`, and nothing is rendered. Pass `force` to render again anyway.\n\nOne export runs per documentation at a time. Exports started through the API are limited to one every 5 minutes and 10 per 24 hours for each documentation; a request answered with an existing export does not count. Pages that cannot be rendered are left out of the PDF.\n\nRequires editor or admin role, on the Standard, Professional or Enterprise plan.",
-        "tags": ["PDF Exports"],
+        "tags": ["PDF Export"],
         "requestBody": {
           "required": false,
           "content": {
@@ -736,7 +736,7 @@
         "operationId": "getPdfExport",
         "summary": "Get the current PDF export",
         "description": "Returns the export in progress, or the most recent one when nothing is running. Poll this after starting an export: `progress` counts pages as they render, and `downloadUrl` appears once the PDF is ready.\n\nAn export started from the dashboard is returned here too, so `exportId` can change between polls if someone starts a new export while yours is running.",
-        "tags": ["PDF Exports"],
+        "tags": ["PDF Export"],
         "responses": {
           "200": {
             "description": "The current export",

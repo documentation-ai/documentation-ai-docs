@@ -30,7 +30,7 @@ You can manage Dimensions in:
 
 - **documentation.json** (Site Configuration) for file-based setup and bulk changes (via Code Editor)
 
-See [Site Configuration](/customize/site-configuration) for file-based management: `/customize/site-configuration`.
+See [Site Configuration](/customize/site-configuration) for file-based management.
 
 ## When to use dimensions
 
@@ -160,9 +160,9 @@ After a Dimension exists, you can maintain it from the Dimension selector area:
 
 Tip: After creating new values, switch between them immediately to confirm you’re editing the correct branch and that navigation/content appears where you expect.
 
-## Managing Dimensions in configuration (documentation.json)
+## Managing Dimensions in documentation.json
 
-For file-based management, configure Dimensions in `documentation.json` using Site Configuration. This is useful when you want:
+For file-based management, configure Dimensions directly in `documentation.json`. This is useful when you want:
 
 - Version-controlled navigation changes
 
@@ -170,7 +170,180 @@ For file-based management, configure Dimensions in `documentation.json` using Si
 
 - Structured review in pull requests
 
-See [Site Configuration](/customize/site-configuration) to manage it via the Code Editor.
+### Standalone product dimension
+
+Define a `products` array at the root of your navigation. Each product becomes a branch with its own tabs, groups, and pages:
+
+```json
+{
+  "navigation": {
+    "products": [
+      {
+        "product": "Cloud",
+        "icon": "cloud",
+        "tabs": [
+          {
+            "tab": "Guides",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "pages": [
+                  {
+                    "title": "Introduction",
+                    "path": "cloud/introduction"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "On-prem",
+        "icon": "server",
+        "tabs": [
+          {
+            "tab": "Guides",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "pages": [
+                  {
+                    "title": "Introduction",
+                    "path": "on-prem/introduction"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Standalone version dimension
+
+Use a `versions` array when a single product has multiple API or release versions:
+
+```json
+{
+  "navigation": {
+    "versions": [
+      {
+        "version": "v2",
+        "icon": "badge",
+        "tabs": [
+          {
+            "tab": "Guides",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "pages": [
+                  {
+                    "title": "Introduction",
+                    "path": "v2/introduction"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "version": "v1",
+        "icon": "badge",
+        "tabs": [
+          {
+            "tab": "Guides",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "pages": [
+                  {
+                    "title": "Introduction",
+                    "path": "v1/introduction"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Nested dimensions (Product → Version)
+
+Nest dimension arrays to combine multiple dimensions. The outer dimension wraps the inner:
+
+```json
+{
+  "navigation": {
+    "products": [
+      {
+        "product": "Cloud",
+        "icon": "cloud",
+        "versions": [
+          {
+            "version": "v2",
+            "icon": "badge",
+            "tabs": [
+              {
+                "tab": "Guides",
+                "groups": [
+                  {
+                    "group": "Getting Started",
+                    "pages": [
+                      {
+                        "title": "Introduction",
+                        "path": "cloud/v2/introduction"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "version": "v1",
+            "icon": "badge",
+            "tabs": [
+              {
+                "tab": "Guides",
+                "groups": [
+                  {
+                    "group": "Getting Started",
+                    "pages": [
+                      {
+                        "title": "Introduction",
+                        "path": "cloud/v1/introduction"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+For language dimensions, see [Localization](/organize/localization#configuring-languages-in-documentationjson) for full JSON examples including nested version + language structures.
+
+See [Site Configuration](/customize/site-configuration) for the full configuration reference.
+
+<Callout kind="info">
+
+The `search.strict-dimensions` setting in `documentation.json` controls whether the AI assistant searches across all dimensions or only within the reader's current product, version, and language. See [strict dimensions](/ai/ai-assistant#strict-dimensions) for full details.
+
+</Callout>
 
 ## Designing dimensions: guidelines and pitfalls
 
@@ -240,7 +413,7 @@ Use this section as a checklist when you plan or refactor dimensions.
 
 ### Content pages on dimensions
 
-Products, versions, and languages are structural containers by default; they define context but do not have pages of their own. You can attach a **content page** to any dimension value by adding a `path` property.
+Products, versions, and languages are structural containers by default; they define context but do not have pages of their own. You can attach a **content page** to any dimension value.
 
 Use content pages on dimensions to:
 
@@ -248,7 +421,18 @@ Use content pages on dimensions to:
 - Give each **version** a release notes or "what's new" page
 - Give each **language** a localization status page
 
-In configuration, add a `path` to the dimension entry:
+#### Attach a content page in the Web Editor
+
+1. In the editor sidebar, click the **menu icon** next to the dimension value name.
+2. Select **Attach Content Page**.
+3. Enter a path (slug) for the page, or browse unpublished pages to reuse an existing MDX file.
+4. The dimension value now opens its content page when clicked.
+
+To remove the content page later, use **Detach Content Page**. The MDX file remains as an unpublished page.
+
+#### Attach a content page in configuration
+
+Add a `path` property to the dimension entry in `documentation.json`:
 
 ```json
 {
@@ -258,9 +442,15 @@ In configuration, add a `path` to the dimension entry:
 }
 ```
 
-When a dimension value has a content page, it appears as a clickable link in **breadcrumb navigation** and is included in **search results** and **AI features**. Display options like `badge`, `show-sidebar`, and `content-width` work the same as on regular pages.
+The `path` follows the same rules as any page path: lowercase kebab-case, unique across your docs, and without the `.mdx` extension. To remove the content page, delete the `path` property.
 
-In the Web Editor, use the **Attach Content Page** option in the dimension value's menu. To remove the content page later, use **Detach Content Page**; the MDX file remains as an unpublished page.
+#### How content pages affect navigation
+
+When a dimension value has a content page:
+
+- The dimension label becomes a **clickable link** in breadcrumb navigation.
+- The content page is included in **search results** and **AI features**.
+- Display options like `badge`, `show-sidebar`, and `content-width` work the same as on regular pages.
 
 For the general concept and setup details, see [Content pages on containers](/organize/pages#content-pages-on-containers).
 
@@ -284,12 +474,6 @@ Avoid these patterns when designing dimensions:
   Before adding or changing dimensions, map a few **end-to-end user journeys** (for example, "New API user for Product B / v2 / English") and confirm they can find key pages with minimal context switching.
 </Callout>
 
-<Callout kind="info">
-
-The `search.strict-dimensions` setting in `documentation.json` controls whether the AI assistant searches across all dimensions or only within the reader's current product, version, and language. See [strict dimensions](/ai/ai-assistant#strict-dimensions) for full details.
-
-</Callout>
-
 ### Related reading
 
 - [Organize overview](/organize/overview) for how dimensions fit into the broader organization features.
@@ -297,4 +481,3 @@ The `search.strict-dimensions` setting in `documentation.json` controls whether 
 - [Site Configuration](/customize/site-configuration) for configuring dimensions, views, and content in code.
 
 - <a href="https://documentation.ai/docs/write-and-publish/web-editor#organizing-structure-in-the-web-editor" target="_blank" rel="noopener noreferrer">Organize content and navigation in the Web Editor</a> for editor-based navigation management.
-

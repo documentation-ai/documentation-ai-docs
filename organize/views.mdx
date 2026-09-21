@@ -202,6 +202,143 @@ After you select a branch (for example: Version: v1.0 → Tab: Guides → Dropdo
 
 Views determine where you are in the navigation tree. Groups/Pages determine what content exists inside that branch.
 
+## Configuring Views in documentation.json
+
+For file-based management, define tabs and dropdowns directly in `documentation.json`. This is useful for version-controlled navigation, bulk changes, and pull-request review.
+
+### Tabs at the root level (no dimensions)
+
+Define a `tabs` array at the root of your navigation. Each tab contains groups or pages:
+
+```json
+{
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "icon": "book-open",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              { "title": "Introduction", "path": "getting-started/introduction" },
+              { "title": "Quickstart", "path": "getting-started/quickstart" }
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "icon": "code",
+        "groups": [
+          {
+            "group": "Endpoints",
+            "pages": [
+              { "title": "Authentication", "path": "api/authentication" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Dropdowns under a tab
+
+Use the `dropdowns` key inside a tab to create sidebar categories:
+
+```json
+{
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "icon": "book-open",
+        "dropdowns": [
+          {
+            "dropdown": "Getting Started",
+            "icon": "rocket",
+            "groups": [
+              {
+                "group": "Basics",
+                "pages": [
+                  { "title": "Introduction", "path": "getting-started/introduction" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Nested dropdowns
+
+Dropdowns can contain other dropdowns for deeper hierarchy:
+
+```json
+{
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "API Reference",
+        "icon": "code",
+        "dropdowns": [
+          {
+            "dropdown": "REST API",
+            "icon": "server",
+            "dropdowns": [
+              {
+                "dropdown": "Authentication",
+                "pages": [
+                  { "title": "API Keys", "path": "api/auth/keys" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Views inside dimensions
+
+When using dimensions, define views inside each dimension value. For example, tabs inside a version:
+
+```json
+{
+  "navigation": {
+    "versions": [
+      {
+        "version": "v2",
+        "icon": "badge",
+        "tabs": [
+          {
+            "tab": "Guides",
+            "icon": "book-open",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "pages": [
+                  { "title": "Introduction", "path": "v2/introduction" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+See [Site Configuration](/customize/site-configuration) for the full configuration reference.
+
 ## Core rules for Views
 
 These rules explain how Views work and why the Web Editor shows (or hides) certain actions.

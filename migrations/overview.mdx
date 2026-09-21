@@ -1,0 +1,295 @@
+---
+title: Migrate to Documentation.AI
+description: >-
+  Move your documentation from Mintlify, GitBook, ReadMe, Document360, or
+  another platform to Documentation.AI with an AI assistant, and check a
+  preview before anything goes live.
+---
+The Documentation.AI migrator moves an existing documentation site into your Documentation.AI project. You describe the migration to an AI assistant. The migrator copies every page word for word, rebuilds your sidebar, and checks the result against your old site. You make four decisions along the way, and your live site changes only when you merge the result.
+
+<Callout kind="info" collapsed="false">
+  **Before you begin**
+
+  - You need the **Editor** or **Admin** role in the organization that owns your Documentation.AI project.
+  - Previews need the **Standard** plan or higher. See [Preview sites](/write-and-publish/branches-and-previews#preview-sites).
+  - Install the migrator in Claude Code or Codex. See [Install the migrator](/migrations/install).
+  - Migrate only a site you own, or one whose owner has given you permission to copy it.
+</Callout>
+
+## What moves to Documentation.AI
+
+| Part of your site | What happens to it                                                                                 |
+| ----------------- | -------------------------------------------------------------------------------------------------- |
+| Pages             | Copied word for word: titles, descriptions, headings, text, tables, and code                       |
+| Sidebar           | Rebuilt with the same tabs, groups, languages, versions, and order                                 |
+| Components        | Callouts, cards, tabs, steps, and accordions become their Documentation.AI equivalents             |
+| Links             | Links between pages point to the new pages, and links to headings keep working                    |
+| Page addresses    | Kept the same. If an address changes, a redirect sends visitors to the new one                     |
+| Images and files  | Copied into your project's [media library](/write-and-publish/media-library)                       |
+| API reference     | Endpoint pages from your OpenAPI specification keep their method badges in the sidebar             |
+| Look              | Your brand colors, logo, favicon, and top bar links, on the [template](/customize/templates) you choose |
+
+What moves in detail depends on your old platform. Anything Documentation.AI has no place for, such as a custom footer, is listed for you instead of guessed. See [What does not move](#what-does-not-move).
+
+## Supported platforms
+
+<Columns cols="3">
+  <Card title="Mintlify" href="/migrations/from-mintlify" icon="leaf" horizontal="false">
+    Live sites and repositories
+  </Card>
+
+  <Card title="GitBook" href="/migrations/from-gitbook" icon="book-marked" horizontal="false">
+    Live sites and Git Sync repositories
+  </Card>
+
+  <Card title="ReadMe" href="/migrations/from-readme" icon="book-open-text" horizontal="false">
+    Sync repositories, the ReadMe API, and live sites
+  </Card>
+
+  <Card title="Document360" href="/migrations/from-document360" icon="library" horizontal="false">
+    Export files and live sites
+  </Card>
+
+  <Card title="Docusaurus, Nextra, and Fern" href="/migrations/from-docusaurus" icon="square-code" horizontal="false">
+    Repositories
+  </Card>
+
+  <Card title="Other sites and Markdown" href="/migrations/from-markdown" icon="file-text" horizontal="false">
+    Any live site, Markdown folders, and MadCap Flare
+  </Card>
+</Columns>
+
+## How a migration works
+
+Your assistant runs the migrator on your computer and stops only when it needs you. At each decision it shows a short summary and asks you to choose. It never approves a decision for you.
+
+<Steps>
+  <Step title="Start the migration" icon="message-square" title-type="p">
+    Tell your assistant which site to migrate. It asks how you want to deliver the result and which template to use.
+  </Step>
+
+  <Step title="Decision 1: pages and structure" icon="list-tree" title-type="p">
+    The migrator finds every page and reads your sidebar. You confirm that the list is your site, and choose anything to leave out.
+  </Step>
+
+  <Step title="Decision 2: conversion plan" icon="clipboard-list" title-type="p">
+    You review how components convert, how page addresses carry over, and how the new site looks. Anything without a clear equivalent is explained so you can decide.
+  </Step>
+
+  <Step title="Decision 3: converted site" icon="file-check" title-type="p">
+    The migrator converts every page and compares it with the original. You review the results before the migrator creates the migration branch.
+  </Step>
+
+  <Step title="Decision 4: preview" icon="eye" title-type="p">
+    Documentation.AI builds a preview of the migration branch. The migrator checks every preview page, then you review the preview and approve the release.
+  </Step>
+
+  <Step title="Go live" icon="rocket" title-type="p">
+    You merge the migration branch in the dashboard. Your live site changes only at this step.
+  </Step>
+</Steps>
+
+If something cannot move exactly, the migrator stops and explains what to decide. It never rewrites or drops your content to get past a problem.
+
+## Choose how to deliver
+
+Both ways end with the same migration branch and the same preview.
+
+|                   | Without Git                                   | With Git                                                          |
+| ----------------- | --------------------------------------------- | ----------------------------------------------------------------- |
+| **Best for**      | Anyone, including people who do not use Git   | Teams that already work in the project's repository               |
+| **You need**      | Your Documentation.AI sign-in                 | A copy of your project's repository, and permission to push to it |
+| **The result**    | A migration branch created in your project    | A migration branch pushed from your copy of the repository        |
+
+If Documentation.AI manages your project's repository for you, migrate without Git.
+
+## Migrate without Git
+
+### How to migrate without Git
+
+<Steps>
+  <Step title="Start the migration" icon="message-square" title-type="p">
+    Open Claude Code or Codex and describe the migration, for example:
+
+    ```text
+    Migrate https://docs.acme.com to Documentation.AI without Git
+    ```
+  </Step>
+
+  <Step title="Sign in and choose your project" icon="log-in" title-type="p">
+    Your browser opens so you can sign in to Documentation.AI and allow access. If your account can edit more than one project, your assistant asks which one to use.
+  </Step>
+
+  <Step title="Make the first three decisions" icon="list-checks" title-type="p">
+    Review each summary, then approve it or ask to see more. See [How a migration works](#how-a-migration-works).
+  </Step>
+
+  <Step title="Sign in again to create the migration branch" icon="upload" title-type="p">
+    Your browser opens again. The migrator sends every page to a new branch in your project, such as `migration/mig-5f2c0a1b9e`, and publishes that branch. Your live site does not change.
+  </Step>
+
+  <Step title="Open the preview" icon="eye" title-type="p">
+    In the editor, switch to the migration branch and open its **Preview** link. Give the preview address to your assistant, and it checks every page. See [Check the preview](#check-the-preview).
+  </Step>
+
+  <Step title="Approve the release and go live" icon="rocket" title-type="p">
+    Make the fourth decision, then merge the migration branch. See [Go live](#go-live).
+  </Step>
+</Steps>
+
+## Migrate with Git
+
+### How to migrate with Git
+
+<Steps>
+  <Step title="Copy your project's repository to your computer" icon="git-branch" title-type="p">
+    Find your project's repository in **Settings → Git Settings**, and clone it to your computer.
+  </Step>
+
+  <Step title="Start the migration" icon="message-square" title-type="p">
+    Open Claude Code or Codex and name the folder you cloned, for example:
+
+    ```text
+    Migrate https://docs.acme.com to Documentation.AI. My project's repository is cloned at ~/acme-docs
+    ```
+
+    Your browser opens once so you can sign in to Documentation.AI. The migrator needs this to copy your images and files into your project's media library.
+  </Step>
+
+  <Step title="Make the first three decisions" icon="list-checks" title-type="p">
+    Review each summary, then approve it or ask to see more. See [How a migration works](#how-a-migration-works).
+  </Step>
+
+  <Step title="Let the migrator push the migration branch" icon="upload" title-type="p">
+    The migrator creates a branch such as `migration/mig-5f2c0a1b9e` and pushes it with your own Git access. Your current branch and any unfinished work in the folder are not touched. Documentation.AI builds a preview of the pushed branch automatically.
+  </Step>
+
+  <Step title="Open the preview" icon="eye" title-type="p">
+    In the editor, switch to the migration branch and open its **Preview** link. Give the preview address to your assistant, and it checks every page. See [Check the preview](#check-the-preview).
+  </Step>
+
+  <Step title="Approve the release and go live" icon="rocket" title-type="p">
+    Make the fourth decision, then merge the migration branch in the editor or through a pull request. See [Go live](#go-live).
+  </Step>
+</Steps>
+
+## Check the preview
+
+The migrator opens every page of the preview and compares it with your old site. A page fails the check only when a reader would miss something:
+
+- The page does not load.
+- Text or a heading from the old page is not on it.
+- A link on the page leads nowhere.
+- A sidebar entry is missing.
+
+Differences in how Documentation.AI draws a page are listed as notes, not failures. For example, a language label above a code block, or a wide table that scrolls sideways on a phone.
+
+If a page fails, your assistant shows you which one. Fix the cause and check again. If you look at the page and it is acceptable, tell your assistant to accept it with a short reason. The report records the finding with your name next to it.
+
+## Go live
+
+<Callout kind="danger" collapsed="false">
+  Going live replaces your project's current pages and sidebar with the migrated site. If the project already has pages you want to keep, copy them somewhere safe first.
+</Callout>
+
+<Steps>
+  <Step title="Open the migration branch" icon="git-branch" title-type="p">
+    In the editor, switch to the migration branch.
+  </Step>
+
+  <Step title="Merge it into your live branch" icon="git-merge" title-type="p">
+    Click **Save**, choose **Save & Merge**, then click **Merge**. If your team reviews changes in Git, choose **Save & Create PR** and merge the pull request instead. See [Branches and previews](/write-and-publish/branches-and-previews#merge-publish-and-pull-requests).
+  </Step>
+
+  <Step title="Finish the switch" icon="list-checks" title-type="p">
+    Point your domain to Documentation.AI and check a few old addresses. See the [Migration checklist](/migrations/migration-checklist#go-live).
+  </Step>
+</Steps>
+
+## Find the report
+
+The migrator writes a report for you and anyone who needs to sign off: what moved, what did not and why, and what still needs a decision. It is saved in the folder for your migration, for example `~/migrations/acme-docs/report/customer-report.pdf`. Ask your assistant to open it.
+
+The report is also saved as a web page. The PDF version needs Chrome or Chromium on your computer.
+
+## Common questions
+
+<ExpandableGroup>
+  <Expandable title="Does the migration change my old site?" default-open="false">
+    No. The migrator only reads your old site. Keep it online until your domain points to Documentation.AI.
+  </Expandable>
+
+  <Expandable title="Does AI rewrite my content?" default-open="false">
+    No. The migrator converts your pages with fixed rules and compares every page with the original. Your assistant runs the steps and explains each decision to you.
+  </Expandable>
+
+  <Expandable title="Do I need an API key?" default-open="false">
+    No. When the migrator needs access to your project, your browser opens so you can sign in to Documentation.AI. The sign-in is not saved on your computer.
+  </Expandable>
+
+  <Expandable title="Which AI assistants can run a migration?" default-open="false">
+    Claude Code, in the terminal, in VS Code, or in the **Code** tab of the Claude desktop app, and Codex. Claude Cowork and ChatGPT chat cannot complete a migration yet, because they cannot sign in to Documentation.AI or push to Git from where they run commands.
+  </Expandable>
+
+  <Expandable title="What happens to images from my old site?" default-open="false">
+    The migrator copies them into your project's media library, so they keep working after your old site goes offline. If an image cannot be downloaded, the report lists it, and you decide whether to leave it where it is.
+  </Expandable>
+
+  <Expandable title="What happens to pages that are not in my old sidebar?" default-open="false">
+    They are copied too. Documentation.AI shows only pages that are in the navigation, so at the first decision you choose whether to add them to your sidebar.
+  </Expandable>
+
+  <Expandable title="Can I migrate into a project that already has pages?" default-open="false">
+    Yes, but going live replaces the project's current pages and sidebar with the migrated site. Copy anything you want to keep first.
+  </Expandable>
+
+  <Expandable title="Can I run a migration again?" default-open="false">
+    Yes. If a migration stops, ask your assistant to continue, and it picks up where it stopped. A new run creates a new migration branch, and earlier migration branches stay as they were.
+  </Expandable>
+
+  <Expandable title="Can I change the look after the migration?" default-open="false">
+    Yes. The migration carries over your colors, logo, and favicon, and you can change them at any time. See [Templates](/customize/templates) and [Colors & Typography](/customize/colors-and-typography).
+  </Expandable>
+</ExpandableGroup>
+
+## If a migration stops
+
+Your assistant shows the message and what it means. Match it below:
+
+- **"this account can edit no Documentation.AI project"**: Ask an admin in your organization for the **Editor** role, or sign in with a different account.
+- **"could not sign in to Documentation.AI"**: Sign in to the [dashboard](https://dashboard.documentation.ai) in the same browser, then ask your assistant to try again.
+- **"Path "…" already appears at …"**: Your old sidebar lists the same page in two places, which Documentation.AI does not accept when you migrate without Git. Migrate with Git instead.
+- **"publishing … met conflicts with changes made in the editor meanwhile"**: Someone edited the migration branch in the editor at the same time. Resolve the conflicts in the editor, then ask your assistant to publish again.
+- **"cannot push to …"**: Your computer does not have permission to push to the repository. The message ends with the fix, such as signing in with the GitHub CLI.
+- **No Preview link appears**: The preview may still be building, or your plan may not include previews. See [Preview sites](/write-and-publish/branches-and-previews#preview-sites).
+
+## What does not move
+
+| Item                                   | What happens                                                                          |
+| -------------------------------------- | ------------------------------------------------------------------------------------- |
+| Footer links and social links          | Documentation.AI has no footer setting. They are listed in the report.                |
+| Custom fonts                           | Not copied. You can change typography with [Custom CSS](/customize/custom-css).       |
+| Announcement banner                    | Documentation.AI has no banner setting. It is listed in the report.                   |
+| Background images and decoration       | Not copied                                                                            |
+| Components with no equivalent          | You decide how to handle each one at the second decision. Nothing is left out without your decision. |
+| Features only your old platform offers | Listed on the page for your platform, such as ReadMe variables                        |
+
+## Related
+
+<Columns cols="2">
+  <Card title="Install the migrator" href="/migrations/install" icon="download" horizontal="false">
+    Add the migrator to Claude Code or Codex.
+  </Card>
+
+  <Card title="Migration checklist" href="/migrations/migration-checklist" icon="list-checks" horizontal="false">
+    What to prepare, review, and do after you go live.
+  </Card>
+
+  <Card title="Branches & Previews" href="/write-and-publish/branches-and-previews" icon="git-branch" horizontal="false">
+    Review a branch on its preview site and merge it.
+  </Card>
+
+  <Card title="Media Library" href="/write-and-publish/media-library" icon="images" horizontal="false">
+    Manage the images and files the migration copied.
+  </Card>
+</Columns>

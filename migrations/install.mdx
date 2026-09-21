@@ -1,0 +1,123 @@
+---
+title: Install the migrator
+description: >-
+  Add the Documentation.AI migrator to Claude Code or Codex, then start a
+  migration by describing it to your AI assistant.
+---
+The migrator is an open-source plugin for AI assistants. You install it once, and then start a migration by describing it to your assistant in plain words.
+
+<Callout kind="info" collapsed="false">
+  **Before you begin**
+
+  - Install [Node.js](https://nodejs.org) 22 or newer.
+  - Install [Claude Code](https://claude.com/claude-code) or [Codex](https://developers.openai.com/codex).
+  - If you plan to migrate with Git, install Git and make sure you can push to your project's repository.
+  - Chrome or Chromium is optional. The migrator uses it to check pages at phone and tablet sizes and to save the report as a PDF.
+</Callout>
+
+## How to install the migrator
+
+<Tabs>
+  <Tab title="Claude Code" icon="terminal">
+    In Claude Code, run these two commands:
+
+    ```text
+    /plugin marketplace add KrishnaPrakhya27/documentation.ai-migrator-skill
+    /plugin install documentation-ai-migration@documentation-ai-migration
+    ```
+
+    Start a new session to load the plugin. It works in Claude Code in the terminal, in the VS Code extension, and in the **Code** tab of the Claude desktop app.
+  </Tab>
+
+  <Tab title="VS Code" icon="code">
+    In the Claude Code extension, type `/plugins` in the prompt box to open **Manage plugins**. Add the marketplace `KrishnaPrakhya27/documentation.ai-migrator-skill`, then install `documentation-ai-migration`.
+
+    If you already installed the plugin in Claude Code in a terminal, it is available in VS Code too.
+  </Tab>
+
+  <Tab title="Codex" icon="square-terminal">
+    In a terminal, run:
+
+    ```bash
+    codex plugin marketplace add KrishnaPrakhya27/documentation.ai-migrator-skill
+    codex plugin add documentation-ai-migration@documentation-ai-migration
+    ```
+
+    Codex runs commands in a sandbox that blocks network access. A migration needs the network and a folder to work in, so start Codex like this:
+
+    ```bash
+    mkdir -p ~/migrations
+    codex --sandbox workspace-write -c sandbox_workspace_write.network_access=true --add-dir ~/migrations
+    ```
+  </Tab>
+</Tabs>
+
+## How to start a migration
+
+Open your assistant and describe the migration:
+
+```text
+Migrate https://docs.acme.com to Documentation.AI
+```
+
+- **In Codex**, mention the skill by name: `Use $migrate to migrate https://docs.acme.com to Documentation.AI`.
+- **In Claude Code**, you can also start the skill directly by typing `/documentation-ai-migration:migrate`.
+
+Your assistant asks for anything it still needs, such as how to deliver the result. Then it follows the steps in [Migrate to Documentation.AI](/migrations/overview).
+
+Each migration keeps its files in its own folder, such as `~/migrations/acme-docs`. The report is saved there too.
+
+## How to update the migrator
+
+<Tabs>
+  <Tab title="Claude Code" icon="terminal">
+    ```bash
+    claude plugin marketplace update documentation-ai-migration
+    claude plugin update documentation-ai-migration@documentation-ai-migration
+    ```
+
+    Then start a new session, or reload the window in VS Code.
+  </Tab>
+
+  <Tab title="Codex" icon="square-terminal">
+    ```bash
+    codex plugin marketplace upgrade documentation-ai-migration
+    codex plugin remove documentation-ai-migration@documentation-ai-migration
+    codex plugin add documentation-ai-migration@documentation-ai-migration
+    ```
+  </Tab>
+</Tabs>
+
+## Common questions
+
+<ExpandableGroup>
+  <Expandable title="Can I use the migrator in Claude Cowork or ChatGPT?" default-open="false">
+    Not yet. Claude Cowork and ChatGPT chat cannot sign in to Documentation.AI or push to Git from where they run commands, so a migration cannot finish there. Use Claude Code or Codex.
+  </Expandable>
+
+  <Expandable title="Do I need a Documentation.AI API key?" default-open="false">
+    No. Your browser opens so you can sign in to Documentation.AI when the migrator needs access to your project.
+  </Expandable>
+
+  <Expandable title="Where can I see how the migrator works?" default-open="false">
+    The migrator is open source. Its code and command reference are on [GitHub](https://github.com/KrishnaPrakhya27/documentation.ai-migrator-skill).
+  </Expandable>
+</ExpandableGroup>
+
+## If the migrator does not start
+
+- **The migrate skill is not listed**: Start a new session after installing or updating. Plugins load when a session starts.
+- **Your assistant reports that Node.js is too old**: Install Node.js 22 or newer, then start a new session.
+- **In Codex, commands cannot reach a website or write to your migration folder**: Start Codex with the network and folder options shown in [How to install the migrator](#how-to-install-the-migrator).
+
+## Related
+
+<Columns cols="2">
+  <Card title="Migrate to Documentation.AI" href="/migrations/overview" icon="arrow-right-left" horizontal="false">
+    The steps and decisions of a migration.
+  </Card>
+
+  <Card title="Migration checklist" href="/migrations/migration-checklist" icon="list-checks" horizontal="false">
+    What to prepare, review, and do after you go live.
+  </Card>
+</Columns>

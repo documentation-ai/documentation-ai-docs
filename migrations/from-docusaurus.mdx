@@ -1,8 +1,48 @@
 ---
-title: From Docusaurus
-description: "Migrate to Documentation.AI: From Docusaurus guide."
+title: Migrate from Docusaurus, Nextra, or Fern
+description: >-
+  See what moves when you migrate a Docusaurus, Nextra, or Fern repository to
+  Documentation.AI, and which parts of the sidebar you review.
 ---
+You can migrate a Docusaurus, Nextra, or Fern site from its repository. Tell your assistant the folder where you cloned it. The steps are the same as for every platform. See [Migrate to Documentation.AI](/migrations/overview).
 
-# From Docusaurus
+To migrate one of these sites from its live address instead, see [Migrate from other sites and Markdown](/migrations/from-markdown).
 
-[How-to Guide] Follow this From Docusaurus guide to move your content with minimal friction and preserved structure.
+## Docusaurus
+
+- **Pages** move with their titles, descriptions, headings, text, tables, and code.
+- **The generated sidebar** moves as it is: your docs folders, `_category_` files, and `sidebar_position` values.
+- **A `sidebars.js` or `sidebars.ts` file** is code, and the migrator does not run code from your repository. Your pages still move, and you review the sidebar at the first decision.
+- **Versioned or translated sites** move with every version and language. You review how they are arranged at the first decision.
+
+## Nextra
+
+- **Pages** move with their titles, descriptions, headings, text, tables, and code.
+- **The sidebar** is written in `_meta` files, which are code the migrator does not run. You review the page order and labels at the first decision.
+
+## Fern
+
+- **The navigation in `fern/docs.yml`** moves as it is, including tabs, versions, and page order.
+- **API reference sections** move with their OpenAPI specifications.
+- **Files that `docs.yml` does not reference** are not published by Fern, so they are not migrated.
+
+## What needs your decision
+
+- Custom React components, at the second decision
+- Any sidebar that comes from code, at the first decision
+
+## What does not move
+
+- Your footer, custom fonts, and banner. See [What does not move](/migrations/overview#what-does-not-move).
+
+## Related
+
+<Columns cols="2">
+  <Card title="Migrate to Documentation.AI" href="/migrations/overview" icon="arrow-right-left" horizontal="false">
+    The steps and decisions of a migration.
+  </Card>
+
+  <Card title="Navigation & Sidebar" href="/customize/navigation-and-sidebar" icon="menu" horizontal="false">
+    Adjust the sidebar after the migration.
+  </Card>
+</Columns>

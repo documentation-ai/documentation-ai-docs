@@ -1,8 +1,55 @@
 ---
-title: From ReadMe
-description: "Migrate to Documentation.AI: From ReadMe guide."
+title: Migrate from ReadMe
+description: >-
+  See what moves when you migrate a ReadMe project to Documentation.AI, and what
+  you decide along the way.
 ---
+You can migrate a ReadMe project from its sync repository, through the ReadMe API, or from its live site. The steps are the same as for every platform. See [Migrate to Documentation.AI](/migrations/overview).
 
-# From ReadMe
+## What you can migrate from
 
-[How-to Guide] Follow this From ReadMe guide to move your content with minimal friction and preserved structure.
+- **Your sync repository**, with categories as folders under `docs`. Tell your assistant the folder where you cloned it.
+- **The ReadMe API.** Create a ReadMe API key, and set it as the `README_API_KEY` environment variable before you start your assistant.
+- **Your live site**, such as `https://acme.readme.io`.
+
+## What moves
+
+| In ReadMe                                    | In Documentation.AI                               |
+| -------------------------------------------- | ------------------------------------------------- |
+| Categories                                   | Sidebar groups                                    |
+| Page order and child pages                   | The same order and nesting                        |
+| Callout blockquotes, such as 📘, 👍, 🚧, and ❗ | `Callout` with the matching style                 |
+| Accordions                                   | `Expandable`                                      |
+| Cards and columns                            | `Card` and `Columns`                              |
+| Tabs                                         | `Tabs`                                            |
+| Embeds                                       | Embedded frames                                   |
+| Recipes that include their steps             | `Steps`                                           |
+| Images                                       | Images in your media library                      |
+
+Pages marked as hidden in ReadMe are not migrated. The report lists them.
+
+## What needs your decision
+
+At the second decision, your assistant shows each of these with the pages that use it:
+
+- Variables and glossary terms
+- Recipes without their steps
+- Components from the ReadMe marketplace
+
+## What does not move
+
+- **API reference generated from an OpenAPI file uploaded to ReadMe.** Export the file from ReadMe and import it into Documentation.AI. See [OpenAPI Import](/api-documentation-and-playground/openapi-import).
+- **Changelog posts.** Recreate them with the [Update](/components/update) component.
+- Your footer, custom fonts, and banner. See [What does not move](/migrations/overview#what-does-not-move).
+
+## Related
+
+<Columns cols="2">
+  <Card title="Migrate to Documentation.AI" href="/migrations/overview" icon="arrow-right-left" horizontal="false">
+    The steps and decisions of a migration.
+  </Card>
+
+  <Card title="OpenAPI Import" href="/api-documentation-and-playground/openapi-import" icon="file-code" horizontal="false">
+    Build endpoint pages from your specification.
+  </Card>
+</Columns>

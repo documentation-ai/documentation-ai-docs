@@ -1,8 +1,79 @@
 ---
-title: Migration Checklist
-description: "Migrate to Documentation.AI: Migration Checklist guide."
+title: Migration checklist
+description: >-
+  What to prepare before a migration, what to check at each decision, and what
+  to do before and after you go live.
 ---
+Use this checklist alongside [Migrate to Documentation.AI](/migrations/overview). Each item is short, and each links to the details where you need them.
 
-# Migration Checklist
+## Before you start
 
-[Reference] Follow this Migration Checklist guide to move your content with minimal friction and preserved structure.
+- You own the site, or its owner has given you permission to copy it.
+- You have the **Editor** or **Admin** role in the organization that owns your Documentation.AI project.
+- Your plan includes previews. Previews need the **Standard** plan or higher.
+- The migrator is installed. See [Install the migrator](/migrations/install).
+- You know how you want to deliver: without Git, or with Git. See [Choose how to deliver](/migrations/overview#choose-how-to-deliver).
+- If you migrate with Git, your project's repository is cloned on your computer and you can push to it.
+- You have picked a template. See [Templates](/customize/templates).
+- Your team knows to stop editing the old site during the migration, so no new change is left behind.
+
+## At each decision
+
+<ExpandableGroup>
+  <Expandable title="Decision 1: pages and structure" default-open="false">
+
+    - Every page you expect is in the list.
+    - Tabs, groups, languages, versions, and their order match your old sidebar.
+    - Any page you leave out has a reason.
+    - You chose whether to add pages that are not in your old sidebar.
+
+  </Expandable>
+
+  <Expandable title="Decision 2: conversion plan" default-open="false">
+
+    - Every component without a clear equivalent has a decision.
+    - Page addresses stay the same, or each changed address has a redirect.
+    - Colors, logo, favicon, top bar links, and template look right.
+
+  </Expandable>
+
+  <Expandable title="Decision 3: converted site" default-open="false">
+
+    - The checks passed, or you understand each finding.
+    - You opened a few converted pages, including your most visited ones.
+
+  </Expandable>
+
+  <Expandable title="Decision 4: preview" default-open="false">
+
+    - Every preview page passed the check, or you accepted it with a reason.
+    - Your most visited pages look right on a phone and on a desktop.
+    - Search, the sidebar, and API reference pages work.
+    - You read the report and shared it with anyone who needs to sign off.
+
+  </Expandable>
+</ExpandableGroup>
+
+## Go live
+
+- Merge the migration branch. See [Go live](/migrations/overview#go-live).
+- Connect your domain. See [Custom Domain Setup](/customize/custom-domain), or [Custom Subpath Setup](/customize/custom-subpath/overview) if your docs live under a path such as `/docs`.
+- Open a few old page addresses and check that they reach the right pages.
+
+## After you go live
+
+- Keep your old site online until your domain points to Documentation.AI.
+- Update links to your documentation in your product, emails, and help articles.
+- Delete the migration branch when you no longer need it. See [Branches and previews](/write-and-publish/branches-and-previews).
+
+## Related
+
+<Columns cols="2">
+  <Card title="Migrate to Documentation.AI" href="/migrations/overview" icon="arrow-right-left" horizontal="false">
+    The steps and decisions of a migration.
+  </Card>
+
+  <Card title="Install the migrator" href="/migrations/install" icon="download" horizontal="false">
+    Add the migrator to Claude Code or Codex.
+  </Card>
+</Columns>

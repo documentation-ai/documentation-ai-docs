@@ -9,6 +9,13 @@ You can migrate a Document360 knowledge base from an export file or from its liv
 ## What you can migrate from
 
 - **An export from Document360**, as the ZIP file or its unzipped folder. It includes your articles, categories, and media. Tell your assistant where the file is.
+
+<Callout kind="warning" collapsed="false">
+  **Two things an export needs today**
+
+  - Its images have no public address for Documentation.AI to fetch, so copying them into your media library needs a project API key, set as `DAI_API_KEY` and `DAI_API_BASE`.
+  - The migrator cannot yet confirm by itself that an export lists every category, so a migration from an export does not pass its final release check. Your assistant reports this, and you decide whether to accept it or migrate from the live site instead.
+</Callout>
 - **Your live site**, such as `https://docs.acme.com`.
 
 ## What moves
@@ -23,7 +30,7 @@ You can migrate a Document360 knowledge base from an export file or from its liv
 | Tabs                                             | `Tabs`                                                     |
 | Tables                                           | Tables                                                     |
 | Embedded frames and videos                       | Embedded frames and `Video`                                |
-| Images and files in the export                   | Files in your media library                                |
+| Images and files in the export                   | Files in your media library, with a project API key        |
 
 ## What needs your decision
 

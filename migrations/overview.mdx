@@ -11,7 +11,7 @@ The Documentation.AI migrator moves an existing documentation site into your Doc
   **Before you begin**
 
   - You need the **Editor** or **Admin** role in the organization that owns your Documentation.AI project.
-  - Previews need the **Standard** plan or higher. See [Preview sites](/write-and-publish/branches-and-previews#preview-sites).
+  - Every plan includes preview sites, so you can check the result before it goes live. See [Preview sites](/write-and-publish/branches-and-previews#preview-sites).
   - Install the migrator in Claude Code or Codex. See [Install the migrator](/migrations/install).
   - Migrate only a site you own, or one whose owner has given you permission to copy it.
 </Callout>
@@ -27,7 +27,7 @@ The Documentation.AI migrator moves an existing documentation site into your Doc
 | Page addresses    | Kept the same. If an address changes, a redirect sends visitors to the new one                     |
 | Images and files  | Copied into your project's [media library](/write-and-publish/media-library)                       |
 | API reference     | Endpoint pages from your OpenAPI specification keep their method badges in the sidebar             |
-| Look              | Your brand colors, logo, favicon, and top bar links, on the [template](/customize/templates) you choose |
+| Look              | Your brand colors, logo, favicon, and top bar links, on the [template](/customize/templates) you choose. Read from your live site, or from a Mintlify repository; other repositories and exports carry no branding |
 
 What moves in detail depends on your old platform. Anything Documentation.AI has no place for, such as a custom footer, is listed for you instead of guessed. See [What does not move](#what-does-not-move).
 
@@ -125,7 +125,7 @@ If Documentation.AI manages your project's repository for you, migrate without G
   </Step>
 
   <Step title="Sign in again to create the migration branch" icon="upload" title-type="p">
-    Your browser opens again. The migrator sends every page to a new branch in your project, such as `migration/mig-5f2c0a1b9e`, and publishes that branch. Your live site does not change.
+    Your browser opens again. It opens each time the migrator needs your project: to choose it, to copy your images, and again here. The migrator sends every page to a new branch in your project, such as `migration/mig-5f2c0a1b9e`, and publishes that branch. Your live site does not change.
   </Step>
 
   <Step title="Open the preview" icon="eye" title-type="p">
@@ -224,7 +224,9 @@ The report is also saved as a web page. The PDF version needs Chrome or Chromium
   </Expandable>
 
   <Expandable title="Do I need an API key?" default-open="false">
-    No. When the migrator needs access to your project, your browser opens so you can sign in to Documentation.AI. The sign-in is not saved on your computer.
+    Not for most sites. When the migrator needs access to your project, your browser opens so you can sign in to Documentation.AI, and the sign-in is not saved on your computer.
+
+    One case needs more: a picture Documentation.AI cannot fetch from a public address. That means pictures that came out of an export rather than a live site, and SVGs the migrator had to clean. Hosting those needs a project API key, set as `DAI_API_KEY` and `DAI_API_BASE`. Without one, your assistant asks you to decide instead.
   </Expandable>
 
   <Expandable title="Which AI assistants can run a migration?" default-open="false">
@@ -232,7 +234,7 @@ The report is also saved as a web page. The PDF version needs Chrome or Chromium
   </Expandable>
 
   <Expandable title="What happens to images from my old site?" default-open="false">
-    The migrator copies them into your project's media library, so they keep working after your old site goes offline. If an image cannot be downloaded, the report lists it, and you decide whether to leave it where it is.
+    The migrator copies them into your project's media library, so they keep working after your old site goes offline. If an image cannot be hosted, the migration stops and your assistant asks you to decide: leave every picture at the address that serves it today, or drop that image from the pages that use it.
   </Expandable>
 
   <Expandable title="What happens to pages that are not in my old sidebar?" default-open="false">
@@ -261,7 +263,7 @@ Your assistant shows the message and what it means. Match it below:
 - **"Path "…" already appears at …"**: Your old sidebar lists the same page in two places, which Documentation.AI does not accept when you migrate without Git. Migrate with Git instead.
 - **"publishing … met conflicts with changes made in the editor meanwhile"**: Someone edited the migration branch in the editor at the same time. Resolve the conflicts in the editor, then ask your assistant to publish again.
 - **"cannot push to …"**: Your computer does not have permission to push to the repository. The message ends with the fix, such as signing in with the GitHub CLI.
-- **No Preview link appears**: The preview may still be building, or your plan may not include previews. See [Preview sites](/write-and-publish/branches-and-previews#preview-sites).
+- **No Preview link appears**: The preview may still be building. See [Preview sites](/write-and-publish/branches-and-previews#preview-sites).
 
 ## What does not move
 

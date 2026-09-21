@@ -8,7 +8,7 @@ You can migrate a GitBook site from its live address or from its Git Sync reposi
 
 ## What you can migrate from
 
-- **Your live site**, such as `https://acme.gitbook.io/docs`. The migrator reads the Markdown copy that GitBook publishes for each page.
+- **Your live site**, such as `https://acme.gitbook.io/docs`. The migrator reads the Markdown copy that GitBook publishes for each page. If a page does not serve one, the migration stops rather than guessing that page's content.
 - **Your Git Sync repository**, with its `SUMMARY.md` and `.gitbook.yaml` files. Tell your assistant the folder where you cloned it.
 
 ## What moves
@@ -29,7 +29,7 @@ You can migrate a GitBook site from its live address or from its Git Sync reposi
 | Code blocks, including their titles                 | Code blocks with titles                                              |
 | API operations written as OpenAPI blocks            | A reference on the page: method, path, parameters, and response fields |
 | Redirects in `.gitbook.yaml`                        | Redirects                                                            |
-| Colors, logo, favicon, and header links             | Your site's look, which you review at the second decision            |
+| Colors, logo, favicon, and header links             | Your site's look, which you review at the second decision. Read from your live site only |
 
 <Callout kind="tip" collapsed="false">
   If your API reference loads an OpenAPI file from a URL, give that address to your assistant. The migrator can then bring the specification with your pages.

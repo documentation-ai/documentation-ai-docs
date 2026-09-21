@@ -8,7 +8,7 @@ You can migrate a Mintlify site from its live address or from its repository. Th
 
 ## What you can migrate from
 
-- **Your live site**, such as `https://docs.acme.com`. The migrator reads the Markdown copy that Mintlify publishes for each page.
+- **Your live site**, such as `https://docs.acme.com`. The migrator reads the Markdown copy that Mintlify publishes for each page. If a page does not serve one, the migration stops rather than guessing that page's content, and your assistant tells you which page it was.
 - **Your repository**, with its `docs.json` or `mint.json` file. Tell your assistant the folder where you cloned it.
 
 ## What moves
@@ -27,7 +27,7 @@ You can migrate a Mintlify site from its live address or from its repository. Th
 | `Tree` and `FileTree`                                                | Expandable folders                                                     |
 | Snippets imported without props                                      | The snippet's content, on each page that uses it                       |
 | OpenAPI endpoint pages                                               | Endpoint pages with method badges in the sidebar                       |
-| Redirects                                                            | Redirects                                                              |
+| Redirects                                                            | Exact redirects. Wildcard rules are listed in the report for you to add |
 | Custom heading IDs                                                   | Links to those headings keep working                                   |
 | Colors, logo, favicon, and navbar links                              | Your site's look, which you review at the second decision              |
 

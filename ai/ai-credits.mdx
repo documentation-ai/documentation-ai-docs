@@ -21,9 +21,17 @@ For example, on the Standard plan (10,000 credits/month) with 4,000 credits rema
 
 The [AI Assistant](/ai/ai-assistant) powers the on-page **Ask AI** widget for your end users.
 
-Each end-user question costs **exactly 1 credit**, regardless of answer length or page.
+Each end-user question costs **exactly 10 credits**, regardless of answer length or page.
 
-For example, on the Standard plan (10,000 credits), your users can ask up to **10,000 questions per month**.
+For example, on the Standard plan (10,000 credits), your users can ask up to **1,000 questions per month**.
+
+### When credits are not deducted
+
+Credits are not consumed in the following situations:
+
+- **Response failure** — If the assistant encounters an error and cannot generate a response, no credits are deducted.
+- **No relevant answer found** — If the assistant searches your documentation but cannot find information relevant to the user's question, no credits are deducted.
+- **Casual conversation** — Greetings, small talk, and non-documentation messages (e.g., "Hi," "Thank you") do not consume credits.
 
 ## AI Documentation Agent
 
@@ -91,5 +99,5 @@ The usage page shows:
 - **Be specific** — "Change the title of getting-started.mdx to Quick Start" costs less than "update the getting started page" because the agent doesn't need to search and read first.
 - **Use follow-ups** — After the agent edits a page, ask for changes in the same conversation rather than starting a new one. Follow-ups are cheaper.
 - **Batch related changes** — "Add pages for authentication, rate limiting, and webhooks" in one message is cheaper than three separate conversations.
-- **Use the AI Assistant for questions** — If you just need to look up something in your docs, use Ask AI (1 credit) instead of the Documentation Agent.
+- **Use the AI Assistant for questions** — If you just need to look up something in your docs, use Ask AI (10 credits) instead of the Documentation Agent.
 

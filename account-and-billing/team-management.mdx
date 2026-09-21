@@ -4,7 +4,7 @@ description: Manage team members and understand user permissions in your organiz
 ---
 ## User Roles Overview
 
-Documentation.ai has two user roles for organization members:
+Documentation.ai has three user roles for organization members:
 
 ### Admin Role
 
@@ -19,6 +19,30 @@ Documentation.ai has two user roles for organization members:
 - Make changes to projects and settings
 
 - Publish documentation
+
+### Editor Role
+
+**Edit and publish access:**
+
+- Create, edit, and publish documentation
+
+- Create and manage branches and pull requests
+
+- Push changes to the repository
+
+- Modify documentation-level settings (AI assistant configuration, authentication settings)
+
+- Request and cancel PDF exports
+
+**Cannot:**
+
+- Manage team members or organization settings
+
+- Delete documentation or projects
+
+- Manage API keys or custom domains
+
+- Change source repository or deployment branch configuration
 
 ### Viewer Role
 
@@ -50,7 +74,7 @@ Documentation.ai has two user roles for organization members:
 
    - Multiple users: `user1@example.com, user2@example.com, user3@example.com`
 
-5. Select the role (Admin or Viewer)
+5. Select the role (Admin, Editor, or Viewer)
 
 6. Click **Invite**
 
@@ -84,7 +108,7 @@ Access the members list at **Settings** → **Organization Settings** → **Memb
 
 3. Select **Change Role**
 
-4. Choose new role (Admin or Viewer)
+4. Choose new role (Admin, Editor, or Viewer)
 
 5. Click **Save**
 
@@ -122,6 +146,8 @@ Access the members list at **Settings** → **Organization Settings** → **Memb
 
 - Admins have full control across all documentation projects
 
+- Editors can create, edit, and publish documentation but cannot manage organization or team settings
+
 - Viewers have read-only access across all documentation projects
 
 ### Multi-Organization Users
@@ -138,6 +164,8 @@ Access the members list at **Settings** → **Organization Settings** → **Memb
 
 - **Use Admin role for**: Team leads, content managers, developers who need full access
 
+- **Use Editor role for**: Technical writers, developers, and content creators who need to write and publish documentation without organization management access
+
 - **Use Viewer role for**: Stakeholders, clients, or team members who only need to read documentation
 
 ### Security
@@ -146,7 +174,7 @@ Access the members list at **Settings** → **Organization Settings** → **Memb
 
 - Remove users who no longer need access
 
-- Use Viewer role as default unless full access is required
+- Use Viewer role as default. Use Editor for content creators who need to write and publish. Reserve Admin for those who need full access.
 
 ## Troubleshooting
 
@@ -161,4 +189,3 @@ Access the members list at **Settings** → **Organization Settings** → **Memb
 - [Understanding Organizations & Projects](organizations-and-projects)
 
 - [Billing & Usage Limits](usage-limits) - Team member limits by plan
-

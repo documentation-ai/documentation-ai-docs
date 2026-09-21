@@ -6,15 +6,16 @@ description: >-
 ---
 ## Overview
 
-The Authoring MCP Server lets an MCP-compatible AI client work in your documentation project. It can read pages, write and reorganize content, update `documentation.json`, manage branches, and publish changes.
+The Authoring MCP Server lets an MCP-compatible AI client work in your documentation project. It can read pages, write and reorganize content, add images and files, update `documentation.json`, manage branches, and publish changes.
 
 This is the server your **documentation team** connects to, and it uses your role in your Documentation.AI organization. To give readers AI access to your published docs, use the [Reader MCP Server](/ai/reader-mcp-server). To work over HTTP from your own scripts or CI/CD, use the [REST API](/api-reference/overview).
 
 ## How edits work
 
-- Changes the agent makes appear in the web editor as unpublished changes, the same as a teammate's edits.
+- Changes the agent makes to pages appear in the web editor as unpublished changes, the same as a teammate's edits.
 - Nothing goes live until the changes are published.
 - Publishing a branch includes every unpublished change on it, including your teammates' edits.
+- Media is the exception. Your media library is shared by every branch, so importing, replacing, or deleting a file takes effect right away. Replacing or deleting a file changes every page that uses it, including your live site.
 
 <Callout kind="alert" collapsed="false">
   The server acts with your Documentation.AI permissions. Connect it only to AI clients you trust, and ask the agent to work on a separate branch when you want a review before anything goes live.
@@ -136,9 +137,20 @@ Describe the task to your AI client in plain language, and it calls the tools fo
   For small fixes, the agent can edit your live branch directly. The edits stay unpublished until you ask it to publish, so you can review them first.
 </Callout>
 
+## Add images and files
+
+Tell the agent which image or file you want and where it goes. The agent adds the file to your media library, then inserts it into the page with the same snippet the web editor writes.
+
+- **If the file is at a public URL**, give the agent the URL and the place on the page. For example: "Import https://example.com/setup-diagram.png and add it under the Install heading in guides/setup.mdx."
+- **If the file is on your computer**, ask the agent for an upload link. Open the link, sign in if asked, and drop your files. Then tell the agent you're done, and it finds the files in your media library. The link works for 15 minutes.
+- **If the file may already be there**, ask the agent to find it by name or alt text first, and reuse it instead of importing a second copy.
+- **If you want a newer version on every page**, ask the agent to replace the file from a URL. The URL stays the same, so pages update without edits.
+
+For step-by-step instructions, limits, and supported file types, see [Media library](/write-and-publish/media-library#ai-agents-and-the-rest-api).
+
 ## Tools reference
 
-The server provides 25 tools. Read-only tools never change your documentation. Destructive tools make changes that are hard to undo, so most clients ask you to confirm them first.
+The server provides 32 tools. Read-only tools never change your documentation. Destructive tools overwrite or remove something, so most clients ask you to confirm them first. Only tools that add something new, such as creating a page or importing a file, go through without a prompt.
 
 | Tool                      | What it does                                                | Minimum role | Behavior        |
 | ------------------------- | ----------------------------------------------------------- | ------------ | --------------- |
@@ -155,18 +167,25 @@ The server provides 25 tools. Read-only tools never change your documentation. D
 | `diff_page`               | Shows the unpublished changes to a file                     | Viewer       | Read-only       |
 | `list_branches`           | Lists branches and shows which one is live                  | Viewer       | Read-only       |
 | `list_pull_requests`      | Lists pull requests                                         | Viewer       | Read-only       |
+| `list_media`              | Lists files in your media library, with URLs and snippets   | Viewer       | Read-only       |
+| `search_media`            | Finds files in your media library by name or alt text       | Viewer       | Read-only       |
 | `create_page`             | Creates a page or another file                              | Editor       | Makes changes   |
-| `update_page`             | Replaces specific text in a page                            | Editor       | Makes changes   |
-| `rewrite_page`            | Replaces the full content of a page                         | Editor       | Makes changes   |
-| `update_site_config`      | Changes values in `documentation.json`                      | Editor       | Makes changes   |
-| `resolve_conflict`        | Saves the resolved version of a conflicting file            | Editor       | Makes changes   |
 | `create_branch`           | Creates a branch                                            | Editor       | Makes changes   |
+| `import_media`            | Adds files to your media library from URLs                  | Editor       | Makes changes   |
+| `request_upload`          | Gives you a link to upload files from your computer         | Editor       | Makes changes   |
+| `update_page`             | Replaces specific text in a page                            | Editor       | Destructive     |
+| `rewrite_page`            | Replaces the full content of a page                         | Editor       | Destructive     |
+| `update_site_config`      | Changes values in `documentation.json`                      | Editor       | Destructive     |
+| `resolve_conflict`        | Saves the resolved version of a conflicting file            | Editor       | Destructive     |
 | `move_page`               | Moves or renames a file                                     | Editor       | Destructive     |
 | `delete_page`             | Deletes a file                                              | Editor       | Destructive     |
 | `publish`                 | Publishes the unpublished changes on a branch               | Editor       | Destructive     |
-| `revert_changes`          | Discards unpublished changes                                | Editor       | Destructive     |
+| `revert_page`             | Discards unpublished changes to one file                    | Editor       | Destructive     |
+| `revert_all_changes`      | Discards every unpublished change on a branch               | Editor       | Destructive     |
 | `merge_branches`          | Merges one branch into another                              | Editor       | Destructive     |
 | `delete_branch`           | Deletes a branch                                            | Editor       | Destructive     |
+| `replace_media`           | Replaces a file with a new version, keeping its URL         | Editor       | Destructive     |
+| `delete_media`            | Deletes files from your media library                       | Admin        | Destructive     |
 
 Most tools also accept `organizationId` and `documentationId` to work on a specific project, and `branch` to work on a specific branch. Tools that return lists accept `limit` and `cursor` to page through results.
 
@@ -364,12 +383,18 @@ Most tools also accept `organizationId` and `documentationId` to work on a speci
   </ParamField>
 </Expandable>
 
-<Expandable title="revert_changes" default-open="false">
-  Discards unpublished changes to one file, or to every file on a branch.
+<Expandable title="revert_page" default-open="false">
+  Discards unpublished changes to one file, restoring its published content. It does not undo changes you have already published.
 
-  <ParamField body="path" param-type="string" required="false" deprecated="false" show-location="false">
-    File to restore. Omit it to discard every unpublished change on the branch.
+  <ParamField body="path" param-type="string" required="true" deprecated="false" show-location="false">
+    File to restore, such as `docs/guide.mdx`
   </ParamField>
+</Expandable>
+
+<Expandable title="revert_all_changes" default-open="false">
+  Discards every unpublished change on a branch, across all files and all collaborators, restoring its published state. Use it only to abandon all pending work on that branch.
+
+  **Parameters:** `branch` (optional)
 </Expandable>
 
 ### Branches
@@ -424,6 +449,78 @@ Most tools also accept `organizationId` and `documentationId` to work on a speci
   </ParamField>
 </Expandable>
 
+### Media
+
+Files belong to your documentation project, not to a branch, so these tools do not take `branch`. Each file gets its own result, so one failed file does not stop the others.
+
+<Expandable title="list_media" default-open="false">
+  Lists the files in your media library, newest first. Each file comes with its URL and the snippet that inserts it into a page: `<Image />` for an image, `<Video />` for a video, and a Markdown link for any other file. Large libraries come back a page at a time, so the agent may make several calls.
+
+  <ParamField body="kind" param-type="string" required="false" deprecated="false" show-location="false">
+    List only one kind of file: `image`, `video`, `audio`, `document`, `data`, `archive`, or `font`
+  </ParamField>
+
+  <ParamField body="since" param-type="string" required="false" deprecated="false" show-location="false">
+    List only files added at or after this time, in ISO 8601 format such as `2026-09-18T10:00:00Z`
+  </ParamField>
+</Expandable>
+
+<Expandable title="search_media" default-open="false">
+  Finds files in your media library by name or alt text, matching any part of either and ignoring case. Results come with the same URLs and snippets as `list_media`, newest first, a page at a time.
+
+  <ParamField body="query" param-type="string" required="true" deprecated="false" show-location="false">
+    Text to find in the file name or alt text
+  </ParamField>
+
+  <ParamField body="kind" param-type="string" required="false" deprecated="false" show-location="false">
+    Search only one kind of file: `image`, `video`, `audio`, `document`, `data`, `archive`, or `font`
+  </ParamField>
+
+  <ParamField body="since" param-type="string" required="false" deprecated="false" show-location="false">
+    Search only files added at or after this time, in ISO 8601 format such as `2026-09-18T10:00:00Z`
+  </ParamField>
+</Expandable>
+
+<Expandable title="import_media" default-open="false">
+  Adds up to 10 files to your media library from URLs, and returns the URL and snippet for each. Importing never changes a page. To place a file, the agent inserts its snippet with `update_page`.
+
+  If a file is already in your library, the existing copy is reused. If another file already has the same name, the new file gets a number added, such as `screenshot-2.png`.
+
+  <ParamField body="files" param-type="array" required="true" deprecated="false" show-location="false">
+    The files to import, from 1 to 10. Each has a `url`, and optionally a `name` and `altText`.
+  </ParamField>
+</Expandable>
+
+<Expandable title="request_upload" default-open="false">
+  Returns a link where you can upload files from your computer, such as a screenshot. The link opens in the Documentation.AI dashboard, asks you to sign in, and works for 15 minutes. Files you upload there get the same checks as any other upload.
+
+  The result also includes the time the link was made. The agent passes it to `list_media` as `since` to find exactly the files you uploaded.
+
+  <ParamField body="note" param-type="string" required="false" deprecated="false" show-location="false">
+    Text shown on the upload page, up to 200 characters, such as which file the agent is asking for
+  </ParamField>
+</Expandable>
+
+<Expandable title="replace_media" default-open="false">
+  Replaces a file with a new version from a URL. The new file must be the same type as the original. The URL stays the same, so every page that uses the file shows the new version right away.
+
+  <ParamField body="mediaId" param-type="string" required="true" deprecated="false" show-location="false">
+    The file's `id` from `list_media`, `search_media`, or `import_media`
+  </ParamField>
+
+  <ParamField body="url" param-type="string" required="true" deprecated="false" show-location="false">
+    HTTPS URL of the new version
+  </ParamField>
+</Expandable>
+
+<Expandable title="delete_media" default-open="false">
+  Deletes up to 100 files from your media library. Pages that use a deleted file show it as missing, so remove the file from pages first.
+
+  <ParamField body="mediaIds" param-type="array" required="true" deprecated="false" show-location="false">
+    The `id` of each file to delete, from 1 to 100
+  </ParamField>
+</Expandable>
+
 ## Resources
 
 The server also provides these reference resources:
@@ -441,7 +538,7 @@ Your role in your Documentation.AI organization decides which tools you can use.
 | Role       | Access                                 |
 | ---------- | -------------------------------------- |
 | **Viewer** | Read-only tools, plus `select_project` |
-| **Editor** | All tools                              |
+| **Editor** | All tools except `delete_media`        |
 | **Admin**  | All tools                              |
 
 If you want an AI client to read your published documentation without being able to change it, use the [Reader MCP Server](/ai/reader-mcp-server) instead.
@@ -457,7 +554,19 @@ If you want an AI client to read your published documentation without being able
 </Expandable>
 
 <Expandable title="An editing tool is refused" default-open="false">
-  Editing, publishing, and branch changes require the editor or admin role. Ask an admin in your organization to update your role.
+  Editing, publishing, branch changes, and importing or replacing files require the editor or admin role. Deleting files requires the admin role. Ask an admin in your organization to update your role.
+</Expandable>
+
+<Expandable title="A file does not import" default-open="false">
+  The result for that file says why. Check that the URL starts with `https://`, that the file opens in a browser without signing in, and that it is a supported type within your plan's size limit. See [Limits and supported file types](/write-and-publish/media-library#limits-and-supported-file-types).
+</Expandable>
+
+<Expandable title="The upload link does not open" default-open="false">
+  Upload links work for 15 minutes and only for people who can edit the project. If the link has expired, ask the agent for a new one. If you see a permission error, ask an admin in your organization to give you the editor role.
+</Expandable>
+
+<Expandable title="The agent cannot find a file I uploaded" default-open="false">
+  Ask the agent to search your media library by the file name. Files you upload in the web editor's **Media** tab are in the same library the agent searches.
 </Expandable>
 
 <Expandable title="Publishing reports a conflict" default-open="false">
@@ -488,6 +597,14 @@ If you want an AI client to read your published documentation without being able
   </Card>
 
   <Card title="Branches & Previews" href="/write-and-publish/branches-and-previews" icon="git-branch" cta="Learn branch workflows" horizontal="false">
+
+  </Card>
+
+  <Card title="Media Library" href="/write-and-publish/media-library" icon="images" cta="Add and manage images and files" horizontal="false">
+
+  </Card>
+
+  <Card title="REST API" href="/api-reference/overview" icon="code" cta="Manage your documentation over HTTP" horizontal="false">
 
   </Card>
 </Columns>

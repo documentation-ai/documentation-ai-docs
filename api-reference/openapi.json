@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Documentation.AI Content API",
-    "description": "Programmatic access to read and update your documentation, publish deployments, and read analytics.\n\nEach API key is scoped to a single documentation project and carries a role — viewer, editor, or admin — that determines which endpoints it can reach. Because the key identifies the project, no endpoint takes a project identifier.\n\nAll dates are UTC. Timestamps are ISO 8601 strings.",
+    "description": "Programmatic access to read and update your documentation, manage media, publish deployments, and read analytics.\n\nEach API key is scoped to a single documentation project and carries a role — viewer, editor, or admin — that determines which endpoints it can reach. Because the key identifies the project, no endpoint takes a project identifier.\n\nAll dates are UTC. Timestamps are ISO 8601 strings.",
     "version": "1.0.0",
     "contact": {
       "name": "Documentation.AI Support",
@@ -48,6 +48,10 @@
     {
       "name": "Deployments",
       "description": "Trigger deployments and check their status"
+    },
+    {
+      "name": "Media",
+      "description": "Upload, import, replace, and delete images, videos, and files in the media library"
     },
     {
       "name": "Analytics",
@@ -668,6 +672,358 @@
           },
           "401": { "$ref": "#/components/responses/Unauthorized" },
           "404": { "$ref": "#/components/responses/NotFound" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
+      }
+    },
+    "/media": {
+      "get": {
+        "operationId": "listMedia",
+        "summary": "List media",
+        "description": "Returns the files in the media library, newest first. Search by file name or alt text, or filter by kind of file.",
+        "tags": ["Media"],
+        "parameters": [
+          { "name": "search", "in": "query", "description": "Text to find in the file name or alt text, ignoring case", "required": false, "schema": { "type": "string" } },
+          { "name": "kind", "in": "query", "description": "Return only one kind of file", "required": false, "schema": { "type": "string", "enum": ["image", "video", "audio", "document", "data", "archive", "font"] } },
+          { "name": "page", "in": "query", "description": "Page of results to return", "required": false, "schema": { "type": "integer", "minimum": 1, "default": 1 } },
+          { "name": "limit", "in": "query", "description": "Files per page", "required": false, "schema": { "type": "integer", "minimum": 1, "default": 20 } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Files returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "media": { "type": "array", "items": { "$ref": "#/components/schemas/Media" } },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "page": { "type": "integer", "example": 1 },
+                        "limit": { "type": "integer", "example": 20 },
+                        "total": { "type": "integer", "description": "Files that match the request", "example": 42 },
+                        "pages": { "type": "integer", "description": "Pages available at this limit", "example": 3 }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
+      },
+      "post": {
+        "operationId": "uploadMedia",
+        "summary": "Upload media",
+        "description": "Uploads 1 to 10 files in one `multipart/form-data` request. Each file gets the same checks as an upload in the web editor: a supported type, contents that match the extension, a safe SVG, your plan's size limit, and your storage quota. The response has one result per file, so one failed file does not fail the others. A file that is already in the library is reused. If another file already has the same name, the new file gets a number added, such as `diagram-2.png`. Requires editor or admin role.",
+        "tags": ["Media"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["files"],
+                "properties": {
+                  "files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 10,
+                    "items": { "type": "string", "format": "binary" },
+                    "description": "The files to upload. Repeat the `files` field once for each file."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "$ref": "#/components/responses/MediaResults" },
+          "207": { "$ref": "#/components/responses/MediaPartial" },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "413": { "$ref": "#/components/responses/PayloadTooLarge" },
+          "415": { "$ref": "#/components/responses/UnsupportedMediaType" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" },
+          "507": { "$ref": "#/components/responses/StorageFull" }
+        }
+      }
+    },
+    "/media/import": {
+      "post": {
+        "operationId": "importMedia",
+        "summary": "Import media from URLs",
+        "description": "Adds 1 to 10 files to the media library from public HTTPS URLs. A file must open without signing in, and addresses on private networks are refused. A URL may redirect no more than 3 times, and each file must finish downloading within 30 seconds. Each file gets the same checks as an upload, and the response has one result per file. Requires editor or admin role.",
+        "tags": ["Media"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["files"],
+                "additionalProperties": false,
+                "properties": {
+                  "files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 10,
+                    "description": "The files to import",
+                    "items": {
+                      "type": "object",
+                      "required": ["url"],
+                      "additionalProperties": false,
+                      "properties": {
+                        "url": { "type": "string", "format": "uri", "description": "HTTPS URL of the file", "example": "https://example.com/setup-diagram.png" },
+                        "name": { "type": "string", "description": "File name to store. Defaults to the name in the URL.", "example": "setup-diagram.png" },
+                        "altText": { "type": "string", "description": "Alt text for an image, or link text for any other file", "example": "Setup steps diagram" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "$ref": "#/components/responses/MediaResults" },
+          "207": { "$ref": "#/components/responses/MediaPartial" },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "413": { "$ref": "#/components/responses/PayloadTooLarge" },
+          "415": { "$ref": "#/components/responses/UnsupportedMediaType" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" },
+          "507": { "$ref": "#/components/responses/StorageFull" }
+        }
+      }
+    },
+    "/media/bulk-delete": {
+      "post": {
+        "operationId": "bulkDeleteMedia",
+        "summary": "Delete several files",
+        "description": "Deletes 1 to 100 files and returns a result for each. Pages that use a deleted file show it as missing. Requires admin role.",
+        "tags": ["Media"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["mediaIds"],
+                "additionalProperties": false,
+                "properties": {
+                  "mediaIds": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 100,
+                    "items": { "type": "string", "format": "uuid" },
+                    "description": "The `id` of each file to delete"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "What was deleted and what was not",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "deleted": { "type": "array", "items": { "type": "string", "format": "uuid" }, "description": "Identifiers of the files that were deleted" },
+                    "failed": {
+                      "type": "array",
+                      "description": "Files that were not deleted, each with the reason",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "source": { "type": "string", "format": "uuid", "description": "Identifier you sent", "example": "4c1d8a2e-7b3f-4f0a-9d6e-2a5b8c7e1f03" },
+                          "error": { "type": "string", "description": "Why the file was not deleted", "example": "File not found" }
+                        }
+                      }
+                    },
+                    "reclaimedBytes": { "type": "integer", "description": "Storage freed by this request, in bytes", "example": 184233 }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
+      }
+    },
+    "/media/{mediaId}": {
+      "get": {
+        "operationId": "getMedia",
+        "summary": "Get a file",
+        "description": "Returns one file from the media library.",
+        "tags": ["Media"],
+        "parameters": [{ "$ref": "#/components/parameters/MediaId" }],
+        "responses": {
+          "200": {
+            "description": "File returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "media": { "$ref": "#/components/schemas/Media" } }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
+      },
+      "patch": {
+        "operationId": "updateMedia",
+        "summary": "Update alt text",
+        "description": "Changes a file's alt text. For an image, screen readers read it. For any other file, it is the link text the web editor uses the next time someone inserts the file; links already on pages are not rewritten. Requires editor or admin role.",
+        "tags": ["Media"],
+        "parameters": [{ "$ref": "#/components/parameters/MediaId" }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["altText"],
+                "additionalProperties": false,
+                "properties": {
+                  "altText": { "type": "string", "description": "The new alt text. Send an empty string to clear it.", "example": "Setup steps diagram" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Alt text updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "media": { "$ref": "#/components/schemas/Media" } }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
+      },
+      "delete": {
+        "operationId": "deleteMedia",
+        "summary": "Delete a file",
+        "description": "Deletes a file from the media library and frees its storage. Pages that use the file show it as missing. Requires admin role.",
+        "tags": ["Media"],
+        "parameters": [{ "$ref": "#/components/parameters/MediaId" }],
+        "responses": {
+          "200": {
+            "description": "File deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "deleted": { "$ref": "#/components/schemas/Media" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
+      }
+    },
+    "/media/{mediaId}/replace": {
+      "post": {
+        "operationId": "replaceMedia",
+        "summary": "Replace a file",
+        "description": "Swaps in a new version of a file, sent as `multipart/form-data` or imported from a public HTTPS URL. The new file must be the same type as the original. The URL stays the same, so every page that uses the file shows the new version without an edit. An image can take up to a minute to refresh. Requires editor or admin role.",
+        "tags": ["Media"],
+        "parameters": [{ "$ref": "#/components/parameters/MediaId" }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["file"],
+                "properties": {
+                  "file": { "type": "string", "format": "binary", "description": "The new version of the file" }
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["url"],
+                "additionalProperties": false,
+                "properties": {
+                  "url": { "type": "string", "format": "uri", "description": "HTTPS URL of the new version", "example": "https://example.com/setup-diagram.png" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "File replaced",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "media": { "$ref": "#/components/schemas/Media" } }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "413": { "$ref": "#/components/responses/PayloadTooLarge" },
+          "415": { "$ref": "#/components/responses/UnsupportedMediaType" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" },
+          "507": { "$ref": "#/components/responses/StorageFull" }
+        }
+      }
+    },
+    "/storage": {
+      "get": {
+        "operationId": "getStorage",
+        "summary": "Get storage usage",
+        "description": "Returns how much of your organization's storage quota is in use, and the largest file your plan accepts for each kind of file. The quota is shared by every documentation in the organization.",
+        "tags": ["Media"],
+        "responses": {
+          "200": {
+            "description": "Storage usage returned",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/StorageUsage" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
           "429": { "$ref": "#/components/responses/TooManyRequests" }
         }
       }
@@ -1401,6 +1757,56 @@
             "schema": { "$ref": "#/components/schemas/Error" }
           }
         }
+      },
+      "MediaPartial": {
+        "description": "Some files were stored and some were not. Each failed result says why.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "results": { "type": "array", "items": { "$ref": "#/components/schemas/MediaResult" } }
+              }
+            }
+          }
+        }
+      },
+      "MediaResults": {
+        "description": "One result per file, in the order sent. When every file fails, the response takes the first failure's status instead.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "results": { "type": "array", "items": { "$ref": "#/components/schemas/MediaResult" } }
+              }
+            }
+          }
+        }
+      },
+      "PayloadTooLarge": {
+        "description": "The file is larger than your plan allows for its kind, for example `File size exceeds your plan's limit of 10MB.`",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "UnsupportedMediaType": {
+        "description": "The file type is not accepted, the file's contents do not match its extension, or an SVG contains a script or embedded content",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "StorageFull": {
+        "description": "Your organization's storage quota is full. Free space by deleting unused files, or upgrade your plan.",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
       }
     },
     "parameters": {
@@ -1433,6 +1839,13 @@
         "description": "Number of rows to skip. Combined with `total`, this is how you page through results.",
         "required": false,
         "schema": { "type": "integer", "minimum": 0, "default": 0 }
+      },
+      "MediaId": {
+        "name": "mediaId",
+        "in": "path",
+        "description": "The file's `id`, from `GET /media` or an upload result",
+        "required": true,
+        "schema": { "type": "string", "format": "uuid" }
       }
     },
     "schemas": {
@@ -1477,6 +1890,60 @@
           "logs": { "type": "string", "nullable": true, "description": "Failure detail. Populated only when status is `error`, null otherwise." },
           "createdAt": { "type": "string", "format": "date-time", "example": "2026-07-28T10:00:00.000Z" },
           "updatedAt": { "type": "string", "format": "date-time", "example": "2026-07-28T10:01:32.000Z" }
+        }
+      },
+      "Media": {
+        "type": "object",
+        "description": "A file in the media library.",
+        "properties": {
+          "id": { "type": "string", "format": "uuid", "example": "4c1d8a2e-7b3f-4f0a-9d6e-2a5b8c7e1f03" },
+          "name": { "type": "string", "description": "File name, including any number added to keep names unique", "example": "setup-diagram.png" },
+          "kind": { "type": "string", "enum": ["image", "video", "audio", "document", "data", "archive", "font"], "example": "image" },
+          "mimeType": { "type": "string", "example": "image/png" },
+          "sizeBytes": { "type": "integer", "description": "Size in bytes", "example": 184233 },
+          "url": { "type": "string", "description": "Permanent URL to use in pages. It stays the same when the file is replaced.", "example": "https://blob-cdn.documentation.ai/.../setup-diagram.png" },
+          "altText": { "type": "string", "nullable": true, "description": "Alt text for an image", "example": "Setup steps diagram" },
+          "width": { "type": "integer", "nullable": true, "description": "Width in pixels. Images and videos only.", "example": 1440 },
+          "height": { "type": "integer", "nullable": true, "description": "Height in pixels. Images and videos only.", "example": 900 },
+          "durationSeconds": { "type": "integer", "nullable": true, "description": "Length in seconds. Videos and audio only." },
+          "pageCount": { "type": "integer", "nullable": true, "description": "Number of pages. PDFs only." },
+          "posterUrl": { "type": "string", "nullable": true, "description": "Preview image for a video or PDF" },
+          "createdAt": { "type": "string", "format": "date-time", "example": "2026-09-17T10:00:00.000Z" },
+          "updatedAt": { "type": "string", "format": "date-time", "description": "Changes when the file is replaced or its alt text is edited", "example": "2026-09-17T10:00:00.000Z" },
+          "snippet": { "type": "string", "description": "MDX that places the file on a page: `<Image />` for an image, `<Video />` for a video, and a Markdown link for any other file", "example": "<Image src=\"https://blob-cdn.documentation.ai/.../setup-diagram.png\" alt=\"Setup steps diagram\" />" }
+        },
+        "required": ["id", "name", "url", "kind", "mimeType", "sizeBytes", "snippet"]
+      },
+      "MediaResult": {
+        "type": "object",
+        "description": "What happened to one file in an upload or import.",
+        "properties": {
+          "source": { "type": "string", "description": "The file name or URL you sent", "example": "https://example.com/setup-diagram.png" },
+          "status": { "type": "string", "enum": ["added", "reused", "failed"], "description": "`added` for a new file, `reused` when the same file was already in the library, or `failed`", "example": "added" },
+          "media": { "$ref": "#/components/schemas/Media" },
+          "error": { "type": "string", "description": "Why the file was not added. Present only when status is `failed`.", "example": "File size exceeds your plan's limit of 10MB." },
+          "statusCode": { "type": "integer", "description": "The status the file would have had on its own, such as `413` over the size limit or `429` when too many files were stored in a minute. Present only when status is `failed`.", "example": 413 }
+        }
+      },
+      "StorageUsage": {
+        "type": "object",
+        "description": "Storage use for your organization. The quota is shared by every documentation in the organization.",
+        "properties": {
+          "usedBytes": { "type": "integer", "description": "Storage in use, in bytes", "example": 734003200 },
+          "quotaBytes": { "type": "integer", "description": "Storage your plan includes, in bytes", "example": 5368709120 },
+          "percentUsed": { "type": "integer", "description": "Share of the quota in use, from 0 to 100", "example": 14 },
+          "objectCount": { "type": "integer", "description": "Number of files stored", "example": 312 },
+          "isWarning": { "type": "boolean", "description": "True from 80% of the quota until it is full", "example": false },
+          "isOverQuota": { "type": "boolean", "description": "True when the quota is full. Uploads and publishing pause until you are under the limit.", "example": false },
+          "limits": {
+            "type": "object",
+            "description": "The largest file your plan accepts for each kind, in bytes",
+            "properties": {
+              "maxImageBytes": { "type": "integer", "example": 10485760 },
+              "maxVideoBytes": { "type": "integer", "description": "Also applies to audio", "example": 31457280 },
+              "maxDocumentBytes": { "type": "integer", "description": "Applies to documents, data, archives, and fonts", "example": 20971520 }
+            }
+          }
         }
       }
     }

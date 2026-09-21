@@ -1,12 +1,12 @@
 ---
 title: REST API
 description: >-
-  Read and update your documentation, publish deployments, and pull analytics
-  through the Documentation.AI REST API.
+  Read and update your documentation, manage media, publish deployments, and
+  pull analytics through the Documentation.AI REST API.
 ---
 ## Overview
 
-The Documentation.AI REST API provides programmatic access to your documentation project through a standard REST interface. You can read pages, search content, manage branches, push file changes, publish deployments, and read analytics, the same operations available in the dashboard, accessible from your own scripts, CI/CD pipelines, or backend services.
+The Documentation.AI REST API provides programmatic access to your documentation project through a standard REST interface. You can read pages, search content, manage branches, push file changes, manage images and files, publish deployments, and read analytics, the same operations available in the dashboard, accessible from your own scripts, CI/CD pipelines, or backend services.
 
 Every key is scoped to one documentation project, so no endpoint takes a project identifier.
 
@@ -58,11 +58,11 @@ API keys are generated from the dashboard under **Settings → API Keys**. Each 
 
 Every API key carries a role that determines which endpoints are accessible.
 
-| Role       | Read endpoints                          | Write endpoints               |
-| ---------- | --------------------------------------- | ----------------------------- |
-| **Viewer** | All read endpoints, including analytics | None                          |
-| **Editor** | All read endpoints                      | Push, branches, merge, deploy |
-| **Admin**  | All read endpoints                      | All write endpoints           |
+| Role       | Read endpoints                                              | Write endpoints                                          |
+| ---------- | ----------------------------------------------------------- | -------------------------------------------------------- |
+| **Viewer** | All read endpoints, including analytics, media, and storage | None                                                     |
+| **Editor** | All read endpoints                                          | Push, branches, merge, deploy, and media except deletion |
+| **Admin**  | All read endpoints                                          | All write endpoints, including deleting media            |
 
 Write endpoints return `403 Forbidden` if the API key role does not have sufficient permissions.
 
@@ -161,6 +161,76 @@ curl https://api.documentationai.app/api/v1/deployments/9f1c2e64-3b47-4a8d-91f5-
 ```
 
 When the status is `error`, the `logs` field carries the reason.
+
+## Media
+
+Upload images, videos, and files to your media library, then use their URLs in your pages. Every file gets the same checks as an upload in the web editor: a supported type, your plan's size limit, and your storage quota. See [Limits and supported file types](/write-and-publish/media-library#limits-and-supported-file-types).
+
+Upload up to 10 files in one `multipart/form-data` request:
+
+```bash
+curl -X POST https://api.documentationai.app/api/v1/media \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -F "files=@setup-diagram.png" \
+  -F "files=@install-guide.pdf"
+```
+
+Or import up to 10 files from public HTTPS URLs:
+
+```bash
+curl -X POST https://api.documentationai.app/api/v1/media/import \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "files": [
+      { "url": "https://example.com/setup-diagram.png", "altText": "Setup steps diagram" }
+    ]
+  }'
+```
+
+Both return one result per file, so one failed file does not fail the others:
+
+```json
+{
+  "results": [
+    {
+      "source": "https://example.com/setup-diagram.png",
+      "status": "added",
+      "media": {
+        "id": "4c1d8a2e-7b3f-4f0a-9d6e-2a5b8c7e1f03",
+        "name": "setup-diagram.png",
+        "url": "https://blob-cdn.documentation.ai/.../setup-diagram.png",
+        "kind": "image",
+        "mimeType": "image/png",
+        "sizeBytes": 184233,
+        "altText": "Setup steps diagram",
+        "width": 1440,
+        "height": 900,
+        "snippet": "<Image src=\"https://blob-cdn.documentation.ai/.../setup-diagram.png\" alt=\"Setup steps diagram\" />"
+      }
+    }
+  ]
+}
+```
+
+`status` is `added` for a new file, `reused` when the same file is already in the library, or `failed` with an `error` that says why. If another file already has the same name, the new file gets a number added, such as `setup-diagram-2.png`. Paste `snippet` into a page to show the file.
+
+The response code is `200` when every file was stored and `207` when only some were. When every file fails, it is the status of the first failure, such as `413` for a file over your plan's size limit.
+
+Your organization can store up to 120 files a minute through the API. Past that, a file fails with status `429` and an error that says how many seconds to wait.
+
+To swap in a newer version without changing its URL, send the new file, or a `url`, to `POST /media/{mediaId}/replace`. The new file must be the same type, and every page that uses the file shows the new version.
+
+Deleting files needs an **admin** key. Use `DELETE /media/{mediaId}` for one file, or `POST /media/bulk-delete` for up to 100. Pages that use a deleted file show it as missing.
+
+Check your storage before a large upload:
+
+```bash
+curl https://api.documentationai.app/api/v1/storage \
+  -H "Authorization: Bearer dai_your_api_key"
+```
+
+`usedBytes` and `quotaBytes` cover every documentation in your organization. `limits` gives the largest file your plan accepts for each kind of file.
 
 ## Analytics
 

@@ -2,16 +2,17 @@
 title: Media Library
 description: >-
   Upload, insert, reuse, replace, and delete images, videos, and files in your
-  documentation, from the web editor or from a Git repository.
+  documentation, from the web editor, a Git repository, an AI agent, or the
+  REST API.
 ---
-The media library stores every image, video, PDF, and file you upload to a documentation. Each file gets a permanent URL you can insert, reuse, and replace from the web editor or reference in MDX. The library keeps one copy of every file, so duplicate uploads are detected and reused automatically.
+The media library stores every image, video, PDF, and file you upload to a documentation. Each file gets a permanent URL you can insert, reuse, and replace from the web editor, reference in MDX, or manage with an AI agent or the REST API. The library keeps one copy of every file, so duplicate uploads are detected and reused automatically.
 
 <Callout kind="info" collapsed="false">
   **Before you begin**
 
-  - You need the **Editor** or **Admin** role to upload, insert, or replace files. Only **Admins** can delete files.
+  - You need the **Editor** or **Admin** role to upload, insert, or replace files. Only **Admins** can delete files. AI agents act with your role, and API keys act with the key's role.
   - Check that the file is a supported type and within your plan's size limit. See [Limits and supported file types](#limits-and-supported-file-types).
-  - If you work in Git, keep the documentation open in the [web editor](/write-and-publish/web-editor) as well. Files are uploaded there, not committed to the repository.
+  - If you work in Git, keep the documentation open in the [web editor](/write-and-publish/web-editor) as well. Files are uploaded there or through the REST API, not committed to the repository.
 </Callout>
 
 ## Web editor
@@ -194,6 +195,65 @@ Replace it in the web editor. Open the **Media** tab, click the file, click **Re
 - **If you want a different file**, upload it, copy its URL, and change the `src` or link target in your MDX. The old file stays in the library until an admin deletes it.
 - **If you want to remove a file entirely**, delete every reference in MDX first, publish, then ask an admin to delete the file from the library.
 
+## AI agents and the REST API
+
+AI agents connected through the [Authoring MCP Server](/ai/authoring-mcp-server) and scripts that use the [REST API](/api-reference/overview) work with this same media library. Every file they add goes through the same checks as an upload in the web editor.
+
+### How to add an image or file with an AI agent
+
+<Steps>
+  <Step title="Put the file where the agent can reach it" icon="upload" title-type="p">
+    If the file is at a public URL, you are ready. If it is on your computer, ask the agent for an upload link, open it, and drop the file. The link works for 15 minutes.
+  </Step>
+
+  <Step title="Ask for the file and where it goes" icon="message-square" title-type="p">
+    Give the agent the URL, or tell it you uploaded the file, then name the page and the place on the page. For example: "Import https://example.com/setup-diagram.png and add it under the Install heading in guides/setup.mdx."
+  </Step>
+
+  <Step title="Review and publish" icon="eye" title-type="p">
+    The agent adds the file to the library, then inserts the same snippet the web editor writes. Review the page and publish it like any other edit.
+  </Step>
+</Steps>
+
+Importing a file does not change any page on its own. If the file is already in your library, the agent reuses it. If another file already has the same name, the new file gets a number added, such as `screenshot-2.png`.
+
+You can also ask the agent to find a file you already have, by name or by alt text, and use that one rather than importing another copy.
+
+### How to upload files with the REST API
+
+You need an API key with the **Editor** or **Admin** role. See the [REST API overview](/api-reference/overview) to create one.
+
+If the files are on your computer or in your build, upload up to 10 in one request:
+
+```bash
+curl -X POST https://api.documentationai.app/api/v1/media \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -F "files=@setup-diagram.png" \
+  -F "files=@install-guide.pdf"
+```
+
+If the files are at public URLs, import them instead:
+
+```bash
+curl -X POST https://api.documentationai.app/api/v1/media/import \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{"files": [{"url": "https://example.com/setup-diagram.png", "altText": "Setup steps diagram"}]}'
+```
+
+The response has one result per file, each with a `status` of `added`, `reused`, or `failed`. A stored file comes back with its `url` and a ready-made `snippet` to paste into MDX, as shown in [How to add an image or file in MDX](#how-to-add-an-image-or-file-in-mdx). The response code is `200` when every file was stored, and `207` when only some were.
+
+### How to replace or delete a file with an agent or the API
+
+<Callout kind="danger" collapsed="false">
+  Replacing or deleting a file takes effect right away on every page that uses it, including your live site. Only **Admins** can delete files, and pages that use a deleted file show it as missing.
+</Callout>
+
+- **If you want a newer version on every page**, ask the agent to replace the file from a URL, or send the new file to the API's replace endpoint. The new file must be the same type, and the URL stays the same.
+- **If you want to remove files**, ask the agent to delete them, or use the API's delete endpoints. You can delete up to 100 files at once.
+
+Uploads, replacements, alt text changes, and deletions made by agents and API keys appear in the **Activity** panel with every other change. An agent's changes appear under the name of the person who connected it, and an API key's under the key's name. See [How to see who uploaded, replaced, or deleted a file](#how-to-see-who-uploaded-replaced-or-deleted-a-file).
+
 ## Common questions
 
 <ExpandableGroup>
@@ -214,7 +274,11 @@ Replace it in the web editor. Open the **Media** tab, click the file, click **Re
   </Expandable>
 
   <Expandable title="Can I upload files directly in Git?" default-open="false">
-    No. Media files are hosted in the dashboard's media library, not committed to your repository. In a Git workflow, you upload files through the web editor's Media tab, copy the CDN URL, and reference it in MDX. See [Code editor (Git)](#code-editor-git).
+    No. Media files are hosted in your media library, not committed to your repository. Upload them in the web editor's **Media** tab, or from a script with the [REST API](#how-to-upload-files-with-the-rest-api), then reference their URLs in MDX. See [Code editor (Git)](#code-editor-git).
+  </Expandable>
+
+  <Expandable title="Can an AI agent upload a screenshot from my computer?" default-open="false">
+    Yes. Ask the agent for an upload link, open it, and drop the screenshot. The agent then finds it in your media library. See [How to add an image or file with an AI agent](#how-to-add-an-image-or-file-with-an-ai-agent).
   </Expandable>
 
   <Expandable title="Who can delete files?" default-open="false">
@@ -236,15 +300,17 @@ If usage is above 80%, a warning also appears in the media library. If you go ov
 
 ## If an upload is refused
 
-The message in the upload tray tells you why. Match it below:
+The message in the upload tray, or in the agent's or API's result for the file, tells you why. Match it below:
 
-- **"A file named "…" already exists in this documentation"**: Rename the file, or use the existing one from the library.
 - **"File size exceeds your plan's limit of …MB"**: Compress or resize the file. For video and documents, the message names the cheapest plan that accepts it.
 - **"Storage limit reached"**: Delete unused files or upgrade. See [How to check storage usage](#how-to-check-storage-usage).
 - **"The file extension of "…" does not match its content"**: The file is not really the type its name says. Re-export it in the intended format.
 - **"Files of this type cannot be uploaded"**: Programs, scripts, macro-enabled Office files, and HTML are never accepted. Put them in a ZIP if readers need them.
 - **"SVG contains …"**: Remove the script or embedded content from the SVG, or export a PNG instead.
 - **"Uploading … files is not available yet"**: Delivery for that kind of file is not enabled in your environment. Contact support.
+- **"A … can only be replaced by another …"**: Replace the file with one of the same type, or add the new file separately.
+
+If an import from a URL fails, check the rules in [Importing from a URL](#importing-from-a-url).
 
 ## Limits and supported file types
 
@@ -271,6 +337,29 @@ AppSumo Tier 1 and Tier 2 use the Standard limits. AppSumo Tier 3 and Tier 4 use
 
 Never accepted, on any plan: programs and installers (`.exe`, `.msi`, `.dmg`, `.apk`, `.jar`), scripts (`.js`, `.sh`, `.ps1`, `.bat`), macro-enabled Office files (`.docm`, `.xlsm`, `.pptm`), and web pages (`.html`, `.htm`). Uploads are verified on the server: the file's contents must match its extension, and SVG files containing scripts or embedded documents are rejected.
 
+### Importing from a URL
+
+AI agents and the REST API can import a file from a URL when:
+
+- The URL starts with `https://`.
+- The file opens without signing in. Addresses on private networks are refused.
+- The URL redirects no more than 3 times.
+- The file finishes downloading within 30 seconds.
+- The file is within your plan's size limit for its kind.
+
+A file whose name is already taken gets a number added, such as `screenshot-2.png`, wherever it is uploaded from. A file that is already in your library is reused rather than stored again.
+
+### Files per request
+
+| Action                                                   | Maximum files |
+| -------------------------------------------------------- | ------------- |
+| Upload with the API                                      | 10            |
+| Import from URLs with an agent or the API                | 10            |
+| Delete with an agent or the API                          | 100           |
+| Delete in the web editor                                 | No limit      |
+
+Agents and the REST API can store up to 120 files a minute for each organization. Past that, a file is refused with a `429` response that says how many seconds to wait. An upload link works for 15 minutes.
+
 ## Related
 
 <Columns cols="3">
@@ -292,6 +381,14 @@ Never accepted, on any plan: programs and installers (`.exe`, `.msi`, `.dmg`, `.
 
   <Card title="Code editor" href="/write-and-publish/code-editor" icon="code" horizontal="false">
     Reference media URLs in MDX and manage files alongside a Git workflow.
+  </Card>
+
+  <Card title="Authoring MCP Server" href="/ai/authoring-mcp-server" icon="square-pen" horizontal="false">
+    Let an AI agent import, upload, replace, and delete files for you.
+  </Card>
+
+  <Card title="REST API" href="/api-reference/overview" icon="code" horizontal="false">
+    Upload and manage files from scripts and CI/CD pipelines.
   </Card>
 </Columns>
 

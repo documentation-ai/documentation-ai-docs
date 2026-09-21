@@ -54,6 +54,10 @@
       "description": "Upload, import, replace, and delete images, videos, and files in the media library"
     },
     {
+      "name": "PDF Export",
+      "description": "Export the live site as a PDF and download it"
+    },
+    {
       "name": "Analytics",
       "description": "Traffic, page feedback, AI assistant usage, and search analytics"
     }
@@ -1028,6 +1032,81 @@
         }
       }
     },
+    "/exports/pdf": {
+      "post": {
+        "operationId": "requestPdfExport",
+        "summary": "Export the site as a PDF",
+        "description": "Exports the live site as a single PDF, rendering every page in navigation order. The export runs in the background: a new export returns `202`, then poll `GET /exports/pdf` until `downloadUrl` is set.\n\nIf the latest completed export was built from the deployment that is live now, it is returned with `200`, already carrying its `downloadUrl`, and nothing is rendered. Pass `force` to render again anyway.\n\nOne export runs per documentation at a time. Exports started through the API are limited to one every 5 minutes and 10 per 24 hours for each documentation; a request answered with an existing export does not count. Pages that cannot be rendered are left out of the PDF.\n\nRequires editor or admin role, on the Standard, Professional or Enterprise plan.",
+        "tags": ["PDF Export"],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "force": { "type": "boolean", "description": "Render again even when an export of the current live deployment already exists. The cooldown and daily quota still apply.", "example": false }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "An export of the current live deployment already exists. Nothing was queued; this is that export.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PdfExport" } } }
+          },
+          "202": {
+            "description": "Export queued. Poll `GET /exports/pdf` until `status` is `completed`, `failed` or `cancelled`.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PdfExport" } } }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": {
+            "description": "The API key needs the editor or admin role, or the plan does not include PDF export.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+          },
+          "404": {
+            "description": "The documentation has no active domain or no live deployment to export.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+          },
+          "409": {
+            "description": "An export is already in progress. Poll `GET /exports/pdf` to follow it.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+          },
+          "422": {
+            "description": "The live site has no pages to export, or more than 8,000.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+          },
+          "429": {
+            "description": "Too many requests: the per-key limit on starting exports (10 a minute), the 5-minute cooldown between exports started through the API, or the daily quota of 10 API exports per documentation. `retry-after` says how many seconds to wait.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+          },
+          "503": {
+            "description": "The PDF service is unavailable, or the export could not be queued. Nothing was recorded; retry shortly.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+          }
+        }
+      },
+      "get": {
+        "operationId": "getPdfExport",
+        "summary": "Get the current PDF export",
+        "description": "Returns the export in progress, or the most recent one when nothing is running. Poll this after starting an export: `progress` counts pages as they render, and `downloadUrl` appears once the PDF is ready.\n\nAn export started from the dashboard is returned here too, so `exportId` can change between polls if someone starts a new export while yours is running.",
+        "tags": ["PDF Export"],
+        "responses": {
+          "200": {
+            "description": "The current export",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PdfExport" } } }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": {
+            "description": "This documentation has never been exported.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+          },
+          "429": { "$ref": "#/components/responses/TooManyRequests" }
+        }
+      }
+    },
     "/analytics/overview": {
       "get": {
         "operationId": "getAnalyticsOverview",
@@ -1855,6 +1934,29 @@
           "statusCode": { "type": "integer", "example": 400 },
           "error": { "type": "string", "example": "Bad Request" },
           "message": { "type": "string", "example": "Date range must not exceed 90 days (requested 152)" }
+        }
+      },
+      "PdfExport": {
+        "type": "object",
+        "description": "An export of the live site to a single PDF.",
+        "properties": {
+          "exportId": { "type": "string", "format": "uuid", "description": "Identifies this export. Reads go through `GET /exports/pdf`, which always returns the current one.", "example": "6fa5a52d-d8b7-4b24-ac92-a55378f5eec4" },
+          "status": { "type": "string", "enum": ["pending", "processing", "completed", "failed", "cancelled"], "description": "`pending` and `processing` are in progress; `completed`, `failed` and `cancelled` are final.", "example": "completed" },
+          "progress": {
+            "type": "object",
+            "properties": {
+              "completed": { "type": "integer", "description": "Pages rendered so far", "example": 130 },
+              "total": { "type": "integer", "nullable": true, "description": "Pages in the export. Null until rendering starts.", "example": 130 }
+            }
+          },
+          "fileSize": { "type": "integer", "nullable": true, "description": "Size of the PDF in bytes. Null until the export completes.", "example": 38580135 },
+          "downloadUrl": { "type": "string", "nullable": true, "description": "Temporary link for downloading the PDF directly from storage, with no API key. Null while the export runs, after it fails, and once a newer export replaces the file.", "example": "https://exports.r2.cloudflarestorage.com/exports/org-.../documentation-export.pdf?X-Amz-Signature=..." },
+          "downloadUrlExpiresAt": { "type": "string", "format": "date-time", "nullable": true, "description": "When `downloadUrl` stops working. Read the export again for a fresh link.", "example": "2026-09-17T14:06:15.000Z" },
+          "deploymentId": { "type": "string", "format": "uuid", "nullable": true, "description": "The live deployment this export rendered", "example": "64e41663-5ac8-422e-a941-00aff79963ed" },
+          "source": { "type": "string", "enum": ["dashboard", "api"], "description": "Where the export was started", "example": "api" },
+          "errorMessage": { "type": "string", "nullable": true, "description": "Why the export failed. Null unless `status` is `failed`." },
+          "createdAt": { "type": "string", "format": "date-time", "example": "2026-09-17T13:04:12.000Z" },
+          "completedAt": { "type": "string", "format": "date-time", "nullable": true, "description": "Null until the export completes", "example": "2026-09-17T13:06:15.000Z" }
         }
       },
       "QueuedDeployment": {

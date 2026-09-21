@@ -150,7 +150,7 @@ For step-by-step instructions, limits, and supported file types, see [Media libr
 
 ## Tools reference
 
-The server provides 32 tools. Read-only tools never change your documentation. Destructive tools overwrite or remove something, so most clients ask you to confirm them first. Only tools that add something new, such as creating a page or importing a file, go through without a prompt.
+The server provides 32 tools. Read-only tools never change your documentation. Destructive tools can overwrite or discard content, including your teammates' unpublished edits, so most clients ask you to confirm them first. Only tools that add something new, such as creating a page or importing a file, go through without a prompt.
 
 | Tool                      | What it does                                                | Minimum role | Behavior        |
 | ------------------------- | ----------------------------------------------------------- | ------------ | --------------- |
@@ -384,15 +384,15 @@ Most tools also accept `organizationId` and `documentationId` to work on a speci
 </Expandable>
 
 <Expandable title="revert_page" default-open="false">
-  Discards unpublished changes to one file, restoring its published content. It does not undo changes you have already published.
+  Discards the unpublished changes to one file and restores its published content. Your teammates' unpublished edits to that file are discarded too. It does not undo changes you have already published.
 
   <ParamField body="path" param-type="string" required="true" deprecated="false" show-location="false">
-    File to restore, such as `docs/guide.mdx`
+    File to restore, including the extension
   </ParamField>
 </Expandable>
 
 <Expandable title="revert_all_changes" default-open="false">
-  Discards every unpublished change on a branch, across all files and all collaborators, restoring its published state. Use it only to abandon all pending work on that branch.
+  Discards every unpublished change on a branch, across all files and all collaborators, and restores its published state. Use it only to abandon all pending work on that branch, and check `list_changes` first to see what will be discarded.
 
   **Parameters:** `branch` (optional)
 </Expandable>

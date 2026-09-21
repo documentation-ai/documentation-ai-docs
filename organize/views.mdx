@@ -8,22 +8,18 @@ description: >-
 
 Views control how content is organized and navigated **within a Dimension context** in Documentation.AI.
 
-- **Dimensions** decide *which* content is in scope (for example, product, audience, or version).
-
-- **Views** decide *how* that scoped content appears in the UI (Tabs, Sidebar Dropdowns, and how they nest).
-
+- **Dimensions** decide _which_ content is in scope (for example, product, audience, or version).
+- **Views** decide _how_ that scoped content appears in the UI (Tabs, Sidebar Dropdowns, and how they nest).
 - **Content items** (Groups, Pages, Page Groups, OpenAPI References) live **inside** Views to form your navigation tree.
 
 You work with views in two places:
 
 - In the **Web Editor**, when you organize navigation for a project.
-
 - In **site configuration**, when you define views and patterns programmatically (see [Site configuration](/customize/site-configuration)).
 
 This page focuses on:
 
 - The conceptual model and reference rules for views.
-
 - A **Web Editor–focused workflow** for adding and organizing tabs and dropdowns.
 
 <Callout kind="info" collapsed="false">
@@ -35,7 +31,6 @@ This page focuses on:
 Documentation.AI supports two view types at the layout layer:
 
 - **Tabs**: horizontal, top-level navigation areas.
-
 - **Dropdowns**: collapsible sidebar categories.
 
 Both types act as **containers** for content or other containers.
@@ -47,9 +42,7 @@ Tabs are top-level navigation sections such as **Guides**, **API Reference**, or
 **Use Tabs when:**
 
 - You have **2–5 major sections** readers switch between often.
-
 - Each section needs its **own navigation branch**.
-
 - You want clear separation between content types (Guides vs API) or audiences (Developers vs Admins).
 
 **What Tabs do:&#x20;**&#x53;witching Tabs changes the active navigation branch and typically changes what appears in the sidebar.
@@ -57,7 +50,6 @@ Tabs are top-level navigation sections such as **Guides**, **API Reference**, or
 You will often see tabs used in patterns like:
 
 - `Guides | API Reference | Changelog`
-
 - `Developers | Admins`
 
 ### Dropdowns
@@ -67,15 +59,12 @@ Dropdowns are collapsible sidebar categories such as **Getting Started**, **Inte
 Use Dropdowns when:
 
 - The sidebar is long and needs **clear categories**.
-
 - You need **hierarchy** inside a section.
-
 - You want readers to drill down through categories.
 
 What Dropdowns do:
 
 - A Dropdown is a container: it reveals child items when expanded.
-
 - Dropdowns can nest, but keep nesting shallow in most docs.
 
 In practice, your main sidebar will often be composed of dropdowns with groups and pages inside.
@@ -85,7 +74,6 @@ In practice, your main sidebar will often be composed of dropdowns with groups a
 Your project can be organized in either of these ways:
 
 - **With Dimensions**: you first select a Dimension value (for example, Version: v1.0), then build Views inside it.
-
 - **Without Dimensions**: there is only one global navigation tree, and you build Views directly at the root.
 
 The Editor supports both. The steps for adding Views change slightly depending on which starting state you’re in.
@@ -95,17 +83,13 @@ The Editor supports both. The steps for adding Views change slightly depending o
 Before you start: choose the correct branch
 
 - Open **Editor → Navigation**.
-
 - If you see **Product/Version/Language** selectors, your project **has Dimensions**. If you don’t, you’re editing a **single global navigation tree** (no Dimensions).
-
 - Confirm you’re editing the right branch by switching the available selectors and verifying the navigation tree changes as expected.
 
 ### How layering works (Parent vs Child)
 
 - **Add Parent layer (top “**<kbd>+</kbd>**”)**: wraps the current level in a new container and moves existing items under it. Use when you want to restructure **everything at that level**.
-
 - **Add Child layer (bottom/inline “**<kbd>+</kbd>**”)**: adds a new container only inside the selected item. Use when you want to restructure **only that section**.
-
 - Layers can wrap **Views or Content**, but **Views can’t be added above Dimensions**.
 
 ### Scenario 1: Add Views when your project has Dimensions
@@ -113,21 +97,16 @@ Before you start: choose the correct branch
 **1) Select the correct Dimension branch:**
 
 - Open the **Editor** and go to the **Navigation** panel.
-
 - Select the Dimension value you want to edit (for example, **Version: v1.0**).
-
 - Confirm you’re in the right branch by switching Dimension values and verifying the sidebar content changes.
 
-You always add Views *inside* the selected Dimension branch.
+You always add Views _inside_ the selected Dimension branch.
 
 **2) Add Tabs or Dropdowns using layers:**
 
 - Use **Add Parent layer** (top-level <kbd>+</kbd>) when you want to wrap the current level and introduce a new container above it (for example, adding another view above existing tabs).
-
   <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1767103848390-tjlq19siswf-pasted-image-1767103846188.png?q=85&fm=auto&auto=compress%2Cformat" width="394" height="253" alt="Adding a parent layer 'view'" caption="Adding a parent layer 'view'" style="width: 394px; height: auto; cursor: pointer; margin: 0 auto 0 0;" />
-
-- Use **Add Child layer** (bottom <kbd>+</kbd>) when you only want to add structure *inside* the selected item (for example, a new tab inside a version).
-
+- Use **Add Child layer** (bottom <kbd>+</kbd>) when you only want to add structure _inside_ the selected item (for example, a new tab inside a version).
   <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1767103748004-qgrro8hldwm-pasted-image-1767103745006.png?q=85&fm=auto&auto=compress%2Cformat" width="410" height="274" alt="Adding a child layer 'view'" caption="Adding a child layer 'view'" style="width: 410px; height: auto; cursor: pointer; margin: 0 auto 0 0;" />
 
 Then choose either **Add Tabs** or **Add Dropdowns**.
@@ -135,15 +114,12 @@ Then choose either **Add Tabs** or **Add Dropdowns**.
 **3) Name and add sibling Views**
 
 - Name the first tab/dropdown item clearly.
-
 - The Editor moves your existing content under the new View layer automatically.
-
 - Add more sibling tabs/dropdowns at the same level (for example, add “API Reference” after “Guides”).
 
 **4) Confirm placement**
 
 - Switch between tabs/dropdowns and confirm you see the expected content under each.
-
 - If content moved unexpectedly, you likely used **Parent** where you intended **Child** (or vice versa).
 
 ### Scenario 2: Add Views when your project has no Dimensions
@@ -151,25 +127,16 @@ Then choose either **Add Tabs** or **Add Dropdowns**.
 When there are no Dimensions, you are editing a single global navigation tree. Views are added directly at the root (or inside any existing View).
 
 1. **&#x20;Start at the root navigation**
-
    1. Open the **Editor** and go to the **Navigation** panel.
-
    2. If you do not see any Dimension selectors, your project is using **no Dimensions**.
-
    3. The structure you see is the root navigation tree for the entire site.
-
 2. **Introduce Views at the root (recommended)&#x20;**\
    This is the safest way to add structure after you already have pages.
-
    1. Use **Add Parent layer** at the root level:\
       Hover on the top area above the **Groups/Pages** Section heading and click **Add Parent layer (top&#x20;**<kbd>+</kbd>**)** to wrap the existing root content.
-
       <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1767107077506-wwndjicikn-pasted-image-1767107075459.png?q=85&fm=auto&auto=compress%2Cformat" width="486" height="247" alt="Adding 'view' in flat document structure" caption="Adding 'view' in flat document structure" />
-
    2. Choose **Add Tabs** or **Add Dropdowns** to add Views.
-
    3. Enter the first tab or dropdown name and create sibling items.
-
 3. **Validate:&#x20;**&#x53;witch between newly created tabs/dropdowns and confirm content is split as intended.
 
 ### Adding Views inside existing Views (nested Views)
@@ -179,15 +146,12 @@ Once a View exists, you can add another View underneath it, as long as the one-c
 Common examples:
 
 - Add **Dropdowns under a Tab** to create sidebar categories.
-
 - Nest **Dropdowns inside a Dropdown** for sub-categories.
-
 - Add **Tabs inside a Dropdown** only if your intended pattern supports it (Dropdown → Tabs → Dropdown).
 
 If an “Add Tabs” or “Add Dropdowns” option is missing:
 
 - It usually means adding it there would violate the one-child rule.
-
 - Fix by wrapping content using **Add Parent layer**, or by moving items into a container that already uses the child type you need.
 
 <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1767107208674-dzefm92fgxu-pasted-image-1767107206487.png?q=85&fm=auto&auto=compress%2Cformat" width="392" height="252" alt="Adding a 'view' inside a View (Tabs)" caption="Adding a 'view' inside a View (Tabs)" style="width: 392px; height: auto; cursor: pointer; margin: 0 auto;" />
@@ -197,10 +161,146 @@ If an “Add Tabs” or “Add Dropdowns” option is missing:
 After you select a branch (for example: Version: v1.0 → Tab: Guides → Dropdown: Integrations), the sidebar will show the content level for that branch:
 
 - If that branch uses Groups, you’ll see a **Groups** section and add pages inside a group.
-
 - If that branch is flat, you’ll see a **Pages** section and add pages at the top level.
 
 Views determine where you are in the navigation tree. Groups/Pages determine what content exists inside that branch.
+
+## Configuring Views in documentation.json
+
+For file-based management, define tabs and dropdowns directly in `documentation.json`. This is useful when you are making changes via Code editor or for doing bulk changes 
+
+### Tabs at the root level (no dimensions)
+
+Define a `tabs` array at the root of your navigation. Each tab contains groups or pages:
+
+```json
+{
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "icon": "book-open",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              { "title": "Introduction", "path": "getting-started/introduction" },
+              { "title": "Quickstart", "path": "getting-started/quickstart" }
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "icon": "code",
+        "groups": [
+          {
+            "group": "Endpoints",
+            "pages": [
+              { "title": "Authentication", "path": "api/authentication" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Dropdowns under a tab
+
+Use the `dropdowns` key inside a tab to create sidebar categories:
+
+```json
+{
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "icon": "book-open",
+        "dropdowns": [
+          {
+            "dropdown": "Getting Started",
+            "icon": "rocket",
+            "groups": [
+              {
+                "group": "Basics",
+                "pages": [
+                  { "title": "Introduction", "path": "getting-started/introduction" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Nested dropdowns
+
+Dropdowns can contain other dropdowns for deeper hierarchy:
+
+```json
+{
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "API Reference",
+        "icon": "code",
+        "dropdowns": [
+          {
+            "dropdown": "REST API",
+            "icon": "server",
+            "dropdowns": [
+              {
+                "dropdown": "Authentication",
+                "pages": [
+                  { "title": "API Keys", "path": "api/auth/keys" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Views inside dimensions
+
+When using dimensions, define views inside each dimension value. For example, tabs inside a version:
+
+```json
+{
+  "navigation": {
+    "versions": [
+      {
+        "version": "v2",
+        "icon": "badge",
+        "tabs": [
+          {
+            "tab": "Guides",
+            "icon": "book-open",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "pages": [
+                  { "title": "Introduction", "path": "v2/introduction" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+See [Site Configuration](/customize/site-configuration) for the full configuration reference.
 
 ## Core rules for Views
 
@@ -211,7 +311,6 @@ These rules explain how Views work and why the Web Editor shows (or hides) certa
 Dimensions (when used) are always the **outermost** layer of the navigation tree.
 
 - You **can** add a View as a parent for another **View** or for **Content**.
-
 - You **cannot** add a View as a parent for **Dimensions**.
 
 If you need Product/Version/Language selectors, add a **Dimension layer** first. Then add Views inside each dimension branch.
@@ -221,7 +320,6 @@ If you need Product/Version/Language selectors, add a **Dimension layer** first.
 Every container can contain **exactly one child type**.
 
 - A **Tab** can contain only one of: **Pages**, **Groups**, or **Dropdowns**.
-
 - A **Dropdown** can contain only one of: **Pages**, **Groups**, **Tabs**, or **Dropdowns**.
 
 You cannot mix child types at the same level (for example, a dropdown cannot contain both Pages and Dropdowns as siblings).
@@ -241,7 +339,6 @@ The standard UI templates support these patterns between tabs and dropdowns:
 In each pattern:
 
 - **Tabs** and **dropdowns** act as the layout containers.
-
 - **Groups** and **pages** are the leaf-level content or light-weight containers under those views.
 
 ## How views relate to dimensions, groups, and pages
@@ -249,31 +346,20 @@ In each pattern:
 To design navigation that scales, it helps to keep the layering clear:
 
 - **Dimension**
-
   - Defines a scope such as `Product`, `Version`, or `Audience`.
-
   - Within each dimension context, you define **views**.
-
 - **Views (tabs, dropdowns)**
-
   - Control layout and interaction patterns inside that dimension.
-
   - Determine whether users first choose between top-level sections (tabs) or drill down categories (dropdowns).
-
 - **Groups and pages**
-
   - Represent actual documentation content and sections.
-
   - Are placed beneath views according to the one-child rule.
 
 A common pattern for a dimension might look like:
 
 - Tabs: `Guides | API Reference`
-
   - Each tab has:
-
     - Sidebar dropdowns like `Getting Started`, `Tutorials`, `Integration Guides`.
-
     - Groups/pages inside each dropdown.
 
 When designing across multiple dimensions, try to keep **view patterns consistent** so users do not have to relearn navigation for each context.
@@ -290,7 +376,7 @@ You can attach a **content page** to any tab or dropdown. This gives the view it
 - **Dropdown hub pages** – A dropdown for "Integrations" could have a content page listing supported integrations with a [CollectionList](/components/collection-list) component.
 - **Breadcrumb navigation** – When a view has a content page, it appears as a clickable link in the breadcrumb trail, helping readers orient themselves in deep navigation hierarchies.
 
-<Callout kind="info">
+<Callout kind="info" collapsed="false">
   Content pages on views are optional. Most tabs and dropdowns work fine without one. Add a content page when readers would benefit from an entry point or overview for the section.
 </Callout>
 
@@ -355,83 +441,58 @@ In the Web Editor, open the view settings and click **Detach Content Page**. In 
 Use **tabs** when:
 
 - You need clear, top-level separation between **modes**, **audiences**, or **content types**.
-
 - You have 2–5 major sections that users should be able to switch between quickly.
-
 - You want the sidebar structure to reset depending on the active section.
 
 Use **dropdowns** when:
 
 - You are organizing related content within a single section or tab.
-
 - The sidebar is long enough that scannability becomes an issue.
-
 - You need 2–3 levels of hierarchy for complex topics (for example, deep API reference structures).
 
 If you are unsure, default to:
 
 - A small number of **tabs** at the top level.
-
 - **Dropdowns** in the sidebar under each tab to group content.
 
 ### Choosing a nesting pattern
 
 Use these heuristic patterns:
 
-- **Pattern 1:&#x20;****`Dropdown → Tabs → Dropdown`**\
+- **Pattern 1: \*\*\*\*****`Dropdown → Tabs → Dropdown`**\
   Use when:
-
   - Users first choose a **high-level area** in the sidebar (like `Product A` vs `Product B`).
-
   - Inside that area, they need multiple parallel sections exposed as tabs.
-
   - Each tab then has its own dropdown-based sidebar.
-
 - **Pattern 2:&#x20;**`Dropdown → Dropdown`\
   Use when:
-
   - Your project is small or focused enough that tabs are not necessary.
-
   - You want a single continuous sidebar with hierarchical categories.
-
 - **Pattern 3:&#x20;**`Tabs → Dropdown → Dropdown`\
   Good default for most medium-to-large documentation sets:
-
   - Tabs separate high-level sections.
-
   - The first level of dropdowns groups major categories.
-
   - A second dropdown level is available for large categories (for example, many APIs).
 
 ### Consistency and maintenance tips
 
 - **Align across dimensions**\
   If you have a `Version` dimension, for example, keep the **tab labels and dropdown structure** consistent across versions to reduce cognitive load.
-
 - **Minimize depth**\
   Even though dropdowns can nest, prefer no more than **two dropdown levels** deep in most projects. Beyond that, content is often better split into an additional tab or dimension.
-
 - **Name views by user intent**\
   Use labels that match how readers think:
-
   - Prefer `Getting Started` over `Onboarding Docs`.
-
   - Prefer `API Reference` over `Backend`.
-
 - **Plan before implementing**\
   Sketch your dimension, view, and content hierarchy before editing navigation:
-
   - What dimensions exist?
-
   - Which tabs are required in each dimension?
-
   - How will dropdowns group content inside each tab?
 
 For concrete field names and configuration examples, see:
 
 - [Dimensions](/organize/dimensions) for how dimension selectors define context.
-
 - [Groups](/organize/groups) and [Pages](/organize/pages) for what lives under views.
-
 - [Site configuration](/customize/site-configuration) for JSON configuration patterns of views, tabs, and dropdowns.
 

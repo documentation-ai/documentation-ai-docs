@@ -306,7 +306,7 @@ The message in the upload tray, or in the agent's or API's result for the file, 
 - **"Storage limit reached"**: Delete unused files or upgrade. See [How to check storage usage](#how-to-check-storage-usage).
 - **"The file extension of "…" does not match its content"**: The file is not really the type its name says. Re-export it in the intended format.
 - **"Files of this type cannot be uploaded"**: Programs, scripts, macro-enabled Office files, and HTML are never accepted. Put them in a ZIP if readers need them.
-- **"SVG contains …"**: Remove the script or embedded content from the SVG, or export a PNG instead.
+- **"contains a `<script>` element. Remove it and upload again, or use a PNG."**: An SVG is refused when it carries something that could run in a reader's browser. The message names what was found, such as a script, an inline event handler, a `<foreignObject>`, an embedded document, or a `javascript:` link. Remove it, or upload a PNG instead.
 - **"Uploading … files is not available yet"**: Delivery for that kind of file is not enabled in your environment. Contact support.
 - **"A … can only be replaced by another …"**: Replace the file with one of the same type, or add the new file separately.
 

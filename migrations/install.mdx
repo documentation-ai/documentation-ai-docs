@@ -91,7 +91,9 @@ Each migration keeps its files in its own folder, such as `~/migrations/acme-doc
 
 <ExpandableGroup>
   <Expandable title="Can I use the migrator in Claude Cowork or ChatGPT?" default-open="false">
-    Not yet. Claude Cowork and ChatGPT chat cannot sign in to Documentation.AI or push to Git from where they run commands, so a migration cannot finish there. Use Claude Code or Codex.
+    Claude Cowork, yes. A migration runs there from start to finish, including signing in to Documentation.AI and creating the migration branch.
+
+    ChatGPT chat, no. It cannot sign in to Documentation.AI or push to Git from where it runs commands, so a migration cannot finish there. Use Claude Code, Claude Cowork, or Codex.
   </Expandable>
 
   <Expandable title="Do I need a Documentation.AI API key?" default-open="false">

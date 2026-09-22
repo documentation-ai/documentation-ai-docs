@@ -30,9 +30,9 @@ The migrator is an open-source plugin for AI assistants. You install it once, an
   </Tab>
 
   <Tab title="VS Code" icon="code">
-    In the Claude Code extension, type `/plugins` in the prompt box to open **Manage plugins**. Add the marketplace `documentation-ai/documentation-ai-migration-skills`, then install `documentation-ai-migration`.
+    In the Claude Code extension, type `/plugins` in the prompt box to open **Manage plugins**. On the **Marketplaces** tab, add `documentation-ai/documentation-ai-migration-skills`. Then on the **Plugins** tab, find **documentation-ai-migration** and click **Install**.
 
-    If you already installed the plugin in Claude Code in a terminal, it is available in VS Code too.
+    The same `/plugin` commands as the terminal work here too. If you already installed the plugin in Claude Code in a terminal, it is available in VS Code without installing it again.
   </Tab>
 
   <Tab title="Codex" icon="square-terminal">
@@ -74,6 +74,13 @@ Each migration keeps its files in its own folder, such as `~/migrations/acme-doc
     ```bash
     claude plugin marketplace update documentation-ai-migration
     claude plugin update documentation-ai-migration@documentation-ai-migration
+    ```
+
+    Or from inside Claude Code, without leaving the session:
+
+    ```text
+    /plugin marketplace update documentation-ai-migration
+    /plugin update documentation-ai-migration@documentation-ai-migration
     ```
 
     Then start a new session, or reload the window in VS Code.

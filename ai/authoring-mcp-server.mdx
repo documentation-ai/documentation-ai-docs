@@ -138,7 +138,7 @@ Describe the task to your AI client in plain language, and it calls the tools fo
 
 ## Tools reference
 
-The server provides 26 tools. Read-only tools never change your documentation. Destructive tools can overwrite or discard content, including your teammates' unpublished edits, so most clients ask you to confirm them first.
+The server provides 32 tools. Read-only tools never change your documentation. Destructive tools can overwrite or discard content, including your teammates' unpublished edits, so most clients ask you to confirm them first.
 
 | Tool                      | What it does                                                | Minimum role | Behavior        |
 | ------------------------- | ----------------------------------------------------------- | ------------ | --------------- |
@@ -155,6 +155,8 @@ The server provides 26 tools. Read-only tools never change your documentation. D
 | `diff_page`               | Shows the unpublished changes to a file                     | Viewer       | Read-only       |
 | `list_branches`           | Lists branches and shows which one is live                  | Viewer       | Read-only       |
 | `list_pull_requests`      | Lists pull requests                                         | Viewer       | Read-only       |
+| `list_media`              | Lists media files in your project                           | Viewer       | Read-only       |
+| `search_media`            | Searches media by filename or alt text                      | Viewer       | Read-only       |
 | `create_page`             | Creates a page or another file                              | Editor       | Makes changes   |
 | `create_branch`           | Creates a branch                                            | Editor       | Makes changes   |
 | `update_page`             | Replaces specific text in a page                            | Editor       | Destructive     |
@@ -168,6 +170,10 @@ The server provides 26 tools. Read-only tools never change your documentation. D
 | `revert_all_changes`      | Discards every unpublished change on a branch               | Editor       | Destructive     |
 | `merge_branches`          | Merges one branch into another                              | Editor       | Destructive     |
 | `delete_branch`           | Deletes a branch                                            | Editor       | Destructive     |
+| `import_media`            | Imports files from public HTTPS URLs                       | Editor       | Makes changes   |
+| `request_upload`          | Generates a short-lived upload link for local files         | Editor       | Makes changes   |
+| `replace_media`           | Replaces a stored file from a URL, keeping the same address | Editor       | Destructive     |
+| `delete_media`            | Deletes one or more media files                             | Admin        | Destructive     |
 
 Most tools also accept `organizationId` and `documentationId` to work on a specific project, and `branch` to work on a specific branch. Tools that return lists accept `limit` and `cursor` to page through results.
 
@@ -428,6 +434,84 @@ Most tools also accept `organizationId` and `documentationId` to work on a speci
 
   <ParamField body="branchName" param-type="string" required="true" deprecated="false" show-location="false">
     Branch to delete
+  </ParamField>
+</Expandable>
+
+### Media
+
+<Expandable title="list_media" default-open="false">
+  Lists media files in your project with pagination, kind filtering, and date filtering. Each result includes the public URL and an MDX placement snippet.
+
+  <ParamField body="limit" param-type="integer" required="false" deprecated="false" show-location="false">
+    Maximum number of results per page. Defaults to 20.
+  </ParamField>
+
+  <ParamField body="cursor" param-type="string" required="false" deprecated="false" show-location="false">
+    Pagination cursor from the previous page.
+  </ParamField>
+
+  <ParamField body="kind" param-type="string" required="false" deprecated="false" show-location="false">
+    Filter by media kind, such as `image`, `video`, or `document`.
+  </ParamField>
+
+  <ParamField body="since" param-type="string" required="false" deprecated="false" show-location="false">
+    Only return media added after this ISO 8601 timestamp.
+  </ParamField>
+</Expandable>
+
+<Expandable title="search_media" default-open="false">
+  Searches media by filename or alt text, with the same kind and date filters as `list_media`.
+
+  <ParamField body="query" param-type="string" required="true" deprecated="false" show-location="false">
+    What to search for in filenames and alt text
+  </ParamField>
+
+  <ParamField body="limit" param-type="integer" required="false" deprecated="false" show-location="false">
+    Maximum number of results per page. Defaults to 20.
+  </ParamField>
+
+  <ParamField body="cursor" param-type="string" required="false" deprecated="false" show-location="false">
+    Pagination cursor from the previous page.
+  </ParamField>
+
+  <ParamField body="kind" param-type="string" required="false" deprecated="false" show-location="false">
+    Filter by media kind, such as `image`, `video`, or `document`.
+  </ParamField>
+</Expandable>
+
+<Expandable title="import_media" default-open="false">
+  Imports up to 10 files from public HTTPS URLs. The server fetches each file, validates it, and stores it with the same type, size, and quota checks as a dashboard upload. Each successful result includes the media ID, public URL, and an MDX snippet. The tool does not edit any page.
+
+  <ParamField body="files" param-type="array" required="true" deprecated="false" show-location="false">
+    One to ten files to import. Each has a `url` (required), and optional `name` and `altText`.
+  </ParamField>
+</Expandable>
+
+<Expandable title="request_upload" default-open="false">
+  Generates a short-lived upload link that lets someone upload local files directly into your media library. The link expires after 15 minutes. Give the link to the user, then ask them for the stored filenames after the upload finishes so the agent can find and use them.
+
+  <ParamField body="note" param-type="string" required="false" deprecated="false" show-location="false">
+    A short note shown on the upload page, up to 200 characters.
+  </ParamField>
+</Expandable>
+
+<Expandable title="replace_media" default-open="false">
+  Replaces a stored file from a public HTTPS URL while keeping the same public address. Pages using that address update on the next publish without any edits.
+
+  <ParamField body="mediaId" param-type="string" required="true" deprecated="false" show-location="false">
+    The ID of the media file to replace
+  </ParamField>
+
+  <ParamField body="url" param-type="string" required="true" deprecated="false" show-location="false">
+    Public HTTPS URL of the replacement file
+  </ParamField>
+</Expandable>
+
+<Expandable title="delete_media" default-open="false">
+  Deletes one or more media files and reclaims storage. Returns the deleted IDs, any failures with reasons, and the total bytes reclaimed.
+
+  <ParamField body="mediaIds" param-type="array" required="true" deprecated="false" show-location="false">
+    One or more media IDs to delete.
   </ParamField>
 </Expandable>
 

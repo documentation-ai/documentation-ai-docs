@@ -90,6 +90,29 @@ Control whether the AI assistant searches across all dimensions or stays scoped 
   Learn more about how dimensions work in [Dimensions](/organize/dimensions).
 </Callout>
 
+### Assistant mode
+
+Choose how the assistant answers questions on your docs site. The mode controls the balance between answer depth and credit cost.
+
+- **Pro** gives in-depth answers for detailed and multi-step questions.
+- **Lite** gives quick, focused answers for everyday questions.
+
+Eligible organizations can switch between Pro and Lite from the AI Assistant settings page. A confirmation dialog appears when switching modes. The change applies to new questions right away, and you can switch back at any time.
+
+The selected mode is stored per documentation site, so it persists across sessions and deployments. See [AI Credits](/ai/ai-credits) for how each mode affects credit usage.
+
+<Callout kind="info" collapsed="false">
+  Not all organizations see the mode picker. Availability depends on your plan and when you subscribed. If the picker is not visible, your site uses the default mode for your plan.
+</Callout>
+
+## Dimension-scoped search and citations
+
+Search and AI Assistant answers are scoped to the reader's current product, version, and language. Results from the current dimension selection appear first. When strict mode is disabled, results from other dimensions may appear as a fallback, grouped under an "Also in" label with their source dimension.
+
+Citations that point to a page in a different dimension show an info icon next to the citation link. Hovering or tapping the icon displays the source dimension, such as "v1 / es", so readers know the answer comes from a different version or language than the one they are viewing.
+
+See [Strict dimensions](#strict-dimensions) above for how to restrict the assistant to the current dimension only.
+
 ## Where users access the assistant
 
 The assistant appears as an **Ask AI** entry point in your documentation when enabled.

@@ -134,6 +134,52 @@ If you see "Someone else replaced this file first", reload and check the current
 
 Deleting frees storage immediately.
 
+### How to import a file from a URL
+
+Instead of downloading a file to your computer and uploading it, you can import files directly from public HTTPS URLs. The import fetches the file server-side, validates it, and stores it with the same type, size, and quota checks as a manual upload. This works for images, videos, PDFs, and any other supported file type.
+
+You can import from the dashboard, the [REST API](/api-reference/overview), or the [Authoring MCP Server](/ai/authoring-mcp-server).
+
+**From the dashboard media library:**
+
+1. Open the **Media library** window from the **Media** tab.
+2. Click **Import from URL**.
+3. Paste the public HTTPS URL of the file.
+4. Optionally provide a name and alt text.
+5. Click **Import**.
+
+The import follows up to 3 redirects, enforces a 30-second timeout, and rejects non-public addresses. If the file already exists in your library, the existing copy is reused.
+
+**From the REST API:**
+
+Send a `POST` request to `/api/v1/media/import` with up to 10 files:
+
+```json
+{
+  "files": [
+    {
+      "url": "https://example.com/diagram.png",
+      "name": "architecture.png",
+      "altText": "Service architecture"
+    }
+  ]
+}
+```
+
+See [API Reference](/api-reference/overview) for endpoint details.
+
+### Upload links
+
+The [Authoring MCP Server](/ai/authoring-mcp-server) can generate a short-lived upload link that lets someone upload local files directly into your media library. This is useful when an AI agent needs a file from your computer but cannot receive file bytes through MCP.
+
+1. The agent calls the `request_upload` MCP tool, which returns a tokenized URL valid for 15 minutes.
+2. The agent gives you the link.
+3. You open the link in your browser, sign in, and drag files onto the upload page.
+4. Files go through the same type, size, and quota validation as a dashboard upload.
+5. After the upload finishes, tell the agent the stored filenames so it can find and use them.
+
+The upload page shows per-file status, including whether a file was newly stored or already existed in the library.
+
 ### How to see who uploaded, replaced, or deleted a file
 
 You must be an organization admin.

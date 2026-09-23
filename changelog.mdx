@@ -2,6 +2,99 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-09-23" description="PDF export reliability improvements, plan eligibility update, and direct download links" tags={["improvement","fix"]}>
+  ## PDF Export Reliability and Plan Update
+
+  PDF export received several reliability improvements for large documentation sites:
+
+  - **Disk-based streaming**: Large exports now stream through disk instead of holding all pages in memory, reducing memory usage and improving completion rates for sites with hundreds of pages.
+  - **Stuck export recovery**: Failed or abandoned exports are now settled automatically instead of remaining stuck in "processing" indefinitely.
+  - **Per-page batch retry**: When a batch of pages fails to convert, the export retries each page individually on the final attempt and omits only the pages that cannot render, so the rest of the PDF completes successfully.
+  - **Direct download links**: PDF downloads now use a direct presigned storage URL instead of routing the file through the dashboard, so large files download at full speed with native browser progress and resume support.
+  - **No subdomain dependency**: PDF export no longer requires a deployed subdomain to be present. As long as your site is deployed, you can export it.
+
+  ### Plan eligibility change
+
+  PDF export is now available on the **Professional and Enterprise plans**. Previously available on the Standard plan and above, this change ensures PDF export aligns with the feature access controls already enforced by the API. If you are on the Standard plan and need PDF export, upgrade to Professional to regain access.
+
+  See [API Reference](/api-reference/overview#pdf-exports) for the full PDF export API documentation.
+</Update>
+
+<Update label="2026-09-22" description="Media REST API and MCP tools, dimension-scoped search, AI Assistant modes, and media library improvements" tags={["feature","improvement"]}>
+  ## Media REST API and MCP Tools
+
+  You can now manage media files programmatically through the REST API and the Authoring MCP Server. Upload, import, list, search, replace, and delete images, videos, and other files without opening the dashboard.
+
+  **REST API endpoints** (under `/api/v1`):
+
+  - `GET /media` and `GET /media/:mediaId` to list and retrieve media
+  - `POST /media` to upload files as multipart form data (up to 10 per request)
+  - `POST /media/import` to import files from public HTTPS URLs (up to 10 per request)
+  - `PATCH /media/:mediaId` to update alt text
+  - `POST /media/:mediaId/replace` to replace a file with an upload or URL, keeping the same public address
+  - `DELETE /media/:mediaId` and `POST /media/bulk-delete` to delete files
+  - `GET /storage` to check organization storage usage and limits
+
+  See [API Reference](/api-reference/overview) for endpoint details.
+
+  **Authoring MCP Server tools**:
+
+  - `list_media` and `search_media` to browse and find media in your project
+  - `import_media` to import files from public HTTPS URLs
+  - `request_upload` to generate a short-lived upload link for a teammate or user to drop in local files
+  - `replace_media` to replace a stored file from a URL while keeping the same public address
+  - `delete_media` to delete one or more files
+
+  See [Authoring MCP Server](/ai/authoring-mcp-server) for the full tool reference.
+
+  ## Import Media From URLs
+
+  Import images, videos, and other files directly from public HTTPS URLs into your media library. The import fetches the file server-side, validates it, and stores it with the same type, size, and quota checks as a manual upload. Use this to pull diagrams, screenshots, or assets from a CDN or external source without downloading them to your computer first.
+
+  You can import from the dashboard media library, the REST API, or the Authoring MCP Server. Imported files return an MDX snippet you can insert into a page.
+
+  See [Media Library](/write-and-publish/media-library) for details.
+
+  ## Dimension-Scoped Search
+
+  Search and AI Assistant answers are now scoped to the reader's current product, version, and language. Results from the current dimension selection appear first, and results from other dimensions appear as a fallback group labeled with their source.
+
+  When strict mode is enabled, the assistant only answers from the reader's current dimension selection and does not fall back to other products, versions, or languages. When disabled, the assistant may use content from other dimensions and indicates where the answer came from.
+
+  Citations that point to a page in a different dimension now show an info icon with the source dimension on hover or tap.
+
+  See [AI Assistant](/ai/ai-assistant#strict-dimensions) for configuration details.
+
+  ## AI Assistant Modes
+
+  Choose how the AI Assistant answers questions on your docs site. The assistant mode setting controls the balance between answer depth and credit cost.
+
+  - **Pro** gives in-depth answers for detailed and multi-step questions.
+  - **Lite** gives quick, focused answers for everyday questions.
+
+  Eligible organizations can switch between Pro and Lite from the AI Assistant settings page. The selected mode is stored per documentation site and applies to new questions right away.
+
+  See [AI Credits](/ai/ai-credits) for how each mode affects credit usage.
+
+  ## Media Library Improvements
+
+  - **Upload links**: The Authoring MCP Server can generate a short-lived link that lets someone upload local files directly into your media library. The link expires after 15 minutes and files go through the same validation as a dashboard upload.
+  - **Pagination fixes**: "Load more" no longer skips files after uploads, deletes, or page-size changes. The full library resets to the first page when opened.
+  - **Separate picker lists**: The image and SVG pickers in the editor no longer share state with the main media library, preventing one from affecting the other's pagination.
+  - **Bulk delete batching**: Bulk delete now splits large selections into batches of 100 automatically and reports per-file failures.
+  - **Plan-aware upload validation**: Uploads are checked against your plan's size limits before they start, with clear messages when a file is too large.
+
+  See [Media Library](/write-and-publish/media-library) for details.
+
+  ## Other Improvements
+
+  - **Custom instructions limit raised**: The AI Assistant custom instructions field now accepts up to 500 words, up from 200.
+  - **Collaboration merge recovery**: The editor now reconciles correctly when a merge lands while you are editing, preventing stale content from overwriting published changes.
+  - **PDF export image optimization**: Images in PDF exports are now requested at print-sized resolution instead of full size, reducing export time and preventing timeouts on pages with many screenshots.
+  - **Table of contents anchor fix**: Headings containing HTML character references (such as `&quot;`) now generate matching anchors in the table of contents, so TOC links work correctly for Step and Update titles with special characters.
+  - **MCP tool documentation links**: Authoring MCP Server tool descriptions now include direct links to their corresponding documentation sections, making it easier to find setup and usage guides from within MCP clients.
+</Update>
+
 <Update label="2026-09-08" description="Media Library, Video Upload, AI assistant reliability, reader experience fixes, and access control enforcement" tags={["feature","improvement","fix"]}>
   ## Media Library
 
@@ -238,7 +331,7 @@ description: 'Changes, fixes, and improvements across versions'
   - Enable **Download as PDF** as a Page Action so readers can print individual pages directly from the table of contents sidebar. See [Page Actions](/page-actions).
 
   <Callout kind="info" collapsed="false">
-    PDF export is available on Standard plans and above.
+    PDF export is available on Professional and Enterprise plans.
   </Callout>
 
   ## SVG and HTML Block Components

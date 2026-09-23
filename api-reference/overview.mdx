@@ -243,6 +243,104 @@ curl -X POST https://api.documentationai.app/api/v1/exports/pdf \
   Starting an export from the dashboard replaces an export that is still running, including one started through the API.
 </Callout>
 
+## Media Management
+
+Manage images, videos, and other files in your media library through the REST API. Upload, import from URLs, list, search, update metadata, replace, and delete files. Check storage usage and limits.
+
+### List and search media
+
+```bash
+curl https://api.documentationai.app/api/v1/media?search=diagram&kind=image&limit=20 \
+  -H "Authorization: Bearer dai_your_api_key"
+```
+
+Get a single media item:
+
+```bash
+curl https://api.documentationai.app/api/v1/media/abc123 \
+  -H "Authorization: Bearer dai_your_api_key"
+```
+
+### Upload files
+
+Upload one or more files as multipart form data (up to 10 per request):
+
+```bash
+curl -X POST https://api.documentationai.app/api/v1/media \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -F "files=@screenshot.png"
+```
+
+### Import from URLs
+
+Import up to 10 files from public HTTPS URLs without downloading them first:
+
+```bash
+curl -X POST https://api.documentationai.app/api/v1/media/import \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "files": [
+      {
+        "url": "https://example.com/diagram.png",
+        "name": "architecture.png",
+        "altText": "Service architecture"
+      }
+    ]
+  }'
+```
+
+### Update alt text
+
+```bash
+curl -X PATCH https://api.documentationai.app/api/v1/media/abc123 \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{ "altText": "Updated description" }'
+```
+
+### Replace a file
+
+Replace a file with an upload or URL while keeping the same public address. Pages using that address update on the next publish without any edits.
+
+```bash
+curl -X POST https://api.documentationai.app/api/v1/media/abc123/replace \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{ "url": "https://example.com/updated-diagram.png" }'
+```
+
+### Delete files
+
+Delete one file:
+
+```bash
+curl -X DELETE https://api.documentationai.app/api/v1/media/abc123 \
+  -H "Authorization: Bearer dai_your_api_key"
+```
+
+Delete multiple files (up to 100 per request):
+
+```bash
+curl -X POST https://api.documentationai.app/api/v1/media/bulk-delete \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{ "mediaIds": ["abc123", "def456"] }'
+```
+
+### Storage usage
+
+Check your organization's storage usage and limits:
+
+```bash
+curl https://api.documentationai.app/api/v1/storage \
+  -H "Authorization: Bearer dai_your_api_key"
+```
+
+<Callout kind="info" collapsed="false">
+  Media management endpoints follow the same role-based access as other endpoints: viewers can list and retrieve media, editors can upload, import, and replace, and only admins can delete files.
+</Callout>
+
 ## Analytics
 
 Analytics endpoints are read-only, so a viewer key is enough.

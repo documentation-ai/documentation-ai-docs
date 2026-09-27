@@ -445,13 +445,7 @@
               {
                 "group": "Embed",
                 "icon": "app-window",
-                "expandable": true,
                 "pages": [
-                  {
-                    "title": "Overview",
-                    "path": "ai/embed",
-                    "icon": "info"
-                  },
                   {
                     "title": "Widgets",
                     "path": "ai/embed-widgets",
@@ -477,7 +471,8 @@
                     "path": "ai/embed-reference",
                     "icon": "book-open"
                   }
-                ]
+                ],
+                "path": "ai/embed"
               },
               {
                 "group": "MCP Servers",

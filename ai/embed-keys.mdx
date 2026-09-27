@@ -1,0 +1,66 @@
+---
+title: Keys and Origins
+description: Create, edit, rotate and revoke embed keys, and choose which sites can show your docs with allowed origins.
+---
+
+An embed key connects your pages to your docs site. You manage keys in the dashboard under **Settings > Embed**, with the **Admin** role.
+
+## The two keys
+
+Each embed key has two parts:
+
+| | Publishable key | Secret key |
+| --- | --- | --- |
+| **Looks like** | `pk_...` | `sk_...` |
+| **Goes in** | Your page's code | Your server only |
+| **Used for** | Loading the embed | Signing users in to [private docs](/ai/embed-private-docs) |
+| **Shown** | Always, in the keys list | Only once, when you create the key or rotate the secret |
+| **Safe to share** | Yes: it only works on the key's allowed origins | No: never put it in a page |
+
+## Create a key
+
+1. Go to **Settings > Embed** and click **Create key**.
+2. Enter a **Name**, add the **Allowed origins**, and choose when it **Expires**: **Never**, or after 30 days, 90 days, 180 days or 1 year.
+3. Click **Create key**, then copy your keys from the **Copy your keys** dialog.
+
+Each docs site can have up to 50 keys. Use separate keys for separate products or environments, so you can revoke one without affecting the others.
+
+## Allowed origins
+
+An origin is a site's scheme, host and port, with no path, such as `https://app.example.com` or `https://app.example.com:8443`. The embed works only on the origins its key lists.
+
+- Use `https`. Plain `http` works only for `localhost`, `127.0.0.1` and `[::1]`.
+- List each origin in full. Wildcards such as `https://*.example.com` aren't supported.
+- Add every environment that shows your docs: production, staging and your development server.
+- A key with no origins loads nowhere. Each key can have up to 50 origins.
+
+## Edit a key
+
+Open the key's menu and choose **Edit** to change its name and allowed origins. Changes apply within a few minutes, and the key itself stays the same.
+
+A key's expiry can't be changed. To change it, create a new key and switch your pages to it.
+
+## Rotate the secret key
+
+Open the key's menu and choose **Rotate secret key**. You get a new secret key, shown once.
+
+- The old secret key stops working at once, so update your server with the new one.
+- Users already signed in stay signed in until their session ends.
+- Rotate right away if the secret key was ever in a page, an app or a public repository.
+
+Keys created before secret keys existed show **Create secret key** instead.
+
+## Revoke a key
+
+Open the key's menu and choose **Revoke**. Every page using the key stops loading the docs and the AI Assistant within a few minutes, and the key's secret key stops working. This can't be undone.
+
+## Next steps
+
+<Columns cols={2}>
+  <Card title="Docs on a subpath" icon="link" href="/ai/embed-subpath">
+    Proxy rules for docs served at a path on your own domain.
+  </Card>
+  <Card title="Troubleshooting" icon="life-buoy" href="/ai/embed-troubleshooting">
+    Fix origin, key and sign-in errors.
+  </Card>
+</Columns>

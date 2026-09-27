@@ -1,0 +1,78 @@
+---
+title: Troubleshooting
+description: Find and fix embed problems, from error codes in the browser console to docs that don't appear or users who can't see private pages.
+---
+
+Start in your browser's console. The embed logs every problem there as `[DocumentationAI] message (code)`, and fires the `error` event with the same `code`.
+
+## Error codes
+
+| Code | What it means | How to fix it |
+| --- | --- | --- |
+| `origin_not_allowed` | The page's origin isn't one of the key's allowed origins. | Add the exact origin, including its port, in **Settings > Embed** with **Edit**. Changes apply within a few minutes. |
+| `publishable_key_invalid` | The key is mistyped, revoked, or belongs to another docs site. | Copy the key again from **Settings > Embed**. If it was revoked, create a new key. |
+| `publishable_key_expired` | The key's expiry date has passed. | Create a new key. Expiry can't be extended. |
+| `invalid_token` | The reader token was already used, is more than 60 seconds old, was mistyped, or was made with another embed key. On JWT sites, the JWT failed verification. | Get a new token for every `identify()` call, and make sure your token endpoint's response isn't cached. |
+| `sign_in_not_enabled` | `identify()` was called, but the docs site has no sign-in. | If your docs are public, remove the `identify()` call. Otherwise set up [Access Control](/customize/access-control/overview). |
+| `auth_method_unsupported` | A JWT was passed on a site that doesn't use JWT sign-in. | Use a [reader token](/ai/embed-private-docs#step-2-add-an-endpoint-that-returns-a-reader-token). |
+| `site_not_found` | Your docs site couldn't be found at its address. | Check that your docs are published. On a subpath, check your [proxy setup](/ai/embed-subpath). |
+| `unexpected_error` | Something else, such as a network failure. | Check your connection and your [Content Security Policy](/ai/embed-reference#content-security-policy). |
+
+## Common problems
+
+<ExpandableGroup>
+  <Expandable title="Nothing appears on my page">
+    Look for a `[DocumentationAI]` message in the console and find its code above. If there's no message:
+
+    - Check that `init()` runs, with your publishable key.
+    - Check that an inline widget's `target` element exists when you create the widget.
+    - In a plain HTML page, check that your own script has `type="module"`. See [Frameworks](/ai/embed-frameworks#html-and-javascript).
+  </Expandable>
+
+  <Expandable title="DocumentationAI is not defined">
+    Your code ran before the embed script loaded. Add `type="module"` to your own script tag, or start the embed from the script's `onload`. See [Frameworks](/ai/embed-frameworks#html-and-javascript).
+  </Expandable>
+
+  <Expandable title="document is not defined, during server rendering">
+    `init()` and widgets must run in the browser. In Next.js, call them in `useEffect` inside a Client Component. In Nuxt, use a `.client.ts` plugin. In SvelteKit, use `onMount`. See [Frameworks](/ai/embed-frameworks).
+  </Expandable>
+
+  <Expandable title="The browser refuses to show the docs in a frame">
+    The page's origin isn't on the key's allowed origins. Add it in **Settings > Embed**. If your docs are on a subpath of your own domain, also check [Docs on a subpath](/ai/embed-subpath).
+  </Expandable>
+
+  <Expandable title="It works locally but not in production">
+    Each environment is a different origin. Add your production origin, such as `https://app.example.com`, to the key's allowed origins.
+  </Expandable>
+
+  <Expandable title="Signed-in users are asked to sign in">
+    They see **Sign in to view this page** because `identify()` hasn't run, or it failed. Check the console for an `invalid_token` error, and check that your token endpoint returns a new token for every request. See [Private docs](/ai/embed-private-docs).
+  </Expandable>
+
+  <Expandable title="Users are told they don't have access to a page">
+    They see **You don't have access to this page**. The user is signed in, but the `accessRoles` in their reader token don't include a role the page needs. See [Choose which pages each user sees](/ai/embed-private-docs#choose-which-pages-each-user-sees).
+  </Expandable>
+
+  <Expandable title="A second floating widget doesn't appear">
+    A page has one floating widget. Creating another returns the first one. Change the existing widget's options instead, or use [help links](/ai/embed-buttons-and-links) to open it from more places.
+  </Expandable>
+
+  <Expandable title="I changed the allowed origins, but nothing changed">
+    Changes to allowed origins apply within a few minutes. Reload the page after that.
+  </Expandable>
+</ExpandableGroup>
+
+## Still stuck?
+
+[Contact us](/help/contact-us) with the console message, the page's address and your publishable key. Never send your secret key.
+
+## Next steps
+
+<Columns cols={2}>
+  <Card title="Reference" icon="book-open" href="/ai/embed-reference">
+    Every option, method, event and Content Security Policy rule.
+  </Card>
+  <Card title="Private docs" icon="lock" href="/ai/embed-private-docs">
+    Sign users in to your private pages.
+  </Card>
+</Columns>

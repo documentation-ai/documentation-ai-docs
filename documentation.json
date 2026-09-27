@@ -447,12 +447,22 @@
                 "icon": "app-window",
                 "pages": [
                   {
-                    "title": "Widgets",
+                    "title": "Quickstart",
+                    "path": "ai/embed-quickstart",
+                    "icon": "zap"
+                  },
+                  {
+                    "title": "Frameworks",
+                    "path": "ai/embed-frameworks",
+                    "icon": "code"
+                  },
+                  {
+                    "title": "Layouts",
                     "path": "ai/embed-widgets",
                     "icon": "layout-panel-left"
                   },
                   {
-                    "title": "Buttons and Links",
+                    "title": "Help Links",
                     "path": "ai/embed-buttons-and-links",
                     "icon": "mouse-pointer-click"
                   },
@@ -462,9 +472,19 @@
                     "icon": "lock"
                   },
                   {
+                    "title": "Keys and Origins",
+                    "path": "ai/embed-keys",
+                    "icon": "key"
+                  },
+                  {
                     "title": "Docs on a Subpath",
                     "path": "ai/embed-subpath",
                     "icon": "link"
+                  },
+                  {
+                    "title": "Troubleshooting",
+                    "path": "ai/embed-troubleshooting",
+                    "icon": "life-buoy"
                   },
                   {
                     "title": "Reference",

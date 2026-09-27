@@ -49,7 +49,7 @@ Clicking **How branding works** opens the **Branding** page in a panel just belo
 - **A second click on the element closes it.**
 - **The page it opens is the starting point**, so there's no Back button to a previous page.
 - **Elements added later work too**, including in single-page apps. You don't need to call anything again.
-- **The click stays on your page.** The embed handles the click, so the link's `href` isn't followed. Keep a real `href` anyway: it's where the link goes if the script hasn't loaded.
+- **The click stays on your page.** The embed handles the click, so the link's `href` isn't followed. Keep a real `href` anyway: the link goes there when a user Cmd-, Ctrl- or Shift-clicks it to open a new tab, and on every click if the embed hasn't loaded or couldn't start, for example on an origin the key doesn't allow.
 
 ## Use only your own links
 

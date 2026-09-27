@@ -15,7 +15,7 @@ Use Cloudflare Workers to serve your Documentation.AI site at a custom subpath l
 
   - DNS record for your site (`A` or `CNAME`) set to **proxied** (orange cloud on)
 
-  - Documentation published at your Documentation.AI host domain (for example, `mydocs.documentationai.io`)
+  - Documentation published at your Documentation.AI host domain (for example, `mydocs.documentationai.com`)
 
   - Desired docs path (for example, `/docs`)
 </Callout>
@@ -293,13 +293,13 @@ After deployment, Cloudflare shows a default `workers.dev` URL and a basic Hello
   <Step title="Add documentation routes" title-type="p">
     Add these routes, one by one, pointing to this Worker:
 
-    - `yoursite.com/docs`
-
-    - `yoursite.com/docs/*`
+    - `yoursite.com/docs*`
 
     - `yoursite.com/dai-assets/*`
 
     - `yoursite.com/_dai/api/*`
+
+    Write the first route with no slash before the `*`. It then matches `/docs` itself, every page below it, and addresses with a query string such as `/docs?utm_source=...`. A route that ends in exactly `/docs` doesn't match `/docs?...`, so those requests would skip the Worker.
   </Step>
 
   <Step title="Set fail mode to Fail closed" title-type="p">
@@ -333,6 +333,10 @@ Once saved, hitting `https://yoursite.com/docs` should trigger the Worker instea
   Your documentation now runs at your custom subpath with assets, API routes, and SEO helper files correctly proxied through Cloudflare Workers.
 </Callout>
 
+<Callout kind="info" collapsed="false">
+  **Embedding your docs in your product?** Check your routes and Worker against [Docs on a subpath](/ai/embed-subpath) so embedded pages load too.
+</Callout>
+
 ## Troubleshooting
 
 <ExpandableGroup>
@@ -343,11 +347,11 @@ Once saved, hitting `https://yoursite.com/docs` should trigger the Worker instea
 
     1. Confirm the Worker preview URL works at `YOUR_WORKER_URL/docs`.
 
-    2. Verify routes under **Settings → Domains & Routes** include `yoursite.com/docs` and `yoursite.com/docs/*` attached to this Worker.
+    2. Verify routes under **Settings → Domains & Routes** include `yoursite.com/docs*` attached to this Worker.
 
     3. Ensure your DNS record for `yoursite.com` is **proxied** (orange cloud) in Cloudflare DNS.
 
-    4. Check that `TARGET_DOMAIN` in the Worker script matches your Documentation.AI host (for example, `mydocs.documentationai.io`).
+    4. Check that `TARGET_DOMAIN` in the Worker script matches your Documentation.AI host (for example, `mydocs.documentationai.com`).
   </Expandable>
 
   <Expandable title="Assets or styles not loading" default-open="false">

@@ -1,0 +1,83 @@
+---
+title: Buttons and Links
+description: Turn any button or text link in your product into help that opens the right docs page or asks the AI Assistant, right where users click.
+---
+
+Put help exactly where users need it. Add one attribute to any button or text link in your product. When a user clicks it, your docs or the AI Assistant open in a panel right next to it. You don't need to write any JavaScript.
+
+```html
+<p>
+  Your logo and colors on shared boards.
+  <a href="https://docs.example.com/customize/branding" data-documentation-ai-navigate="/customize/branding">
+    How branding works
+  </a>
+</p>
+```
+
+Clicking **How branding works** opens the **Branding** page in a panel just below the link, without leaving the settings screen.
+
+This page assumes the script is on your page and `init()` has run. If not, start with the [quickstart](/ai/embed#quickstart).
+
+## The attributes
+
+| Attribute | What a click does | Example |
+| --- | --- | --- |
+| `data-documentation-ai-navigate="/path"` | Opens that docs page. | `<a data-documentation-ai-navigate="/billing/invoices">About invoices</a>` |
+| `data-documentation-ai-ask="question"` | Opens the AI Assistant and asks the question. | `<button data-documentation-ai-ask="How do I export my data?">Ask about exports</button>` |
+| `data-documentation-ai-open` | Opens the widget as you set it up. | `<button data-documentation-ai-open>Help</button>` |
+| `data-documentation-ai-open="view"` | Opens the widget on one view: `home`, `assistant` or `docs`. | `<button data-documentation-ai-open="assistant">Ask AI</button>` |
+
+`navigate` takes a path on your docs site, such as `/guide/setup#requirements`, or a full URL on your docs site. If an element has more than one attribute, `ask` is used first, then `navigate`, then `open`.
+
+## How it behaves
+
+- **The panel opens beside the element.** It opens above or below, wherever there's more room, lined up with the element's edge and always inside the window. If there isn't enough room either way, it uses the window's full height. On phones, it fills the screen.
+- **Clicking the element again closes the panel.**
+- **The page it opens is the starting point.** There's no Back button to a previous page. If your page also shows our launcher, the launcher opens the widget's home.
+- **It works with elements added later.** Buttons and links that your app renders after the page loads work too, including in single-page apps. You don't need to call anything again.
+- **The click stays on your page.** The embed handles the click, so the link's `href` isn't followed. Keep a real `href` anyway: it's where the link goes if the script hasn't loaded.
+
+## Use only your own buttons and links
+
+If your page has no floating widget, the attributes work on their own and no launcher of ours appears. `init()` is all you need:
+
+```js
+DocumentationAI.init({ publishableKey: 'pk_...' });
+// Every marked button and link now opens a panel beside itself.
+```
+
+To set up the panel, for example with your own greeting and links, add a floating widget with `launcher: false`. It still shows no launcher:
+
+```js
+DocumentationAI.Widget({
+  display: 'floating',
+  launcher: false,
+  greeting: 'Need a hand?',
+  collections: [
+    { title: 'Popular', links: [{ title: 'Invite your team', path: '/guide/invite-team' }] },
+  ],
+});
+```
+
+With a launcher, such as our **Help** button or the Ask AI bar, your buttons and links work alongside it. See [Widgets](/ai/embed-widgets#launcher-options).
+
+## Open help from your own code
+
+When a button already has its own click handler, call the widget's methods instead of adding an attribute:
+
+```js
+const help = DocumentationAI.Widget({ display: 'floating', launcher: false });
+
+importButton.addEventListener('click', () => {
+  help.navigate('/guide/import-data');
+});
+```
+
+See [Control a widget from your code](/ai/embed-widgets#control-a-widget-from-your-code) for every method.
+
+## Ideas
+
+- A **Learn more** link next to a setting, opening the page that explains it.
+- A **What's this?** link beside a field that users often get wrong.
+- An **Ask about this** button on an error message, with the error in `data-documentation-ai-ask`.
+- An empty state with a link to the getting-started page for that feature.

@@ -1,0 +1,97 @@
+---
+title: Docs on a Subpath
+description: Embedding docs that are served at a path on your own domain, like example.com/docs? Add these rules to your reverse proxy so embedded pages load.
+---
+
+If your docs are served at a path on your own domain, such as `https://example.com/docs`, through a reverse proxy (see [Custom Subpath Setup](/customize/custom-subpath/overview)), the embed loads your docs through that proxy too. Your proxy needs a few rules for embedded pages to load.
+
+<Callout kind="info">
+  Docs on a Documentation.AI subdomain or on a [custom domain](/customize/custom-domain) don't need any of this. The examples use `/docs`: replace it with your own subpath.
+</Callout>
+
+## What your proxy must do
+
+1. **Forward the query string, on the subpath itself too.** Embedded pages load at addresses like `https://example.com/docs?embed_key=pk_...`. Both `/docs?...` and `/docs/*?...` must reach your docs.
+2. **Keep the query string in the cache key.** Otherwise an embedded page and your normal page can be served from the same cache entry.
+3. **Accept `POST` and `OPTIONS` requests under `/docs/_dai/api/*`**, and forward their `Origin`, `Authorization` and `Content-Type` headers. The embed signs users in and searches your docs through these requests.
+
+We also recommend removing any `X-Frame-Options` header your proxy adds to docs responses. Your docs site controls framing itself, with a `Content-Security-Policy: frame-ancestors` header that allows exactly your key's allowed origins. Current browsers follow `frame-ancestors` when both headers are present, but `X-Frame-Options: SAMEORIGIN` can still block the embed in older browsers.
+
+## Cloudflare Workers
+
+The Worker from the [Cloudflare guide](/customize/custom-subpath/cloudflare) already forwards query strings and every request method. Check its routes:
+
+<Steps>
+  <Step title="Match the subpath with its query string" icon="route" title-type="p">
+    In your Worker, go to **Settings > Domains & Routes**. Replace the routes `example.com/docs` and `example.com/docs/*` with a single route, `example.com/docs*`, with no slash before the `*`. Keep the `example.com/dai-assets/*` and `example.com/_dai/api/*` routes.
+
+    A route that ends in exactly `/docs` doesn't match `/docs?embed_key=...`. The request then skips your Worker and your main site answers it, usually with a 404.
+  </Step>
+
+  <Step title="Optional: remove X-Frame-Options" icon="shield" title-type="p">
+    If your Worker script contains this line, delete it:
+
+    ```javascript
+    modifiedResponse.headers.set("X-Frame-Options", "SAMEORIGIN");
+    ```
+  </Step>
+</Steps>
+
+## AWS CloudFront
+
+The behaviors in the [AWS guide](/customize/custom-subpath/aws) need two changes:
+
+<Steps>
+  <Step title="Include query strings in the cache key" icon="database" title-type="p">
+    In CloudFront, go to **Policies > Cache** and create a cache policy, such as `DocsWithQueryStrings`. Give it the same settings as **CachingOptimized** (minimum TTL 1 second, default TTL 86400, maximum TTL 31536000, Gzip and Brotli on), but set **Query strings** to **All**.
+
+    Then edit your `/docs` and `/docs/*` behaviors and set their **Cache policy** to this new policy.
+  </Step>
+
+  <Step title="Add a behavior for the embed's requests" icon="plus" title-type="p">
+    Create a behavior with:
+
+    - **Path pattern**: `/docs/_dai/api/*`
+    - **Origin**: your documentation origin
+    - **Allowed HTTP methods**: GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE
+    - **Cache policy**: **CachingDisabled**
+    - **Origin request policy**: **AllViewerExceptHostHeader**
+    - **Viewer protocol policy**: **Redirect HTTP to HTTPS**
+
+    Move it above the `/docs/*` behavior. CloudFront uses the first behavior that matches, in order.
+  </Step>
+</Steps>
+
+## Vercel
+
+The rewrites in the [Vercel guide](/customize/custom-subpath/vercel) already work: Vercel keeps the query string and passes every request method. Make sure you have both the `/docs` and `/docs/:path*` rewrites, and that nothing in your project adds an `X-Frame-Options` header to `/docs`.
+
+## Other proxies
+
+For nginx or any other reverse proxy, apply the three rules in [What your proxy must do](#what-your-proxy-must-do).
+
+## Check your setup
+
+Run these with your domain, publishable key and one of the key's allowed origins:
+
+```bash
+# The embedded home page, on the subpath itself
+curl -sI "https://example.com/docs?embed_key=pk_..." \
+  | grep -iE "^HTTP|content-security-policy|x-frame-options"
+
+# The embed's sign-in and search requests
+curl -si -X OPTIONS "https://example.com/docs/_dai/api/auth/embed/session" \
+  -H "Origin: https://app.example.com" \
+  -H "Access-Control-Request-Method: POST" \
+  -H "Access-Control-Request-Headers: content-type" \
+  | grep -iE "^HTTP|access-control-allow"
+```
+
+The first command should return `200` and a `content-security-policy: frame-ancestors ...` header listing your allowed origins. The second should return `204` with `access-control-allow-*` headers that allow `POST`.
+
+| You see | What it means |
+| --- | --- |
+| `404`, or your main site's page | The request didn't reach your docs. Check your proxy's routes, especially that the subpath itself matches with a query string. |
+| `403` | Your docs were reached, but the key was refused: it's mistyped, revoked, expired, or for another docs site. The response body says which. |
+| No `content-security-policy` header | The query string was dropped on the way to your docs. |
+| `403` or `405` on the `OPTIONS` request | Your proxy doesn't allow `OPTIONS` or `POST` under `/docs/_dai/api/*`. |

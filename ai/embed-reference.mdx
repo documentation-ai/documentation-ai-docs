@@ -21,42 +21,107 @@ Calls can come in any order. Widgets created before `init()` finishes appear onc
 
 ## init() options
 
-| Option | Required | What it does |
-| --- | --- | --- |
-| `publishableKey` | Yes | Your publishable key, `pk_...`, from **Settings > Embed**. |
-| `theme` | No | `'light'`, `'dark'` or `'system'` (the default). |
-| `accentColor` | No | Your brand color for the AI Assistant, such as `'#4f46e5'`. Defaults to your docs site's brand color. |
-| `identity` | No | A reader token. The same as calling `identify()` before any page loads. |
-| `apiHost` | No | Only if you [serve the AI Assistant API from your own domain](#serve-the-ai-assistant-api-from-your-domain). |
+<ParamField body="publishableKey" param-type="string" required="true" show-location="false">
+  Your publishable key, `pk_...`, from **Settings > Embed**.
+</ParamField>
+
+<ParamField body="theme" param-type="string" enum="light,dark,system" show-location="false">
+  The color scheme. Defaults to `'system'`, which follows the user's device. Change it later with `setTheme()`.
+</ParamField>
+
+<ParamField body="accentColor" param-type="string" show-location="false">
+  Your brand color for the AI Assistant, such as `'#4f46e5'`. Defaults to your docs site's brand color.
+</ParamField>
+
+<ParamField body="identity" param-type="string" show-location="false">
+  A reader token. The same as calling `identify()` before any page loads. See [Private docs](/ai/embed-private-docs).
+</ParamField>
+
+<ParamField body="apiHost" param-type="string" show-location="false">
+  Only if you [serve the AI Assistant API from your own domain](#serve-the-ai-assistant-api-from-your-domain).
+</ParamField>
 
 ## Widget options
 
-| Option | Values | Default | What it does |
-| --- | --- | --- | --- |
-| `display` | `'inline'` or `'floating'` | `'inline'` | Inline shows inside `target`. Floating opens over your page from a launcher. |
-| `target` | A CSS selector or an element | None | Where an inline widget goes. Required for inline widgets. |
-| `defaultView` | `'home'`, `'assistant'` or `'docs'` | `'home'` | What the widget shows first. |
-| `path` | A docs page path or URL | Your site's first page | The page a `docs` widget starts on. See [Paths](#paths). |
-| `assistant` | `true` or `false` | `true` | `false` makes the widget docs only. |
-| `header` | `true` or `false` | `false` | Inline docs page only. A bar with the page title, Back and search. |
-| `assistantDisplay` | `'corner'` or `'cover'` | `'corner'` | Inline docs page only. The AI Assistant opens in a corner panel, or over the whole visible page, which suits docs in a small box. |
-| `greeting` | Text | "How can I help you today?" | The greeting on home and in an empty chat. |
-| `collections` | A list of `{ title, links }` | None | Lists of links on home. A link with `path` opens a docs page in the widget; a link with `href` opens a new tab. |
-| `minHeight`, `maxHeight` | Pixels | 400 and 640 | Inline only. Home grows with its content between these heights, then scrolls. A docs page keeps `minHeight` (480 by default) free while it loads. |
-| `launcher` | An object, or `false` | A **Help** button | Floating only. See [Launcher options](#launcher-options). |
-| `expandDocs` | `true` or `false` | `true` | Floating only. The panel grows wider and taller to show a docs page. |
-| `zIndex` | A number | 2147483000 | Floating only. The stacking order of the launcher and panel. |
+### All widgets
+
+<ParamField body="display" param-type="string" enum="inline,floating" show-location="false">
+  Where the widget shows. `inline` (the default) shows inside `target`. `floating` opens over your page from a launcher.
+</ParamField>
+
+<ParamField body="defaultView" param-type="string" enum="home,assistant,docs" show-location="false">
+  What the widget shows first. Defaults to `home`: a greeting, a box to ask, starter questions and your collections.
+</ParamField>
+
+<ParamField body="path" param-type="string" show-location="false">
+  The page a `docs` widget starts on. Defaults to your docs' first page. See [Paths](#paths).
+</ParamField>
+
+<ParamField body="assistant" param-type="boolean" show-location="false">
+  `false` makes the widget docs only, with no box to ask and no **Ask AI**. Defaults to `true`.
+</ParamField>
+
+<ParamField body="greeting" param-type="string" show-location="false">
+  The greeting on home and in an empty chat. Defaults to "How can I help you today?".
+</ParamField>
+
+<ParamField body="collections" param-type="{ title, links }[]" show-location="false">
+  Lists of links on home. A link with `path` opens a docs page in the widget. A link with `href` opens in a new tab.
+</ParamField>
+
+### Inline widgets
+
+<ParamField body="target" param-type="string | HTMLElement" required="true" show-location="false">
+  The element the widget goes in: a CSS selector or an element.
+</ParamField>
+
+<ParamField body="header" param-type="boolean" show-location="false">
+  For a docs page, a bar above it with the page title, a Back button and search. Defaults to `false`.
+</ParamField>
+
+<ParamField body="assistantDisplay" param-type="string" enum="corner,cover" show-location="false">
+  For a docs page, where its AI Assistant opens: a panel in the corner (the default), or over the whole visible page, which suits docs in a small box.
+</ParamField>
+
+<ParamField body="minHeight" param-type="number" show-location="false">
+  In pixels. Home grows with its content from this height. Defaults to 400. A docs page keeps this much space free while it loads (480 by default), so your page doesn't jump.
+</ParamField>
+
+<ParamField body="maxHeight" param-type="number" show-location="false">
+  In pixels. Home grows up to this height, then scrolls. Defaults to 640.
+</ParamField>
+
+### Floating widgets
+
+<ParamField body="launcher" param-type="object | false" show-location="false">
+  What opens the widget. Defaults to a **Help** button. See [Launcher options](#launcher-options). `false` shows no launcher: open the widget from [help links](/ai/embed-buttons-and-links) or its [methods](#widget-methods) instead.
+</ParamField>
+
+<ParamField body="expandDocs" param-type="boolean" show-location="false">
+  The panel grows wider and taller to show a docs page. Defaults to `true`. Users can expand or collapse it either way.
+</ParamField>
+
+<ParamField body="zIndex" param-type="number" show-location="false">
+  The stacking order of the launcher and panel. Defaults to 2147483000.
+</ParamField>
 
 ## Launcher options
 
-| Option | Values | Default |
-| --- | --- | --- |
-| `type` | `'button'`, or `'input'` for the Ask AI bar | `'button'` |
-| `label` | The button text, or the bar's placeholder | **Help**, or **Ask AI** when `defaultView` is `'assistant'`. The bar shows **Ask AI a question...** |
-| `position` | `'bottom-right'`, `'bottom-left'`, `'bottom-center'`, `'top-right'` or `'top-left'` | `'bottom-right'` |
-| `offset` | `{ x, y }`, in pixels from the screen's edges | 20 and 20 |
+<ParamField body="type" param-type="string" enum="button,input" show-location="false">
+  `button` (the default), or `input` for an Ask AI bar.
+</ParamField>
 
-`launcher: false` shows no launcher. Open the widget from [help links](/ai/embed-buttons-and-links) or its methods instead.
+<ParamField body="label" param-type="string" show-location="false">
+  The button text, or the bar's placeholder. Defaults to **Help**, or **Ask AI** when `defaultView` is `assistant`. The bar shows **Ask AI a question...**
+</ParamField>
+
+<ParamField body="position" param-type="string" enum="bottom-right,bottom-left,bottom-center,top-right,top-left" show-location="false">
+  Where the launcher sits. Defaults to `bottom-right`.
+</ParamField>
+
+<ParamField body="offset" param-type="{ x, y }" show-location="false">
+  Distance from the screen's edges, in pixels. Defaults to 20 for each.
+</ParamField>
 
 ## Widget methods
 
@@ -78,11 +143,17 @@ A page opened with `navigate()` becomes the widget's starting point, so it has n
 
 ## Help link attributes
 
-| Attribute | A click |
-| --- | --- |
-| `data-documentation-ai-navigate="/path"` | Opens that docs page. |
-| `data-documentation-ai-ask="question"` | Opens the AI Assistant and asks the question. |
-| `data-documentation-ai-open` | Opens the widget as you set it up, or on the view named in its value. |
+<ParamField body="data-documentation-ai-navigate" param-type="string" show-location="false">
+  A docs page's path or URL. A click opens that page.
+</ParamField>
+
+<ParamField body="data-documentation-ai-ask" param-type="string" show-location="false">
+  A question. A click opens the AI Assistant and asks it.
+</ParamField>
+
+<ParamField body="data-documentation-ai-open" param-type="string" enum="home,assistant,docs" show-location="false">
+  A click opens the widget as you set it up. With a value, it opens on that view.
+</ParamField>
 
 See [Help links](/ai/embed-buttons-and-links) for how the panel behaves.
 

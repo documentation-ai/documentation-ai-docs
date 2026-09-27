@@ -217,7 +217,15 @@ A successful request returns `200`:
 { "token": "rt_...", "expiresIn": 60 }
 ```
 
-`expiresIn` is in seconds. Errors return a JSON body with `statusCode`, `error` and `message`:
+<ResponseField name="token" field-type="string" required="true">
+  The reader token, `rt_...`. Pass it to `identify()`. It works once, within 60 seconds, and only with the embed key that created it.
+</ResponseField>
+
+<ResponseField name="expiresIn" field-type="number" required="true">
+  Seconds until the token expires: `60`.
+</ResponseField>
+
+Errors return a JSON body with `statusCode`, `error` and `message`:
 
 | Status | Why | What to do |
 | --- | --- | --- |

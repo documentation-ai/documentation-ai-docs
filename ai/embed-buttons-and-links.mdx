@@ -22,14 +22,24 @@ Clicking **How branding works** opens the **Branding** page in a panel just belo
 
 ## Choose what a click does
 
-| Attribute | A click | Example |
-| --- | --- | --- |
-| `data-documentation-ai-navigate="/path"` | Opens that docs page. | `<a data-documentation-ai-navigate="/billing">About billing</a>` |
-| `data-documentation-ai-ask="question"` | Opens the AI Assistant and asks the question. | `<button data-documentation-ai-ask="How do I export my data?">Ask about exports</button>` |
-| `data-documentation-ai-open` | Opens the widget as you set it up. | `<button data-documentation-ai-open>Help</button>` |
-| `data-documentation-ai-open="view"` | Opens the widget on one view: `home`, `assistant` or `docs`. | `<button data-documentation-ai-open="assistant">Ask AI</button>` |
+<ParamField body="data-documentation-ai-navigate" param-type="string" show-location="false">
+  A docs page's path, such as `/billing` or `/guide/setup#requirements`, or its full URL on your docs site. A click opens that page.
 
-- `navigate` takes a path on your docs site, such as `/guide/setup#requirements`, or a full URL on your docs site.
+  `<a data-documentation-ai-navigate="/billing">About billing</a>`
+</ParamField>
+
+<ParamField body="data-documentation-ai-ask" param-type="string" show-location="false">
+  A question. A click opens the AI Assistant and asks it.
+
+  `<button data-documentation-ai-ask="How do I export my data?">Ask about exports</button>`
+</ParamField>
+
+<ParamField body="data-documentation-ai-open" param-type="string" enum="home,assistant,docs" show-location="false">
+  A click opens the widget as you set it up. With a value, it opens on that view.
+
+  `<button data-documentation-ai-open>Help</button>` or `<button data-documentation-ai-open="assistant">Ask AI</button>`
+</ParamField>
+
 - If an element has more than one attribute, `ask` is used first, then `navigate`, then `open`.
 - In React, write `data-documentation-ai-open=""` for the attribute without a value. See [Frameworks](/ai/embed-frameworks#help-links-and-theme).
 

@@ -1,145 +1,51 @@
 ---
 title: Embed Your Docs
-description: Show your docs and AI Assistant inside your own product. Create a key, paste one snippet, and users get answers without leaving your app.
+description: Show your docs pages and AI Assistant inside your own product, so users get help without leaving the screen they're on.
 ---
 
-Bring your documentation and [AI Assistant](/ai/ai-assistant) into your own product or website. Users read docs pages and ask questions right where they're working, instead of switching to another tab.
+The embed puts your Documentation.AI docs and [AI Assistant](/ai/ai-assistant) inside your own product or website. Users read a docs page, or ask a question, without leaving the screen they're on.
 
 ## What you can add
 
-- **Docs pages** inside a screen of your product. A page grows to its full height, like part of your own content.
-- **The AI Assistant**, as a chat in your page, a floating **Help** button, or an **Ask AI** bar. Answers come from your published docs, with citations.
-- **Help links** on your own buttons and text. A click opens the right docs page or question in a panel right beside it.
-- **Private docs** for users signed in to your product, whether your docs use a password, JWT or OAuth. Users never sign in twice.
-
-## How it works
-
-1. You create an **embed key** in the dashboard. It has a **publishable key** (`pk_...`) that goes in your page, and a list of **allowed origins**: the websites allowed to use the key.
-2. Your page loads the embed script and places **widgets**: the docs, the AI Assistant, or both.
-3. Docs pages load from your docs site, so they look exactly like your docs. The AI Assistant appears directly in your page.
-4. If your docs have private pages, your server signs users in with the key's **secret key** (`sk_...`).
-
-<Callout kind="info">
-  The publishable key is safe in your page's code: it only works on the origins you list. The secret key is different. Keep it on your server and never put it in a page.
-</Callout>
-
-## Quickstart
-
-You need a published docs site and the **Admin** role in your Documentation.AI organization.
-
-<Callout kind="alert">
-  Are your docs served at a path on your own domain, such as `example.com/docs`? Add the embed's rules to your reverse proxy first. See [Docs on a subpath](/ai/embed-subpath).
-</Callout>
-
-<Steps>
-  <Step title="Create an embed key" icon="key" title-type="p">
-    In the dashboard, go to **Settings > Embed** and click **Create key**.
-
-    - **Name**: a label for you, such as `Web app`.
-    - **Allowed origins**: every site that will show your docs, such as `https://app.example.com`. Add `http://localhost:3000` to try it on your computer. Type each origin and click **Add**.
-    - **Expires**: **Never**, or after 30 days, 90 days, 180 days or 1 year.
-
-    Click **Create key**. The **Copy your keys** dialog shows your publishable key and your secret key.
-
-    <Callout kind="alert">
-      The secret key is shown only once. If your docs are public, you don't need it. If your docs have private pages, copy it now and store it on your server. See [Private docs](/ai/embed-private-docs).
-    </Callout>
-  </Step>
-
-  <Step title="Add the snippet to your page" icon="code" title-type="p">
-    Copy the snippet under **Install** on the **Embed** page, or add this code with your publishable key:
-
-    <Tabs>
-      <Tab title="Script tag" icon="code">
-        ```html
-        <!-- Where the docs should appear -->
-        <div id="docs"></div>
-
-        <script src="https://embed-cdn.documentation.ai/v1/embed.js" defer></script>
-        <script type="module">
-          DocumentationAI.init({ publishableKey: 'pk_...' });
-
-          // Your docs in the element above, with the AI Assistant.
-          DocumentationAI.Widget({ target: '#docs', defaultView: 'docs' });
-
-          // Or a help button in the corner of the page instead:
-          // DocumentationAI.Widget({ display: 'floating' });
-        </script>
-        ```
-      </Tab>
-      <Tab title="npm" icon="package">
-        ```bash
-        npm install @documentation.ai/embed
-        ```
-
-        ```js
-        import { DocumentationAI } from '@documentation.ai/embed';
-
-        DocumentationAI.init({ publishableKey: 'pk_...' });
-        DocumentationAI.Widget({ target: '#docs', defaultView: 'docs' });
-        ```
-      </Tab>
-    </Tabs>
-  </Step>
-
-  <Step title="Move the div and open your page" icon="monitor-check" title-type="p">
-    Move `<div id="docs">` to where the docs should appear, then open the page on one of the key's allowed origins. Your docs load in place, with the AI Assistant in their corner.
-
-    If nothing appears, open your browser's console and look for a message from the embed. See [Troubleshooting](/ai/embed-reference#troubleshooting).
-  </Step>
-</Steps>
-
-## Next steps
-
 <Columns cols={2}>
-  <Card title="Widgets" icon="layout-panel-left" href="/ai/embed-widgets">
-    Choose a layout: a docs page, a chat, a floating Help button, or an Ask AI bar.
+  <Card title="Docs in your page" icon="file-text" href="/ai/embed-widgets#docs-in-your-page">
+    A docs page inside any screen of your product, at its full height.
   </Card>
-  <Card title="Buttons and links" icon="mouse-pointer-click" href="/ai/embed-buttons-and-links">
-    Open the right docs page from any button or link in your product.
+  <Card title="AI chat" icon="message-square" href="/ai/embed-widgets#ai-chat-in-your-page">
+    Answers from your docs, with citations, right in your page.
   </Card>
-  <Card title="Private docs" icon="lock" href="/ai/embed-private-docs">
-    Show private pages to users who are signed in to your product.
+  <Card title="Help button and Ask AI bar" icon="circle-help" href="/ai/embed-widgets#help-button">
+    A floating panel that opens from a button or a question bar.
   </Card>
-  <Card title="Reference" icon="book-open" href="/ai/embed-reference">
-    Events, error codes, Content Security Policy and troubleshooting.
+  <Card title="Help links" icon="mouse-pointer-click" href="/ai/embed-buttons-and-links">
+    Any button or link in your product opens the right docs page beside it.
   </Card>
 </Columns>
 
-## Use it in a framework
+## How it works
 
-Call `init()` once when your app starts. Create a widget after its element exists, and destroy it when the element goes away. Calls can come in any order: widgets appear once `init()` has loaded your site's settings.
+1. **Create an embed key** in the dashboard. Its publishable key goes in your page and works only on the sites you list.
+2. **Add the script** to your page and call `init()` with the key.
+3. **Place widgets**: docs pages, the AI Assistant, or both.
 
-```tsx
-import { useEffect, useRef } from 'react';
-import { DocumentationAI } from '@documentation.ai/embed';
+Docs pages load from your docs site, so they look exactly like your docs. If your docs have private pages, your server also signs users in. See [Private docs](/ai/embed-private-docs).
 
-function Help() {
-  const docsRef = useRef<HTMLDivElement>(null);
+## What you need
 
-  useEffect(() => {
-    const widget = DocumentationAI.Widget({ target: docsRef.current!, defaultView: 'docs' });
-    return () => widget.destroy();
-  }, []);
+- A published Documentation.AI docs site.
+- The **Admin** role in your Documentation.AI organization, to create embed keys.
+- If your docs are served at a path on your own domain, such as `example.com/docs`, a few extra rules in your reverse proxy. See [Docs on a subpath](/ai/embed-subpath).
 
-  return <div ref={docsRef} />;
-}
-```
+## Get started
 
-## Manage your keys
-
-Your keys are listed under **Settings > Embed**. Open a key's menu to change it:
-
-- **Edit**: change the name and allowed origins. Changes apply within a few minutes, and the key itself stays the same.
-- **Rotate secret key**: get a new secret key. The old one stops working at once. See [Rotate or revoke](/ai/embed-private-docs#rotate-or-revoke). Keys created before secret keys existed show **Create secret key** instead.
-- **Revoke**: every page using the key stops loading the docs and the AI Assistant within a few minutes. This can't be undone.
-
-A key's expiry can't be changed after you create it. To change it, create a new key and switch your pages to it. A key with no allowed origins loads nowhere. Each docs site can have up to 50 keys, and each key up to 50 origins.
-
-### Allowed origins
-
-An origin is a site's scheme, host and port, with no path: `https://app.example.com` or `https://app.example.com:8443`.
-
-- Use `https`. Plain `http` works only for `localhost`, `127.0.0.1` and `[::1]`.
-- List each origin in full. Wildcards such as `https://*.example.com` aren't supported.
-- Add every environment that shows your docs: production, staging and local development.
+<Columns cols={3}>
+  <Card title="Quickstart" icon="zap" href="/ai/embed-quickstart">
+    Put your docs in a page in three steps.
+  </Card>
+  <Card title="Frameworks" icon="code" href="/ai/embed-frameworks">
+    HTML, React, Next.js, Vue, Angular and Svelte.
+  </Card>
+  <Card title="Layouts" icon="layout-panel-left" href="/ai/embed-widgets">
+    Choose how the docs appear.
+  </Card>
+</Columns>

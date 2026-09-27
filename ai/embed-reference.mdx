@@ -1,33 +1,90 @@
 ---
-title: Embed Reference
-description: The embed's JavaScript API, events, error codes, Content Security Policy, subpath and proxy setup, versions, and troubleshooting.
+title: Reference
+description: Every embed method, option, attribute and event, plus Content Security Policy rules, proxying the AI Assistant API, and versions.
 ---
 
-## JavaScript API
+The script tag adds a global `DocumentationAI` object. With npm, import it: `import { DocumentationAI } from '@documentation.ai/embed'`.
 
-The script adds a global `DocumentationAI` object. With npm, import it: `import { DocumentationAI } from '@documentation.ai/embed'`.
+## Methods
 
 | Method | What it does |
 | --- | --- |
-| `init(options)` | Starts the embed with your publishable key. Call it once. |
-| `Widget(options)` | Places a widget and returns it. See [Widgets](/ai/embed-widgets). |
+| `init(options)` | Starts the embed with your publishable key. Call it once, in the browser. |
+| `Widget(options)` | Places a widget and returns it. See [Widget options](#widget-options). |
 | `identify(token)` | Signs the user in with a reader token or, on JWT sites, a JWT. See [Private docs](/ai/embed-private-docs). |
-| `signOut()` | Signs the user out. The docs show public pages only. |
+| `signOut()` | Signs the user out. Docs show public pages only. |
 | `setTheme(mode)` | Switches to `'light'`, `'dark'` or `'system'`. |
 | `on(event, handler)` | Listens for an [event](#events). Returns a function that stops listening. |
-| `version` | The script's version, such as `1.0.2`. |
+| `version` | The script's version, such as `1.0.1`. |
 
-Calls can come in any order. Widgets you create before `init()` finishes appear once it has loaded your site's settings.
+Calls can come in any order. Widgets created before `init()` finishes appear once it has loaded your site's settings.
 
-### init() options
+## init() options
 
 | Option | Required | What it does |
 | --- | --- | --- |
 | `publishableKey` | Yes | Your publishable key, `pk_...`, from **Settings > Embed**. |
 | `theme` | No | `'light'`, `'dark'` or `'system'` (the default). |
 | `accentColor` | No | Your brand color for the AI Assistant, such as `'#4f46e5'`. Defaults to your docs site's brand color. |
-| `identity` | No | A reader token, the same as calling `identify()` before any page loads. |
+| `identity` | No | A reader token. The same as calling `identify()` before any page loads. |
 | `apiHost` | No | Only if you [serve the AI Assistant API from your own domain](#serve-the-ai-assistant-api-from-your-domain). |
+
+## Widget options
+
+| Option | Values | Default | What it does |
+| --- | --- | --- | --- |
+| `display` | `'inline'` or `'floating'` | `'inline'` | Inline shows inside `target`. Floating opens over your page from a launcher. |
+| `target` | A CSS selector or an element | None | Where an inline widget goes. Required for inline widgets. |
+| `defaultView` | `'home'`, `'assistant'` or `'docs'` | `'home'` | What the widget shows first. |
+| `path` | A docs page path or URL | Your site's first page | The page a `docs` widget starts on. See [Paths](#paths). |
+| `assistant` | `true` or `false` | `true` | `false` makes the widget docs only. |
+| `header` | `true` or `false` | `false` | Inline docs page only. A bar with the page title, Back and search. |
+| `assistantDisplay` | `'corner'` or `'cover'` | `'corner'` | Inline docs page only. The AI Assistant opens in a corner panel, or over the whole visible page, which suits docs in a small box. |
+| `greeting` | Text | "How can I help you today?" | The greeting on home and in an empty chat. |
+| `collections` | A list of `{ title, links }` | None | Lists of links on home. A link with `path` opens a docs page in the widget; a link with `href` opens a new tab. |
+| `minHeight`, `maxHeight` | Pixels | 400 and 640 | Inline only. Home grows with its content between these heights, then scrolls. A docs page keeps `minHeight` (480 by default) free while it loads. |
+| `launcher` | An object, or `false` | A **Help** button | Floating only. See [Launcher options](#launcher-options). |
+| `expandDocs` | `true` or `false` | `true` | Floating only. The panel grows wider and taller to show a docs page. |
+| `zIndex` | A number | 2147483000 | Floating only. The stacking order of the launcher and panel. |
+
+## Launcher options
+
+| Option | Values | Default |
+| --- | --- | --- |
+| `type` | `'button'`, or `'input'` for the Ask AI bar | `'button'` |
+| `label` | The button text, or the bar's placeholder | **Help**, or **Ask AI** when `defaultView` is `'assistant'`. The bar shows **Ask AI a question...** |
+| `position` | `'bottom-right'`, `'bottom-left'`, `'bottom-center'`, `'top-right'` or `'top-left'` | `'bottom-right'` |
+| `offset` | `{ x, y }`, in pixels from the screen's edges | 20 and 20 |
+
+`launcher: false` shows no launcher. Open the widget from [help links](/ai/embed-buttons-and-links) or its methods instead.
+
+## Widget methods
+
+`Widget()` returns an object with these methods:
+
+| Method | Floating widget | Inline widget |
+| --- | --- | --- |
+| `navigate(path)` | Opens on that docs page. | Shows that docs page. |
+| `ask(question)` | Opens the chat and asks. | Switches to the chat and asks. On a docs page, asks its AI Assistant. |
+| `open(view)` | Opens, on `view` if given: `'home'`, `'assistant'` or `'docs'`. | Switches to `view`, or back to how it was set up. |
+| `close()` | Closes the panel. | Closes a docs page's AI Assistant. |
+| `destroy()` | Removes the widget. | Removes the widget. |
+
+A page opened with `navigate()` becomes the widget's starting point, so it has no Back button.
+
+### Paths
+
+`path` and `navigate()` take a path on your docs site, such as `/guide/install` or `/guide/install#requirements`, or a full URL on your docs site. Links to anywhere else are ignored, with a warning in the console.
+
+## Help link attributes
+
+| Attribute | A click |
+| --- | --- |
+| `data-documentation-ai-navigate="/path"` | Opens that docs page. |
+| `data-documentation-ai-ask="question"` | Opens the AI Assistant and asks the question. |
+| `data-documentation-ai-open` | Opens the widget as you set it up, or on the view named in its value. |
+
+See [Help links](/ai/embed-buttons-and-links) for how the panel behaves.
 
 ## Events
 
@@ -47,23 +104,8 @@ const stopListening = DocumentationAI.on('navigate', (event) => {
 | `navigate` | A user clicks a link inside the docs (`source: 'docs'`) or a citation in an answer (`source: 'citation'`). | `url`, `path`, `source`, and `preventDefault()` to handle the link yourself. |
 | `auth-required` | A private page needs a signed-in user. | `path` |
 | `access-denied` | The signed-in user's roles don't include the page. | `path` |
-| `identity-required` | The user's docs session has ended. Call `identify()` with a fresh token. | `reason: 'expired'` |
-| `error` | Something went wrong. See [Errors](#errors). | `code`, `message` |
-
-## Errors
-
-Errors fire the `error` event and appear in the browser console as `[DocumentationAI] message (code)`.
-
-| Code | What it means | How to fix it |
-| --- | --- | --- |
-| `origin_not_allowed` | The page's origin isn't one of the key's allowed origins. | Add the exact origin, including its port, in **Settings > Embed** with **Edit**. Changes apply within a few minutes. |
-| `publishable_key_invalid` | The key is mistyped, revoked, or belongs to another docs site. | Copy the key again from **Settings > Embed**. If it was revoked, create a new key. |
-| `publishable_key_expired` | The key's expiry date has passed. | Create a new key. Expiry can't be extended. |
-| `invalid_token` | The reader token was already used, is more than 60 seconds old, was mistyped, or was made with another embed key. On JWT sites, the JWT failed verification. | Get a new token for every `identify()` call, and make sure your token endpoint's response isn't cached. |
-| `sign_in_not_enabled` | `identify()` was called, but the docs site has no sign-in. | Nothing, if your docs are public: remove the `identify()` call. Otherwise set up [Access Control](/customize/access-control/overview). |
-| `auth_method_unsupported` | A JWT was passed on a site that doesn't use JWT sign-in. | Use a [reader token](/ai/embed-private-docs#step-2-add-an-endpoint-that-returns-a-reader-token). |
-| `site_not_found` | Your docs site couldn't be found at its address. | Check that your docs are published. On a custom subpath, check your [proxy setup](/ai/embed-subpath). |
-| `unexpected_error` | Something else, such as a network failure. | Check your connection and your [Content Security Policy](#content-security-policy). |
+| `identity-required` | The user's docs session has ended. Call `identify()` with a new token. | `reason: 'expired'` |
+| `error` | Something went wrong. See [Troubleshooting](/ai/embed-troubleshooting#error-codes). | `code`, `message` |
 
 ## Content Security Policy
 
@@ -74,10 +116,6 @@ If your site sends a Content Security Policy, allow:
 - `frame-src` your docs site's address
 
 Your docs site only lets itself be framed by the origins on the key. On any other site, the browser refuses to show embedded docs.
-
-## Docs on a custom subpath
-
-If your docs are served at a path on your own domain through a reverse proxy, such as `https://example.com/docs`, your proxy needs a few extra rules for the embed: forward query strings on the subpath itself, keep them in the cache key, and accept `POST` and `OPTIONS` requests under `/docs/_dai/api/*`. See [Docs on a subpath](/ai/embed-subpath) for the steps for Cloudflare, AWS and Vercel, and commands to check your setup.
 
 ## Serve the AI Assistant API from your domain
 
@@ -93,34 +131,6 @@ Your proxy must forward the `Origin`, `Referer` and `X-Forwarded-For` headers. T
 
 `https://embed-cdn.documentation.ai/v1/embed.js` always serves the latest 1.x release, so fixes reach you automatically.
 
-To stay on one version, load it by number instead, such as `https://embed-cdn.documentation.ai/1.0.2/embed.js`. Subresource Integrity (`integrity="..."`) works only with a version number, because an integrity hash matches one exact file.
+To stay on one version, load it by number instead, such as `https://embed-cdn.documentation.ai/1.0.1/embed.js`. Subresource Integrity (`integrity="..."`) works only with a version number, because an integrity hash matches one exact file.
 
 The npm package is [@documentation.ai/embed](https://www.npmjs.com/package/@documentation.ai/embed).
-
-## Troubleshooting
-
-<ExpandableGroup>
-  <Expandable title="Nothing appears on my page">
-    Open your browser's console and look for a message starting with `[DocumentationAI]`. The code at the end of it is listed in [Errors](#errors). If there's no message, check that `init()` runs with your publishable key, and that an inline widget's `target` exists on the page when you create it.
-  </Expandable>
-
-  <Expandable title="The browser refuses to show the docs in a frame">
-    The page's origin isn't on the key's allowed origins. Add it in **Settings > Embed**. If your docs are on a subpath of your own domain, also check [Docs on a subpath](/ai/embed-subpath).
-  </Expandable>
-
-  <Expandable title="It works locally but not in production">
-    Each environment is a different origin. Add your production origin, such as `https://app.example.com`, to the key's allowed origins.
-  </Expandable>
-
-  <Expandable title="Signed-in users are asked to sign in">
-    They see **Sign in to view this page** because `identify()` hasn't run, or it failed. Check the console for an `invalid_token` error, and check that your token endpoint returns a fresh token for every request. See [Private docs](/ai/embed-private-docs).
-  </Expandable>
-
-  <Expandable title="Users are told they don't have access to a page">
-    They see **You don't have access to this page**. The user is signed in, but the `accessRoles` in their reader token don't include a role the page needs. See [Choose which pages each user sees](/ai/embed-private-docs#choose-which-pages-each-user-sees).
-  </Expandable>
-
-  <Expandable title="I changed the allowed origins, but nothing changed">
-    Changes to allowed origins apply within a few minutes. Reload the page after that.
-  </Expandable>
-</ExpandableGroup>

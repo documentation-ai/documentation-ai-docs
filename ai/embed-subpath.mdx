@@ -95,3 +95,14 @@ The first command should return `200` and a `content-security-policy: frame-ance
 | `403` | Your docs were reached, but the key was refused: it's mistyped, revoked, expired, or for another docs site. The response body says which. |
 | No `content-security-policy` header | The query string was dropped on the way to your docs. |
 | `403` or `405` on the `OPTIONS` request | Your proxy doesn't allow `OPTIONS` or `POST` under `/docs/_dai/api/*`. |
+
+## Next steps
+
+<Columns cols={2}>
+  <Card title="Troubleshooting" icon="life-buoy" href="/ai/embed-troubleshooting">
+    Fix errors that the embed logs in the browser console.
+  </Card>
+  <Card title="Reference" icon="book-open" href="/ai/embed-reference">
+    Every option, method, event and Content Security Policy rule.
+  </Card>
+</Columns>

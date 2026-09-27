@@ -1,24 +1,18 @@
 ---
-title: Widgets
-description: Choose how your docs and AI Assistant appear in your product, from a docs page in place to a floating help button or an Ask AI bar.
+title: Layouts
+description: Choose how your docs and AI Assistant appear in your product, from a docs page in place to a floating Help button or an Ask AI bar.
 ---
 
-Everything the embed puts in your product is a **widget**. You decide two things about each one:
+Everything the embed puts in your product is a **widget**, and each layout below is one `Widget()` call. You choose two things:
 
-- **Where it shows.** `inline` puts it inside an element on your page. `floating` opens it over your page from a button.
-- **What it shows first.** `home` shows a box to ask the AI Assistant, starter questions and your links. `assistant` shows the chat. `docs` shows a docs page.
+- **Where it shows**: `inline`, inside an element on your page (the default), or `floating`, over your page behind a button.
+- **What it shows first**: `home`, `assistant` or `docs`.
 
-The examples on this page assume the script is on your page and `init()` has run. If not, start with the [quickstart](/ai/embed#quickstart).
+These examples assume `init()` has run. If not, start with the [Quickstart](/ai/embed-quickstart) or [Frameworks](/ai/embed-frameworks).
 
-## Choose a layout
+## Docs in your page
 
-### A docs page inside your page
-
-Show a docs page right where it helps, such as next to a setup form. The page grows to its full height like the rest of your content, and the AI Assistant is docked in its corner.
-
-```html
-<div id="help"></div>
-```
+A docs page inside a screen of your product, such as next to a setup form. It grows to its full height like the rest of your page, with the AI Assistant in its corner.
 
 ```js
 DocumentationAI.Widget({
@@ -28,17 +22,21 @@ DocumentationAI.Widget({
 });
 ```
 
-Docs pages show without your docs site's navbar, sidebar or table of contents. They keep the page's feedback, previous and next links, and footer. Add `header: true` for a bar above the page with its title, a Back button and search across your docs.
+- `path` is the page it starts on. Without it, your docs' first page.
+- `header: true` adds a bar above the page with its title, a Back button and search.
+- Docs pages show without your docs site's navbar, sidebar and table of contents.
 
-### An AI chat inside your page
+## AI chat in your page
+
+The AI Assistant as a chat inside an element on your page:
 
 ```js
 DocumentationAI.Widget({ target: '#chat', defaultView: 'assistant' });
 ```
 
-### A floating help button
+## Help button
 
-A **Help** button in the corner of the screen opens a panel with a greeting, a box to ask, your [starter questions](/ai/ai-assistant#conversation-behavior) and your own lists of links.
+A **Help** button in the corner of the screen. It opens a panel with a greeting, a box to ask, your [starter questions](/ai/ai-assistant#conversation-behavior) and your own lists of links.
 
 ```js
 DocumentationAI.Widget({
@@ -56,11 +54,12 @@ DocumentationAI.Widget({
 });
 ```
 
-A link with `path` opens that docs page inside the panel. A link with `href` opens in a new tab.
+- A link with `path` opens that docs page inside the panel. A link with `href` opens in a new tab.
+- `launcher` changes the button's text and position. See [Launcher options](/ai/embed-reference#launcher-options).
 
-### An Ask AI bar
+## Ask AI bar
 
-An **Ask AI a question...** bar at the bottom of the screen. When a user types a question and presses Enter, the panel opens with the answer and takes the bar's place until they close it.
+An **Ask AI a question...** bar at the bottom of the screen. When a user types a question and presses Enter, the panel opens with the answer in the bar's place.
 
 ```js
 DocumentationAI.Widget({
@@ -69,77 +68,22 @@ DocumentationAI.Widget({
 });
 ```
 
-### Docs without the AI Assistant
+## Docs without the AI Assistant
 
-Add `assistant: false` to any layout. The widget then shows docs only, with no box to ask and no **Ask AI**. A site with its [AI Assistant](/ai/ai-assistant) turned off behaves the same way.
-
-<Callout kind="info">
-  A page can have any number of inline widgets but only one floating widget. Creating a second floating widget returns the first one.
-</Callout>
-
-## Widget options
-
-| Option | Values | Default | What it does |
-| --- | --- | --- | --- |
-| `display` | `'inline'` or `'floating'` | `'inline'` | Inline shows inside `target`. Floating opens over your page from a launcher. |
-| `target` | A CSS selector or an element | None | Where an inline widget goes. Required for inline widgets. |
-| `defaultView` | `'home'`, `'assistant'` or `'docs'` | `'home'` | What the widget shows first. |
-| `path` | A docs page path or URL | Your site's first page | The page a `docs` widget starts on. See [Paths](#paths). |
-| `assistant` | `true` or `false` | `true` | `false` makes the widget docs only. |
-| `header` | `true` or `false` | `false` | Inline docs page only. A bar with the page title, Back, and search. |
-| `assistantDisplay` | `'corner'` or `'cover'` | `'corner'` | Inline docs page only. The AI Assistant opens in a corner panel, or over the whole visible page, which suits docs in a small box. |
-| `greeting` | Text | "How can I help you today?" | The greeting on home and in an empty chat. |
-| `collections` | A list of `{ title, links }` | None | Lists of links on home. |
-| `minHeight`, `maxHeight` | Pixels | 400 and 640 | Inline only. Home grows with its content between these heights, then scrolls. A docs page keeps `minHeight` (480 by default) free while it loads, so your page doesn't jump. |
-| `launcher` | An object, or `false` | A **Help** button | Floating only. See [Launcher options](#launcher-options). |
-| `expandDocs` | `true` or `false` | `true` | Floating only. The panel grows wider and taller when it shows a docs page. Readers can expand or collapse it either way. |
-| `zIndex` | A number | 2147483000 | Floating only. The stacking order of the launcher and panel. |
-
-## Launcher options
-
-The launcher is what opens a floating widget.
-
-| Option | Values | Default |
-| --- | --- | --- |
-| `type` | `'button'` or `'input'` (the Ask AI bar) | `'button'` |
-| `label` | The button text, or the bar's placeholder | **Help**, or **Ask AI** when `defaultView` is `'assistant'`. The bar shows **Ask AI a question...** |
-| `position` | `'bottom-right'`, `'bottom-left'`, `'bottom-center'`, `'top-right'` or `'top-left'` | `'bottom-right'` |
-| `offset` | `{ x, y }` in pixels from the screen's edges | 20 and 20 |
-
-To open the widget only from your own buttons and links, set `launcher: false`. See [Buttons and links](/ai/embed-buttons-and-links).
-
-## Control a widget from your code
-
-`Widget()` returns an object you can use to open and steer the widget:
+Add `assistant: false` to any layout to show docs only, with no box to ask and no **Ask AI**. A site with its [AI Assistant](/ai/ai-assistant) turned off works the same way.
 
 ```js
-const help = DocumentationAI.Widget({ display: 'floating' });
-
-help.navigate('/billing/invoices');   // Show a docs page
-help.ask('How do I invite my team?'); // Open the chat and ask a question
-help.open();                          // Open as set up
-help.open('assistant');               // Open on a view: 'home', 'assistant' or 'docs'
-help.close();                         // Close the panel
-help.destroy();                       // Remove the widget from the page
+DocumentationAI.Widget({ target: '#help', defaultView: 'docs', assistant: false });
 ```
 
-A floating widget opens to show what you ask for. An inline widget is always open, so it switches to the page or view instead. On an inline docs page, `ask()` and `open('assistant')` open its docked AI Assistant, and `close()` closes it.
-
-A page opened with `navigate()` becomes the widget's starting point, so it has no Back button.
-
-## Paths
-
-`path` and `navigate()` take either:
-
-- A path on your docs site, such as `/guide/install` or `/guide/install#requirements`.
-- A full URL on your docs site, such as `https://docs.example.com/guide/install`.
-
-Links to anywhere else are ignored, with a warning in the browser console.
+<Callout kind="info">
+  A page can have any number of inline widgets, but only one floating widget. Creating a second floating widget returns the first one.
+</Callout>
 
 ## Match your product's look
 
-- **Light and dark.** Pass `theme` to `init()` (`'light'`, `'dark'` or `'system'`, the default). When users switch themes in your product, call `DocumentationAI.setTheme('dark')`. Docs pages and the AI Assistant switch with it.
-- **Brand color.** Pass `accentColor` to `init()`, such as `accentColor: '#4f46e5'`, to use your product's color in the AI Assistant. Without it, the AI Assistant uses your docs site's brand color.
+- **Light and dark**: pass `theme` to `init()`, then call `setTheme()` from your app's theme switch.
+- **Brand color**: pass `accentColor` to `init()` to use your color in the AI Assistant. Without it, the AI Assistant uses your docs site's brand color.
 
 ```js
 DocumentationAI.init({ publishableKey: 'pk_...', theme: 'system', accentColor: '#4f46e5' });
@@ -149,3 +93,14 @@ DocumentationAI.setTheme('dark');
 ```
 
 Docs pages keep your docs site's own [colors and typography](/customize/colors-and-typography).
+
+## Next steps
+
+<Columns cols={2}>
+  <Card title="Help links" icon="mouse-pointer-click" href="/ai/embed-buttons-and-links">
+    Open the right docs page from any button or link in your product.
+  </Card>
+  <Card title="All widget options" icon="book-open" href="/ai/embed-reference#widget-options">
+    Every option, launcher setting and method.
+  </Card>
+</Columns>

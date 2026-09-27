@@ -118,6 +118,34 @@ DocumentationAI.signOut();
   Call `identify()` before you place widgets, or pass the token to `init()` as `identity`, so the first page load is already signed in. A later call reloads open docs pages once.
 </Callout>
 
+## In a single-page app
+
+Sign users in when your app knows who they are, and sign them out from your own sign-out handler. In React:
+
+```tsx
+useEffect(() => {
+  if (!user) return;
+
+  async function signInToDocs() {
+    const response = await fetch('/api/documentation-ai-token');
+    if (response.ok) DocumentationAI.identify(await response.text());
+  }
+
+  signInToDocs();
+  // Stops listening when the user changes or signs out.
+  return DocumentationAI.on('identity-required', signInToDocs);
+}, [user]);
+```
+
+```tsx
+async function handleSignOut() {
+  await signOutOfYourApp();
+  DocumentationAI.signOut();
+}
+```
+
+Call `signOut()` only when a user signs out, because it reloads any open docs pages. Vue, Angular and Svelte follow the same pattern: sign in when your app has a signed-in user, and listen for `identity-required` while they stay signed in.
+
 ## What users see
 
 | Situation | What the user sees | Event |
@@ -154,6 +182,8 @@ On JWT sites, you can pass `identify()` a JWT signed with the private key from *
 
 - **Rotate the secret key** if it may have been exposed, or on a regular schedule. In **Settings > Embed**, open the key's menu and choose **Rotate secret key**. The old secret key stops working at once, so update your server with the new one. Users who are already signed in stay signed in until their session ends.
 - **Revoke the key** to stop the embed completely. Every page using it stops loading the docs and the AI Assistant within a few minutes. This can't be undone.
+
+See [Keys and origins](/ai/embed-keys) for everything else about managing keys.
 
 ## Reader token API
 
@@ -195,3 +225,14 @@ A successful request returns `200`:
 | `401` | The `Authorization` header is missing or isn't `Bearer sk_...`, the secret key is wrong, or its embed key is revoked or expired. | Check the environment variable on your server. Rotate the secret key, or create a new embed key. |
 | `403` | The request came from a browser (it had an `Origin` header). | Call the API from your server only. If the secret key was in a page, rotate it. |
 | `429` | More than 1,000 reader tokens in a minute for this embed key. | Wait the number of seconds in the `Retry-After` header, then try again. |
+
+## Next steps
+
+<Columns cols={2}>
+  <Card title="Keys and origins" icon="key" href="/ai/embed-keys">
+    Rotate secret keys, edit origins and revoke keys.
+  </Card>
+  <Card title="Troubleshooting" icon="life-buoy" href="/ai/embed-troubleshooting">
+    Fix sign-in errors and access problems.
+  </Card>
+</Columns>

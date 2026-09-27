@@ -1,0 +1,66 @@
+---
+title: Quickstart
+description: Put your docs in your product in three steps. Create an embed key, add the snippet to a page, and check that it works.
+---
+
+Add a docs page with the AI Assistant to any web page in about five minutes. This page uses plain HTML. For React, Next.js, Vue, Angular or Svelte, follow the steps here, then see [Frameworks](/ai/embed-frameworks).
+
+<Callout kind="alert">
+  Are your docs served at a path on your own domain, such as `example.com/docs`? Add the embed's rules to your reverse proxy first. See [Docs on a subpath](/ai/embed-subpath).
+</Callout>
+
+## 1. Create an embed key
+
+In the dashboard, go to **Settings > Embed** and click **Create key**. You need the **Admin** role.
+
+| Field | What to enter |
+| --- | --- |
+| **Name** | A label for you, such as `Web app`. |
+| **Allowed origins** | Each site that will show your docs, such as `https://app.example.com`. For local development, add your dev server too, such as `http://localhost:5173`. Click **Add** after each one. |
+| **Expires** | **Never**, or after 30 days, 90 days, 180 days or 1 year. |
+
+Click **Create key**. In the **Copy your keys** dialog, copy the **Publishable key** (`pk_...`).
+
+<Callout kind="info">
+  The dialog also shows a **secret key**, only this once. You need it only if your docs have private pages. If they do, copy it now and store it on your server. See [Private docs](/ai/embed-private-docs).
+</Callout>
+
+## 2. Add the snippet
+
+Paste this into your page, before `</body>`, with your publishable key:
+
+```html
+<!-- Where the docs should appear -->
+<div id="docs"></div>
+
+<script src="https://embed-cdn.documentation.ai/v1/embed.js" defer></script>
+<script type="module">
+  DocumentationAI.init({ publishableKey: 'pk_...' });
+
+  // Your docs in the element above, with the AI Assistant.
+  DocumentationAI.Widget({ target: '#docs', defaultView: 'docs' });
+</script>
+```
+
+Move `<div id="docs"></div>` to wherever the docs should appear. The same snippet, with your key filled in, is under **Install** in **Settings > Embed**.
+
+<Callout kind="tip">
+  Keep `type="module"` on your own script. It makes your code wait until the embed script has loaded.
+</Callout>
+
+## 3. Check that it works
+
+Open the page on one of the key's allowed origins. You should see the first page of your docs, with the AI Assistant in its corner.
+
+If nothing appears, open your browser's console and look for a message starting with `[DocumentationAI]`. See [Troubleshooting](/ai/embed-troubleshooting).
+
+## Next steps
+
+<Columns cols={2}>
+  <Card title="Frameworks" icon="code" href="/ai/embed-frameworks">
+    Set it up in React, Next.js, Vue, Angular or Svelte.
+  </Card>
+  <Card title="Layouts" icon="layout-panel-left" href="/ai/embed-widgets">
+    Use a Help button, an Ask AI bar or a chat instead.
+  </Card>
+</Columns>

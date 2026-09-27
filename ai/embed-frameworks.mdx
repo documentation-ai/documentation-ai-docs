@@ -1,0 +1,397 @@
+---
+title: Frameworks
+description: Set up the embed in plain HTML, any JavaScript bundler, React, Next.js, Vue, Nuxt, Angular, Svelte or SvelteKit.
+---
+
+Every setup does the same three things:
+
+1. **Load the embed**: the script tag, or the `@documentation.ai/embed` package.
+2. **Call `init()` once**, in the browser, when your app starts.
+3. **Create widgets** where you need them, and destroy inline widgets when their element goes away.
+
+Only where each step goes differs:
+
+| Framework | Call `init()` in | Create widgets in | Destroy them in |
+| --- | --- | --- | --- |
+| [HTML](#html-and-javascript) | Your page's module script | The same script | Not needed |
+| [React](#react) | `main.tsx` | `useEffect` | The effect's cleanup |
+| [Next.js](#nextjs) | A client component in the root layout | `useEffect` in a client component | The effect's cleanup |
+| [Vue](#vue) | `main.ts` | `onMounted` | `onBeforeUnmount` |
+| [Nuxt](#nuxt) | A `.client.ts` plugin | `onMounted` | `onBeforeUnmount` |
+| [Angular](#angular) | `main.ts` | `ngAfterViewInit` | `ngOnDestroy` |
+| [Svelte](#svelte-and-sveltekit) | `main.ts`, or the root `+layout.svelte` in SvelteKit | `onMount` | The function `onMount` returns |
+
+<Callout kind="info">
+  Add your development server to your key's allowed origins, such as `http://localhost:5173` for Vite or `http://localhost:3000` for Next.js. See [Keys and origins](/ai/embed-keys).
+</Callout>
+
+## HTML and JavaScript
+
+Use the script tag on any site: static HTML, WordPress, Webflow, or server-rendered apps such as Rails, Django and Laravel. Put it in your layout template so it's on every page.
+
+```html
+<div id="docs"></div>
+
+<script src="https://embed-cdn.documentation.ai/v1/embed.js" defer></script>
+<script type="module">
+  DocumentationAI.init({ publishableKey: 'pk_...' });
+  DocumentationAI.Widget({ target: '#docs', defaultView: 'docs' });
+</script>
+```
+
+<Callout kind="alert">
+  Keep `type="module"` on your own script. A plain `<script>` runs before the embed script has loaded, so `DocumentationAI` doesn't exist yet.
+</Callout>
+
+<Expandable title="Loading the script from a tag manager, or with async">
+  Start the embed from the script's `onload`, so your code runs only once the script has loaded:
+
+  ```html
+  <script>
+    function startDocumentationAI() {
+      DocumentationAI.init({ publishableKey: 'pk_...' });
+      DocumentationAI.Widget({ display: 'floating' });
+    }
+  </script>
+  <script src="https://embed-cdn.documentation.ai/v1/embed.js" async onload="startDocumentationAI()"></script>
+  ```
+</Expandable>
+
+### With a bundler
+
+In an app built with Vite, webpack or any other bundler, install the package instead:
+
+```bash
+npm install @documentation.ai/embed
+```
+
+```js
+import { DocumentationAI } from '@documentation.ai/embed';
+
+DocumentationAI.init({ publishableKey: 'pk_...' });
+DocumentationAI.Widget({ display: 'floating' });
+```
+
+TypeScript types are included, such as `WidgetOptions` and `WidgetInstance`. The package is safe to import in server-rendered code, but `init()` and widgets must run in the browser.
+
+## React
+
+### 1. Start the embed
+
+Call `init()` once, in your entry file, outside any component:
+
+```tsx
+// src/main.tsx
+import { DocumentationAI } from '@documentation.ai/embed';
+
+DocumentationAI.init({ publishableKey: 'pk_...' });
+
+// ...then render your app as usual.
+```
+
+### 2. Add a Help button
+
+Create the floating widget in your top-level component, so it stays on every screen:
+
+```tsx
+// src/App.tsx
+import { useEffect } from 'react';
+import { DocumentationAI } from '@documentation.ai/embed';
+
+export function App() {
+  useEffect(() => {
+    const help = DocumentationAI.Widget({ display: 'floating' });
+    return () => help.destroy();
+  }, []);
+
+  return <YourRoutes />;
+}
+```
+
+### 3. Show docs in a component
+
+```tsx
+// src/DocsPanel.tsx
+import { useEffect, useRef } from 'react';
+import { DocumentationAI } from '@documentation.ai/embed';
+
+export function DocsPanel({ path }: { path: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const widget = DocumentationAI.Widget({
+      target: containerRef.current!,
+      defaultView: 'docs',
+      path,
+    });
+    return () => widget.destroy();
+  }, [path]);
+
+  return <div ref={containerRef} />;
+}
+```
+
+Use it as `<DocsPanel path="/getting-started/quickstart" />`.
+
+### Help links and theme
+
+[Help links](/ai/embed-buttons-and-links) work in JSX as written. For an attribute without a value, write `=""`, because a bare attribute in JSX becomes `"true"`:
+
+```tsx
+<a href="https://docs.example.com/billing" data-documentation-ai-navigate="/billing">About billing</a>
+<button data-documentation-ai-open="">Help</button>
+```
+
+To follow your app's theme switch:
+
+```tsx
+useEffect(() => {
+  DocumentationAI.setTheme(theme); // 'light', 'dark' or 'system'
+}, [theme]);
+```
+
+<Callout kind="info">
+  In development, React's Strict Mode runs effects twice, so a widget is created, destroyed and created again. That's expected. Keep `init()` outside your components so it runs only once.
+</Callout>
+
+## Next.js
+
+The embed runs in the browser, so use it from Client Components. These steps are for the App Router.
+
+### 1. Create a component that starts the embed
+
+```tsx
+// app/documentation-ai.tsx
+'use client';
+
+import { useEffect } from 'react';
+import { DocumentationAI } from '@documentation.ai/embed';
+
+let started = false;
+
+export function DocumentationAIProvider() {
+  useEffect(() => {
+    // Once per visit: in development, React runs effects twice.
+    if (started) return;
+    started = true;
+    DocumentationAI.init({ publishableKey: 'pk_...' });
+    DocumentationAI.Widget({ display: 'floating' });
+  }, []);
+
+  return null;
+}
+```
+
+### 2. Add it to your root layout
+
+```tsx
+// app/layout.tsx
+import type { ReactNode } from 'react';
+import { DocumentationAIProvider } from './documentation-ai';
+
+export default function RootLayout({ children }: { children: ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        {children}
+        <DocumentationAIProvider />
+      </body>
+    </html>
+  );
+}
+```
+
+The root layout stays mounted as users move between pages, so the Help button stays too.
+
+### 3. Show docs on a page
+
+Copy the [React `DocsPanel`](#3-show-docs-in-a-component) into `app/docs-panel.tsx` and add `'use client';` as its first line. You can then use `<DocsPanel path="/getting-started/quickstart" />` in any page, including Server Components.
+
+<Expandable title="Using the Pages Router">
+  Put `DocumentationAIProvider` in `components/documentation-ai.tsx` and render it in `pages/_app.tsx`:
+
+  ```tsx
+  // pages/_app.tsx
+  import type { AppProps } from 'next/app';
+  import { DocumentationAIProvider } from '../components/documentation-ai';
+
+  export default function App({ Component, pageProps }: AppProps) {
+    return (
+      <>
+        <Component {...pageProps} />
+        <DocumentationAIProvider />
+      </>
+    );
+  }
+  ```
+</Expandable>
+
+## Vue
+
+### 1. Start the embed
+
+```ts
+// src/main.ts
+import { createApp } from 'vue';
+import { DocumentationAI } from '@documentation.ai/embed';
+import App from './App.vue';
+
+DocumentationAI.init({ publishableKey: 'pk_...' });
+DocumentationAI.Widget({ display: 'floating' }); // A Help button on every screen
+
+createApp(App).mount('#app');
+```
+
+### 2. Show docs in a component
+
+```vue
+<!-- src/components/DocsPanel.vue -->
+<script setup lang="ts">
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { DocumentationAI, type WidgetInstance } from '@documentation.ai/embed';
+
+const props = defineProps<{ path: string }>();
+const container = ref<HTMLDivElement>();
+let widget: WidgetInstance | undefined;
+
+onMounted(() => {
+  widget = DocumentationAI.Widget({ target: container.value!, defaultView: 'docs', path: props.path });
+});
+watch(() => props.path, (path) => widget?.navigate(path));
+onBeforeUnmount(() => widget?.destroy());
+</script>
+
+<template>
+  <div ref="container" />
+</template>
+```
+
+Use it as `<DocsPanel path="/getting-started/quickstart" />`. When `path` changes, the panel shows the new page. [Help links](/ai/embed-buttons-and-links) work in templates as written.
+
+## Nuxt
+
+Start the embed in a plugin whose name ends in `.client.ts`, so it runs only in the browser:
+
+```ts
+// plugins/documentation-ai.client.ts
+import { DocumentationAI } from '@documentation.ai/embed';
+
+export default defineNuxtPlugin(() => {
+  DocumentationAI.init({ publishableKey: 'pk_...' });
+  DocumentationAI.Widget({ display: 'floating' });
+});
+```
+
+To show docs in a page, use the [Vue `DocsPanel`](#2-show-docs-in-a-component). Its `onMounted` runs only in the browser.
+
+## Angular
+
+### 1. Start the embed
+
+```ts
+// src/main.ts
+import { DocumentationAI } from '@documentation.ai/embed';
+
+DocumentationAI.init({ publishableKey: 'pk_...' });
+DocumentationAI.Widget({ display: 'floating' }); // A Help button on every screen
+
+// ...then bootstrap your application as usual.
+```
+
+### 2. Show docs in a component
+
+```ts
+// src/app/docs-panel.component.ts
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
+import { DocumentationAI, type WidgetInstance } from '@documentation.ai/embed';
+
+@Component({
+  selector: 'app-docs-panel',
+  standalone: true,
+  template: '<div #container></div>',
+})
+export class DocsPanelComponent implements AfterViewInit, OnDestroy {
+  @Input() path?: string;
+  @ViewChild('container') container!: ElementRef<HTMLDivElement>;
+  private widget?: WidgetInstance;
+
+  ngAfterViewInit() {
+    this.widget = DocumentationAI.Widget({
+      target: this.container.nativeElement,
+      defaultView: 'docs',
+      path: this.path,
+    });
+  }
+
+  ngOnDestroy() {
+    this.widget?.destroy();
+  }
+}
+```
+
+Use it as `<app-docs-panel path="/getting-started/quickstart" />`. [Help links](/ai/embed-buttons-and-links) work in templates as written.
+
+## Svelte and SvelteKit
+
+### 1. Start the embed
+
+In Svelte, call `init()` in `src/main.ts`, before you mount your app. In SvelteKit, call it in your root layout's `onMount`, which runs only in the browser:
+
+```svelte
+<!-- src/routes/+layout.svelte -->
+<script lang="ts">
+  import { onMount } from 'svelte';
+  import { DocumentationAI } from '@documentation.ai/embed';
+
+  let { children } = $props();
+
+  onMount(() => {
+    DocumentationAI.init({ publishableKey: 'pk_...' });
+    DocumentationAI.Widget({ display: 'floating' });
+  });
+</script>
+
+{@render children()}
+```
+
+### 2. Show docs in a component
+
+```svelte
+<!-- src/lib/DocsPanel.svelte -->
+<script lang="ts">
+  import { onMount } from 'svelte';
+  import { DocumentationAI } from '@documentation.ai/embed';
+
+  let { path }: { path?: string } = $props();
+  let container: HTMLDivElement;
+
+  onMount(() => {
+    const widget = DocumentationAI.Widget({ target: container, defaultView: 'docs', path });
+    return () => widget.destroy();
+  });
+</script>
+
+<div bind:this={container}></div>
+```
+
+Use it as `<DocsPanel path="/getting-started/quickstart" />`. [Help links](/ai/embed-buttons-and-links) work in markup as written.
+
+## Single-page apps
+
+These apply to every framework above:
+
+- **Create the Help button once**, where your app starts. It stays as users move between routes.
+- **Create inline widgets in the component that shows them**, and destroy them when it unmounts.
+- **Help links need nothing extra.** They work on every route, including elements rendered later.
+- **Sign users in when your app knows who they are.** See [Private docs in a single-page app](/ai/embed-private-docs#in-a-single-page-app).
+
+## Next steps
+
+<Columns cols={2}>
+  <Card title="Layouts" icon="layout-panel-left" href="/ai/embed-widgets">
+    Choose between a docs page, a chat, a Help button or an Ask AI bar.
+  </Card>
+  <Card title="Help links" icon="mouse-pointer-click" href="/ai/embed-buttons-and-links">
+    Open the right docs page from your own buttons and links.
+  </Card>
+</Columns>

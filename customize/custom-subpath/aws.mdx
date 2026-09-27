@@ -34,8 +34,9 @@ You'll configure CloudFront behaviors to route traffic based on path patterns:
 | Path Pattern | Cache Policy | Origin | Purpose |
 |--------------|--------------|--------|---------|
 | `/.well-known/*` | CachingDisabled | Documentation | Domain verification |
-| `/docs/*` (or your subpath) | CachingOptimized | Documentation | Documentation pages |
-| `/docs` (or your subpath) | CachingOptimized | Documentation | Documentation root |
+| `/docs/_dai/api/*` (or your subpath) | CachingDisabled, all HTTP methods | Documentation | Requests from the [embed](/ai/embed) |
+| `/docs/*` (or your subpath) | DocsWithQueryStrings | Documentation | Documentation pages |
+| `/docs` (or your subpath) | DocsWithQueryStrings | Documentation | Documentation root |
 | `/dai-assets/_next/static/*` | CachingOptimized | Documentation | Static assets |
 | `Default (*)` | CachingOptimized | Main Site | Landing page |
 
@@ -59,7 +60,7 @@ You'll configure CloudFront behaviors to route traffic based on path patterns:
   </Step>
   
   <Step title="Documentation Subdomain">
-    Your documentation accessible at `[SUBDOMAIN].documentationai.io`.
+    Your documentation accessible at `[SUBDOMAIN].documentationai.com`.
   </Step>
 </Steps>
 
@@ -75,7 +76,7 @@ You'll configure CloudFront behaviors to route traffic based on path patterns:
   </Step>
   
   <Step title="Configure Origin">
-    Set the **Origin domain** to `[SUBDOMAIN].documentationai.io` (replace with your actual subdomain).
+    Set the **Origin domain** to `[SUBDOMAIN].documentationai.com` (replace with your actual subdomain).
   </Step>
   
   <Step title="Enable WAF">
@@ -114,10 +115,28 @@ Your CloudFront distribution needs two origins: one for documentation and one fo
 </Steps>
 
 After this step, you should have two origins in your distribution:
-1. `[SUBDOMAIN].documentationai.io` - Documentation
+1. `[SUBDOMAIN].documentationai.com` - Documentation
 2. `your-site.vercel.app` (or similar) - Main site
 
-## Step 3: Configure Behaviors
+## Step 3: Create a cache policy for documentation pages
+
+The managed **CachingOptimized** policy leaves query strings out of the cache key. Documentation pages need them in it: pages [embedded in your product](/ai/embed) are the same addresses with a query string, and must not share a cache entry with your normal pages.
+
+<Steps>
+  <Step title="Open cache policies">
+    In CloudFront, go to **Policies** > **Cache** and click **Create cache policy**.
+  </Step>
+
+  <Step title="Match CachingOptimized">
+    Name it `DocsWithQueryStrings`. Set **Minimum TTL** to 1, **Default TTL** to 86400 and **Maximum TTL** to 31536000, and turn on **Gzip** and **Brotli**.
+  </Step>
+
+  <Step title="Include query strings">
+    Set **Query strings** to **All**. Leave **Headers** and **Cookies** at **None**, then click **Create**.
+  </Step>
+</Steps>
+
+## Step 4: Configure Behaviors
 
 Behaviors control how CloudFront routes and caches requests based on URL patterns.
 
@@ -139,7 +158,7 @@ Create a behavior for domain verification and SSL certificate provisioning.
   </Step>
   
   <Step title="Set Origin">
-    Set **Origin** to your documentation origin (`[SUBDOMAIN].documentationai.io`).
+    Set **Origin** to your documentation origin (`[SUBDOMAIN].documentationai.com`).
   </Step>
   
   <Step title="Disable Caching">
@@ -160,25 +179,29 @@ Create a behavior for domain verification and SSL certificate provisioning.
 </Steps>
 
 
-### Behavior 2: Documentation Root Path
+### Behavior 2: Documentation API
 
-Create a behavior for the documentation root (e.g., `/docs`).
+Create a behavior for the requests the [embed](/ai/embed) makes to sign users in and search your docs. They use `POST` and `OPTIONS`, which the documentation behaviors don't allow.
 
 <Steps>
   <Step title="Create Behavior">
-    Click **Create behavior** again.
+    Click **Create behavior**.
   </Step>
   
   <Step title="Set Path">
-    Set **Path pattern** to your chosen subpath (e.g., `/docs`, `/help`, `/guide`).
+    Set **Path pattern** to your subpath followed by `/_dai/api/*` (e.g., `/docs/_dai/api/*`).
   </Step>
   
   <Step title="Set Origin">
-    Set **Origin** to your documentation origin (`[SUBDOMAIN].documentationai.io`).
+    Set **Origin** to your documentation origin (`[SUBDOMAIN].documentationai.com`).
   </Step>
   
-  <Step title="Enable Caching">
-    Set **Cache policy** to **CachingOptimized**.
+  <Step title="Allow All Methods">
+    Set **Allowed HTTP methods** to **GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE**.
+  </Step>
+  
+  <Step title="Disable Caching">
+    Set **Cache policy** to **CachingDisabled**.
   </Step>
   
   <Step title="Set Request Policy">
@@ -194,7 +217,41 @@ Create a behavior for the documentation root (e.g., `/docs`).
   </Step>
 </Steps>
 
-### Behavior 3: Documentation Wildcard Path
+### Behavior 3: Documentation Root Path
+
+Create a behavior for the documentation root (e.g., `/docs`).
+
+<Steps>
+  <Step title="Create Behavior">
+    Click **Create behavior** again.
+  </Step>
+  
+  <Step title="Set Path">
+    Set **Path pattern** to your chosen subpath (e.g., `/docs`, `/help`, `/guide`).
+  </Step>
+  
+  <Step title="Set Origin">
+    Set **Origin** to your documentation origin (`[SUBDOMAIN].documentationai.com`).
+  </Step>
+  
+  <Step title="Set Cache Policy">
+    Set **Cache policy** to **DocsWithQueryStrings**, the policy you created in Step 3.
+  </Step>
+  
+  <Step title="Set Request Policy">
+    Set **Origin request policy** to **AllViewerExceptHostHeader**.
+  </Step>
+  
+  <Step title="Force HTTPS">
+    Set **Viewer protocol policy** to **Redirect HTTP to HTTPS**.
+  </Step>
+  
+  <Step title="Create">
+    Click **Create behavior**.
+  </Step>
+</Steps>
+
+### Behavior 4: Documentation Wildcard Path
 
 Create a behavior for all documentation pages (e.g., `/docs/*`).
 
@@ -208,9 +265,9 @@ Create a behavior for all documentation pages (e.g., `/docs/*`).
   </Step>
   
   <Step title="Match Previous Settings">
-    Use the same settings as Behavior 2:
+    Use the same settings as Behavior 3:
     - **Origin**: Documentation origin
-    - **Cache policy**: CachingOptimized
+    - **Cache policy**: DocsWithQueryStrings
     - **Origin request policy**: AllViewerExceptHostHeader
     - **Viewer protocol policy**: Redirect HTTP to HTTPS
   </Step>
@@ -220,7 +277,7 @@ Create a behavior for all documentation pages (e.g., `/docs/*`).
   </Step>
 </Steps>
 
-### Behavior 4: Static Assets
+### Behavior 5: Static Assets
 
 Create a behavior for documentation static assets.
 
@@ -246,7 +303,7 @@ Create a behavior for documentation static assets.
   </Step>
 </Steps>
 
-### Behavior 5: Update Default Behavior
+### Behavior 6: Update Default Behavior
 
 Modify the default behavior to route all other traffic to your main site.
 
@@ -281,13 +338,14 @@ Modify the default behavior to route all other traffic to your main site.
 Your final behavior list should look like this (order matters):
 
 1. `/.well-known/*` → Documentation origin (CachingDisabled)
-2. `/docs/*` → Documentation origin (CachingOptimized)
-3. `/docs` → Documentation origin (CachingOptimized)
-4. `/dai-assets/_next/static/*` → Documentation origin (CachingOptimized)
-5. `Default (*)` → Main site origin (CachingOptimized)
+2. `/docs/_dai/api/*` → Documentation origin (CachingDisabled, all HTTP methods)
+3. `/docs/*` → Documentation origin (DocsWithQueryStrings)
+4. `/docs` → Documentation origin (DocsWithQueryStrings)
+5. `/dai-assets/_next/static/*` → Documentation origin (CachingOptimized)
+6. `Default (*)` → Main site origin (CachingOptimized)
 
 
-## Step 4: Test Your Distribution
+## Step 5: Test Your Distribution
 
 Before connecting your domain, test the distribution using the CloudFront URL.
 
@@ -310,7 +368,7 @@ Before connecting your domain, test the distribution using the CloudFront URL.
 </Steps>
 
 
-## Step 5: Connect Route 53
+## Step 6: Connect Route 53
 
 Now connect your custom domain to the CloudFront distribution.
 
@@ -349,7 +407,7 @@ Now connect your custom domain to the CloudFront distribution.
 
 Repeat the process above to create an alias record for `www.yoursite.com` pointing to the same CloudFront distribution.
 
-## Step 6: Configure SSL Certificate
+## Step 7: Configure SSL Certificate
 
 CloudFront requires an SSL certificate for HTTPS.
 
@@ -463,7 +521,7 @@ Clear cached content when you update documentation:
     **Problem:** Accessing documentation returns 403 errors.
 
     **Solution:**
-    1. Verify origin is set to `[SUBDOMAIN].documentationai.io` (not the full URL with https://)
+    1. Verify origin is set to `[SUBDOMAIN].documentationai.com` (not the full URL with https://)
     2. Check origin request policy is `AllViewerExceptHostHeader`
     3. Verify behaviors are ordered correctly
   </Expandable>
@@ -493,7 +551,7 @@ Clear cached content when you update documentation:
 
     **Solution:**
     1. Verify documentation origin is accessible
-    2. Check that `[SUBDOMAIN].documentationai.io` resolves correctly
+    2. Check that `[SUBDOMAIN].documentationai.com` resolves correctly
     3. Review CloudFront error logs
     4. Ensure origin is not blocking CloudFront IP ranges
   </Expandable>

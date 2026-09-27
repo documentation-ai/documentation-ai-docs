@@ -443,6 +443,38 @@
                 "icon": "settings"
               },
               {
+                "group": "Embed",
+                "icon": "app-window",
+                "pages": [
+                  {
+                    "title": "Widgets",
+                    "path": "ai/embed-widgets",
+                    "icon": "layout-panel-left"
+                  },
+                  {
+                    "title": "Buttons and Links",
+                    "path": "ai/embed-buttons-and-links",
+                    "icon": "mouse-pointer-click"
+                  },
+                  {
+                    "title": "Private Docs",
+                    "path": "ai/embed-private-docs",
+                    "icon": "lock"
+                  },
+                  {
+                    "title": "Docs on a Subpath",
+                    "path": "ai/embed-subpath",
+                    "icon": "link"
+                  },
+                  {
+                    "title": "Reference",
+                    "path": "ai/embed-reference",
+                    "icon": "book-open"
+                  }
+                ],
+                "path": "ai/embed"
+              },
+              {
                 "group": "MCP Servers",
                 "icon": "terminal",
                 "pages": [

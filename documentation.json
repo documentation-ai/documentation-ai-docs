@@ -813,6 +813,30 @@
   },
   "redirects": [
     {
+      "source": "/migrations/from-mintlify",
+      "destination": "/migrations/mintlify"
+    },
+    {
+      "source": "/migrations/from-gitbook",
+      "destination": "/migrations/gitbook"
+    },
+    {
+      "source": "/migrations/from-readme",
+      "destination": "/migrations/readme"
+    },
+    {
+      "source": "/migrations/from-document360",
+      "destination": "/migrations/document360"
+    },
+    {
+      "source": "/migrations/from-docusaurus",
+      "destination": "/migrations/docusaurus"
+    },
+    {
+      "source": "/migrations/from-markdown",
+      "destination": "/migrations/markdown"
+    },
+    {
       "source": "/ai/docs-mcp-server",
       "destination": "/ai/reader-mcp-server"
     },

@@ -2,6 +2,33 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-09-28" description="Embed keys and settings, AI assistant mode, strict search dimensions, media and PDF export improvements, llms.txt scaling, and security fixes" tags={["feature","improvement","fix"]}>
+  ## Embed Settings and Keys
+
+  Manage embed keys for your embedded documentation from a dedicated **Settings > Embed** panel. Create publishable keys with allowed origins and optional expiry, generate one-time secret keys for private documentation, rotate or revoke keys, and copy installation snippets for the Widget API.
+
+  See [Embedded Docs Overview](/embedded-docs/overview) and [Keys and Origins](/embedded-docs/keys-and-origins).
+
+  ## AI Assistant Mode
+
+  Eligible plans can choose between **Pro** and **Lite** assistant modes. The selection is saved per documentation site and a confirmation dialog appears before switching. See [AI Assistant](/ai/ai-assistant).
+
+  ## Improvements
+
+  - **Strict search dimensions**: New setting to keep the AI assistant scoped to the reader's current product, version, and language. When disabled, the assistant searches across all dimensions and indicates where the answer came from. See [AI Assistant](/ai/ai-assistant#strict-dimensions).
+  - **Media library**: Upload links let AI agents request files from your computer. Import images from URLs through the API. Improved pagination in the image and SVG pickers, deduplication handling, and plan-aware file-size validation. See [Media Library](/write-and-publish/media-library).
+  - **PDF export**: Works on custom-domain documentation sites. Downloads directly from storage via presigned URLs for faster transfers. Improved cancellation handling and updated plan access requirements. See [API Reference](/api-reference/overview#pdf-exports).
+  - **llms.txt generation**: Section-aware splitting for large documentation sites keeps the file manageable for AI tools. See [llms.txt](/seo-and-geo/llms-txt).
+  - **Collaboration merge**: Content from Git merges appears in the editor immediately without a manual workspace reload.
+  - **AI Documentation Agent**: Improved streaming reliability and reconnection. Deleting a chat now cancels its active run.
+  - **Dashboard help links**: Documentation help links in dashboard settings open in an embedded side panel instead of navigating away.
+
+  ## Fixes
+
+  - **Cross-documentation authorization**: API keys and MCP credentials can no longer access or modify resources belonging to a different documentation site.
+  - **Collaboration WebSocket URL**: Fixed double slashes in collaboration editor WebSocket URLs that could prevent connections.
+</Update>
+
 <Update label="2026-09-08" description="Media Library, Video Upload, AI assistant reliability, reader experience fixes, and access control enforcement" tags={["feature","improvement","fix"]}>
   ## Media Library
 

@@ -2,7 +2,7 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
-<Update label="2026-09-28" description="Embedded Docs, AI assistant mode, strict search dimensions, media and PDF export improvements, llms.txt scaling, and security fixes" tags={["feature","improvement","fix"]}>
+<Update label="2026-09-28" description="Embedded Docs, Agent Readiness Score, AI assistant mode, strict search dimensions, media and PDF export improvements, llms.txt scaling, and security fixes" tags={["feature","improvement","fix"]}>
   ## Embedded Docs and AI Assistant
 
   Embed your Documentation.AI docs pages and AI Assistant directly inside your product or website. Users read documentation and ask questions without leaving the screen they're on. See [Embedded docs](/embedded-docs/overview).
@@ -12,6 +12,18 @@ description: 'Changes, fixes, and improvements across versions'
   - **Floating Help button and Ask AI bar**: Add a floating panel that opens from a corner button or a question bar at the bottom of the screen. Customize the launcher text, position, and greeting. See [Layouts](/embedded-docs/layouts#help-button).
   - **Help links**: Turn any button or link in your product into a trigger that opens a specific docs page or asks the AI Assistant. See [Help Links](/embedded-docs/help-links).
   - **Theme and branding**: Match your product's look with light/dark mode, system theme detection, and a custom accent color for the AI Assistant. See [Layouts](/embedded-docs/layouts#match-your-products-look).
+
+  ## Agent Readiness Score
+
+  A free tool that grades how well AI agents can find, read, and answer questions from any documentation site, help center, or knowledge base. Enter a URL and get a 0 to 100 score in about a minute. No sign-up required.
+
+  The score is built on three pillars:
+
+  - **Access**: Whether agents can discover and read your content. Checks for llms.txt, Markdown pages, page size, structure, real 404s, login walls, and whether search crawlers and AI assistants that honor robots.txt may read the docs.
+  - **Freshness**: Whether the content is maintained and consistent. Broken links and section anchors, stale sitemap entries, and endpoints in the docs that don't exist in the API spec.
+  - **Answerability**: Whether an agent can answer real questions from your pages using only what it can fetch, with each answer checked for retrieval, correctness, and citations. Available in the open-source scanner with your own API key.
+
+  Try it at [Agent Readiness Score](https://documentation.ai/agent-score).
 
   ## Improvements
 

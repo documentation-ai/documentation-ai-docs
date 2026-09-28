@@ -55,6 +55,54 @@
                 "title": "Quickstart",
                 "path": "getting-started/quickstart",
                 "icon": "zap"
+              },
+              {
+                "group": "Migration guide",
+                "path": "migrations/overview",
+                "icon": "arrow-right-left",
+                "expandable": true,
+                "pages": [
+                  {
+                    "title": "Install the Migrator",
+                    "path": "migrations/install",
+                    "icon": "download"
+                  },
+                  {
+                    "title": "Migrate from Mintlify",
+                    "path": "migrations/mintlify",
+                    "icon": "leaf"
+                  },
+                  {
+                    "title": "Migrate from GitBook",
+                    "path": "migrations/gitbook",
+                    "icon": "book-marked"
+                  },
+                  {
+                    "title": "Migrate from ReadMe",
+                    "path": "migrations/readme",
+                    "icon": "book-open-text"
+                  },
+                  {
+                    "title": "Migrate from Document360",
+                    "path": "migrations/document360",
+                    "icon": "library"
+                  },
+                  {
+                    "title": "Migrate from Docusaurus, Nextra, or Fern",
+                    "path": "migrations/docusaurus",
+                    "icon": "square-code"
+                  },
+                  {
+                    "title": "Migrate from Other Platforms",
+                    "path": "migrations/markdown",
+                    "icon": "file-text"
+                  },
+                  {
+                    "title": "Migration Checklist",
+                    "path": "migrations/migration-checklist",
+                    "icon": "list-checks"
+                  }
+                ]
               }
             ]
           },

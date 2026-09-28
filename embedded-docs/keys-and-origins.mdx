@@ -13,7 +13,7 @@ Each embed key has two parts:
 | --- | --- | --- |
 | **Looks like** | `pk_...` | `sk_...` |
 | **Goes in** | Your page's code | Your server only |
-| **Used for** | Loading the embed | Signing users in to [private docs](/ai/embed-private-docs) |
+| **Used for** | Loading the embed | Signing users in to [private docs](/embedded-docs/private-docs) |
 | **Shown** | Always, in the keys list | Only once, when you create the key or rotate the secret |
 | **Safe to share** | Yes: it only works on the key's allowed origins | No: never put it in a page |
 
@@ -57,10 +57,10 @@ Open the key's menu and choose **Revoke**. Every page using the key stops loadin
 ## Next steps
 
 <Columns cols={2}>
-  <Card title="Docs on a subpath" icon="link" href="/ai/embed-subpath">
+  <Card title="Docs on a subpath" icon="link" href="/embedded-docs/docs-on-a-subpath">
     Proxy rules for docs served at a path on your own domain.
   </Card>
-  <Card title="Troubleshooting" icon="life-buoy" href="/ai/embed-troubleshooting">
+  <Card title="Troubleshooting" icon="life-buoy" href="/embedded-docs/troubleshooting">
     Fix origin, key and sign-in errors.
   </Card>
 </Columns>

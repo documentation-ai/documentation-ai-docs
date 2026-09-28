@@ -22,7 +22,7 @@ Only where each step goes differs:
 | [Svelte](#svelte-and-sveltekit) | `main.ts`, or the root `+layout.svelte` in SvelteKit | `onMount` | The function `onMount` returns |
 
 <Callout kind="info">
-  Add your development server to your key's allowed origins, such as `http://localhost:5173` for Vite or `http://localhost:3000` for Next.js. See [Keys and origins](/ai/embed-keys).
+  Add your development server to your key's allowed origins, such as `http://localhost:5173` for Vite or `http://localhost:3000` for Next.js. See [Keys and origins](/embedded-docs/keys-and-origins).
 </Callout>
 
 ## HTML and JavaScript
@@ -135,7 +135,7 @@ Use it as `<DocsPanel path="/getting-started/quickstart" />`.
 
 ### Help links and theme
 
-[Help links](/ai/embed-buttons-and-links) work in JSX as written. For an attribute without a value, write `=""`, because a bare attribute in JSX becomes `"true"`:
+[Help links](/embedded-docs/help-links) work in JSX as written. For an attribute without a value, write `=""`, because a bare attribute in JSX becomes `"true"`:
 
 ```tsx
 <a href="https://docs.example.com/billing" data-documentation-ai-navigate="/billing">About billing</a>
@@ -266,7 +266,7 @@ onBeforeUnmount(() => widget?.destroy());
 </template>
 ```
 
-Use it as `<DocsPanel path="/getting-started/quickstart" />`. When `path` changes, the panel shows the new page. [Help links](/ai/embed-buttons-and-links) work in templates as written.
+Use it as `<DocsPanel path="/getting-started/quickstart" />`. When `path` changes, the panel shows the new page. [Help links](/embedded-docs/help-links) work in templates as written.
 
 ## Nuxt
 
@@ -329,7 +329,7 @@ export class DocsPanelComponent implements AfterViewInit, OnDestroy {
 }
 ```
 
-Use it as `<app-docs-panel path="/getting-started/quickstart" />`. [Help links](/ai/embed-buttons-and-links) work in templates as written.
+Use it as `<app-docs-panel path="/getting-started/quickstart" />`. [Help links](/embedded-docs/help-links) work in templates as written.
 
 ## Svelte and SvelteKit
 
@@ -374,7 +374,7 @@ In Svelte, call `init()` in `src/main.ts`, before you mount your app. In SvelteK
 <div bind:this={container}></div>
 ```
 
-Use it as `<DocsPanel path="/getting-started/quickstart" />`. [Help links](/ai/embed-buttons-and-links) work in markup as written.
+Use it as `<DocsPanel path="/getting-started/quickstart" />`. [Help links](/embedded-docs/help-links) work in markup as written.
 
 ## Single-page apps
 
@@ -383,15 +383,15 @@ These apply to every framework above:
 - **Create the Help button once**, where your app starts. It stays as users move between routes.
 - **Create inline widgets in the component that shows them**, and destroy them when it unmounts.
 - **Help links need nothing extra.** They work on every route, including elements rendered later.
-- **Sign users in when your app knows who they are.** See [Private docs in a single-page app](/ai/embed-private-docs#in-a-single-page-app).
+- **Sign users in when your app knows who they are.** See [Private docs in a single-page app](/embedded-docs/private-docs#in-a-single-page-app).
 
 ## Next steps
 
 <Columns cols={2}>
-  <Card title="Layouts" icon="layout-panel-left" href="/ai/embed-widgets">
+  <Card title="Layouts" icon="layout-panel-left" href="/embedded-docs/layouts">
     Choose between a docs page, a chat, a Help button or an Ask AI bar.
   </Card>
-  <Card title="Help links" icon="mouse-pointer-click" href="/ai/embed-buttons-and-links">
+  <Card title="Help links" icon="mouse-pointer-click" href="/embedded-docs/help-links">
     Open the right docs page from your own buttons and links.
   </Card>
 </Columns>

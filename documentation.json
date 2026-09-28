@@ -491,58 +491,6 @@
                 "icon": "settings"
               },
               {
-                "group": "Embed",
-                "icon": "app-window",
-                "pages": [
-                  {
-                    "title": "Quickstart",
-                    "path": "ai/embed-quickstart",
-                    "icon": "zap"
-                  },
-                  {
-                    "title": "Frameworks",
-                    "path": "ai/embed-frameworks",
-                    "icon": "code"
-                  },
-                  {
-                    "title": "Layouts",
-                    "path": "ai/embed-widgets",
-                    "icon": "layout-panel-left"
-                  },
-                  {
-                    "title": "Help Links",
-                    "path": "ai/embed-buttons-and-links",
-                    "icon": "mouse-pointer-click"
-                  },
-                  {
-                    "title": "Private Docs",
-                    "path": "ai/embed-private-docs",
-                    "icon": "lock"
-                  },
-                  {
-                    "title": "Keys and Origins",
-                    "path": "ai/embed-keys",
-                    "icon": "key"
-                  },
-                  {
-                    "title": "Docs on a Subpath",
-                    "path": "ai/embed-subpath",
-                    "icon": "link"
-                  },
-                  {
-                    "title": "Troubleshooting",
-                    "path": "ai/embed-troubleshooting",
-                    "icon": "life-buoy"
-                  },
-                  {
-                    "title": "Reference",
-                    "path": "ai/embed-reference",
-                    "icon": "book-open"
-                  }
-                ],
-                "path": "ai/embed"
-              },
-              {
                 "group": "MCP Servers",
                 "icon": "terminal",
                 "pages": [
@@ -568,6 +516,62 @@
                 "title": "AI Credits",
                 "path": "ai/ai-credits",
                 "icon": "stars"
+              }
+            ]
+          },
+          {
+            "group": "Embedded Docs",
+            "expandable": true,
+            "pages": [
+              {
+                "title": "Overview",
+                "path": "embedded-docs/overview",
+                "icon": "info"
+              },
+              {
+                "title": "Quickstart",
+                "path": "embedded-docs/quickstart",
+                "icon": "zap"
+              },
+              {
+                "title": "Frameworks",
+                "path": "embedded-docs/frameworks",
+                "icon": "code"
+              },
+              {
+                "title": "Layouts",
+                "path": "embedded-docs/layouts",
+                "icon": "layout-panel-left"
+              },
+              {
+                "title": "Help Links",
+                "path": "embedded-docs/help-links",
+                "icon": "mouse-pointer-click"
+              },
+              {
+                "title": "Private Docs",
+                "path": "embedded-docs/private-docs",
+                "icon": "lock"
+              },
+              {
+                "title": "Keys and Origins",
+                "path": "embedded-docs/keys-and-origins",
+                "icon": "key"
+              },
+              {
+                "title": "Docs on a Subpath",
+                "path": "embedded-docs/docs-on-a-subpath",
+                "icon": "link"
+              },
+              {
+                "title": "Troubleshooting",
+                "path": "embedded-docs/troubleshooting",
+                "icon": "life-buoy"
+              },
+              {
+                "title": "Reference",
+                "path": "embedded-docs/reference",
+                "icon": "book-open"
               }
             ]
           },
@@ -951,6 +955,50 @@
     {
       "source": "/seo-and-geo/robots-txt-and-llm-txt",
       "destination": "/seo-and-geo/robots-txt"
+    },
+    {
+      "source": "/ai/embed",
+      "destination": "/embedded-docs/overview"
+    },
+    {
+      "source": "/embedded-docs",
+      "destination": "/embedded-docs/overview"
+    },
+    {
+      "source": "/ai/embed-quickstart",
+      "destination": "/embedded-docs/quickstart"
+    },
+    {
+      "source": "/ai/embed-frameworks",
+      "destination": "/embedded-docs/frameworks"
+    },
+    {
+      "source": "/ai/embed-widgets",
+      "destination": "/embedded-docs/layouts"
+    },
+    {
+      "source": "/ai/embed-buttons-and-links",
+      "destination": "/embedded-docs/help-links"
+    },
+    {
+      "source": "/ai/embed-private-docs",
+      "destination": "/embedded-docs/private-docs"
+    },
+    {
+      "source": "/ai/embed-keys",
+      "destination": "/embedded-docs/keys-and-origins"
+    },
+    {
+      "source": "/ai/embed-subpath",
+      "destination": "/embedded-docs/docs-on-a-subpath"
+    },
+    {
+      "source": "/ai/embed-troubleshooting",
+      "destination": "/embedded-docs/troubleshooting"
+    },
+    {
+      "source": "/ai/embed-reference",
+      "destination": "/embedded-docs/reference"
     }
   ]
 }

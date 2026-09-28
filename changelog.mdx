@@ -2,6 +2,37 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-09-28" description="Embedded Docs, Agent Readiness Score, AI assistant mode, strict search dimensions, media and PDF export improvements, llms.txt scaling, and security fixes" tags={["feature","improvement","fix"]}>
+  ## Embedded Docs and AI Assistant
+
+  Embed your Documentation.AI docs pages and AI Assistant directly inside your product or website. Users read documentation and ask questions without leaving the screen they're on. See [Embedded docs](/embedded-docs/overview).
+
+  - **Docs in your page**: Show a docs page inline at its full height, with the AI Assistant in its corner. Navigate to any page with `path` or `navigate()`. See [Layouts](/embedded-docs/layouts#docs-in-your-page).
+  - **AI Assistant in your page**: Embed the AI Assistant as a chat inside any element. See [Layouts](/embedded-docs/layouts#ai-chat-in-your-page).
+  - **Floating Help button and Ask AI bar**: Add a floating panel that opens from a corner button or a question bar at the bottom of the screen. Customize the launcher text, position, and greeting. See [Layouts](/embedded-docs/layouts#help-button).
+  - **Help links**: Turn any button or link in your product into a trigger that opens a specific docs page or asks the AI Assistant. See [Help Links](/embedded-docs/help-links).
+  - **Theme and branding**: Match your product's look with light/dark mode, system theme detection, and a custom accent color for the AI Assistant. See [Layouts](/embedded-docs/layouts#match-your-products-look).
+
+  ## Agent Readiness Score
+
+  A free tool that grades how well AI agents can find, read, and answer questions from any documentation site, help center, or knowledge base. Enter a URL and get a 0 to 100 score in about a minute. No sign-up required.
+
+  The score is built on three pillars:
+
+  - **Access**: Whether agents can discover and read your content. Checks for llms.txt, Markdown pages, page size, structure, real 404s, login walls, and whether search crawlers and AI assistants that honor robots.txt may read the docs.
+  - **Freshness**: Whether the content is maintained and consistent. Broken links and section anchors, stale sitemap entries, and endpoints in the docs that don't exist in the API spec.
+  - **Answerability**: Whether an agent can answer real questions from your pages using only what it can fetch, with each answer checked for retrieval, correctness, and citations. Available in the open-source scanner with your own API key.
+
+  Try it at [Agent Readiness Score](https://documentation.ai/agent-score).
+
+  ## Improvements
+
+  - **Strict search dimensions**: New setting to keep the AI assistant scoped to the reader's current product, version, and language. When disabled, the assistant searches across all dimensions and indicates where the answer came from. See [AI Assistant](/ai/ai-assistant#strict-dimensions).
+  - **Media library MCP**: Upload links let AI agents request files from your computer. Import images from URLs through the API. Improved pagination in the image and SVG pickers, deduplication handling, and plan-aware file-size validation. See [Media Library](/write-and-publish/media-library).
+  - **PDF export**: Works on custom-domain documentation sites. Downloads directly from storage via presigned URLs for faster transfers. Improved cancellation handling and updated plan access requirements. See [API Reference](/api-reference/overview#pdf-exports).
+  - **llms.txt generation**: Section-aware splitting for large documentation sites keeps the file manageable for AI tools. See [llms.txt](/seo-and-geo/llms-txt).
+</Update>
+
 <Update label="2026-09-08" description="Media Library, Video Upload, AI assistant reliability, reader experience fixes, and access control enforcement" tags={["feature","improvement","fix"]}>
   ## Media Library
 

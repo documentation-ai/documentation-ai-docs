@@ -1,26 +1,34 @@
 ---
 title: Embedded Docs and AI Assistant
-description: Show your docs pages and AI Assistant inside your own product or website, and set it up in three steps with an embed key and a snippet.
+description: >-
+  Show your docs pages and AI Assistant inside your own product or website, and
+  set it up in three steps with an embed key and a snippet.
 ---
-
 Embedded Docs puts your Documentation.AI docs and [AI Assistant](/ai/ai-assistant) inside your own product or website. Users read a docs page, or ask a question, without leaving the screen they're on. It's the same AI Assistant as on your docs site, with the same answers and citations, and docs pages load from your docs site, so they look exactly like your docs.
+
+<Video src="https://video-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1790590175620-3tit1zg4c2j-embeded-docs-overview.mp4" render-type="video" poster="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1790590180108-yz3s45rfcur-embeded-docs-overview-poster.jpg?fm=auto&auto=compress%2Cformat" width="600" height="338" controls="true" allow-full-screen="true" style="width: 600px; height: auto; cursor: pointer;" />
 
 ## What you can add
 
-<Columns cols={2}>
-  <Card title="Docs in your page" icon="file-text" href="/embedded-docs/layouts#docs-in-your-page">
+<Columns cols="2">
+  <Card title="Docs in your page" href="/embedded-docs/layouts#docs-in-your-page" icon="file-text" horizontal="false">
     A docs page inside any screen of your product, at its full height.
   </Card>
-  <Card title="AI chat" icon="message-square" href="/embedded-docs/layouts#ai-chat-in-your-page">
+
+  <Card title="AI chat" href="/embedded-docs/layouts#ai-chat-in-your-page" icon="message-square" horizontal="false">
     Answers from your docs, with citations, right in your page.
   </Card>
-  <Card title="Help button and Ask AI bar" icon="circle-help" href="/embedded-docs/layouts#help-button">
+
+  <Card title="Help button and Ask AI bar" href="/embedded-docs/layouts#help-button" icon="circle-help" horizontal="false">
     A floating panel that opens from a button or a question bar.
   </Card>
-  <Card title="Help links" icon="mouse-pointer-click" href="/embedded-docs/help-links">
+
+  <Card title="Help links" href="/embedded-docs/help-links" icon="mouse-pointer-click" horizontal="false">
     Any button or link in your product opens the right docs page beside it.
   </Card>
 </Columns>
+
+
 
 ## What you need
 
@@ -36,15 +44,15 @@ Add a docs page with the AI Assistant to any web page in about five minutes. The
 
 In the dashboard, go to **Settings > Embed** and click **Create key**. You need the **Admin** role.
 
-| Field | What to enter |
-| --- | --- |
-| **Name** | A label for you, such as `Web app`. |
+| Field               | What to enter                                                                                                                                                                         |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**            | A label for you, such as `Web app`.                                                                                                                                                   |
 | **Allowed origins** | Each site that will show your docs, such as `https://app.example.com`. For local development, add your dev server too, such as `http://localhost:5173`. Click **Add** after each one. |
-| **Expires** | **Never**, or after 30 days, 90 days, 180 days or 1 year. |
+| **Expires**         | **Never**, or after 30 days, 90 days, 180 days or 1 year.                                                                                                                             |
 
 Click **Create key**. In the **Copy your keys** dialog, copy the **Publishable key** (`pk_...`).
 
-<Callout kind="info">
+<Callout kind="info" collapsed="false">
   The dialog also shows a **secret key**, only this once. You need it only if your docs have private pages. If they do, copy it now and store it on your server. See [Private docs](/embedded-docs/private-docs).
 </Callout>
 
@@ -67,7 +75,7 @@ Paste this into your page, before `</body>`, with your publishable key:
 
 Move `<div id="docs"></div>` to wherever the docs should appear. The same snippet, with your key filled in, is under **Install** in **Settings > Embed**.
 
-<Callout kind="tip">
+<Callout kind="tip" collapsed="false">
   Keep `type="module"` on your own script. It makes your code wait until the embed script has loaded.
 </Callout>
 
@@ -79,11 +87,13 @@ If nothing appears, open your browser's console and look for a message starting 
 
 ## Next steps
 
-<Columns cols={2}>
-  <Card title="Frameworks" icon="code" href="/embedded-docs/frameworks">
+<Columns cols="2">
+  <Card title="Frameworks" href="/embedded-docs/frameworks" icon="code" horizontal="false">
     Set it up in React, Next.js, Vue, Angular or Svelte.
   </Card>
-  <Card title="Layouts" icon="layout-panel-left" href="/embedded-docs/layouts">
+
+  <Card title="Layouts" href="/embedded-docs/layouts" icon="layout-panel-left" horizontal="false">
     Use a Help button, an Ask AI bar or a chat instead.
   </Card>
 </Columns>
+

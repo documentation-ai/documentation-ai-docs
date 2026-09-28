@@ -60,8 +60,10 @@ Open your assistant and describe the migration:
 Migrate https://docs.acme.com to Documentation.AI
 ```
 
-- **In Codex**, mention the skill by name: `Use $migrate to migrate https://docs.acme.com to Documentation.AI`.
-- **In Claude Code**, you can also start the skill directly by typing `/documentation-ai-migration:migrate`.
+To start a skill directly, use the one for your platform: `migrate-mintlify-to-documentation-ai`, `migrate-gitbook-to-documentation-ai`, `migrate-readme-to-documentation-ai`, `migrate-document360-to-documentation-ai`, or `migrate-generic-to-documentation-ai` for any other site.
+
+- **In Claude Code**, type it with the plugin's name in front, such as `/documentation-ai-migration:migrate-gitbook-to-documentation-ai`.
+- **In Codex**, mention it by name, such as `Use $migrate-gitbook-to-documentation-ai to migrate https://docs.acme.com to Documentation.AI`.
 
 Your assistant asks for anything it still needs, such as how to deliver the result. Then it follows the steps in [Migrate to Documentation.AI](/migrations/overview).
 
@@ -88,9 +90,12 @@ Each migration keeps its files in its own folder, such as `~/migrations/acme-doc
 
   <Tab title="Codex" icon="square-terminal">
     ```bash
+    codex plugin marketplace upgrade documentation-ai-migration
     codex plugin remove documentation-ai-migration@documentation-ai-migration
     codex plugin add documentation-ai-migration@documentation-ai-migration
     ```
+
+    The first command fetches the latest version. Without it, reinstalling brings back the copy you already had.
   </Tab>
 </Tabs>
 

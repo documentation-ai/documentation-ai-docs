@@ -300,8 +300,13 @@ curl -G https://api.documentationai.app/api/v1/analytics/search \
   "endDate": "2026-08-31",
   "totalSearches": 1240,
   "sessions": 820,
-  "noResultRate": 0.15,
-  "clickThroughRate": 0.42
+  "uniqueQueries": 340,
+  "noResultSearches": 186,
+  "noResultRate": 15,
+  "clickedSearches": 521,
+  "clickThroughRate": 42,
+  "aiEscalations": 94,
+  "aiEscalationRate": 7.6
 }
 ```
 
@@ -325,7 +330,7 @@ curl -G https://api.documentationai.app/api/v1/analytics/search/queries \
   -d limit=20
 ```
 
-Get per-page search performance to find where searches most often fail:
+Get per-page search performance to find which pages appear most often in search results:
 
 ```bash
 curl -G https://api.documentationai.app/api/v1/analytics/search/results \
@@ -335,6 +340,71 @@ curl -G https://api.documentationai.app/api/v1/analytics/search/results \
 ```
 
 Page through query results with `limit` and `offset`, using `total` to know when to stop.
+
+## Media Management
+
+List, upload, import, replace, and delete media files in your documentation project through the REST API. Media endpoints respect the same role-based access as other endpoints: viewers can list and read media, editors can upload and update, and admins can delete.
+
+List media files, optionally filtered by kind or a search term:
+
+```bash
+curl -G https://api.documentationai.app/api/v1/media \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -d "kind=image" \
+  -d "limit=20"
+```
+
+Import media from public URLs — up to 10 files at a time:
+
+```bash
+curl -X POST https://api.documentationai.app/api/v1/media/import \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "files": [
+      { "url": "https://example.com/logo.png", "altText": "Company logo" },
+      { "url": "https://example.com/diagram.svg" }
+    ]
+  }'
+```
+
+Upload files directly via multipart form data — up to 10 files per request:
+
+```bash
+curl -X POST https://api.documentationai.app/api/v1/media \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -F "file=@/path/to/screenshot.png" \
+  -F "file=@/path/to/diagram.pdf"
+```
+
+Check your project's storage usage and quota:
+
+```bash
+curl https://api.documentationai.app/api/v1/storage \
+  -H "Authorization: Bearer dai_your_api_key"
+```
+
+```json
+{
+  "usedBytes": 524288000,
+  "objectCount": 127,
+  "quotaBytes": 10737418240,
+  "percentUsed": 4.9,
+  "isWarning": false,
+  "isOverQuota": false,
+  "planType": "professional",
+  "limits": {
+    "maxImageBytes": 10485760,
+    "maxVideoBytes": 524288000,
+    "maxDocumentBytes": 52428800
+  },
+  "enforced": true
+}
+```
+
+<Callout kind="info" collapsed="false">
+  Upload and import operations return per-file results. When some files succeed and some fail, the response status is `207 Multi-Status` — each entry includes either the media object or an error message.
+</Callout>
 
 ## Endpoints
 

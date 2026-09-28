@@ -1,0 +1,2371 @@
+openapi: 3.0.3
+info:
+  title: Documentation.AI REST API
+  version: 1.0.0
+  description: |
+    REST API for managing Documentation.AI documentation projects, branches, pages,
+    deployments, exports, analytics, and media. Authenticate by passing an API key
+    as a Bearer token in the Authorization header. Each API key is scoped to one
+    documentation project and has a viewer, editor, or admin role.
+  contact:
+    name: Documentation.AI Support
+    url: https://documentationai.app
+    email: support@documentationai.app
+  license:
+    name: Documentation.AI Terms of Service
+    url: https://documentationai.app/terms
+servers:
+  - url: https://api.documentationai.app/api/v1
+    description: Production
+tags:
+  - name: Configuration
+    description: Documentation project configuration.
+  - name: Pages
+    description: Documentation pages and source files.
+  - name: Search
+    description: Hybrid documentation search.
+  - name: Branches
+    description: Documentation branches.
+  - name: Pull Requests
+    description: Pull requests.
+  - name: Push
+    description: File changes and commits.
+  - name: Deployments
+    description: Live and preview deployments.
+  - name: PDF Export
+    description: Documentation PDF exports.
+  - name: Analytics
+    description: Documentation, AI, and search analytics.
+  - name: Media
+    description: Project media assets and storage.
+security:
+  - apiKey: []
+paths:
+  /config:
+    get:
+      tags:
+        - Configuration
+      operationId: getConfig
+      description: Returns the documentation.json configuration for a branch.
+      parameters:
+        - $ref: '#/components/parameters/Branch'
+      responses:
+        '200':
+          description: Documentation configuration.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /pages:
+    get:
+      tags:
+        - Pages
+      operationId: listPages
+      description: Lists all documentation files in a branch.
+      parameters:
+        - $ref: '#/components/parameters/Branch'
+      responses:
+        '200':
+          description: Documentation files.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /pages/{path}:
+    get:
+      tags:
+        - Pages
+      operationId: getPage
+      description: Returns the content of a documentation file.
+      parameters:
+        - name: path
+          in: path
+          required: true
+          description: Path of the documentation file.
+          schema:
+            type: string
+        - $ref: '#/components/parameters/Branch'
+      responses:
+        '200':
+          description: Documentation file content.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /search:
+    get:
+      tags:
+        - Search
+      operationId: searchDocumentation
+      description: Performs hybrid semantic and lexical search across documentation.
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: Search query.
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of results.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 10
+        - name: semanticRatio
+          in: query
+          description: Ratio of semantic ranking to lexical ranking.
+          schema:
+            type: number
+            minimum: 0
+            maximum: 1
+            default: 0.75
+      responses:
+        '200':
+          description: Search results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /branches:
+    get:
+      tags:
+        - Branches
+      operationId: listBranches
+      description: Lists branches in the documentation project.
+      responses:
+        '200':
+          description: Branches.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BranchesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      tags:
+        - Branches
+      operationId: createBranch
+      description: Creates a branch from an optional source branch.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBranchRequest'
+      responses:
+        '201':
+          description: Branch created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateBranchResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          $ref: '#/components/responses/Conflict'
+  /branches/delete:
+    post:
+      tags:
+        - Branches
+      operationId: deleteBranch
+      description: Deletes a branch.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteBranchRequest'
+      responses:
+        '200':
+          description: Branch deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedBranchResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /branches/merge:
+    post:
+      tags:
+        - Branches
+      operationId: mergeBranches
+      description: Merges a head branch into a base branch.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MergeBranchesRequest'
+      responses:
+        '200':
+          description: Branches merged.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MergeBranchesResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          $ref: '#/components/responses/Conflict'
+  /pull-requests:
+    get:
+      tags:
+        - Pull Requests
+      operationId: listPullRequests
+      description: Lists pull requests for the documentation project.
+      parameters:
+        - name: state
+          in: query
+          description: Pull request state filter.
+          schema:
+            type: string
+            enum:
+              - open
+              - closed
+              - all
+            default: open
+      responses:
+        '200':
+          description: Pull requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PullRequestsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /push:
+    post:
+      tags:
+        - Push
+      operationId: pushFiles
+      description: Creates a commit containing file operations.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PushRequest'
+      responses:
+        '201':
+          description: Files pushed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PushResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+  /deploy:
+    post:
+      tags:
+        - Deployments
+      operationId: deployLiveSite
+      description: Starts a deployment of the live documentation site.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeployRequest'
+      responses:
+        '202':
+          description: Deployment queued.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueuedDeployment'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+  /deploy/preview:
+    post:
+      tags:
+        - Deployments
+      operationId: deployPreview
+      description: Starts a preview deployment for a branch.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PreviewDeployRequest'
+      responses:
+        '202':
+          description: Preview deployment queued.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PreviewDeployment'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /deployments:
+    get:
+      tags:
+        - Deployments
+      operationId: listDeployments
+      description: Lists deployments.
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: Deployments.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeploymentsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /deployments/{deploymentId}:
+    get:
+      tags:
+        - Deployments
+      operationId: getDeployment
+      description: Returns a deployment by ID.
+      parameters:
+        - $ref: '#/components/parameters/DeploymentId'
+      responses:
+        '200':
+          description: Deployment.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deployment'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /exports/pdf:
+    post:
+      tags:
+        - PDF Export
+      operationId: startPdfExport
+      description: Starts or requests generation of a PDF export.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PdfExportRequest'
+      responses:
+        '200':
+          description: Existing or completed PDF export.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PdfExport'
+        '202':
+          description: PDF export queued.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PdfExport'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+    get:
+      tags:
+        - PDF Export
+      operationId: getPdfExport
+      description: Returns the current PDF export.
+      responses:
+        '200':
+          description: Current PDF export.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PdfExport'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /analytics/overview:
+    get:
+      tags:
+        - Analytics
+      operationId: getAnalyticsOverview
+      description: Returns overview analytics for a date range of up to 90 days.
+      parameters:
+        - $ref: '#/components/parameters/StartDate'
+        - $ref: '#/components/parameters/EndDate'
+      responses:
+        '200':
+          description: Analytics overview.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyticsOverview'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/AnalyticsUnavailable'
+  /analytics/traffic:
+    get:
+      tags:
+        - Analytics
+      operationId: getAnalyticsTraffic
+      description: Returns daily traffic analytics.
+      parameters:
+        - $ref: '#/components/parameters/StartDate'
+        - $ref: '#/components/parameters/EndDate'
+      responses:
+        '200':
+          description: Traffic analytics.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrafficAnalytics'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /analytics/pages:
+    get:
+      tags:
+        - Analytics
+      operationId: getAnalyticsPages
+      description: Returns page-level traffic analytics.
+      parameters:
+        - $ref: '#/components/parameters/StartDate'
+        - $ref: '#/components/parameters/EndDate'
+        - $ref: '#/components/parameters/Limit'
+      responses:
+        '200':
+          description: Page analytics.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageAnalyticsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /analytics/referrers:
+    get:
+      tags:
+        - Analytics
+      operationId: getAnalyticsReferrers
+      description: Returns referring source analytics.
+      parameters:
+        - $ref: '#/components/parameters/StartDate'
+        - $ref: '#/components/parameters/EndDate'
+        - name: limit
+          in: query
+          description: Maximum number of referrers.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+      responses:
+        '200':
+          description: Referrer analytics.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReferrerAnalyticsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /analytics/feedback:
+    get:
+      tags:
+        - Analytics
+      operationId: getAnalyticsFeedback
+      description: Returns page feedback analytics.
+      parameters:
+        - $ref: '#/components/parameters/StartDate'
+        - $ref: '#/components/parameters/EndDate'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+        - name: pathContains
+          in: query
+          description: Filters pages whose paths contain this value.
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          description: Feedback sort field.
+          schema:
+            type: string
+            enum:
+              - totalFeedback
+              - likes
+              - dislikes
+              - comments
+              - satisfactionRate
+            default: totalFeedback
+        - name: sortOrder
+          in: query
+          description: Sort direction.
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+            default: desc
+      responses:
+        '200':
+          description: Feedback analytics.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedbackAnalyticsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /analytics/feedback/comments:
+    get:
+      tags:
+        - Analytics
+      operationId: getAnalyticsFeedbackComments
+      description: Returns feedback comments for a page.
+      parameters:
+        - name: pagePath
+          in: query
+          required: true
+          description: Documentation page path.
+          schema:
+            type: string
+        - $ref: '#/components/parameters/StartDate'
+        - $ref: '#/components/parameters/EndDate'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: Feedback comments.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedbackCommentsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /analytics/ai/questions:
+    get:
+      tags:
+        - Analytics
+      operationId: getAiQuestionsAnalytics
+      description: Returns AI question analytics.
+      parameters:
+        - $ref: '#/components/parameters/StartDate'
+        - $ref: '#/components/parameters/EndDate'
+        - name: limit
+          in: query
+          description: Maximum number of questions.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 20
+        - $ref: '#/components/parameters/Offset'
+        - name: sessionId
+          in: query
+          description: Filters by session ID.
+          schema:
+            type: string
+        - name: maxConfidence
+          in: query
+          description: Maximum confidence score.
+          schema:
+            type: number
+            minimum: 0
+            maximum: 1
+      responses:
+        '200':
+          description: AI questions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AiQuestionsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /analytics/ai/answer-feedback:
+    get:
+      tags:
+        - Analytics
+      operationId: getAiAnswerFeedbackAnalytics
+      description: Returns feedback analytics for AI answers.
+      parameters:
+        - $ref: '#/components/parameters/StartDate'
+        - $ref: '#/components/parameters/EndDate'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: AI answer feedback.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AiAnswerFeedbackResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /analytics/ai/volume:
+    get:
+      tags:
+        - Analytics
+      operationId: getAiVolumeAnalytics
+      description: Returns daily AI question volume.
+      parameters:
+        - $ref: '#/components/parameters/StartDate'
+        - $ref: '#/components/parameters/EndDate'
+      responses:
+        '200':
+          description: AI volume analytics.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AiVolumeResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /analytics/search:
+    get:
+      tags:
+        - Analytics
+      operationId: getSearchAnalytics
+      description: Returns aggregate search analytics.
+      parameters:
+        - $ref: '#/components/parameters/StartDate'
+        - $ref: '#/components/parameters/EndDate'
+      responses:
+        '200':
+          description: Search analytics.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchAnalytics'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /analytics/search/volume:
+    get:
+      tags:
+        - Analytics
+      operationId: getSearchVolumeAnalytics
+      description: Returns daily search volume analytics.
+      parameters:
+        - $ref: '#/components/parameters/StartDate'
+        - $ref: '#/components/parameters/EndDate'
+      responses:
+        '200':
+          description: Search volume analytics.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchVolumeResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /analytics/search/queries:
+    get:
+      tags:
+        - Analytics
+      operationId: getSearchQueriesAnalytics
+      description: Returns search query analytics.
+      parameters:
+        - $ref: '#/components/parameters/StartDate'
+        - $ref: '#/components/parameters/EndDate'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+        - name: noResultsOnly
+          in: query
+          description: Restricts results to queries with no results.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Search query analytics.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchQueriesResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /analytics/search/results:
+    get:
+      tags:
+        - Analytics
+      operationId: getSearchResultsAnalytics
+      description: Returns search result performance analytics.
+      parameters:
+        - $ref: '#/components/parameters/StartDate'
+        - $ref: '#/components/parameters/EndDate'
+        - $ref: '#/components/parameters/Limit'
+      responses:
+        '200':
+          description: Search result analytics.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResultsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /media:
+    get:
+      tags:
+        - Media
+      operationId: listMedia
+      description: Lists media assets in the project.
+      parameters:
+        - name: search
+          in: query
+          description: Search term for media names.
+          schema:
+            type: string
+        - name: kind
+          in: query
+          description: Filters media by kind.
+          schema:
+            $ref: '#/components/schemas/MediaKind'
+        - name: page
+          in: query
+          description: Page number.
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - $ref: '#/components/parameters/Limit'
+      responses:
+        '200':
+          description: Media assets.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    post:
+      tags:
+        - Media
+      operationId: uploadMedia
+      description: Uploads up to 10 media files.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: array
+                  minItems: 1
+                  maxItems: 10
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        '200':
+          description: Media upload results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaUploadResult'
+        '207':
+          description: Partial media upload results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaUploadResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '507':
+          $ref: '#/components/responses/InsufficientStorage'
+  /media/import:
+    post:
+      tags:
+        - Media
+      operationId: importMedia
+      description: Imports up to 10 media files from URLs.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MediaImportRequest'
+      responses:
+        '200':
+          description: Media import results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaUploadResult'
+        '207':
+          description: Partial media import results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaUploadResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '507':
+          $ref: '#/components/responses/InsufficientStorage'
+  /media/{mediaId}:
+    get:
+      tags:
+        - Media
+      operationId: getMedia
+      description: Returns one media asset.
+      parameters:
+        - $ref: '#/components/parameters/MediaId'
+      responses:
+        '200':
+          description: Media asset.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleMediaResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    patch:
+      tags:
+        - Media
+      operationId: updateMedia
+      description: Updates the alternative text of a media asset.
+      parameters:
+        - $ref: '#/components/parameters/MediaId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMediaRequest'
+      responses:
+        '200':
+          description: Updated media asset.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleMediaResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    delete:
+      tags:
+        - Media
+      operationId: deleteMedia
+      description: Deletes a media asset.
+      parameters:
+        - $ref: '#/components/parameters/MediaId'
+      responses:
+        '200':
+          description: Deleted media asset.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedMediaResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /media/{mediaId}/replace:
+    post:
+      tags:
+        - Media
+      operationId: replaceMedia
+      description: Replaces an existing media asset with an uploaded file or URL.
+      parameters:
+        - $ref: '#/components/parameters/MediaId'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+          application/json:
+            schema:
+              type: object
+              required:
+                - url
+              properties:
+                url:
+                  type: string
+                  format: uri
+      responses:
+        '200':
+          description: Replaced media asset.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleMediaResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '507':
+          $ref: '#/components/responses/InsufficientStorage'
+  /media/bulk-delete:
+    post:
+      tags:
+        - Media
+      operationId: bulkDeleteMedia
+      description: Deletes up to 100 media assets.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeleteMediaRequest'
+      responses:
+        '200':
+          description: Bulk deletion results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkDeleteMediaResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /storage:
+    get:
+      tags:
+        - Media
+      operationId: getStorageUsage
+      description: Returns project media storage usage and limits.
+      responses:
+        '200':
+          description: Storage usage.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorageUsage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+components:
+  securitySchemes:
+    apiKey:
+      type: http
+      scheme: bearer
+      description: API key from the Documentation.AI dashboard Settings section API Keys. Pass as Authorization Bearer dai_...
+  parameters:
+    Branch:
+      name: branch
+      in: query
+      description: Branch name.
+      required: false
+      schema:
+        type: string
+    StartDate:
+      name: startDate
+      in: query
+      description: Start date for the analytics range. The range cannot exceed 90 days.
+      required: false
+      schema:
+        type: string
+        pattern: '^\d{4}-\d{2}-\d{2}$'
+        example: '2026-05-01'
+    EndDate:
+      name: endDate
+      in: query
+      description: End date for the analytics range. The range cannot exceed 90 days.
+      required: false
+      schema:
+        type: string
+        pattern: '^\d{4}-\d{2}-\d{2}$'
+        example: '2026-05-31'
+    Limit:
+      name: limit
+      in: query
+      description: Maximum number of results to return.
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    Offset:
+      name: offset
+      in: query
+      description: Number of results to skip.
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    DeploymentId:
+      name: deploymentId
+      in: path
+      required: true
+      description: Deployment identifier.
+      schema:
+        type: string
+        format: uuid
+    MediaId:
+      name: mediaId
+      in: path
+      required: true
+      description: Media asset identifier.
+      schema:
+        type: string
+        minLength: 1
+  responses:
+    BadRequest:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid authentication.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Insufficient permissions.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Conflict:
+      description: Resource conflict.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnprocessableEntity:
+      description: Semantic validation error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ServiceUnavailable:
+      description: Service unavailable.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    AnalyticsUnavailable:
+      description: Analytics service unavailable.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    PayloadTooLarge:
+      description: Request payload is too large.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnsupportedMediaType:
+      description: Unsupported media type.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InsufficientStorage:
+      description: Storage quota is insufficient.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      required:
+        - statusCode
+        - error
+        - message
+      properties:
+        statusCode:
+          type: integer
+          description: HTTP status code.
+        error:
+          type: string
+          description: Error name.
+        message:
+          type: string
+          description: Human-readable error message.
+    ConfigResponse:
+      type: object
+      required:
+        - branch
+        - config
+      properties:
+        branch:
+          type: string
+        config:
+          type: object
+          additionalProperties: true
+    PageSummary:
+      type: object
+      required:
+        - path
+        - size
+      properties:
+        path:
+          type: string
+        size:
+          type: integer
+          format: int64
+    PagesResponse:
+      type: object
+      required:
+        - pages
+        - count
+      properties:
+        pages:
+          type: array
+          items:
+            $ref: '#/components/schemas/PageSummary'
+        count:
+          type: integer
+    PageResponse:
+      type: object
+      required:
+        - path
+        - branch
+        - content
+      properties:
+        path:
+          type: string
+        branch:
+          type: string
+        content:
+          type: string
+    SearchResult:
+      type: object
+      required:
+        - title
+        - path
+        - url
+        - content
+        - relevanceScore
+      properties:
+        title:
+          type: string
+        path:
+          type: string
+        url:
+          type: string
+          format: uri
+        content:
+          type: string
+        relevanceScore:
+          type: number
+    SearchResponse:
+      type: object
+      required:
+        - results
+        - query
+        - count
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchResult'
+        query:
+          type: string
+        count:
+          type: integer
+    Branch:
+      type: object
+      required:
+        - name
+        - protected
+      properties:
+        name:
+          type: string
+        protected:
+          type: boolean
+    BranchesResponse:
+      type: object
+      required:
+        - branches
+        - count
+      properties:
+        branches:
+          type: array
+          items:
+            $ref: '#/components/schemas/Branch'
+        count:
+          type: integer
+    CreateBranchRequest:
+      type: object
+      required:
+        - branchName
+      properties:
+        branchName:
+          type: string
+        sourceBranch:
+          type: string
+    CreateBranchResponse:
+      type: object
+      required:
+        - branchName
+        - sourceBranch
+        - sourceSha
+      properties:
+        branchName:
+          type: string
+        sourceBranch:
+          type: string
+        sourceSha:
+          type: string
+    DeleteBranchRequest:
+      type: object
+      required:
+        - branchName
+      properties:
+        branchName:
+          type: string
+          minLength: 1
+    DeletedBranchResponse:
+      type: object
+      required:
+        - deleted
+      properties:
+        deleted:
+          type: string
+    MergeBranchesRequest:
+      type: object
+      required:
+        - base
+        - head
+      properties:
+        base:
+          type: string
+        head:
+          type: string
+        commitMessage:
+          type: string
+    MergeBranchesResponse:
+      type: object
+      required:
+        - commitSha
+        - status
+      properties:
+        commitSha:
+          type: string
+        status:
+          type: integer
+    PullRequest:
+      type: object
+      required:
+        - number
+        - title
+        - state
+        - head
+        - base
+      properties:
+        number:
+          type: integer
+        title:
+          type: string
+        state:
+          type: string
+        head:
+          type: string
+        base:
+          type: string
+    PullRequestsResponse:
+      type: object
+      required:
+        - pullRequests
+        - count
+      properties:
+        pullRequests:
+          type: array
+          items:
+            $ref: '#/components/schemas/PullRequest'
+        count:
+          type: integer
+    PushOperation:
+      type: object
+      required:
+        - type
+        - path
+        - content
+      properties:
+        type:
+          type: string
+          enum:
+            - create
+            - update
+            - delete
+        path:
+          type: string
+        content:
+          type: string
+    PushRequest:
+      type: object
+      required:
+        - commitMessage
+        - operations
+      properties:
+        commitMessage:
+          type: string
+          minLength: 1
+          maxLength: 500
+        branch:
+          type: string
+        operations:
+          type: array
+          minItems: 1
+          maxItems: 20
+          items:
+            $ref: '#/components/schemas/PushOperation'
+    PushResponse:
+      type: object
+      required:
+        - commitSha
+        - branch
+        - isDeploymentBranch
+        - operationsCompleted
+      properties:
+        commitSha:
+          type: string
+        branch:
+          type: string
+        isDeploymentBranch:
+          type: boolean
+        operationsCompleted:
+          type: integer
+    DeployRequest:
+      type: object
+      properties:
+        commitSha:
+          type: string
+    PreviewDeployRequest:
+      type: object
+      required:
+        - branch
+      properties:
+        branch:
+          type: string
+        commitSha:
+          type: string
+    DeploymentStatus:
+      type: string
+      enum:
+        - pending
+        - building
+        - ready
+        - error
+        - cancelled
+    QueuedDeployment:
+      type: object
+      required:
+        - deploymentId
+        - status
+        - url
+      properties:
+        deploymentId:
+          type: string
+          format: uuid
+        status:
+          $ref: '#/components/schemas/DeploymentStatus'
+        url:
+          type: string
+          format: uri
+    PreviewDeployment:
+      allOf:
+        - $ref: '#/components/schemas/QueuedDeployment'
+        - type: object
+          required:
+            - branch
+          properties:
+            branch:
+              type: string
+    Deployment:
+      type: object
+      required:
+        - deploymentId
+        - status
+        - url
+        - branch
+        - isPreview
+        - triggerType
+        - logs
+        - createdAt
+        - updatedAt
+      properties:
+        deploymentId:
+          type: string
+          format: uuid
+        status:
+          $ref: '#/components/schemas/DeploymentStatus'
+        url:
+          type: string
+          format: uri
+          nullable: true
+        branch:
+          type: string
+          nullable: true
+        isPreview:
+          type: boolean
+        triggerType:
+          type: string
+          enum:
+            - user
+            - auto
+            - system
+            - api
+          nullable: true
+        logs:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    DeploymentsResponse:
+      type: object
+      required:
+        - deployments
+        - total
+      properties:
+        deployments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Deployment'
+        total:
+          type: integer
+    PdfExportRequest:
+      type: object
+      properties:
+        force:
+          type: boolean
+    PdfExport:
+      type: object
+      required:
+        - exportId
+        - status
+        - progress
+        - fileSize
+        - downloadUrl
+        - downloadUrlExpiresAt
+        - deploymentId
+        - source
+        - errorMessage
+        - createdAt
+        - completedAt
+      properties:
+        exportId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+            - pending
+            - processing
+            - completed
+            - failed
+            - cancelled
+        progress:
+          type: object
+          required:
+            - completed
+            - total
+          properties:
+            completed:
+              type: integer
+            total:
+              type: integer
+              nullable: true
+        fileSize:
+          type: integer
+          format: int64
+          nullable: true
+        downloadUrl:
+          type: string
+          format: uri
+          nullable: true
+        downloadUrlExpiresAt:
+          type: string
+          format: date-time
+          nullable: true
+        deploymentId:
+          type: string
+          format: uuid
+          nullable: true
+        source:
+          type: string
+          enum:
+            - dashboard
+            - api
+        errorMessage:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+          nullable: true
+    DateRange:
+      type: object
+      required:
+        - startDate
+        - endDate
+      properties:
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+    AnalyticsOverview:
+      allOf:
+        - $ref: '#/components/schemas/DateRange'
+        - type: object
+          required:
+            - pageViews
+            - sessions
+          properties:
+            pageViews:
+              type: integer
+            sessions:
+              type: integer
+    TrafficAnalytics:
+      allOf:
+        - $ref: '#/components/schemas/DateRange'
+        - type: object
+          required:
+            - series
+          properties:
+            series:
+              type: array
+              items:
+                type: object
+                required:
+                  - date
+                  - pageViews
+                  - sessions
+                properties:
+                  date:
+                    type: string
+                    format: date
+                  pageViews:
+                    type: integer
+                  sessions:
+                    type: integer
+    PageAnalyticsResponse:
+      allOf:
+        - $ref: '#/components/schemas/DateRange'
+        - type: object
+          required:
+            - pages
+          properties:
+            pages:
+              type: array
+              items:
+                type: object
+                required:
+                  - pagePath
+                  - pageTitle
+                  - pageViews
+                  - sessions
+                properties:
+                  pagePath:
+                    type: string
+                  pageTitle:
+                    type: string
+                  pageViews:
+                    type: integer
+                  sessions:
+                    type: integer
+    ReferrerAnalyticsResponse:
+      allOf:
+        - $ref: '#/components/schemas/DateRange'
+        - type: object
+          required:
+            - referrers
+          properties:
+            referrers:
+              type: array
+              items:
+                type: object
+                required:
+                  - referrer
+                  - pageViews
+                  - percentage
+                properties:
+                  referrer:
+                    type: string
+                  pageViews:
+                    type: integer
+                  percentage:
+                    type: number
+                    minimum: 0
+                    maximum: 100
+    FeedbackAnalyticsResponse:
+      allOf:
+        - $ref: '#/components/schemas/DateRange'
+        - type: object
+          required:
+            - pages
+            - summary
+            - total
+          properties:
+            pages:
+              type: array
+              items:
+                $ref: '#/components/schemas/FeedbackPage'
+            summary:
+              $ref: '#/components/schemas/FeedbackSummary'
+            total:
+              type: integer
+    FeedbackPage:
+      type: object
+      required:
+        - pagePath
+        - pageTitle
+        - likes
+        - dislikes
+        - totalFeedback
+        - comments
+        - satisfactionRate
+      properties:
+        pagePath:
+          type: string
+        pageTitle:
+          type: string
+        likes:
+          type: integer
+        dislikes:
+          type: integer
+        totalFeedback:
+          type: integer
+        comments:
+          type: integer
+        satisfactionRate:
+          type: number
+          minimum: 0
+          maximum: 100
+    FeedbackSummary:
+      type: object
+      required:
+        - totalFeedback
+        - likes
+        - dislikes
+        - comments
+        - satisfactionRate
+      properties:
+        totalFeedback:
+          type: integer
+        likes:
+          type: integer
+        dislikes:
+          type: integer
+        comments:
+          type: integer
+        satisfactionRate:
+          type: number
+          minimum: 0
+          maximum: 100
+    FeedbackCommentsResponse:
+      allOf:
+        - $ref: '#/components/schemas/DateRange'
+        - type: object
+          required:
+            - pagePath
+            - comments
+            - total
+          properties:
+            pagePath:
+              type: string
+            comments:
+              type: array
+              items:
+                type: object
+                required:
+                  - id
+                  - type
+                  - text
+                  - sessionId
+                  - submittedAt
+                properties:
+                  id:
+                    type: string
+                  type:
+                    type: string
+                    enum:
+                      - like
+                      - dislike
+                  text:
+                    type: string
+                  sessionId:
+                    type: string
+                  submittedAt:
+                    type: string
+                    format: date-time
+            total:
+              type: integer
+    AiQuestionsResponse:
+      allOf:
+        - $ref: '#/components/schemas/DateRange'
+        - type: object
+          required:
+            - questions
+            - total
+          properties:
+            questions:
+              type: array
+              items:
+                type: object
+                required:
+                  - question
+                  - answer
+                  - pagePath
+                  - sessionId
+                  - confidenceScore
+                  - askedAt
+                properties:
+                  question:
+                    type: string
+                  answer:
+                    type: string
+                  pagePath:
+                    type: string
+                  sessionId:
+                    type: string
+                  confidenceScore:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+                    nullable: true
+                  askedAt:
+                    type: string
+                    format: date-time
+            total:
+              type: integer
+    AiAnswerFeedbackResponse:
+      allOf:
+        - $ref: '#/components/schemas/DateRange'
+        - type: object
+          required:
+            - entries
+            - summary
+            - total
+          properties:
+            entries:
+              type: array
+              items:
+                type: object
+                required:
+                  - questionId
+                  - question
+                  - answerSnippet
+                  - type
+                  - pagePath
+                  - sessionId
+                  - submittedAt
+                properties:
+                  questionId:
+                    type: string
+                  question:
+                    type: string
+                  answerSnippet:
+                    type: string
+                  type:
+                    type: string
+                    enum:
+                      - like
+                      - dislike
+                  pagePath:
+                    type: string
+                  sessionId:
+                    type: string
+                  submittedAt:
+                    type: string
+                    format: date-time
+            summary:
+              $ref: '#/components/schemas/FeedbackSummary'
+            total:
+              type: integer
+    AiVolumeResponse:
+      allOf:
+        - $ref: '#/components/schemas/DateRange'
+        - type: object
+          required:
+            - series
+          properties:
+            series:
+              type: array
+              items:
+                type: object
+                required:
+                  - date
+                  - questions
+                  - sessions
+                properties:
+                  date:
+                    type: string
+                    format: date
+                  questions:
+                    type: integer
+                  sessions:
+                    type: integer
+    SearchAnalytics:
+      allOf:
+        - $ref: '#/components/schemas/DateRange'
+        - type: object
+          required:
+            - totalSearches
+            - sessions
+            - uniqueQueries
+            - noResultSearches
+            - noResultRate
+            - clickedSearches
+            - clickThroughRate
+            - aiEscalations
+            - aiEscalationRate
+          properties:
+            totalSearches:
+              type: integer
+            sessions:
+              type: integer
+            uniqueQueries:
+              type: integer
+            noResultSearches:
+              type: integer
+            noResultRate:
+              type: number
+              minimum: 0
+              maximum: 100
+            clickedSearches:
+              type: integer
+            clickThroughRate:
+              type: number
+              minimum: 0
+              maximum: 100
+            aiEscalations:
+              type: integer
+            aiEscalationRate:
+              type: number
+              minimum: 0
+              maximum: 100
+    SearchVolumeResponse:
+      allOf:
+        - $ref: '#/components/schemas/DateRange'
+        - type: object
+          required:
+            - series
+          properties:
+            series:
+              type: array
+              items:
+                type: object
+                required:
+                  - date
+                  - searches
+                  - sessions
+                  - noResultSearches
+                properties:
+                  date:
+                    type: string
+                    format: date
+                  searches:
+                    type: integer
+                  sessions:
+                    type: integer
+                  noResultSearches:
+                    type: integer
+    SearchQueriesResponse:
+      allOf:
+        - $ref: '#/components/schemas/DateRange'
+        - type: object
+          required:
+            - queries
+            - total
+          properties:
+            queries:
+              type: array
+              items:
+                type: object
+                required:
+                  - query
+                  - searches
+                  - sessions
+                  - avgResultsShown
+                  - clicks
+                  - clickThroughRate
+                  - aiEscalations
+                  - lastSearchedAt
+                properties:
+                  query:
+                    type: string
+                  searches:
+                    type: integer
+                  sessions:
+                    type: integer
+                  avgResultsShown:
+                    type: number
+                  clicks:
+                    type: integer
+                  clickThroughRate:
+                    type: number
+                    minimum: 0
+                    maximum: 100
+                  aiEscalations:
+                    type: integer
+                  lastSearchedAt:
+                    type: string
+                    format: date-time
+            total:
+              type: integer
+    SearchResultsResponse:
+      allOf:
+        - $ref: '#/components/schemas/DateRange'
+        - type: object
+          required:
+            - results
+            - total
+          properties:
+            results:
+              type: array
+              items:
+                type: object
+                required:
+                  - pagePath
+                  - impressions
+                  - clicks
+                  - clickThroughRate
+                properties:
+                  pagePath:
+                    type: string
+                  impressions:
+                    type: integer
+                  clicks:
+                    type: integer
+                  clickThroughRate:
+                    type: number
+                    minimum: 0
+                    maximum: 100
+            total:
+              type: integer
+    MediaKind:
+      type: string
+      enum:
+        - image
+        - video
+        - audio
+        - document
+        - data
+        - archive
+        - font
+    MediaObject:
+      type: object
+      required:
+        - id
+        - name
+        - url
+        - kind
+        - mimeType
+        - sizeBytes
+        - altText
+        - width
+        - height
+        - durationSeconds
+        - pageCount
+        - posterUrl
+        - createdAt
+        - updatedAt
+        - snippet
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+          format: uri
+        kind:
+          $ref: '#/components/schemas/MediaKind'
+        mimeType:
+          type: string
+        sizeBytes:
+          type: integer
+          format: int64
+        altText:
+          type: string
+          nullable: true
+        width:
+          type: integer
+          nullable: true
+        height:
+          type: integer
+          nullable: true
+        durationSeconds:
+          type: number
+          nullable: true
+        pageCount:
+          type: integer
+          nullable: true
+        posterUrl:
+          type: string
+          format: uri
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+          nullable: true
+        updatedAt:
+          type: string
+          format: date-time
+          nullable: true
+        snippet:
+          type: string
+    MediaListResponse:
+      type: object
+      required:
+        - media
+        - pagination
+      properties:
+        media:
+          type: array
+          items:
+            $ref: '#/components/schemas/MediaObject'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+    Pagination:
+      type: object
+      required:
+        - page
+        - limit
+        - total
+        - pages
+      properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        total:
+          type: integer
+        pages:
+          type: integer
+    SingleMediaResponse:
+      type: object
+      required:
+        - media
+      properties:
+        media:
+          $ref: '#/components/schemas/MediaObject'
+    MediaUploadResult:
+      type: object
+      required:
+        - results
+      properties:
+        results:
+          type: array
+          items:
+            oneOf:
+              - type: object
+                required:
+                  - source
+                  - status
+                  - media
+                properties:
+                  source:
+                    type: string
+                  status:
+                    type: string
+                    enum:
+                      - added
+                      - reused
+                  media:
+                    $ref: '#/components/schemas/MediaObject'
+              - type: object
+                required:
+                  - source
+                  - status
+                  - error
+                  - statusCode
+                properties:
+                  source:
+                    type: string
+                  status:
+                    type: string
+                    enum:
+                      - failed
+                  error:
+                    type: string
+                  statusCode:
+                    type: integer
+    MediaImportRequest:
+      type: object
+      required:
+        - files
+      properties:
+        files:
+          type: array
+          minItems: 1
+          maxItems: 10
+          items:
+            type: object
+            required:
+              - url
+            properties:
+              url:
+                type: string
+                format: uri
+              name:
+                type: string
+                minLength: 1
+                maxLength: 255
+              altText:
+                type: string
+                maxLength: 1000
+    UpdateMediaRequest:
+      type: object
+      required:
+        - altText
+      properties:
+        altText:
+          type: string
+          maxLength: 1000
+    DeletedMediaResponse:
+      type: object
+      required:
+        - deleted
+      properties:
+        deleted:
+          $ref: '#/components/schemas/MediaObject'
+    BulkDeleteMediaRequest:
+      type: object
+      required:
+        - mediaIds
+      properties:
+        mediaIds:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            type: string
+    BulkDeleteMediaResponse:
+      type: object
+      required:
+        - deleted
+        - failed
+        - reclaimedBytes
+      properties:
+        deleted:
+          type: array
+          items:
+            type: string
+        failed:
+          type: array
+          items:
+            type: object
+            required:
+              - source
+              - error
+            properties:
+              source:
+                type: string
+              error:
+                type: string
+        reclaimedBytes:
+          type: integer
+          format: int64
+    StorageUsage:
+      type: object
+      required:
+        - usedBytes
+        - objectCount
+        - quotaBytes
+        - percentUsed
+        - isWarning
+        - isOverQuota
+        - planType
+        - limits
+        - enforced
+      properties:
+        usedBytes:
+          type: integer
+          format: int64
+        objectCount:
+          type: integer
+        quotaBytes:
+          type: integer
+          format: int64
+        percentUsed:
+          type: number
+          minimum: 0
+          maximum: 100
+        isWarning:
+          type: boolean
+        isOverQuota:
+          type: boolean
+        planType:
+          type: string
+        limits:
+          type: object
+          required:
+            - maxImageBytes
+            - maxVideoBytes
+            - maxDocumentBytes
+          properties:
+            maxImageBytes:
+              type: integer
+              format: int64
+            maxVideoBytes:
+              type: integer
+              format: int64
+            maxDocumentBytes:
+              type: integer
+              format: int64
+        enforced:
+          type: boolean

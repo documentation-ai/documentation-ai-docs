@@ -1,9 +1,9 @@
 ---
 title: Embedded Docs and AI Assistant
-description: Show your docs pages and AI Assistant inside your own product or website, so users get help without leaving the screen they're on.
+description: Show your docs pages and AI Assistant inside your own product or website, and set it up in three steps with an embed key and a snippet.
 ---
 
-Embedded Docs puts your Documentation.AI docs and [AI Assistant](/ai/ai-assistant) inside your own product or website. Users read a docs page, or ask a question, without leaving the screen they're on. It's the same AI Assistant as on your docs site, with the same answers and citations.
+Embedded Docs puts your Documentation.AI docs and [AI Assistant](/ai/ai-assistant) inside your own product or website. Users read a docs page, or ask a question, without leaving the screen they're on. It's the same AI Assistant as on your docs site, with the same answers and citations, and docs pages load from your docs site, so they look exactly like your docs.
 
 ## What you can add
 
@@ -22,30 +22,68 @@ Embedded Docs puts your Documentation.AI docs and [AI Assistant](/ai/ai-assistan
   </Card>
 </Columns>
 
-## How it works
-
-1. **Create an embed key** in the dashboard. Its publishable key goes in your page and works only on the sites you list.
-2. **Add the script** to your page and call `init()` with the key.
-3. **Place widgets**: docs pages, the AI Assistant, or both.
-
-Docs pages load from your docs site, so they look exactly like your docs. If your docs have private pages, your server also signs users in. See [Private docs](/embedded-docs/private-docs).
-
 ## What you need
 
 - A published Documentation.AI docs site.
 - The **Admin** role in your Documentation.AI organization, to create embed keys.
-- If your docs are served at a path on your own domain, such as `example.com/docs`, a few extra rules in your reverse proxy. See [Docs on a subpath](/embedded-docs/docs-on-a-subpath).
+- If your docs are served at a path on your own domain, such as `example.com/docs`, a few extra rules in your reverse proxy. Add them before you start. See [Docs on a subpath](/embedded-docs/docs-on-a-subpath).
 
-## Get started
+## Quickstart
 
-<Columns cols={3}>
-  <Card title="Quickstart" icon="zap" href="/embedded-docs/quickstart">
-    Put your docs in a page in three steps.
-  </Card>
+Add a docs page with the AI Assistant to any web page in about five minutes. These steps use plain HTML. For React, Next.js, Vue, Angular or Svelte, follow them, then see [Frameworks](/embedded-docs/frameworks).
+
+### 1. Create an embed key
+
+In the dashboard, go to **Settings > Embed** and click **Create key**. You need the **Admin** role.
+
+| Field | What to enter |
+| --- | --- |
+| **Name** | A label for you, such as `Web app`. |
+| **Allowed origins** | Each site that will show your docs, such as `https://app.example.com`. For local development, add your dev server too, such as `http://localhost:5173`. Click **Add** after each one. |
+| **Expires** | **Never**, or after 30 days, 90 days, 180 days or 1 year. |
+
+Click **Create key**. In the **Copy your keys** dialog, copy the **Publishable key** (`pk_...`).
+
+<Callout kind="info">
+  The dialog also shows a **secret key**, only this once. You need it only if your docs have private pages. If they do, copy it now and store it on your server. See [Private docs](/embedded-docs/private-docs).
+</Callout>
+
+### 2. Add the snippet
+
+Paste this into your page, before `</body>`, with your publishable key:
+
+```html
+<!-- Where the docs should appear -->
+<div id="docs"></div>
+
+<script src="https://embed-cdn.documentation.ai/v1/embed.js" defer></script>
+<script type="module">
+  DocumentationAI.init({ publishableKey: 'pk_...' });
+
+  // Your docs in the element above, with the AI Assistant.
+  DocumentationAI.Widget({ target: '#docs', defaultView: 'docs' });
+</script>
+```
+
+Move `<div id="docs"></div>` to wherever the docs should appear. The same snippet, with your key filled in, is under **Install** in **Settings > Embed**.
+
+<Callout kind="tip">
+  Keep `type="module"` on your own script. It makes your code wait until the embed script has loaded.
+</Callout>
+
+### 3. Check that it works
+
+Open the page on one of the key's allowed origins. You should see the first page of your docs, with the AI Assistant in its corner.
+
+If nothing appears, open your browser's console and look for a message starting with `[DocumentationAI]`. See [Troubleshooting](/embedded-docs/troubleshooting).
+
+## Next steps
+
+<Columns cols={2}>
   <Card title="Frameworks" icon="code" href="/embedded-docs/frameworks">
-    HTML, React, Next.js, Vue, Angular and Svelte.
+    Set it up in React, Next.js, Vue, Angular or Svelte.
   </Card>
   <Card title="Layouts" icon="layout-panel-left" href="/embedded-docs/layouts">
-    Choose how the docs appear.
+    Use a Help button, an Ask AI bar or a chat instead.
   </Card>
 </Columns>

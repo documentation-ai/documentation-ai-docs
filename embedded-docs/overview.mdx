@@ -1,0 +1,51 @@
+---
+title: Embedded Docs and AI Assistant
+description: Show your docs pages and AI Assistant inside your own product or website, so users get help without leaving the screen they're on.
+---
+
+Embedded Docs puts your Documentation.AI docs and [AI Assistant](/ai/ai-assistant) inside your own product or website. Users read a docs page, or ask a question, without leaving the screen they're on. It's the same AI Assistant as on your docs site, with the same answers and citations.
+
+## What you can add
+
+<Columns cols={2}>
+  <Card title="Docs in your page" icon="file-text" href="/embedded-docs/layouts#docs-in-your-page">
+    A docs page inside any screen of your product, at its full height.
+  </Card>
+  <Card title="AI chat" icon="message-square" href="/embedded-docs/layouts#ai-chat-in-your-page">
+    Answers from your docs, with citations, right in your page.
+  </Card>
+  <Card title="Help button and Ask AI bar" icon="circle-help" href="/embedded-docs/layouts#help-button">
+    A floating panel that opens from a button or a question bar.
+  </Card>
+  <Card title="Help links" icon="mouse-pointer-click" href="/embedded-docs/help-links">
+    Any button or link in your product opens the right docs page beside it.
+  </Card>
+</Columns>
+
+## How it works
+
+1. **Create an embed key** in the dashboard. Its publishable key goes in your page and works only on the sites you list.
+2. **Add the script** to your page and call `init()` with the key.
+3. **Place widgets**: docs pages, the AI Assistant, or both.
+
+Docs pages load from your docs site, so they look exactly like your docs. If your docs have private pages, your server also signs users in. See [Private docs](/embedded-docs/private-docs).
+
+## What you need
+
+- A published Documentation.AI docs site.
+- The **Admin** role in your Documentation.AI organization, to create embed keys.
+- If your docs are served at a path on your own domain, such as `example.com/docs`, a few extra rules in your reverse proxy. See [Docs on a subpath](/embedded-docs/docs-on-a-subpath).
+
+## Get started
+
+<Columns cols={3}>
+  <Card title="Quickstart" icon="zap" href="/embedded-docs/quickstart">
+    Put your docs in a page in three steps.
+  </Card>
+  <Card title="Frameworks" icon="code" href="/embedded-docs/frameworks">
+    HTML, React, Next.js, Vue, Angular and Svelte.
+  </Card>
+  <Card title="Layouts" icon="layout-panel-left" href="/embedded-docs/layouts">
+    Choose how the docs appear.
+  </Card>
+</Columns>

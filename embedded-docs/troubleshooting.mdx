@@ -14,9 +14,9 @@ Start in your browser's console. The embed logs every problem there as `[Documen
 | `publishable_key_expired` | The key's expiry date has passed. | Create a new key. Expiry can't be extended. |
 | `invalid_token` | The reader token was already used, is more than 60 seconds old, was mistyped, or was made with another embed key. On JWT sites, the JWT failed verification. | Get a new token for every `identify()` call, and make sure your token endpoint's response isn't cached. |
 | `sign_in_not_enabled` | `identify()` was called, but the docs site has no sign-in. | If your docs are public, remove the `identify()` call. Otherwise set up [Access Control](/customize/access-control/overview). |
-| `auth_method_unsupported` | A JWT was passed on a site that doesn't use JWT sign-in. | Use a [reader token](/ai/embed-private-docs#step-2-add-an-endpoint-that-returns-a-reader-token). |
-| `site_not_found` | Your docs site couldn't be found at its address. | Check that your docs are published. On a subpath, check your [proxy setup](/ai/embed-subpath). |
-| `unexpected_error` | Something else, such as a network failure. | Check your connection and your [Content Security Policy](/ai/embed-reference#content-security-policy). |
+| `auth_method_unsupported` | A JWT was passed on a site that doesn't use JWT sign-in. | Use a [reader token](/embedded-docs/private-docs#step-2-add-an-endpoint-that-returns-a-reader-token). |
+| `site_not_found` | Your docs site couldn't be found at its address. | Check that your docs are published. On a subpath, check your [proxy setup](/embedded-docs/docs-on-a-subpath). |
+| `unexpected_error` | Something else, such as a network failure. | Check your connection and your [Content Security Policy](/embedded-docs/reference#content-security-policy). |
 
 ## Common problems
 
@@ -26,19 +26,19 @@ Start in your browser's console. The embed logs every problem there as `[Documen
 
     - Check that `init()` runs, with your publishable key.
     - Check that an inline widget's `target` element exists when you create the widget.
-    - In a plain HTML page, check that your own script has `type="module"`. See [Frameworks](/ai/embed-frameworks#html-and-javascript).
+    - In a plain HTML page, check that your own script has `type="module"`. See [Frameworks](/embedded-docs/frameworks#html-and-javascript).
   </Expandable>
 
   <Expandable title="DocumentationAI is not defined">
-    Your code ran before the embed script loaded. Add `type="module"` to your own script tag, or start the embed from the script's `onload`. See [Frameworks](/ai/embed-frameworks#html-and-javascript).
+    Your code ran before the embed script loaded. Add `type="module"` to your own script tag, or start the embed from the script's `onload`. See [Frameworks](/embedded-docs/frameworks#html-and-javascript).
   </Expandable>
 
   <Expandable title="document is not defined, during server rendering">
-    `init()` and widgets must run in the browser. In Next.js, call them in `useEffect` inside a Client Component. In Nuxt, use a `.client.ts` plugin. In SvelteKit, use `onMount`. See [Frameworks](/ai/embed-frameworks).
+    `init()` and widgets must run in the browser. In Next.js, call them in `useEffect` inside a Client Component. In Nuxt, use a `.client.ts` plugin. In SvelteKit, use `onMount`. See [Frameworks](/embedded-docs/frameworks).
   </Expandable>
 
   <Expandable title="The browser refuses to show the docs in a frame">
-    The page's origin isn't on the key's allowed origins. Add it in **Settings > Embed**. If your docs are on a subpath of your own domain, also check [Docs on a subpath](/ai/embed-subpath).
+    The page's origin isn't on the key's allowed origins. Add it in **Settings > Embed**. If your docs are on a subpath of your own domain, also check [Docs on a subpath](/embedded-docs/docs-on-a-subpath).
   </Expandable>
 
   <Expandable title="It works locally but not in production">
@@ -46,15 +46,15 @@ Start in your browser's console. The embed logs every problem there as `[Documen
   </Expandable>
 
   <Expandable title="Signed-in users are asked to sign in">
-    They see **Sign in to view this page** because `identify()` hasn't run, or it failed. Check the console for an `invalid_token` error, and check that your token endpoint returns a new token for every request. See [Private docs](/ai/embed-private-docs).
+    They see **Sign in to view this page** because `identify()` hasn't run, or it failed. Check the console for an `invalid_token` error, and check that your token endpoint returns a new token for every request. See [Private docs](/embedded-docs/private-docs).
   </Expandable>
 
   <Expandable title="Users are told they don't have access to a page">
-    They see **You don't have access to this page**. The user is signed in, but the `accessRoles` in their reader token don't include a role the page needs. See [Choose which pages each user sees](/ai/embed-private-docs#choose-which-pages-each-user-sees).
+    They see **You don't have access to this page**. The user is signed in, but the `accessRoles` in their reader token don't include a role the page needs. See [Choose which pages each user sees](/embedded-docs/private-docs#choose-which-pages-each-user-sees).
   </Expandable>
 
   <Expandable title="A second floating widget doesn't appear">
-    A page has one floating widget. Creating another returns the first one. Change the existing widget's options instead, or use [help links](/ai/embed-buttons-and-links) to open it from more places.
+    A page has one floating widget. Creating another returns the first one. Change the existing widget's options instead, or use [help links](/embedded-docs/help-links) to open it from more places.
   </Expandable>
 
   <Expandable title="I changed the allowed origins, but nothing changed">
@@ -69,10 +69,10 @@ Start in your browser's console. The embed logs every problem there as `[Documen
 ## Next steps
 
 <Columns cols={2}>
-  <Card title="Reference" icon="book-open" href="/ai/embed-reference">
+  <Card title="Reference" icon="book-open" href="/embedded-docs/reference">
     Every option, method, event and Content Security Policy rule.
   </Card>
-  <Card title="Private docs" icon="lock" href="/ai/embed-private-docs">
+  <Card title="Private docs" icon="lock" href="/embedded-docs/private-docs">
     Sign users in to your private pages.
   </Card>
 </Columns>

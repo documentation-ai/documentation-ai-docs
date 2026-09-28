@@ -34,7 +34,7 @@ You'll configure CloudFront behaviors to route traffic based on path patterns:
 | Path Pattern | Cache Policy | Origin | Purpose |
 |--------------|--------------|--------|---------|
 | `/.well-known/*` | CachingDisabled | Documentation | Domain verification |
-| `/docs/_dai/api/*` (or your subpath) | CachingDisabled, all HTTP methods | Documentation | Requests from the [embed](/ai/embed) |
+| `/docs/_dai/api/*` (or your subpath) | CachingDisabled, all HTTP methods | Documentation | Requests from [Embedded Docs](/embedded-docs/overview) |
 | `/docs/*` (or your subpath) | DocsWithQueryStrings | Documentation | Documentation pages |
 | `/docs` (or your subpath) | DocsWithQueryStrings | Documentation | Documentation root |
 | `/dai-assets/_next/static/*` | CachingOptimized | Documentation | Static assets |
@@ -120,7 +120,7 @@ After this step, you should have two origins in your distribution:
 
 ## Step 3: Create a cache policy for documentation pages
 
-The managed **CachingOptimized** policy leaves query strings out of the cache key. Documentation pages need them in it: pages [embedded in your product](/ai/embed) are the same addresses with a query string, and must not share a cache entry with your normal pages.
+The managed **CachingOptimized** policy leaves query strings out of the cache key. Documentation pages need them in it: pages [embedded in your product](/embedded-docs/overview) are the same addresses with a query string, and must not share a cache entry with your normal pages.
 
 <Steps>
   <Step title="Open cache policies">
@@ -181,7 +181,7 @@ Create a behavior for domain verification and SSL certificate provisioning.
 
 ### Behavior 2: Documentation API
 
-Create a behavior for the requests the [embed](/ai/embed) makes to sign users in and search your docs. They use `POST` and `OPTIONS`, which the documentation behaviors don't allow.
+Create a behavior for the requests [Embedded Docs](/embedded-docs/overview) makes to sign users in and search your docs. They use `POST` and `OPTIONS`, which the documentation behaviors don't allow.
 
 <Steps>
   <Step title="Create Behavior">

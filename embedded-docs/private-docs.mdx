@@ -156,7 +156,7 @@ Call `signOut()` only when a user signs out, because it reloads any open docs pa
 | Signed in, but their roles don't include the page | **You don't have access to this page** | `access-denied` |
 | Their docs session has ended | Public pages only, until you call `identify()` again | `identity-required` |
 
-See [Events](/ai/embed-reference#events) to react to these in your own code.
+See [Events](/embedded-docs/reference#events) to react to these in your own code.
 
 ## Choose which pages each user sees
 
@@ -183,7 +183,7 @@ On JWT sites, you can pass `identify()` a JWT signed with the private key from *
 - **Rotate the secret key** if it may have been exposed, or on a regular schedule. In **Settings > Embed**, open the key's menu and choose **Rotate secret key**. The old secret key stops working at once, so update your server with the new one. Users who are already signed in stay signed in until their session ends.
 - **Revoke the key** to stop the embed completely. Every page using it stops loading the docs and the AI Assistant within a few minutes. This can't be undone.
 
-See [Keys and origins](/ai/embed-keys) for everything else about managing keys.
+See [Keys and origins](/embedded-docs/keys-and-origins) for everything else about managing keys.
 
 ## Reader token API
 
@@ -237,10 +237,10 @@ Errors return a JSON body with `statusCode`, `error` and `message`:
 ## Next steps
 
 <Columns cols={2}>
-  <Card title="Keys and origins" icon="key" href="/ai/embed-keys">
+  <Card title="Keys and origins" icon="key" href="/embedded-docs/keys-and-origins">
     Rotate secret keys, edit origins and revoke keys.
   </Card>
-  <Card title="Troubleshooting" icon="life-buoy" href="/ai/embed-troubleshooting">
+  <Card title="Troubleshooting" icon="life-buoy" href="/embedded-docs/troubleshooting">
     Fix sign-in errors and access problems.
   </Card>
 </Columns>

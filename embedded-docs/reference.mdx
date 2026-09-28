@@ -11,7 +11,7 @@ The script tag adds a global `DocumentationAI` object. With npm, import it: `imp
 | --- | --- |
 | `init(options)` | Starts the embed with your publishable key. Call it once, in the browser. |
 | `Widget(options)` | Places a widget and returns it. See [Widget options](#widget-options). |
-| `identify(token)` | Signs the user in with a reader token or, on JWT sites, a JWT. See [Private docs](/ai/embed-private-docs). |
+| `identify(token)` | Signs the user in with a reader token or, on JWT sites, a JWT. See [Private docs](/embedded-docs/private-docs). |
 | `signOut()` | Signs the user out. Docs show public pages only. |
 | `setTheme(mode)` | Switches to `'light'`, `'dark'` or `'system'`. |
 | `on(event, handler)` | Listens for an [event](#events). Returns a function that stops listening. |
@@ -34,7 +34,7 @@ Calls can come in any order. Widgets created before `init()` finishes appear onc
 </ParamField>
 
 <ParamField body="identity" param-type="string" show-location="false">
-  A reader token. The same as calling `identify()` before any page loads. See [Private docs](/ai/embed-private-docs).
+  A reader token. The same as calling `identify()` before any page loads. See [Private docs](/embedded-docs/private-docs).
 </ParamField>
 
 <ParamField body="apiHost" param-type="string" show-location="false">
@@ -94,7 +94,7 @@ Calls can come in any order. Widgets created before `init()` finishes appear onc
 ### Floating widgets
 
 <ParamField body="launcher" param-type="object | false" show-location="false">
-  What opens the widget. Defaults to a **Help** button. See [Launcher options](#launcher-options). `false` shows no launcher: open the widget from [help links](/ai/embed-buttons-and-links) or its [methods](#widget-methods) instead.
+  What opens the widget. Defaults to a **Help** button. See [Launcher options](#launcher-options). `false` shows no launcher: open the widget from [help links](/embedded-docs/help-links) or its [methods](#widget-methods) instead.
 </ParamField>
 
 <ParamField body="expandDocs" param-type="boolean" show-location="false">
@@ -155,7 +155,7 @@ A page opened with `navigate()` becomes the widget's starting point, so it has n
   A click opens the widget as you set it up. With a value, it opens on that view.
 </ParamField>
 
-See [Help links](/ai/embed-buttons-and-links) for how the panel behaves.
+See [Help links](/embedded-docs/help-links) for how the panel behaves.
 
 ## Events
 
@@ -176,7 +176,7 @@ const stopListening = DocumentationAI.on('navigate', (event) => {
 | `auth-required` | A private page needs a signed-in user. | `path` |
 | `access-denied` | The signed-in user's roles don't include the page. | `path` |
 | `identity-required` | The user's docs session has ended. Call `identify()` with a new token. | `reason: 'expired'` |
-| `error` | Something went wrong. See [Troubleshooting](/ai/embed-troubleshooting#error-codes). | `code`, `message` |
+| `error` | Something went wrong. See [Troubleshooting](/embedded-docs/troubleshooting#error-codes). | `code`, `message` |
 
 ## Content Security Policy
 

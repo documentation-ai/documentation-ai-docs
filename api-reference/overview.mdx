@@ -1,12 +1,12 @@
 ---
 title: REST API
 description: >-
-  Read and update your documentation, publish deployments, and pull analytics
+  Read and update your documentation, publish deployments, manage media files, and pull analytics
   through the Documentation.AI REST API.
 ---
 ## Overview
 
-The Documentation.AI REST API provides programmatic access to your documentation project through a standard REST interface. You can read pages, search content, manage branches, push file changes, publish deployments, export your site as a PDF, and read analytics, the same operations available in the dashboard, accessible from your own scripts, CI/CD pipelines, or backend services.
+The Documentation.AI REST API provides programmatic access to your documentation project through a standard REST interface. You can read pages, search content, manage branches, push file changes, publish deployments, manage media files, export your site as a PDF, and read analytics, the same operations available in the dashboard, accessible from your own scripts, CI/CD pipelines, or backend services.
 
 Every key is scoped to one documentation project, so no endpoint takes a project identifier.
 
@@ -58,13 +58,15 @@ API keys are generated from the dashboard under **Settings → API Keys**. Each 
 
 Every API key carries a role that determines which endpoints are accessible.
 
-| Role       | Read endpoints                          | Write endpoints               |
-| ---------- | --------------------------------------- | ----------------------------- |
-| **Viewer** | All read endpoints, including analytics | None                          |
-| **Editor** | All read endpoints                      | Push, branches, merge, deploy, PDF exports |
-| **Admin**  | All read endpoints                      | All write endpoints           |
+| Role       | Read endpoints                          | Write endpoints                                           |
+| ---------- | --------------------------------------- | --------------------------------------------------------- |
+| **Viewer** | All read endpoints, including analytics | None                                                      |
+| **Editor** | All read endpoints                      | Push, branches, merge, deploy, PDF exports, media uploads and updates |
+| **Admin**  | All read endpoints                      | All write endpoints, including delete media              |
 
 Write endpoints return `403 Forbidden` if the API key role does not have sufficient permissions.
+
+Listing media, retrieving a single file, and reading storage usage need only **viewer**. Uploading, importing, updating metadata, and replacing media need **editor**. Deleting media (single or bulk) needs **admin**.
 
 Deploying sits behind **editor** because it publishes to your live site. Analytics is read-only, so a **viewer** key is enough.
 
@@ -243,6 +245,142 @@ curl -X POST https://api.documentationai.app/api/v1/exports/pdf \
   Starting an export from the dashboard replaces an export that is still running, including one started through the API.
 </Callout>
 
+## Media
+
+Media Management endpoints let you list, upload, import, update, replace, and delete files in your documentation's Media Library.
+
+### List media files
+
+Filter media by search text, file kind, page number, and page size:
+
+```bash
+curl -G https://api.documentationai.app/api/v1/media \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -d search=logo \
+  -d kind=image \
+  -d page=1 \
+  -d limit=20
+```
+
+```json
+{
+  "items": [
+    {
+      "id": "med_7f3a91c2",
+      "filename": "product-logo.svg",
+      "kind": "image",
+      "mimeType": "image/svg+xml",
+      "sizeBytes": 8420,
+      "altText": "Documentation.AI product logo",
+      "url": "https://cdn.documentationai.app/media/product-logo.svg"
+    }
+  ],
+  "page": 1,
+  "limit": 20,
+  "total": 1
+}
+```
+
+### Upload media files
+
+Upload up to 10 files in one request using multipart form data:
+
+```bash
+curl -X POST https://api.documentationai.app/api/v1/media \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -F "files=@product-logo.svg" \
+  -F "files=@architecture-diagram.png"
+```
+
+### Import media from URLs
+
+Import one or more media files from publicly accessible URLs:
+
+```bash
+curl -X POST https://api.documentationai.app/api/v1/media/import \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "urls": [
+      "https://assets.acme.com/brand/product-logo.svg",
+      "https://assets.acme.com/diagrams/system-architecture.png"
+    ]
+  }'
+```
+
+### Update media alt text
+
+Update the alternative text for a media file with `PATCH /media/{mediaId}`:
+
+```bash
+curl -X PATCH https://api.documentationai.app/api/v1/media/med_7f3a91c2 \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "altText": "Documentation.AI product logo"
+  }'
+```
+
+### Replace a media file
+
+Replace an existing file with a multipart upload:
+
+```bash
+curl -X POST https://api.documentationai.app/api/v1/media/med_7f3a91c2/replace \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -F "file=@product-logo-new.svg"
+```
+
+You can also replace it with a file hosted at a URL:
+
+```bash
+curl -X POST https://api.documentationai.app/api/v1/media/med_7f3a91c2/replace \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://assets.acme.com/brand/product-logo-new.svg"
+  }'
+```
+
+### Delete media
+
+Deleting one file with `DELETE /media/{mediaId}` requires an **admin** key:
+
+```bash
+curl -X DELETE https://api.documentationai.app/api/v1/media/med_7f3a91c2 \
+  -H "Authorization: Bearer dai_your_api_key"
+```
+
+Delete up to 100 files in one request with `POST /media/bulk-delete`:
+
+```bash
+curl -X POST https://api.documentationai.app/api/v1/media/bulk-delete \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "mediaIds": [
+      "med_7f3a91c2",
+      "med_2b8d44e1"
+    ]
+  }'
+```
+
+### Storage
+
+Read current storage usage and the documentation's quota with `GET /storage`. This endpoint requires only a **viewer** key.
+
+```bash
+curl https://api.documentationai.app/api/v1/storage \
+  -H "Authorization: Bearer dai_your_api_key"
+```
+
+```json
+{
+  "usedBytes": 52428800,
+  "quotaBytes": 1073741824
+}
+```
+
 ## Analytics
 
 Analytics endpoints are read-only, so a viewer key is enough.
@@ -339,3 +477,5 @@ Page through query results with `limit` and `offset`, using `total` to know when
 ## Endpoints
 
 See the endpoint reference below for complete details on every available operation, including request parameters, response schemas, and examples.
+
+The Media and Storage endpoints let you manage media files and check storage usage programmatically, mirroring the dashboard's [Media Library](/write-and-publish/media-library).

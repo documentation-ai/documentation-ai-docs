@@ -529,11 +529,6 @@
                 "icon": "info"
               },
               {
-                "title": "Quickstart",
-                "path": "embedded-docs/quickstart",
-                "icon": "zap"
-              },
-              {
                 "title": "Frameworks",
                 "path": "embedded-docs/frameworks",
                 "icon": "code"
@@ -966,7 +961,7 @@
     },
     {
       "source": "/ai/embed-quickstart",
-      "destination": "/embedded-docs/quickstart"
+      "destination": "/embedded-docs/overview"
     },
     {
       "source": "/ai/embed-frameworks",
@@ -999,6 +994,10 @@
     {
       "source": "/ai/embed-reference",
       "destination": "/embedded-docs/reference"
+    },
+    {
+      "source": "/embedded-docs/quickstart",
+      "destination": "/embedded-docs/overview"
     }
   ]
 }

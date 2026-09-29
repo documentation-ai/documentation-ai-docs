@@ -933,31 +933,31 @@
     },
     {
       "source": "/integrations-and-workflows/gitlab-integration",
-      "destination": "/integrations/gitlab-integration"
+      "destination": "/integrations/gitlab"
     },
     {
       "source": "/integrations-and-workflows/slack-notifications",
-      "destination": "/integrations/slack-notifications"
+      "destination": "/integrations/overview"
     },
     {
       "source": "/integrations-and-workflows/zapier-integration",
-      "destination": "/integrations/zapier-integration"
+      "destination": "/integrations/overview"
     },
     {
       "source": "/integrations-and-workflows/webhook-setup",
-      "destination": "/integrations/webhook-setup"
+      "destination": "/integrations/deployment-webhooks"
     },
     {
       "source": "/integrations-and-workflows/issue-trackers",
-      "destination": "/integrations/issue-trackers"
+      "destination": "/integrations/overview"
     },
     {
       "source": "/integrations-and-workflows/third-party-tools",
-      "destination": "/integrations/third-party-tools"
+      "destination": "/integrations/overview"
     },
     {
       "source": "/integrations-and-workflows/analytics-integration",
-      "destination": "/integrations/analytics-integration"
+      "destination": "/integrations/overview"
     },
     {
       "source": "/customize/access-control",

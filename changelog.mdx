@@ -2,6 +2,33 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-09-29" description="API Playground file uploads, in-place component editing, Notion-style link editing, large-site MCP support, and reliability fixes" tags={["feature","improvement","fix"]}>
+
+  ## API Playground File Uploads
+
+  The API Playground now supports file uploads in `multipart/form-data` requests. Readers can attach files to multipart form fields, upload file arrays, and send whole-body binary payloads. The playground validates upload sizes and generates accurate cURL and JavaScript code previews for file-bearing requests.
+
+  See [Interactive Playground Setup](/api-documentation-and-playground/interactive-playground-setup#file-uploads).
+
+  ## In-Place Component Editing
+
+  Custom components in the web editor now have a consistent in-place editing experience. Click any card, step, tab, API field, collection, expandable, callout, or update block to edit its settings directly without switching to markdown mode.
+
+  See [Web Editor](/write-and-publish/web-editor#visual-mode).
+
+  ## Improvements
+
+  - **Notion-style link editing**: Edit existing links in place with partial text selections, link popovers, page search, new-tab toggle, and Cmd/Ctrl+K support. See [Web Editor](/write-and-publish/web-editor).
+  - **Embed SDK link opening**: Help links in embedded docs now open directly on their requested page instead of showing chat first. Panels appear at their final size before first paint, and reduced-motion preferences are respected. See [Help Links](/embedded-docs/help-links).
+  - **Large-site MCP support**: The Authoring MCP Server now handles documentation projects with configurations exceeding the 200 KB response ceiling through navigation outlines, pointer-based reads, search, line ranges, and large-page previews. See [Authoring MCP Server](/ai/authoring-mcp-server).
+
+  ## Fixes
+
+  - **Publish button stuck**: Publishing no longer remains stuck on "Publishing..." when realtime deployment completion was delayed or unavailable.
+  - **Collaboration WebSocket URL**: Fixed collaboration failures when the configured API URL ends with a trailing slash, which caused a double-slash in the WebSocket connection URL.
+
+</Update>
+
 <Update label="2026-09-28" description="Embedded Docs, Agent Readiness Score, AI assistant mode, strict search dimensions, media and PDF export improvements, llms.txt scaling, and security fixes" tags={["feature","improvement"]}>
   ## Embedded Docs and AI Assistant
 

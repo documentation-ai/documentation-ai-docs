@@ -21,6 +21,10 @@ This is the server your **documentation team** connects to, and it uses your rol
   The server acts with your Documentation.AI permissions. Connect it only to AI clients you trust, and ask the agent to work on a separate branch when you want a review before anything goes live.
 </Callout>
 
+## Large documentation sites
+
+The MCP server paginates responses that exceed the 200 KB size limit, so it works with large documentation projects without truncation. When `get_site_config` or `get_page` would return more than the limit, the server returns a navigation outline or page preview with pointers that the agent uses to read specific sections, search within the response, or request line ranges. Configuration patches are validated before they are applied, so `move`, `copy`, and `test` operations on `documentation.json` are safe even on large files.
+
 ## Setup and authentication
 
 Add the server URL to your MCP client, then sign in with your Documentation.AI account. No API keys are needed.

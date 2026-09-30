@@ -198,6 +198,37 @@ Features include:
 
 - **Format validation** for email, date, etc.
 
+### File Uploads
+
+When your OpenAPI specification defines `multipart/form-data` request bodies with `type: string` and `format: binary` properties, the playground renders file input fields so readers can attach files directly from their browser.
+
+```yaml
+paths:
+  /upload:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                metadata:
+                  type: string
+              required: [file]
+```
+
+Supported upload capabilities:
+
+- **Single file fields**: Attach one file per `binary` property
+- **File arrays**: Use `type: array` with `items` of `format: binary` to accept multiple files in one field
+- **Whole-body binary**: When the request body is a single `application/octet-stream`, the playground lets readers pick a file for the entire body
+- **Size validation**: Uploads are validated before sending, with a per-request size limit
+- **Code previews**: Generated cURL and JavaScript snippets accurately reflect file-bearing requests, including `multipart/form-data` boundaries and `FormData` usage
+- **CORS-safe proxy**: File uploads are routed through a dedicated proxy endpoint so readers can test APIs that do not send CORS headers on file responses
+
 ### Custom Headers
 
 Add custom headers through the playground interface:

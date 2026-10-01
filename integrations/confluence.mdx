@@ -14,7 +14,7 @@ Use the Confluence integration to connect your Atlassian account and make Conflu
 <Callout kind="info" collapsed="false">
   You need:
 
-  - An organization or workspace admin role in Documentation.AI
+  - The **Admin** or **Editor** role in your Documentation.AI organization
   - An Atlassian account with access to the Confluence content you want the agent to use
   - At least one documentation project created in your Documentation.AI workspace
 </Callout>
@@ -22,29 +22,27 @@ Use the Confluence integration to connect your Atlassian account and make Conflu
 ## Connect Confluence
 
 <Steps>
-  <Step title="Open the organization integrations page" icon="settings" title-type="p">
-    In the Documentation.AI dashboard, go to **Settings → Organization Settings → Integrations**. Find **Confluence**, then click **Connect** to start the organization-level connection.
+  <Step title="Open Agent Settings" icon="bot" title-type="p">
+    In the dashboard sidebar, under **AI**, click **Agent Settings**. The **Connectors** section lists the tools the agent can pull context from.
+
+    If you are in the editor, you can click **Connectors** below the chat input instead. It opens the same list.
+  </Step>
+
+  <Step title="Click Connect on the Confluence card" icon="plug" title-type="p">
+    Atlassian opens in the same tab. Sign in if Atlassian asks you to.
   </Step>
 
   <Step title="Complete the Atlassian OAuth flow" icon="lock" title-type="p">
-    Sign in to Atlassian if prompted, then approve access for the Confluence account you want Documentation.AI to use. After the flow completes, Documentation.AI returns you to the integrations settings page.
-
-    A successful connection creates the Confluence account at the organization level and automatically attaches it to the documentation project that started the flow.
+    Choose the Confluence site and approve access. Atlassian sends you back to the page you started from, and "Connected successfully" appears.
   </Step>
 
-  <Step title="Enable the Confluence connector for a documentation project" icon="toggle-right" title-type="p">
-    Go to **Settings → Integrations** inside the specific documentation project where you want the AI agent to use Confluence. Turn on the **Confluence** agent connector for that project.
-
-    Your project now has permission to let the Writer and Answer agents query the connected Confluence site.
-  </Step>
-
-  <Step title="Verify the active connection" icon="check-circle" title-type="p">
-    Confirm the integration shows as active and displays the connected Confluence site name and URL. If the project connector is enabled, the AI agent can start using Confluence as context immediately.
+  <Step title="Check that the connector is on" icon="toggle-right" title-type="p">
+    The Confluence card now shows your Confluence site name, **Manage**, and a switch that is on. Confluence is now on for the documentation project you have open, so the Writer and Answer agents can query it.
   </Step>
 </Steps>
 
 <Callout kind="info" collapsed="false">
-  The Confluence connection is managed at the organization level, but the agent connector is enabled per documentation project. Connect once, then choose which projects can use it.
+  The Confluence connection belongs to your organization, but the switch is set per documentation project. To use Confluence in another project, open that project, go to **Agent Settings**, and turn on the Confluence switch.
 </Callout>
 
 ## How the AI agent uses Confluence
@@ -77,12 +75,11 @@ Use prompts like these when you want the AI agent to pull context from Confluenc
 Use these checks if the Confluence integration or project connector is not behaving as expected.
 
 <ExpandableGroup>
-  <Expandable title="Confluence not appearing in integrations" default-open="false">
-    If **Confluence** does not appear on the integrations page:
+  <Expandable title="Confluence card is missing from Agent Settings" default-open="false">
+    If you cannot find the **Confluence** card:
 
-    - Confirm you are viewing **Settings → Organization Settings → Integrations** as an organization or workspace admin.
-    - Check that your workspace has access to integrations in the current environment.
-    - Refresh the page after signing in again if your admin session has expired.
+    - Open **Agent Settings** from the **AI** section of the dashboard sidebar, and look in the **Connectors** section.
+    - Confirm you have the **Admin** or **Editor** role in your organization. Refresh the dashboard if your role changed recently.
   </Expandable>
 
   <Expandable title="Agent cannot find Confluence pages" default-open="false">
@@ -90,16 +87,12 @@ Use these checks if the Confluence integration or project connector is not behav
 
     - Confirm the connected Atlassian account can open those pages directly in Confluence.
     - Check whether the pages live in the expected space and whether your prompt includes enough detail, such as a space name, page title, or label.
-    - Verify the Confluence connector is enabled for the current documentation project, not only connected at the organization level.
+    - Check that the Confluence switch is on in **Agent Settings** for the current documentation project, not only connected for your organization.
     - Retry with a narrower prompt, such as asking for a specific space or topic, so the agent can form a more precise CQL query.
   </Expandable>
 
-  <Expandable title="Confluence connector toggle is missing for a project" default-open="false">
-    If the project-level Confluence toggle is missing:
-
-    - Confirm an organization-level Confluence connection already exists in **Settings → Organization Settings → Integrations**.
-    - Check that you are in **Settings → Integrations** for a documentation project, not in organization settings.
-    - Reopen the project settings after completing OAuth. New connections are attached automatically, but the page may need a refresh to show the available connector.
+  <Expandable title="Confluence switch is missing for a project" default-open="false">
+    The switch appears after Confluence is connected. If the card shows **Connect** instead, Confluence is not connected for your organization yet. Refresh **Agent Settings** after you finish connecting.
   </Expandable>
 </ExpandableGroup>
 

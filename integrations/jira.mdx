@@ -21,7 +21,7 @@ Make sure you have the access and project setup required to enable Jira for an A
 
 <Callout kind="info">
 
-- **Organization or workspace admin role** in Documentation.AI
+- **Admin or Editor role** in your Documentation.AI organization
 - **Atlassian account with Jira access** to the projects and issues you want the agent to read
 - **At least one documentation project** where you want to enable the Jira connector
 
@@ -29,46 +29,38 @@ Make sure you have the access and project setup required to enable Jira for an A
 
 ## Connect Jira
 
-Connect Jira once at the organization level, then enable the connector in each documentation project that should use it.
+Connect Jira once for your organization, then turn it on in each documentation project that should use it.
 
 <Steps>
-  <Step title="Open organization integrations" icon="settings">
+  <Step title="Open Agent Settings" icon="bot">
 
-  Go to **Settings** → **Organization Settings** → **Integrations**.
+  In the dashboard sidebar, under **AI**, click **Agent Settings**. The **Connectors** section lists the tools the agent can pull context from.
 
-  Find **Jira**, then click **Connect**.
+  If you are in the editor, you can click **Connectors** below the chat input instead. It opens the same list.
+
+  </Step>
+  <Step title="Click Connect on the Jira card" icon="plug">
+
+  Atlassian opens in the same tab. Sign in if Atlassian asks you to.
 
   </Step>
   <Step title="Complete the Atlassian OAuth flow" icon="lock">
 
-  Sign in to your Atlassian account and approve access.
+  Choose the Jira site and approve access.
 
-  After you finish the OAuth flow, Documentation.AI redirects you back to the dashboard.
-
-  **Success check:** the integrations page shows Jira as connected.
+  Atlassian sends you back to the page you started from, and "Connected successfully" appears.
 
   </Step>
-  <Step title="Enable Jira for a documentation project" icon="folder">
+  <Step title="Check that the connector is on" icon="toggle-right">
 
-  Go to **Settings** → **Integrations** inside the specific documentation project that should use Jira.
-
-  Turn on the **Jira agent connector** for that project.
-
-  **Success check:** the project now shows Jira as an enabled context source for the AI agent.
-
-  </Step>
-  <Step title="Verify the active connection" icon="check-circle">
-
-  Confirm the connection status shows as active.
-
-  You should also see the connected Jira site name and URL, which confirms the agent can use that Jira instance at runtime.
+  The Jira card now shows your Jira site name, **Manage**, and a switch that is on. Jira is now on for the documentation project you have open.
 
   </Step>
 </Steps>
 
 <Callout kind="info">
 
-The Jira OAuth connection is organization-level, but the Jira agent connector toggle is enabled per project. Connect once, then turn it on only in the projects that need Jira context.
+The Jira connection belongs to your organization, but the switch is set per documentation project. To use Jira in another project, open that project, go to **Agent Settings**, and turn on the Jira switch.
 
 </Callout>
 
@@ -103,44 +95,45 @@ Use prompts like these when you want the AI agent to pull context from Jira whil
 Fix most Jira connection problems by checking access, project settings, and the scope of the OAuth connection.
 
 <ExpandableGroup>
-  <Expandable title="Jira not appearing in integrations">
+  <Expandable title="Jira card is missing from Agent Settings">
 
-  - Confirm you are signed in as an **organization or workspace admin**.
-  - Open **Settings** → **Organization Settings** → **Integrations**, not the project-level integrations page.
-  - Refresh the dashboard after your role changes if you were recently granted admin access.
-  - If Jira still does not appear, ask another org admin to verify integrations are available for your workspace.
+  - Open **Agent Settings** from the **AI** section of the dashboard sidebar, and look in the **Connectors** section.
+  - Confirm you have the **Admin** or **Editor** role in your organization. Refresh the dashboard if your role changed recently.
 
   </Expandable>
   <Expandable title="Agent cannot find Jira issues">
 
-  - Confirm the Jira connector is enabled in the **specific documentation project** where you are running the agent.
+  - Confirm the Jira switch is on in **Agent Settings** for the **specific documentation project** where you are running the agent.
   - Check that the connected Atlassian account has access to the Jira project and issue keys you are referencing.
   - Verify the issue key and project key are correct, such as `DOCS-456` instead of a similar key from another project.
   - If you are using a search prompt, narrow the request with project names, labels, fix versions, or sprint context so the agent can build a more precise JQL query.
-  - Reconnect Jira if your Atlassian access changed recently and the OAuth grant no longer reflects current permissions.
+  - If the Manage dialog says the connection expired, click **Reconnect Jira** and approve access again.
 
   </Expandable>
-  <Expandable title="Jira connector toggle is missing for a project">
+  <Expandable title="Jira switch is missing for a project">
 
-  - Confirm Jira is already connected at the **organization level**.
-  - Check that you are inside a valid documentation project with integrations enabled.
-  - Make sure the project is not archived or restricted in a way that hides integration settings.
-  - If the organization-level connection exists but the toggle still does not appear, disconnect and reconnect Jira, then reload the project settings page.
+  - The switch appears after Jira is connected. If the card shows **Connect** instead, Jira is not connected for your organization yet.
+  - Refresh **Agent Settings** after you finish connecting.
 
   </Expandable>
 </ExpandableGroup>
 
-<Callout kind="info">
-
-Linear support is coming soon as an additional issue tracker context source with a similar setup flow.
-
-</Callout>
-
 ## What's next
 
-<Columns cols={2}>
-  <Card title="Integrations overview" href="/integrations/overview" icon="book-open" />
-  <Card title="Confluence integration" href="/integrations/confluence" icon="book-open" />
-  <Card title="AI Documentation Agent" href="/ai/ai-documentation-agent" icon="zap" />
-  <Card title="GitHub integration" href="/integrations/github" icon="github" />
+<Columns cols="2">
+  <Card title="Integrations overview" href="/integrations/overview" icon="book-open" cta="Open page" horizontal="false">
+
+  </Card>
+
+  <Card title="Confluence integration" href="/integrations/confluence" icon="book-open" cta="Open page" horizontal="false">
+
+  </Card>
+
+  <Card title="AI Documentation Agent" href="/ai/ai-documentation-agent" icon="zap" cta="Open page" horizontal="false">
+
+  </Card>
+
+  <Card title="GitHub integration" href="/integrations/github" icon="github" cta="Open page" horizontal="false">
+
+  </Card>
 </Columns>

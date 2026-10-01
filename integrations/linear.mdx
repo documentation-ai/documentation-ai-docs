@@ -1,0 +1,166 @@
+---
+title: Linear Integration
+description: >-
+  Connect Linear so the AI agent can read your issues, projects, and cycles
+  while it writes or updates documentation in the editor and in workflows.
+---
+Connect a Linear workspace to give the AI agent live context from your issues, projects, and cycles. The agent reads Linear only when a prompt needs it, so release notes and feature docs reflect what your team actually shipped. It never creates, changes, or deletes anything in Linear.
+
+<Callout kind="info" collapsed="false">
+  **Before you begin**
+
+  - You need the **Admin** or **Editor** role in your Documentation.AI organization to connect Linear, disconnect it, or turn the connector on or off.
+  - You need a Linear account in the workspace you want to connect. The agent can read whatever that account can see.
+  - Your organization can connect one Linear workspace.
+</Callout>
+
+## Web editor
+
+### How to connect Linear
+
+<Steps>
+  <Step title="Open Agent Settings" icon="bot" title-type="p">
+    In the dashboard sidebar, under **AI**, click **Agent Settings**. The **Connectors** section lists the tools the agent can pull context from.
+
+    If you are in the editor, you can click **Connectors** below the chat input instead. It opens the same list.
+  </Step>
+
+  <Step title="Click Connect on the Linear card" icon="plug" title-type="p">
+    Linear opens in the same tab. Sign in if Linear asks you to.
+  </Step>
+
+  <Step title="Approve access in Linear" icon="lock" title-type="p">
+    If you belong to more than one Linear workspace, choose the one to connect. Approve access.
+
+    Linear sends you back to the page you started from, and "Connected successfully" appears.
+  </Step>
+
+  <Step title="Check that the connector is on" icon="toggle-right" title-type="p">
+    The Linear card now shows your workspace name, **Manage**, and a switch that is on. Linear is now on for the documentation project you have open.
+  </Step>
+</Steps>
+
+The connection belongs to your organization. To use Linear in another documentation project, open that project, go to **Agent Settings**, and turn on the Linear switch.
+
+### How to use Linear in the editor
+
+<Steps>
+  <Step title="Check that Linear is on" icon="layers" title-type="p">
+    In the editor chat, look at the **Connectors** button below the chat input. The Linear icon appears there when the connector is on for this documentation project.
+  </Step>
+
+  <Step title="Ask for Linear context in your prompt" icon="message-square" title-type="p">
+    Name Linear and what to look for, such as a project, a team, a cycle, or an issue identifier like `ENG-123`. See [Example prompts](#example-prompts).
+
+    The agent reads the issues it needs, then answers or edits your pages.
+  </Step>
+</Steps>
+
+## Code editor (Git)
+
+### How to use Linear in a workflow
+
+Workflows run the agent in the background and commit their changes to your Git repository. They use the connectors that are on for the documentation project.
+
+<Steps>
+  <Step title="Open the workflow form" icon="zap" title-type="p">
+    In the dashboard sidebar, under **AI**, click **Workflows**. Click **Create workflow**, or open an existing workflow and click **Edit**.
+  </Step>
+
+  <Step title="Keep Linear selected" icon="list-checks" title-type="p">
+    Open **Connectors** in the form. Linear is selected by default. Clear its checkbox if you want this workflow to run without Linear.
+  </Step>
+
+  <Step title="Tell the workflow what to read from Linear" icon="text" title-type="p">
+    In **Prompt**, say what to read and what to update, for example: "Read the Linear issues completed this week in the API project and add them to the changelog."
+  </Step>
+</Steps>
+
+For triggers, schedules, and run history, see [Workflows](/ai/workflows).
+
+## Turn off or disconnect Linear
+
+To stop one documentation project from using Linear, turn off the switch on the Linear card in **Agent Settings**. "Linear connector disabled" appears. Other documentation projects keep using Linear.
+
+<Callout kind="danger" collapsed="false">
+  Disconnecting removes Linear from every documentation project in your organization, including the workflows that use it.
+</Callout>
+
+To disconnect Linear from your organization:
+
+<Steps>
+  <Step title="Open Manage" icon="settings" title-type="p">
+    On the Linear card, click **Manage**.
+  </Step>
+
+  <Step title="Disconnect" icon="trash-2" title-type="p">
+    Click the trash icon next to your workspace, then click **Disconnect** to confirm. "Linear disconnected" appears.
+  </Step>
+</Steps>
+
+## What the agent can read
+
+The agent reads Linear through these tools. It picks the tools that fit your prompt.
+
+| Tool | What it does |
+| --- | --- |
+| `searchIssues` | Searches issues by text in their titles and descriptions. |
+| `listIssues` | Lists issues by state, project, label, assignee, or priority. |
+| `getIssue` | Reads one issue by its identifier, such as `ENG-123`: description, state, assignee, team, labels, and project. |
+| `getIssueComments` | Reads the comments on an issue. |
+| `listProjects` | Lists the projects in the workspace. |
+| `getProject` | Reads a project's description, teams, members, and issues. |
+| `listTeams` | Lists the teams in the workspace. |
+| `listCycles` | Lists a team's cycles. |
+| `listCycleIssues` | Lists the issues in a cycle. |
+| `runQuery` | Runs a read-only query for data the other tools do not cover, such as Linear documents, project updates, and initiatives. |
+
+## Example prompts
+
+- *Read the Linear issues completed in the current cycle for the Platform team and write release notes.*
+- *Find Linear issues labeled `breaking-change` and update the migration guide.*
+- *Read ENG-482 and its comments, then document the new rate limit behavior.*
+- *Summarize the Mobile Onboarding project in Linear and draft a feature overview page.*
+
+## Common questions
+
+<ExpandableGroup>
+  <Expandable title="Does the agent change anything in Linear?" default-open="false">
+    No. The agent only reads. It has no tools that create, edit, or delete issues, comments, or projects.
+  </Expandable>
+
+  <Expandable title="Can teammates see Linear content they cannot open in Linear?" default-open="false">
+    Yes. The agent reads with the access of the account that connected Linear. Anyone who can use the agent in a documentation project where Linear is on can ask about that content. Connect with an account whose access suits everyone who uses the agent.
+  </Expandable>
+
+  <Expandable title="Can I connect a different Linear workspace?" default-open="false">
+    Your organization has one Linear connection. To switch workspaces, disconnect Linear, then connect again and choose the other workspace.
+  </Expandable>
+
+  <Expandable title="Why did the agent not use Linear?" default-open="false">
+    The agent uses Linear when your prompt needs it. Name Linear in the prompt, along with a project, team, cycle, or issue identifier.
+  </Expandable>
+</ExpandableGroup>
+
+## If Linear fails
+
+- **"Could not complete the connection"** or **"Failed to complete the connection"**: Click **Connect** on the Linear card again.
+- **"Connection could not be verified"**: Start again from the Linear card in **Agent Settings**, in the same browser tab.
+- **"connection expired"** in the Manage dialog: Click **Reconnect Linear** and approve access again.
+- **The agent says "No Linear workspace is connected to this organization"**: The agent shows this message whenever Linear is off for this documentation project, even if your organization is connected. Open **Agent Settings** in this project. If the Linear card shows **Connect**, connect Linear. If it shows a switch, turn it on. In a workflow, also check that Linear is selected under **Connectors** in the workflow form.
+
+## Related
+
+<Columns cols="3">
+  <Card title="AI Documentation Agent" href="/ai/ai-documentation-agent" icon="bot" horizontal="false">
+    Ask the agent to write and update pages.
+  </Card>
+
+  <Card title="Workflows" href="/ai/workflows" icon="zap" horizontal="false">
+    Run the agent on a schedule or on merge.
+  </Card>
+
+  <Card title="Integrations overview" href="/integrations/overview" icon="info" horizontal="false">
+    See every tool you can connect.
+  </Card>
+</Columns>

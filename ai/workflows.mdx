@@ -37,7 +37,7 @@ Workflows depend on your plan and repository connection setup. Confirm these req
 
   - Any repository you want to use as a trigger repo or context repo connected in Documentation.AI
 
-  - Optionally, connect [Jira](/integrations/jira) or [Confluence](/integrations/confluence) as additional context sources for the AI agent
+  - Optionally, connect [Jira](/integrations/jira), [Confluence](/integrations/confluence), [Linear](/integrations/linear), [Notion](/integrations/notion), [HubSpot](/integrations/hubspot), or [Plain](/integrations/plain) as additional context sources for the AI agent
 
   - Optionally, enable the **User & Agent Feedback** connector from Agent Settings to use the Self-Heal by User Feedback template
 </Callout>
@@ -137,7 +137,9 @@ Create your first workflow from the Workflows page in a few steps. The setup flo
   </Step>
 
   <Step title="Select connectors" icon="plug" title-type="p">
-    The workflow form includes a connector selector that lets you include or exclude specific connectors for this workflow: GitHub, Jira, Confluence, and User Feedback.
+    Open **Connectors** in the form. It lists every connector that is on for this documentation project, such as GitHub, Jira, Confluence, Linear, Notion, HubSpot, Plain, and User & Agent Feedback. Each one is selected by default. Clear a checkbox to leave that connector out of this workflow.
+
+    To connect or turn on another connector, click **Manage in Agent Settings**.
 
     If a template requires a connector that is not yet enabled, the create button prompts you to enable it before proceeding.
   </Step>
@@ -180,7 +182,7 @@ The **trigger repo** is the single repository tied to the workflow's repo-based 
 </Callout>
 
 <Callout kind="info" collapsed="false">
-  In addition to repository context, the AI agent can also read from connected [Jira](/integrations/jira) issues and [Confluence](/integrations/confluence) pages during workflow runs. Connect them from **Settings → Integrations** and enable them as agent connectors for your documentation project.
+  In addition to repository context, the AI agent can read from [Jira](/integrations/jira), [Confluence](/integrations/confluence), [Linear](/integrations/linear), [Notion](/integrations/notion), [HubSpot](/integrations/hubspot), and [Plain](/integrations/plain) during workflow runs. Connect them in **Agent Settings** and turn them on for your documentation project.
 </Callout>
 
 ## Review workflow runs

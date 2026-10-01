@@ -1,0 +1,170 @@
+---
+title: Notion Integration
+description: >-
+  Connect Notion so the AI agent can read the pages and databases you share
+  with it while it writes or updates documentation in the editor and in
+  workflows.
+---
+Connect a Notion workspace to give the AI agent live context from your specs, wiki pages, and databases. You choose which pages the agent can read when you connect. The agent reads them only when a prompt needs them, and it never edits anything in Notion.
+
+<Callout kind="info" collapsed="false">
+  **Before you begin**
+
+  - You need the **Admin** or **Editor** role in your Documentation.AI organization to connect Notion, disconnect it, or turn the connector on or off.
+  - You need a Notion account that can share the pages you want the agent to read.
+  - Your organization can connect one Notion workspace.
+</Callout>
+
+## Web editor
+
+### How to connect Notion
+
+<Steps>
+  <Step title="Open Agent Settings" icon="bot" title-type="p">
+    In the dashboard sidebar, under **AI**, click **Agent Settings**. The **Connectors** section lists the tools the agent can pull context from.
+
+    If you are in the editor, you can click **Connectors** below the chat input instead. It opens the same list.
+  </Step>
+
+  <Step title="Click Connect on the Notion card" icon="plug" title-type="p">
+    Notion opens in the same tab. Sign in if Notion asks you to.
+  </Step>
+
+  <Step title="Choose the pages to share" icon="file-check" title-type="p">
+    Choose the workspace, then select the pages and databases the agent can read. Sharing a page also shares the pages inside it. Approve access.
+
+    Notion sends you back to the page you started from, and "Connected successfully" appears.
+  </Step>
+
+  <Step title="Check that the connector is on" icon="toggle-right" title-type="p">
+    The Notion card now shows your workspace name, **Manage**, and a switch that is on. Notion is now on for the documentation project you have open.
+  </Step>
+</Steps>
+
+The connection belongs to your organization. To use Notion in another documentation project, open that project, go to **Agent Settings**, and turn on the Notion switch.
+
+### How to share more Notion pages
+
+The agent can only read pages you shared when you connected. To add pages, disconnect Notion, connect again, and select the extra pages in Notion's page picker. See [Turn off or disconnect Notion](#turn-off-or-disconnect-notion).
+
+### How to use Notion in the editor
+
+<Steps>
+  <Step title="Check that Notion is on" icon="layers" title-type="p">
+    In the editor chat, look at the **Connectors** button below the chat input. The Notion icon appears there when the connector is on for this documentation project.
+  </Step>
+
+  <Step title="Ask for Notion context in your prompt" icon="message-square" title-type="p">
+    Name Notion and the page or database to use. Notion search matches page titles, so use the title, or paste the page link. See [Example prompts](#example-prompts).
+
+    The agent reads the pages it needs, then answers or edits your pages.
+  </Step>
+</Steps>
+
+## Code editor (Git)
+
+### How to use Notion in a workflow
+
+Workflows run the agent in the background and commit their changes to your Git repository. They use the connectors that are on for the documentation project.
+
+<Steps>
+  <Step title="Open the workflow form" icon="zap" title-type="p">
+    In the dashboard sidebar, under **AI**, click **Workflows**. Click **Create workflow**, or open an existing workflow and click **Edit**.
+  </Step>
+
+  <Step title="Keep Notion selected" icon="list-checks" title-type="p">
+    Open **Connectors** in the form. Notion is selected by default. Clear its checkbox if you want this workflow to run without Notion.
+  </Step>
+
+  <Step title="Tell the workflow what to read from Notion" icon="text" title-type="p">
+    In **Prompt**, say what to read and what to update, for example: "Read the Notion pages in the Product Specs database edited this week and update the matching feature guides."
+  </Step>
+</Steps>
+
+For triggers, schedules, and run history, see [Workflows](/ai/workflows).
+
+## Turn off or disconnect Notion
+
+To stop one documentation project from using Notion, turn off the switch on the Notion card in **Agent Settings**. "Notion connector disabled" appears. Other documentation projects keep using Notion.
+
+<Callout kind="danger" collapsed="false">
+  Disconnecting removes Notion from every documentation project in your organization, including the workflows that use it.
+</Callout>
+
+To disconnect Notion from your organization:
+
+<Steps>
+  <Step title="Open Manage" icon="settings" title-type="p">
+    On the Notion card, click **Manage**.
+  </Step>
+
+  <Step title="Disconnect" icon="trash-2" title-type="p">
+    Click the trash icon next to your workspace, then click **Disconnect** to confirm. "Notion disconnected" appears.
+  </Step>
+</Steps>
+
+## What the agent can read
+
+The agent reads Notion through these tools. It picks the tools that fit your prompt.
+
+| Tool | What it does |
+| --- | --- |
+| `searchPages` | Searches shared pages by title. |
+| `searchWorkspace` | Searches shared pages and databases by title. |
+| `getPage` | Reads a page's properties, such as its title and, for a database row, its column values. |
+| `getPageContent` | Reads a page's body, with headings, lists, tables, code, and links. |
+| `listBlockChildren` | Lists the blocks on a page, including child pages and inline databases. |
+| `getDatabase` | Reads a database's title and data sources. |
+| `getDatabaseSchema` | Reads a database's columns and their options. |
+| `queryDatabase` | Lists the rows of a database, with an optional filter and sort. |
+| `getPageComments` | Reads the open comments on a page. |
+
+## Example prompts
+
+- *Read the "Billing v2" spec in Notion and draft a feature guide from it.*
+- *Find Notion pages in the Engineering Wiki about webhooks and update our webhook docs to match.*
+- *List the rows in the Release Tracker database marked Done this month and write release notes.*
+- *Read the open comments on the "Search API" page in Notion and list questions our docs should answer.*
+
+## Common questions
+
+<ExpandableGroup>
+  <Expandable title="Does the agent change anything in Notion?" default-open="false">
+    No. The agent only reads. It has no tools that create, edit, or delete pages, databases, or comments.
+  </Expandable>
+
+  <Expandable title="Can teammates see Notion pages they cannot open in Notion?" default-open="false">
+    Yes. The agent can read every page shared when Notion was connected. Anyone who can use the agent in a documentation project where Notion is on can ask about those pages. Share only the pages that suit everyone who uses the agent.
+  </Expandable>
+
+  <Expandable title="Why can't the agent find a page I know exists?" default-open="false">
+    Check that the page was shared when Notion was connected. Notion search matches page titles, not body text, so use the page title in your prompt, or paste the page link.
+  </Expandable>
+
+  <Expandable title="Can I connect a different Notion workspace?" default-open="false">
+    Your organization has one Notion connection. To switch workspaces, disconnect Notion, then connect again and choose the other workspace.
+  </Expandable>
+</ExpandableGroup>
+
+## If Notion fails
+
+- **"Could not complete the connection"** or **"Failed to complete the connection"**: Click **Connect** on the Notion card again.
+- **"Connection could not be verified"**: Start again from the Notion card in **Agent Settings**, in the same browser tab.
+- **"connection expired"** in the Manage dialog: Click **Reconnect Notion** and approve access again.
+- **The agent says "No Notion workspace is connected to this organization"**: The agent shows this message whenever Notion is off for this documentation project, even if your organization is connected. Open **Agent Settings** in this project. If the Notion card shows **Connect**, connect Notion. If it shows a switch, turn it on. In a workflow, also check that Notion is selected under **Connectors** in the workflow form.
+
+## Related
+
+<Columns cols="3">
+  <Card title="AI Documentation Agent" href="/ai/ai-documentation-agent" icon="bot" horizontal="false">
+    Ask the agent to write and update pages.
+  </Card>
+
+  <Card title="Workflows" href="/ai/workflows" icon="zap" horizontal="false">
+    Run the agent on a schedule or on merge.
+  </Card>
+
+  <Card title="Integrations overview" href="/integrations/overview" icon="info" horizontal="false">
+    See every tool you can connect.
+  </Card>
+</Columns>

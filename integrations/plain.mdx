@@ -1,0 +1,167 @@
+---
+title: Plain Integration
+description: >-
+  Connect Plain so the AI agent can read support threads, customers, and help
+  center articles while it writes or updates documentation in the editor and
+  in workflows.
+---
+Connect a Plain workspace to give the AI agent live context from your support threads and help center. The agent uses them to find the questions customers ask that your docs miss. It reads Plain only when a prompt needs it, and it never changes anything in Plain.
+
+<Callout kind="info" collapsed="false">
+  **Before you begin**
+
+  - You need the **Admin** or **Editor** role in your Documentation.AI organization to connect Plain, disconnect it, or turn the connector on or off.
+  - You need a Plain account in the workspace you want to connect. The agent can read whatever that account can see.
+  - Your organization can connect one Plain workspace.
+</Callout>
+
+## Web editor
+
+### How to connect Plain
+
+<Steps>
+  <Step title="Open Agent Settings" icon="bot" title-type="p">
+    In the dashboard sidebar, under **AI**, click **Agent Settings**. The **Connectors** section lists the tools the agent can pull context from.
+
+    If you are in the editor, you can click **Connectors** below the chat input instead. It opens the same list.
+  </Step>
+
+  <Step title="Click Connect on the Plain card" icon="plug" title-type="p">
+    Plain opens in the same tab. Sign in if Plain asks you to.
+  </Step>
+
+  <Step title="Choose your workspace and approve access" icon="lock" title-type="p">
+    When Plain asks, choose the workspace to connect. Approve access.
+
+    Plain sends you back to the page you started from, and "Connected successfully" appears.
+  </Step>
+
+  <Step title="Check that the connector is on" icon="toggle-right" title-type="p">
+    The Plain card now shows **Manage** and a switch that is on. Plain is now on for the documentation project you have open.
+  </Step>
+</Steps>
+
+The connection belongs to your organization. To use Plain in another documentation project, open that project, go to **Agent Settings**, and turn on the Plain switch.
+
+### How to use Plain in the editor
+
+<Steps>
+  <Step title="Check that Plain is on" icon="layers" title-type="p">
+    In the editor chat, look at the **Connectors** button below the chat input. The Plain icon appears there when the connector is on for this documentation project.
+  </Step>
+
+  <Step title="Ask for Plain context in your prompt" icon="message-square" title-type="p">
+    Name Plain and what to look for, such as a topic, a label, a customer, or a time range. Plain search matches whole words, so include the spellings customers use, for example "login" and "log in". See [Example prompts](#example-prompts).
+
+    The agent reads the threads it needs, then answers or edits your pages.
+  </Step>
+</Steps>
+
+## Code editor (Git)
+
+### How to use Plain in a workflow
+
+Workflows run the agent in the background and commit their changes to your Git repository. They use the connectors that are on for the documentation project.
+
+<Steps>
+  <Step title="Open the workflow form" icon="zap" title-type="p">
+    In the dashboard sidebar, under **AI**, click **Workflows**. Click **Create workflow**, or open an existing workflow and click **Edit**.
+  </Step>
+
+  <Step title="Keep Plain selected" icon="list-checks" title-type="p">
+    Open **Connectors** in the form. Plain is selected by default. Clear its checkbox if you want this workflow to run without Plain.
+  </Step>
+
+  <Step title="Tell the workflow what to read from Plain" icon="text" title-type="p">
+    In **Prompt**, say what to read and what to update, for example: "Read the Plain threads labeled docs that were closed this week and add the answers to the troubleshooting guide."
+  </Step>
+</Steps>
+
+For triggers, schedules, and run history, see [Workflows](/ai/workflows).
+
+## Turn off or disconnect Plain
+
+To stop one documentation project from using Plain, turn off the switch on the Plain card in **Agent Settings**. "Plain connector disabled" appears. Other documentation projects keep using Plain.
+
+<Callout kind="danger" collapsed="false">
+  Disconnecting removes Plain from every documentation project in your organization, including the workflows that use it.
+</Callout>
+
+To disconnect Plain from your organization:
+
+<Steps>
+  <Step title="Open Manage" icon="settings" title-type="p">
+    On the Plain card, click **Manage**.
+  </Step>
+
+  <Step title="Disconnect" icon="trash-2" title-type="p">
+    Click the trash icon next to your workspace, then click **Disconnect** to confirm. "Plain disconnected" appears.
+  </Step>
+</Steps>
+
+## What the agent can read
+
+The agent reads Plain through these tools. It picks the tools that fit your prompt.
+
+| Tool | What it does |
+| --- | --- |
+| `searchThreads` | Searches support threads by text in their titles, descriptions, and messages. |
+| `listThreads` | Lists threads by status, priority, label, customer, or creation date. |
+| `getThread` | Reads a thread's timeline: customer messages, replies, internal notes, and status changes. |
+| `listLabels` | Lists the labels in the workspace. |
+| `listHelpCenters` | Lists the workspace's help centers. |
+| `listHelpCenterArticles` | Lists the articles in a help center. |
+| `getHelpCenterArticle` | Reads a help center article. |
+| `searchCustomers` | Searches customers by name or email. |
+| `getCustomer` | Reads a customer's profile. |
+
+## Example prompts
+
+- *Search Plain threads from the last 30 days about API keys and list the questions our docs do not answer.*
+- *Read the Plain threads labeled billing and add a troubleshooting section to the billing guide.*
+- *Compare our Plain help center articles with our docs and list topics that only the help center covers.*
+- *Find Plain threads about "login" or "log in" errors and update the sign-in troubleshooting page.*
+
+## Common questions
+
+<ExpandableGroup>
+  <Expandable title="Does the agent change anything in Plain?" default-open="false">
+    No. The agent only reads. It has no tools that create, edit, or reply to threads, customers, or articles.
+  </Expandable>
+
+  <Expandable title="Why did the agent miss threads I know exist?" default-open="false">
+    Plain search matches whole words, so "login" does not find "log in". Include the spellings customers use, or name a label, customer, or time range instead.
+  </Expandable>
+
+  <Expandable title="Can teammates see Plain threads they cannot open in Plain?" default-open="false">
+    Yes. The agent reads with the access of the account that connected Plain. Anyone who can use the agent in a documentation project where Plain is on can ask about those threads. Customer details can appear in the agent's answers, so review drafts before you publish them.
+  </Expandable>
+
+  <Expandable title="Can I connect a different Plain workspace?" default-open="false">
+    Your organization has one Plain connection. To switch workspaces, disconnect Plain, then connect again and choose the other workspace.
+  </Expandable>
+</ExpandableGroup>
+
+## If Plain fails
+
+- **The agent says "Plain is connected without a workspace"**: Disconnect Plain, connect again, and choose a workspace when Plain asks.
+- **"Could not complete the connection"** or **"Failed to complete the connection"**: Click **Connect** on the Plain card again.
+- **"Connection could not be verified"**: Start again from the Plain card in **Agent Settings**, in the same browser tab.
+- **"connection expired"** in the Manage dialog: Click **Reconnect Plain** and approve access again.
+- **The agent says "No Plain workspace is connected to this organization"**: The agent shows this message whenever Plain is off for this documentation project, even if your organization is connected. Open **Agent Settings** in this project. If the Plain card shows **Connect**, connect Plain. If it shows a switch, turn it on. In a workflow, also check that Plain is selected under **Connectors** in the workflow form.
+
+## Related
+
+<Columns cols="3">
+  <Card title="AI Documentation Agent" href="/ai/ai-documentation-agent" icon="bot" horizontal="false">
+    Ask the agent to write and update pages.
+  </Card>
+
+  <Card title="Workflows" href="/ai/workflows" icon="zap" horizontal="false">
+    Run the agent on a schedule or on merge.
+  </Card>
+
+  <Card title="Integrations overview" href="/integrations/overview" icon="info" horizontal="false">
+    See every tool you can connect.
+  </Card>
+</Columns>

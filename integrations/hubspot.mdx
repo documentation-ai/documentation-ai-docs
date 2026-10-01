@@ -1,0 +1,164 @@
+---
+title: HubSpot Integration
+description: >-
+  Connect HubSpot so the AI agent can read support tickets, notes, contacts,
+  and companies while it writes or updates documentation in the editor and in
+  workflows.
+---
+Connect a HubSpot account to give the AI agent live context from your support tickets and CRM records. The agent uses them to find the questions customers keep asking, so you can write docs that answer them. It reads HubSpot only when a prompt needs it, and it never changes anything in HubSpot.
+
+<Callout kind="info" collapsed="false">
+  **Before you begin**
+
+  - You need the **Admin** or **Editor** role in your Documentation.AI organization to connect HubSpot, disconnect it, or turn the connector on or off.
+  - You need a HubSpot user who can install apps in the HubSpot account you want to connect.
+  - Your organization can connect one HubSpot account.
+</Callout>
+
+## Web editor
+
+### How to connect HubSpot
+
+<Steps>
+  <Step title="Open Agent Settings" icon="bot" title-type="p">
+    In the dashboard sidebar, under **AI**, click **Agent Settings**. The **Connectors** section lists the tools the agent can pull context from.
+
+    If you are in the editor, you can click **Connectors** below the chat input instead. It opens the same list.
+  </Step>
+
+  <Step title="Click Connect on the HubSpot card" icon="plug" title-type="p">
+    HubSpot opens in the same tab. Sign in if HubSpot asks you to.
+  </Step>
+
+  <Step title="Approve access in HubSpot" icon="lock" title-type="p">
+    If you have more than one HubSpot account, choose the one to connect. Approve access.
+
+    HubSpot sends you back to the page you started from, and "Connected successfully" appears.
+  </Step>
+
+  <Step title="Check that the connector is on" icon="toggle-right" title-type="p">
+    The HubSpot card now shows your account name, **Manage**, and a switch that is on. HubSpot is now on for the documentation project you have open.
+  </Step>
+</Steps>
+
+The connection belongs to your organization. To use HubSpot in another documentation project, open that project, go to **Agent Settings**, and turn on the HubSpot switch.
+
+### How to use HubSpot in the editor
+
+<Steps>
+  <Step title="Check that HubSpot is on" icon="layers" title-type="p">
+    In the editor chat, look at the **Connectors** button below the chat input. The HubSpot icon appears there when the connector is on for this documentation project.
+  </Step>
+
+  <Step title="Ask for HubSpot context in your prompt" icon="message-square" title-type="p">
+    Name HubSpot and what to look for, such as a topic, a time range, a pipeline stage, or a customer. See [Example prompts](#example-prompts).
+
+    The agent reads the tickets and records it needs, then answers or edits your pages.
+  </Step>
+</Steps>
+
+## Code editor (Git)
+
+### How to use HubSpot in a workflow
+
+Workflows run the agent in the background and commit their changes to your Git repository. They use the connectors that are on for the documentation project.
+
+<Steps>
+  <Step title="Open the workflow form" icon="zap" title-type="p">
+    In the dashboard sidebar, under **AI**, click **Workflows**. Click **Create workflow**, or open an existing workflow and click **Edit**.
+  </Step>
+
+  <Step title="Keep HubSpot selected" icon="list-checks" title-type="p">
+    Open **Connectors** in the form. HubSpot is selected by default. Clear its checkbox if you want this workflow to run without HubSpot.
+  </Step>
+
+  <Step title="Tell the workflow what to read from HubSpot" icon="text" title-type="p">
+    In **Prompt**, say what to read and what to update, for example: "Read the HubSpot tickets created in the last 7 days, find questions our docs do not answer, and add them to the FAQ."
+  </Step>
+</Steps>
+
+For triggers, schedules, and run history, see [Workflows](/ai/workflows).
+
+## Turn off or disconnect HubSpot
+
+To stop one documentation project from using HubSpot, turn off the switch on the HubSpot card in **Agent Settings**. "HubSpot connector disabled" appears. Other documentation projects keep using HubSpot.
+
+<Callout kind="danger" collapsed="false">
+  Disconnecting removes HubSpot from every documentation project in your organization, including the workflows that use it.
+</Callout>
+
+To disconnect HubSpot from your organization:
+
+<Steps>
+  <Step title="Open Manage" icon="settings" title-type="p">
+    On the HubSpot card, click **Manage**.
+  </Step>
+
+  <Step title="Disconnect" icon="trash-2" title-type="p">
+    Click the trash icon next to your account, then click **Disconnect** to confirm. "HubSpot disconnected" appears.
+  </Step>
+</Steps>
+
+## What the agent can read
+
+The agent reads HubSpot through these tools. It picks the tools that fit your prompt.
+
+| Tool | What it does |
+| --- | --- |
+| `searchTickets` | Searches support tickets by text, pipeline stage, date range, or customer. |
+| `getTicket` | Reads one ticket: subject, content, pipeline, stage, priority, owner, and dates. |
+| `listTicketPipelines` | Lists ticket pipelines and their stages. |
+| `searchNotes` | Searches the notes logged on tickets, contacts, and companies. |
+| `searchContacts` | Searches contacts by name or email. |
+| `searchCompanies` | Searches companies by name or domain. |
+| `listOwners` | Lists HubSpot users, so the agent can tell who owns a ticket or wrote a note. |
+
+## Example prompts
+
+- *Search HubSpot tickets from the last 30 days about SSO and list the questions our docs do not answer.*
+- *Read the closed HubSpot tickets about webhooks and add a troubleshooting section to the webhooks guide.*
+- *Find the HubSpot tickets from Acme Corp and summarize the setup problems they reported.*
+- *Read the notes on ticket 18342 and update the billing FAQ with the fix the team gave.*
+
+## Common questions
+
+<ExpandableGroup>
+  <Expandable title="Does the agent change anything in HubSpot?" default-open="false">
+    No. The agent only reads. It has no tools that create, edit, or delete tickets, notes, contacts, or companies.
+  </Expandable>
+
+  <Expandable title="Can the agent read HubSpot inbox conversations?" default-open="false">
+    Not yet. The agent reads tickets, the notes on them, and CRM records. Chat and email threads in the HubSpot inbox are not available.
+  </Expandable>
+
+  <Expandable title="Can teammates see HubSpot records they cannot open in HubSpot?" default-open="false">
+    Yes. Anyone who can use the agent in a documentation project where HubSpot is on can ask about the connected account's tickets and records. Customer details can appear in the agent's answers, so review drafts before you publish them.
+  </Expandable>
+
+  <Expandable title="Can I connect a different HubSpot account?" default-open="false">
+    Your organization has one HubSpot connection. To switch accounts, disconnect HubSpot, then connect again and choose the other account.
+  </Expandable>
+</ExpandableGroup>
+
+## If HubSpot fails
+
+- **"Could not complete the connection"** or **"Failed to complete the connection"**: Click **Connect** on the HubSpot card again.
+- **"Connection could not be verified"**: Start again from the HubSpot card in **Agent Settings**, in the same browser tab.
+- **"connection expired"** in the Manage dialog: Click **Reconnect HubSpot** and approve access again.
+- **The agent says "No HubSpot account is connected to this organization"**: The agent shows this message whenever HubSpot is off for this documentation project, even if your organization is connected. Open **Agent Settings** in this project. If the HubSpot card shows **Connect**, connect HubSpot. If it shows a switch, turn it on. In a workflow, also check that HubSpot is selected under **Connectors** in the workflow form.
+
+## Related
+
+<Columns cols="3">
+  <Card title="AI Documentation Agent" href="/ai/ai-documentation-agent" icon="bot" horizontal="false">
+    Ask the agent to write and update pages.
+  </Card>
+
+  <Card title="Workflows" href="/ai/workflows" icon="zap" horizontal="false">
+    Run the agent on a schedule or on merge.
+  </Card>
+
+  <Card title="Integrations overview" href="/integrations/overview" icon="info" horizontal="false">
+    See every tool you can connect.
+  </Card>
+</Columns>

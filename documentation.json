@@ -605,6 +605,26 @@
                 "icon": "list-todo"
               },
               {
+                "title": "Linear",
+                "path": "integrations/linear",
+                "icon": "kanban"
+              },
+              {
+                "title": "Notion",
+                "path": "integrations/notion",
+                "icon": "notebook-text"
+              },
+              {
+                "title": "HubSpot",
+                "path": "integrations/hubspot",
+                "icon": "contact"
+              },
+              {
+                "title": "Plain",
+                "path": "integrations/plain",
+                "icon": "messages-square"
+              },
+              {
                 "group": "Analytics",
                 "icon": "trending-up",
                 "pages": [

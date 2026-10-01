@@ -2,6 +2,55 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-09-22" description="PDF export, dimension-aware search, AI assistant context, media management, and collaboration fixes" tags={["feature","improvement","fix"]}>
+  ## PDF Export
+
+  You can now export your entire documentation site as a PDF. PDF export is available on Professional and Enterprise plans and works with both subdomain and custom-domain deployments — no active subdomain is required.
+
+  **Reliability and performance improvements:**
+
+  - Large PDFs are merged through disk streaming instead of memory, preventing timeouts on documentation-heavy sites.
+  - When a page fails to render, the export skips that page and completes the rest — failed batches are split into individual pages on the final retry so as many pages as possible are retained.
+  - Abandoned or stuck exports are detected and cleaned up automatically, so nothing stays in a pending state indefinitely.
+  - Images are requested at print-appropriate dimensions (1400px) instead of originals, preventing timeouts on image-heavy pages.
+  - The Atlas theme's sticky header and scrollable containers no longer clip PDF pagination — print styles now produce complete page output.
+
+  ## Dimension-Aware Search
+
+  Site search is now dimension-aware. When readers search, results are prioritized to match their current product, version, and language context. Results from other dimensions appear under grouped **Also in** headings so they remain discoverable without cluttering the primary results. A strict-dimension mode is available for tightly scoped searches. See [Dimensions](/organize/dimensions) for background on how dimensions define context.
+
+  ## AI Assistant Improvements
+
+  The AI Assistant is smarter about context and more resilient:
+
+  - **Page context** — Each chat request now includes the reader's current page path, page title, and resolved product, version, and language. This enables more relevant "this page" questions and dimension-scoped retrieval. Context is resolved at send time, so navigation updates are reflected immediately.
+  - **Cross-dimension citations** — When a citation references content from a different product, version, or language, an info indicator appears showing the source location on hover or touch. See [AI Assistant](/ai/ai-assistant) for details.
+  - **Dimension-change indicators** — A visual divider marks where a reader switches context mid-conversation, helping track how replies relate to the current context.
+  - **Stream recovery** — Improved retry logic with progressive intervals (immediate, 2s, 5s, 10s), retries before the first response chunk, throttled chunk rendering for smoother display, and optimized local persistence that no longer stores full chat transcripts.
+
+  ## Media Management via MCP and REST API
+
+  The documentation agent can now manage media through MCP and the REST API:
+
+  - List, search, import from URL, upload via signed links, replace, and delete media — all exposed as agent-facing MCP tools and REST endpoints.
+  - URL-based image imports from public HTTPS URLs with SSRF, redirect, size, and content-type validation.
+  - Agent-generated upload links with a dedicated request page so agents can request media from users during a session.
+  - Paginated, searchable image and SVG pickers with bulk-delete support (batches of up to 100 files).
+  - Plan-aware upload size validation for images, videos/audio, and documents.
+
+  See [MCP Server](/ai/mcp-server) and [AI Documentation Agent](/ai/ai-documentation-agent) for more on agent capabilities.
+
+  ## Editor and Collaboration
+
+  - Fixed the collaborative editor displaying stale content after completing a Git merge. The editor now reconciles against the merge commit and navigates through the workspace-loading flow so the collaboration tree is refreshed.
+  - Unpublished edits on unrelated files are preserved during merge reconciliation — a dirty file no longer blocks the entire branch.
+
+  ## Other Fixes
+
+  - Table-of-contents anchors now correctly decode HTML character references (such as `&quot;`) in Step and Update titles, fixing TOC mismatches for headings with special characters.
+  - Improved canonical URL and initial-route handling across protected pages, sitemaps, and metadata — the configured initial route (or first navigation page) is used consistently site-wide.
+</Update>
+
 <Update label="2026-04-10" description="Collections, container pages, JWT/OAuth access control, and cookie consent" tags={["feature"]}>
   ## CollectionList and CollectionContent components
 
@@ -14,9 +63,7 @@ description: 'Changes, fixes, and improvements across versions'
   **When to use them**
 
   - You want a help center, knowledge base, or support hub layout where users browse by topic rather than following a fixed sidebar.
-
   - You need a category landing page that groups related articles visually, similar to Zendesk, Intercom, or Freshdesk help centers.
-
   - You want to complement your main documentation with a self-service support section that feels distinct from your API reference or guides.
 
   Together, these components let you create the classic help center pattern, a top-level collection grid that drills down into per-topic article lists, without leaving Documentation.AI or writing custom code.
@@ -45,7 +92,7 @@ description: 'Changes, fixes, and improvements across versions'
 
   ## Site Config Moved to Editor
 
-  Documentation configuration i.e  theme, branding, SEO, navigation, integrations, scripts, and more  is now accessible directly from the Editor instead of Settings. Click **Site Config** in the Editor top toolbar. Changes appear in the Changes panel alongside content edits and deploy when you publish. Learn more in <a href="/customize/site-configuration" target="_blank" rel="noopener noreferrer">Site Configuration</a>.
+  Documentation configuration i.e  theme, branding, SEO, navigation, integrations, scripts, and more  is now accessible directly from the Editor instead of Settings. Click **Site Config** in the Editor top toolbar. Changes appear in the Changes panel alongside content edits and deploy when you publish. Learn more in [Site Configuration](/customize/site-configuration).
 </Update>
 
 <Update label="2026-03-12" description="API Playground request formats, security UI, and GitHub context UX" tags={["improvement","fix"]}>
@@ -67,7 +114,7 @@ description: 'Changes, fixes, and improvements across versions'
 
   ## API Playground
 
-  You’re no longer limited to generating API docs only from your OpenAPI spec. You now have more control over each API page, for example, you can embed a playground for a specific endpoint from your OpenAPI spec, and then customize the rest of the page content manually; see <a href="https://documentation.ai/docs/api-documentation-and-playground/openapi-import" target="_blank" rel="noopener noreferrer">API Documentation</a>
+  You’re no longer limited to generating API docs only from your OpenAPI spec. You now have more control over each API page, for example, you can embed a playground for a specific endpoint from your OpenAPI spec, and then customize the rest of the page content manually; see [API Documentation](https://documentation.ai/docs/api-documentation-and-playground/openapi-import)
 
   ## Page Feedback
 
@@ -80,11 +127,8 @@ description: 'Changes, fixes, and improvements across versions'
   ## Other improvements
 
   - Add helper text to password-gated pages with markdown support, including inline links; see [Access Control](/customize/access-control/overview).
-
   - Enable click-to-zoom on images so readers can inspect diagrams and screenshots in more detail.
-
   - The API Playground now uses OpenAPI `example` values to prefill parameter inputs so readers can run operations with realistic defaults.
-
   - Many other bug fixes and minor improvements
 </Update>
 
@@ -96,17 +140,11 @@ description: 'Changes, fixes, and improvements across versions'
   **Access levels and example use cases**
 
   - **Public** — Make your entire documentation site visible to anyone.
-
     - Ideal for fully public product docs and API reference that should be discoverable by customers and search engines.
-
   - **Partial** — Keep few docs public and few docs private.&#x20;
-
     - Gate a few pages for internal teams such as Support, Success, or Sales while keeping the rest of your docs public.
-
   - **Private** — Require authentication for all documentation.
-
     - Store internal code documentation, architecture notes, and engineering guides.
-
     - Centralize internal SOPs, runbooks, and operational checklists for on-call and support teams.
 </Update>
 
@@ -118,15 +156,12 @@ description: 'Changes, fixes, and improvements across versions'
   **Available Templates**
 
   - **Classic** - Traditional documentation layout with a clean, focused reading experience. Ideal for technical documentation and API references.
-
   - **Atlas** - Modern, visually rich layout with enhanced navigation and content presentation. Perfect for product documentation and user guides.
 
   **How to use**
 
   - Select templates from **Settings → General → Brand & Theme** in your dashboard
-
   - Configure templates directly in your `documentation.json` file using the `template` property
-
   - Further customize your selected template with colors, typography, branding, and navigation settings
 
   Learn more in our [Templates documentation](/customize/templates).
@@ -136,9 +171,7 @@ description: 'Changes, fixes, and improvements across versions'
   The default docs domain is migrating from `*.documentationai.io` to `*.documentatioai.com`.
 
   - Existing links automatically redirect; no action needed for most users.
-
   - Update references only if you hard‑code the old domain in firewalls, allowlists, scripts, or integrations.
-
   - Custom domains are unaffected and will continue to work as usual.&#x20;
 </Update>
 
@@ -154,21 +187,15 @@ description: 'Changes, fixes, and improvements across versions'
   \*\*What can you do today? \*\*
 
   - Draft new documentation pages from scratch or from short briefs.
-
   - Make existing docs more visually appealing using rich components (Cards, Columns, Callouts, Tabs, Steps, and more).
-
   - Generate and refine code samples or usage snippets for your APIs and SDKs.
-
   - Use web search inside the agent to bring in up-to-date external information when needed.
 
   **Current limitations (beta)**
 
   - The agent is currently available only on the web. You can use coding agents like Cursor or GitHub Copilot if you are updating using an IDE.
-
   - The agent understands Documentation.AI’s visual components and documentation structure, but does **not** yet take context from your codebases or support systems; these integrations are coming soon.
-
   - The agent cannot yet run in the background or autonomously; background workflows are coming soon.
-
   - All AI-generated content should be reviewed and edited before publishing
 </Update>
 
@@ -180,11 +207,7 @@ description: 'Changes, fixes, and improvements across versions'
   **Key capabilities**
 
   - MCP server for your docs is available by default when you publish your documentation
-
   - Let end users, IDE agents, and chat assistants query your docs through an MCP endpoint you control
-
   - Use structured page and API metadata to give agents more grounded and context‑aware responses
-
   - Help product teams deliver LLM‑native support and troubleshooting experiences directly inside their apps
 </Update>
-

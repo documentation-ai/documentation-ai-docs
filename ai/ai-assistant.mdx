@@ -69,6 +69,32 @@ If an answer cannot be strongly supported by what’s in your docs, the assistan
 
 - Indicate that it doesn’t have enough information, instead of fabricating details.
 
+## Dimension-Aware Features
+
+When your documentation uses [dimensions](/organize/dimensions) — products, versions, or languages — the AI Assistant uses the reader's current dimension context to provide more relevant answers and clearer citations.
+
+### Page Context
+
+When a reader sends a chat message, the assistant now receives the reader's current page path, page title, and resolved product, version, and language. This context is resolved at the time the message is sent, so the assistant always has accurate, up-to-date context about where the reader is — even if they navigated since the conversation started.
+
+<Callout kind="info" collapsed="false">
+  This happens automatically. Readers do not need to take any action, and it works across all documentation pages.
+</Callout>
+
+### Cross-Dimension Citations
+
+When a citation references content from a different product, version, or language than the reader's current context, an info indicator appears next to the citation. The reader can hover (or touch on mobile) to see the source location — which product, version, or language the citation comes from. This helps readers understand when an answer draws from a different context and whether it applies to their situation.
+
+See [Dimensions](/organize/dimensions) to learn more about how dimensions organize your documentation.
+
+### Dimension-Change Indicators
+
+When a reader switches product, version, or language mid-conversation, a visual divider is inserted into the conversation marking where the context changed. This helps readers track how replies relate to their current context, especially when exploring documentation across multiple products or versions.
+
+<Callout kind="info" collapsed="false">
+  This is especially useful when a reader's question spans multiple products or when they are comparing features across versions.
+</Callout>
+
 ## Where users access the assistant
 
 The assistant appears in your documentation as an **Ask AI** entry point.

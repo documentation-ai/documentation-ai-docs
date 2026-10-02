@@ -64,14 +64,29 @@
             "expandable": true,
             "pages": [
               {
-                "title": "Web Editor",
-                "path": "write-and-publish/web-editor",
-                "icon": "globe"
+                "group": "Helpfull Prompts",
+                "pages": [
+                  {
+                    "title": "Using Cursor",
+                    "path": "write-and-publish/cursor",
+                    "icon": "lucide-text-cursor"
+                  },
+                  {
+                    "title": "Code Editor",
+                    "path": "write-and-publish/code-editor",
+                    "icon": "code"
+                  },
+                  {
+                    "title": "Web Editor",
+                    "path": "write-and-publish/web-editor",
+                    "icon": "globe"
+                  }
+                ],
+                "path": "write-and-publish/prompts"
               },
               {
-                "title": "Code Editor",
-                "path": "write-and-publish/code-editor",
-                "icon": "code"
+                "group": "new page group",
+                "pages": []
               },
               {
                 "group": "Components",
@@ -171,19 +186,9 @@
                 "icon": "component"
               },
               {
-                "title": "Using Cursor",
-                "path": "write-and-publish/cursor",
-                "icon": "lucide-text-cursor"
-              },
-              {
                 "title": "Using Claude Code",
                 "path": "write-and-publish/claude-code",
                 "icon": "a-large-small-icon"
-              },
-              {
-                "title": "Helpful Prompts",
-                "path": "write-and-publish/prompts",
-                "icon": "check-circle"
               }
             ]
           },

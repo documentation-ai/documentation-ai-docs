@@ -1,8 +1,9 @@
 ---
 title: External Sources
-description: Upload PDFs and add websites as knowledge sources the AI Assistant can answer from, alongside your published documentation.
+description: >-
+  Upload PDFs and add websites as knowledge sources the AI Assistant can answer
+  from, alongside your published documentation.
 ---
-
 ## Extend the AI Assistant's knowledge
 
 Extend the AI Assistant's knowledge beyond your published documentation by adding PDFs and websites as external sources. The assistant searches these sources alongside your docs and cites them in its answers.
@@ -11,24 +12,22 @@ Extend the AI Assistant's knowledge beyond your published documentation by addin
 
 External Sources indexes PDF files and website content for the AI Assistant. The assistant extracts the content, divides it into searchable chunks, and adds embeddings to the search index alongside your documentation.
 
-Configure sources in the dashboard under **Agent Settings** → **AI Assistant** → **External Sources**.
+Configure sources in the dashboard under **AI Assistant** → **Knowledge** → **External Sources**.
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1791195770744-0j0hpfsgfi5k-external-sources-pane.png?fm=auto&auto=compress%2Cformat" width="1827" height="465" alt="External Sources page in the dashboard, with pages used out of the plan's page budget and an empty state with an Upload source button" caption="External Sources in the dashboard, before any source is added." />
 
 <Callout kind="info" collapsed="false">
-
-External Sources are managed in the dashboard. You do not configure them in `documentation.json`, and external content does not appear in your published documentation.
-
+  External Sources are managed in the dashboard. You do not configure them in `documentation.json`, and external content does not appear in your published documentation.
 </Callout>
 
 ## Prerequisites
 
 <Callout kind="alert" collapsed="false">
+  You need all of the following before you add external sources:
 
-You need all of the following before you add external sources:
-
-- A **Standard** plan or higher
-- Available page budget for the documentation project
-- An understanding that PDFs and websites use the same shared page budget
-
+  - A **Standard** plan or higher
+  - Available page budget for the documentation project
+  - An understanding that PDFs and websites use the same shared page budget
 </Callout>
 
 ## Add a PDF source
@@ -37,46 +36,38 @@ Upload one or more text-based PDF files to make their content available to the A
 
 <Steps>
   <Step title="Open External Sources" icon="home" title-type="p">
-
-    In the dashboard, go to **Agent Settings** → **AI Assistant** → **External Sources**.
-
+    In the dashboard, go to **AI Assistant** → **Knowledge** → **External Sources**.
   </Step>
 
   <Step title="Choose the PDF upload flow" icon="upload" title-type="p">
-
     Click **Upload source**, then select the **PDF** tab.
-
   </Step>
 
   <Step title="Select your PDF files" icon="folder" title-type="p">
-
     Drag and drop PDF files into the upload area, or click **Browse** to select them from your computer. You can select up to 10 files in one upload.
 
+    <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1791195777875-kofc1fdv7f-upload-source-pdfs-chosen.png?fm=auto&auto=compress%2Cformat" width="560" height="490" alt="Upload source dialog with seven PDFs chosen, each with a remove button, and an Upload 7 PDFs button" caption="Chosen PDFs are listed before upload. Remove any you do not want." />
   </Step>
 
   <Step title="Review the page budget" icon="bar-chart" title-type="p">
-
     The browser checks each file against the remaining page budget before uploading. Remove files that would exceed the available budget before continuing.
-
   </Step>
 
   <Step title="Wait for indexing to finish" icon="play-circle" title-type="p">
-
     After upload, each source moves through **Queued**, **Processing**, and **Ready**. When the status is **Ready**, the AI Assistant can retrieve content from the PDF.
 
+    <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1791196159088-2y5ugrjji78-pdf-indexing-statuses.png?fm=auto&auto=compress%2Cformat" width="1316" height="673" alt="External Sources table with uploaded PDFs, each showing its page count, size, and a Queued, Processing, or Ready status" caption="Each PDF moves through Queued, Processing, and Ready." />
   </Step>
 </Steps>
 
 <Callout kind="info" collapsed="false">
+  PDF uploads have these limits:
 
-PDF uploads have these limits:
-
-- Upload a maximum of 10 PDFs at once.
-- Each PDF must be 50 MB or smaller.
-- Password-protected PDFs are rejected.
-- Scanned PDFs and PDFs without extractable text are rejected.
-- A PDF with the same filename as an existing source is treated as a duplicate.
-
+  - Upload a maximum of 10 PDFs at once.
+  - Each PDF must be 50 MB or smaller.
+  - Password-protected PDFs are rejected.
+  - Scanned PDFs and PDFs without extractable text are rejected.
+  - A PDF with the same filename as an existing source is treated as a duplicate.
 </Callout>
 
 ## Add a website source
@@ -85,64 +76,50 @@ Add a single web page or crawl a page and its subpages. Preview the crawl before
 
 <Steps>
   <Step title="Open External Sources" icon="home" title-type="p">
-
-    In the dashboard, go to **Agent Settings** → **AI Assistant** → **External Sources**.
-
+    In the dashboard, go to **AI Assistant** → **Knowledge** → **External Sources**.
   </Step>
 
   <Step title="Choose the website flow" icon="cloud" title-type="p">
-
     Click **Upload source**, then select the **Website** tab.
-
   </Step>
 
   <Step title="Enter the starting URL" icon="external-link" title-type="p">
-
     Enter the URL of the page or website you want to add.
-
   </Step>
 
   <Step title="Choose the crawl scope" icon="settings" title-type="p">
-
     Choose **Page and its subpages** to crawl related pages, or choose **Single page** to add only the URL you entered.
 
+    <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1791195785453-wmd30sxqerc-upload-source-website-tab.png?fm=auto&auto=compress%2Cformat" width="560" height="372" alt="Upload source dialog on the Website tab, with a URL field and the Page and its subpages and Single page scope options" caption="The Website tab. Enter a URL and choose the scope." />
   </Step>
 
   <Step title="Review the crawl preview" icon="search" title-type="p">
-
     Wait for discovery to finish. The crawler checks the site's sitemap first. If the sitemap does not provide usable pages, it follows links from the starting page. The preview displays the discovered pages in a folder tree.
 
+    <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1791195762178-71lypl0ahdp-add-website-page-tree.png?fm=auto&auto=compress%2Cformat" width="640" height="720" alt="Add website dialog listing the discovered pages in a tree, each with a checkbox, an Add URL button, and an Add website button" caption="The crawl preview. Uncheck pages or folders to exclude them, or add pages by URL." />
   </Step>
 
   <Step title="Exclude pages or folders" icon="minus" title-type="p">
-
     Uncheck individual pages or folders that you do not want to index. Excluded content will not be available to the AI Assistant.
-
   </Step>
 
   <Step title="Add extra URLs when needed" icon="plus" title-type="p">
-
     Add individual URLs manually if they are not included in the discovered page tree.
-
   </Step>
 
   <Step title="Add the website" icon="check-circle" title-type="p">
-
     Click **Add website** to confirm the selected pages and start indexing. The website becomes available to the AI Assistant after its status changes to **Ready**.
-
   </Step>
 </Steps>
 
 <Callout kind="info" collapsed="false">
+  Website discovery has these limits:
 
-Website discovery has these limits:
-
-- A site crawl can include a maximum of 500 pages.
-- A crawl without a usable sitemap can include a maximum of 100 pages.
-- Crawl depth is limited to 5 levels.
-- Discovery can take up to two minutes.
-- A partial crawl may find fewer pages than the website contains. Review the preview before adding the source.
-
+  - A site crawl can include a maximum of 500 pages.
+  - A crawl without a usable sitemap can include a maximum of 100 pages.
+  - Crawl depth is limited to 5 levels.
+  - Discovery can take up to two minutes.
+  - A partial crawl may find fewer pages than the website contains. Review the preview before adding the source.
 </Callout>
 
 ## Source states
@@ -173,9 +150,7 @@ Turn **Active** off to retain a source without allowing the AI Assistant to retr
 Set priority to a value from 0 to 1. Your published documentation has a priority of 1, and external sources use 0.5 by default.
 
 <Callout kind="info" collapsed="false">
-
-When sources disagree, the higher number wins. Your documentation counts as 1.
-
+  When sources disagree, the higher number wins. Your documentation counts as 1.
 </Callout>
 
 ### Visibility
@@ -200,9 +175,7 @@ Choose how often a website source should check for updated content:
 Scheduled refreshes run during the daily refresh sweep. Use **Refresh now** to start a refresh immediately. You can manually refresh a website a maximum of three times per day.
 
 <Callout kind="warning" collapsed="false">
-
-After three consecutive refresh failures, the scheduled refresh is paused. **Refresh now** bypasses the paused state so you can try again manually.
-
+  After three consecutive refresh failures, the scheduled refresh is paused. **Refresh now** bypasses the paused state so you can try again manually.
 </Callout>
 
 A refresh re-embeds only pages whose content changed. If a partial crawl finds substantially fewer pages than the previous crawl, the system retains the missing pages instead of deleting them immediately. This prevents temporary discovery failures from removing valid source content.
@@ -210,6 +183,8 @@ A refresh re-embeds only pages whose content changed. If a partial crawl finds s
 ## Edit a source
 
 Open a source's edit dialog to change its settings, then click **Update** to save the changes.
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1791195767095-qg5p7x8lk5l-edit-website-dialog.png?fm=auto&auto=compress%2Cformat" width="560" height="953" alt="Edit website dialog with the website address, name, Active switch, refresh schedule, priority, and the status of each page" caption="The edit dialog for a website source." style="width: 420px; height: auto; margin: 0 auto;" />
 
 You can edit the following settings for all source types:
 
@@ -232,17 +207,15 @@ For PDF sources, you can download the original file. Failed PDFs are read-only e
 
 External Sources uses a shared page budget for each documentation project.
 
-| Plan | External Sources | Shared page limit |
-|---|---:|---:|
-| Starter | Not available | Not available |
-| Standard | Available | 100 pages |
-| Professional | Available | 300 pages |
-| Enterprise | Available | 300 pages |
+| Plan         | External Sources | Shared page limit |
+| ------------ | ---------------: | ----------------: |
+| Starter      |    Not available |     Not available |
+| Standard     |        Available |         100 pages |
+| Professional |        Available |         300 pages |
+| Enterprise   |        Available |         300 pages |
 
 <Callout kind="info" collapsed="false">
-
-The page budget is shared across all PDFs and websites in a documentation project. PDF usage comes from each file's page count. Website usage comes from the number of crawled and indexed pages.
-
+  The page budget is shared across all PDFs and websites in a documentation project. PDF usage comes from each file's page count. Website usage comes from the number of crawled and indexed pages.
 </Callout>
 
 ## How the AI Assistant uses sources
@@ -251,6 +224,8 @@ The AI Assistant searches your published documentation and indexed external sour
 
 External source content does not become part of your published documentation or navigation. Readers can access it through AI Assistant answers according to the source's visibility and access-role settings.
 
-<Columns cols={1}>
-  <Card title="Learn about the AI Assistant" href="/ai/ai-assistant" icon="book-open" cta="Read more" />
+<Columns cols="1">
+  <Card title="Learn about the AI Assistant" href="/ai/ai-assistant" icon="book-open" cta="Read more" horizontal="false">
+
+  </Card>
 </Columns>

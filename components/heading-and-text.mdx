@@ -181,6 +181,18 @@ Use absolute paths from the docs root:
 [Code and Groups](/components/code-blocks-and-groups)
 ```
 
+**Linking to specific sections**
+
+Every heading automatically generates an anchor from its text, using lowercase letters and hyphens for spaces. For example, `## Getting Started` generates `#getting-started`.
+
+```markdown
+[Quickstart prerequisites](/getting-started/quickstart#prerequisites)
+[Jump to Headings](#headings)
+[Getting Started](/getting-started/quickstart#getting-started)
+```
+
+On published pages, click any heading to copy its anchor link and update the browser URL hash. You can then share the direct link to that section.
+
 **External links**
 
 Use full URLs:

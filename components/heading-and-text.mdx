@@ -195,6 +195,26 @@ You can also combine links with emphasis:
 See the **[Callout component](/components/callout)** for highlighting important notes.
 ```
 
+### Anchor links
+
+Every heading on a published page automatically generates a slug-based anchor. You can link directly to a specific section by appending `#` and the heading slug to any page path:
+
+```markdown
+[Skip to installation](/getting-started/quickstart#installation)
+[Steps component on the components page](/components/steps#using-with-code-editor)
+```
+
+Slugs are generated from the heading text by converting to lowercase, replacing spaces with hyphens, and removing special characters. For example:
+
+- `## Getting Started` generates `#getting-started`
+- `### Using the Web Editor` generates `#using-the-web-editor`
+
+On published pages, clicking any heading copies its anchor link to your clipboard and updates the browser URL hash, so you can paste the deep link wherever you need it.
+
+<Callout kind="info" collapsed="false">
+  Internal links and hash anchors are unaffected by the external link auto-target behavior. Anchor links to sections on the same page or other documentation pages always open in the current tab.
+</Callout>
+
 ### Line breaks and spacing
 
 Use a blank line for paragraph breaks:

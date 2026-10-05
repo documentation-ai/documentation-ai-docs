@@ -1,12 +1,18 @@
 ---
 title: External Sources
 description: >-
-  Upload PDFs and add websites as knowledge sources the AI Assistant can answer
-  from, alongside your published documentation.
+  Upload PDFs and add websites as knowledge sources that the AI Assistant
+  searches and cites alongside your published documentation.
 ---
 ## Extend the AI Assistant's knowledge
 
 Extend the AI Assistant's knowledge beyond your published documentation by adding PDFs and websites as external sources. The assistant searches these sources alongside your docs and cites them in its answers.
+
+## Prerequisites
+
+<Callout kind="alert" collapsed="false">
+  You need a **Standard** plan or higher to use the external sources feature.
+</Callout>
 
 ## How it works
 
@@ -20,15 +26,11 @@ Configure sources in the dashboard under **AI Assistant** → **Knowledge** → 
   External Sources are managed in the dashboard. You do not configure them in `documentation.json`, and external content does not appear in your published documentation.
 </Callout>
 
-## Prerequisites
+## How the AI Assistant uses sources
 
-<Callout kind="alert" collapsed="false">
-  You need all of the following before you add external sources:
+The AI Assistant searches your published documentation and indexed external sources together, while keeping their search records separate. It retrieves relevant content from both and includes citations in its answers.
 
-  - A **Standard** plan or higher
-  - Available page budget for the documentation project
-  - An understanding that PDFs and websites use the same shared page budget
-</Callout>
+External source content does not become part of your published documentation or navigation. Readers can access it through AI Assistant answers according to the source's visibility and access-role settings.
 
 ## Add a PDF source
 
@@ -150,7 +152,7 @@ Turn **Active** off to retain a source without allowing the AI Assistant to retr
 Set priority to a value from 0 to 1. Your published documentation has a priority of 1, and external sources use 0.5 by default.
 
 <Callout kind="info" collapsed="false">
-  When sources disagree, the higher number wins. Your documentation counts as 1.
+  When an external source and your documentation give conflicting answers, the source with the higher priority value takes precedence. Your documentation always has a priority of 1.
 </Callout>
 
 ### Visibility
@@ -162,7 +164,7 @@ Choose one of two visibility levels:
 
 ### Access roles
 
-For a protected source, select the reader roles that can access answers citing that source. This setting applies when your documentation project has role-based access configured.
+For a protected source, select the reader roles that can access answers citing that source. This setting requires [role-based access](/customize/access-control/overview) to be configured for your documentation project.
 
 ## Website refresh
 
@@ -172,7 +174,7 @@ Choose how often a website source should check for updated content:
 - **Monthly**
 - **Manual**
 
-Scheduled refreshes run during the daily refresh sweep. Use **Refresh now** to start a refresh immediately. You can manually refresh a website a maximum of three times per day.
+Scheduled refreshes run automatically once per day. Use **Refresh now** to start a refresh immediately. You can manually refresh a website a maximum of three times per day.
 
 <Callout kind="warning" collapsed="false">
   After three consecutive refresh failures, the scheduled refresh is paused. **Refresh now** bypasses the paused state so you can try again manually.
@@ -182,50 +184,38 @@ A refresh re-embeds only pages whose content changed. If a partial crawl finds s
 
 ## Edit a source
 
-Open a source's edit dialog to change its settings, then click **Update** to save the changes.
+Open a source's edit dialog to change any [source setting](#source-settings), then click **Update** to save.
 
 <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1791195767095-qg5p7x8lk5l-edit-website-dialog.png?fm=auto&auto=compress%2Cformat" width="560" height="953" alt="Edit website dialog with the website address, name, Active switch, refresh schedule, priority, and the status of each page" caption="The edit dialog for a website source." style="width: 420px; height: auto; margin: 0 auto;" />
 
-You can edit the following settings for all source types:
+Website sources also support excluding or re-including pages and folders, adding extra URLs, changing the refresh schedule, and viewing the status of each page. For PDF sources, you can download the original file.
 
-- Name
-- Priority
-- Active state
-- Visibility
-- Access roles
+## Delete a source
 
-Website sources also support:
-
-- Changing the refresh schedule
-- Excluding or re-including pages and folders
-- Adding extra URLs
-- Viewing the status of each page as **Ready** or **Not yet**
-
-For PDF sources, you can download the original file. Failed PDFs are read-only except for deletion.
+Remove a source at any time from the External Sources table. Deleting a source removes its content from the search index and frees up the page budget it consumed. Open the source's menu and select **Delete**. You can also delete failed sources that cannot be retried.
 
 ## Plan limits and page budget
 
 External Sources uses a shared page budget for each documentation project.
 
-| Plan         | External Sources | Shared page limit |
-| ------------ | ---------------: | ----------------: |
-| Starter      |    Not available |     Not available |
-| Standard     |        Available |         100 pages |
-| Professional |        Available |         300 pages |
-| Enterprise   |        Available |         300 pages |
+| Plan         | External Sources |   Page budget |
+| ------------ | ---------------: | ------------: |
+| Starter      |    Not available | Not available |
+| Standard     |        Available |     100 pages |
+| Professional |        Available |     300 pages |
+| Enterprise   |        Available |        Custom |
 
 <Callout kind="info" collapsed="false">
   The page budget is shared across all PDFs and websites in a documentation project. PDF usage comes from each file's page count. Website usage comes from the number of crawled and indexed pages.
 </Callout>
 
-## How the AI Assistant uses sources
-
-The AI Assistant searches your published documentation and indexed external sources together, while keeping their search records separate. It retrieves relevant content from both and includes citations in its answers.
-
-External source content does not become part of your published documentation or navigation. Readers can access it through AI Assistant answers according to the source's visibility and access-role settings.
-
-<Columns cols="1">
+<Columns cols="2">
   <Card title="Learn about the AI Assistant" href="/ai/ai-assistant" icon="book-open" cta="Read more" horizontal="false">
+    Understand how the assistant answers questions with citations and follow-up prompts.
+  </Card>
 
+  <Card title="Access Control" href="/customize/access-control/overview" icon="shield" cta="Read more" horizontal="false">
+    Set up role-based access to control who can view protected external sources.
   </Card>
 </Columns>
+

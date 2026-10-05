@@ -491,6 +491,11 @@
                 "icon": "settings"
               },
               {
+                "title": "External Sources",
+                "path": "ai/external-sources",
+                "icon": "external-link"
+              },
+              {
                 "group": "MCP Servers",
                 "icon": "terminal",
                 "pages": [

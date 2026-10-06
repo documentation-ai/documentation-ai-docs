@@ -10,8 +10,8 @@
  *
  * The page, top to bottom:
  *   1. Title and description (frontmatter).
- *   2. "Start here": three numbered steps, each a drawn window on a painting
- *      with its copy on the page below (docs-home.jsx).
+ *   2. "Start here": three numbered steps, each titled on a painting with
+ *      its description below (docs-home.jsx).
  *   3. "Explore the docs": the Columns block, a plain lattice.
  *   4. The migration row: copy beside a painting (docs-home-migrate.jsx).
  *
@@ -214,7 +214,12 @@
   stroke: #09090b;
 }
 
-/* 2. "Start here": three steps, a painting above each step's copy. */
+/*
+ * 2. "Start here": three steps, each a painting set like the blog's scenery
+ * covers, with the description and link on the page below. The number sits
+ * top-left and the title bottom-left, so across the row the numbers line up
+ * and so do the titles' last lines, however many lines a title takes.
+ */
 
 .dh-steps {
   display: grid;
@@ -248,11 +253,13 @@
   color: inherit;
 }
 
-/* The tile reserves its height, so all three paintings match whatever their windows hold. */
 .dh-step .dh-painting {
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   aspect-ratio: 4 / 3;
+  padding: 22px 24px 24px;
+  color: #fff;
 }
 
 .dh-step .dh-painting::before {
@@ -263,34 +270,41 @@
   transform: scale(1.06);
 }
 
-.dh-step-stage {
-  width: 100%;
-  max-width: 300px;
-  padding: 20px;
+/* The painting's own veil, plus a shade rising from the foot under the title. */
+.dh-step .dh-painting::after {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0) 60%), var(--dh-veil);
+}
+
+.dark .dh-step .dh-painting::after {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0) 60%), linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), var(--dh-veil);
+}
+
+.dh-step-n {
+  font: 500 12px/18px var(--da-mono);
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Sized to the tile, so the title keeps its proportion from a phone to three across. */
+.dh-step-title {
+  max-width: 13ch;
+  font-family: var(--da-serif);
+  font-weight: 400;
+  font-size: clamp(22px, 10cqi, 32px);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: #fff;
+  text-wrap: balance;
 }
 
 .dh-step-copy {
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding-top: 24px;
-}
-
-.dh-step-n {
-  font: 500 12px/18px var(--da-mono);
-  font-variant-numeric: tabular-nums;
-  color: var(--da-coral);
-}
-
-.dh-step-title {
-  margin-top: 8px;
-  font-family: var(--da-display);
-  letter-spacing: -0.01em;
-  color: var(--heading);
+  padding-top: 20px;
 }
 
 .dh-step-desc {
-  margin-top: 6px;
   color: var(--da-muted);
 }
 
@@ -302,180 +316,6 @@
 
 .dh-step:hover .dh-explore {
   color: var(--da-coral);
-}
-
-/* The steps' windows: small scenes, type at 12px and up. */
-
-.dh-step .dh-window-head {
-  height: 34px;
-  padding: 0 52px;
-}
-
-.dh-step .dh-lights {
-  left: 12px;
-  gap: 5px;
-}
-
-.dh-step .dh-lights i {
-  width: 8px;
-  height: 8px;
-}
-
-.dh-scene {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 2px 14px 14px;
-  font-size: 12px;
-}
-
-.dh-field {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 7px 10px;
-  border-radius: 8px;
-  background: #f5f3f1;
-}
-
-.dark .dh-field {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.dh-field-label {
-  color: #787168;
-}
-
-.dark .dh-field-label {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.dh-field-value {
-  font-weight: 500;
-}
-
-.dh-scene-btn {
-  align-self: flex-end;
-  margin-top: 2px;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: #09090b;
-  color: #fff;
-  font-weight: 500;
-}
-
-.dark .dh-scene-btn {
-  background: #fff;
-  color: #09090b;
-}
-
-.dh-scene .dh-cursor {
-  right: 30px;
-  bottom: 4px;
-}
-
-.dh-scene-bar {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-
-.dh-scene-bar .dh-chip {
-  padding: 3px 10px;
-}
-
-.dh-branch {
-  display: inline-flex;
-  gap: 4px;
-  align-items: center;
-  margin-left: auto;
-  font: 11px/1 var(--da-mono);
-  color: #787168;
-}
-
-.dark .dh-branch {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.dh-branch svg {
-  width: 12px;
-  height: 12px;
-}
-
-.dh-tree {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.dh-tree span {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  padding: 5px 8px;
-  border-radius: 8px;
-}
-
-.dh-tree svg {
-  flex: none;
-  width: 14px;
-  height: 14px;
-  color: #787168;
-}
-
-.dh-tree-on {
-  background: #f5f3f1;
-  font-weight: 500;
-}
-
-.dark .dh-tree-on {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.dark .dh-tree svg {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.dh-url {
-  display: inline-flex;
-  white-space: nowrap;
-  gap: 5px;
-  align-items: center;
-  padding: 3px 10px;
-  border-radius: 999px;
-  background: #f5f3f1;
-  font: 11px/1.4 var(--da-mono);
-}
-
-.dark .dh-url {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.dh-url svg {
-  width: 11px;
-  height: 11px;
-  color: #16a34a;
-}
-
-.dark .dh-url svg {
-  color: #4ade80;
-}
-
-.dh-check-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 7px 0;
-  border-bottom: 1px solid #eeeeee;
-}
-
-.dark .dh-check-row {
-  border-bottom-color: rgba(255, 255, 255, 0.08);
-}
-
-.dh-scene .dh-preview-status {
-  margin-top: 4px;
 }
 
 /* 3. The lattice: cells share single hairlines; the gap shows the rule. */
@@ -831,11 +671,6 @@
 
   .dai-article:has(.dh-home) .dh-step {
     font-weight: 400 !important;
-  }
-
-  .dai-article:has(.dh-home) .dh-step-title {
-    font-size: 18px !important;
-    line-height: 1.5 !important;
   }
 
   .dai-article:has(.dh-home) .dh-step-desc {

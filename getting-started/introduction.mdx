@@ -5,6 +5,7 @@ description: >-
   keep every page current as your product changes.
 ---
 import DocsHome from "/snippets/docs-home.jsx"
+import DocsHomeExplore from "/snippets/docs-home-explore.jsx"
 import DocsHomeMigrate from "/snippets/docs-home-migrate.jsx"
 
 ## Start here
@@ -15,44 +16,8 @@ From an empty project to docs on your own domain.
 
 ## Explore the docs
 
-Everything the platform does, grouped the way the sidebar is.
+Everything the platform does, from writing to AI access.
 
-<Columns cols="3">
-  <Card title="Write and publish" href="/write-and-publish/web-editor" icon="pen-line">
-    Write in the web editor or in your IDE, with branches and previews.
-  </Card>
-
-  <Card title="Components" href="/components/components" icon="component">
-    Cards, tabs, steps, code groups, diagrams, and more, all in MDX.
-  </Card>
-
-  <Card title="AI documentation agent" href="/ai/ai-documentation-agent" icon="sparkles">
-    Draft, edit, and restructure pages with an agent that reads your code.
-  </Card>
-
-  <Card title="Organize" href="/organize/overview" icon="folder-tree">
-    Tabs, groups, and dimensions for products, versions, and languages.
-  </Card>
-
-  <Card title="API documentation" href="/api-documentation-and-playground/openapi-import" icon="code">
-    Import an OpenAPI spec and ship a reference with a live playground.
-  </Card>
-
-  <Card title="Customize" href="/customize/branding" icon="palette">
-    Branding, navigation, custom domains, and custom CSS.
-  </Card>
-
-  <Card title="Embedded docs" href="/embedded-docs/overview" icon="app-window">
-    Put your docs inside your product, public or private.
-  </Card>
-
-  <Card title="SEO and GEO" href="/seo-and-geo/optimize-for-geo" icon="search">
-    Sitemaps, metadata, and llms.txt, for search engines and AI answers.
-  </Card>
-
-  <Card title="Integrations" href="/integrations/overview" icon="plug">
-    Analytics, support chat, GitHub, Slack, Linear, and more.
-  </Card>
-</Columns>
+<DocsHomeExplore />
 
 <DocsHomeMigrate />

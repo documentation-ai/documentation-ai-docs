@@ -4,15 +4,15 @@
  *
  * Every rule is scoped to the page that renders snippets/docs-home.jsx (its
  * root carries `dh-home`), so the other docs pages get the theme alone. The
- * headings and the "Explore the docs" grid stay plain MDX, editable in the web
- * editor; the painted steps and the migration row are the two snippets, and
- * this file styles all of it.
+ * headings and their lines stay plain MDX, editable in the web editor; the
+ * three rows under them are snippets, and this file styles all of it.
  *
  * The page, top to bottom:
  *   1. Title and description (frontmatter), with a mono eyebrow added here.
  *   2. "Start here": three numbered steps, each a drawn window on a painting
  *      with its copy on the page below (docs-home.jsx).
- *   3. "Explore the docs": the Columns block, a plain lattice.
+ *   3. "Explore the docs": the website header's Product menu, four groups of
+ *      links in a lattice (docs-home-explore.jsx).
  *   4. The migration row: copy beside a painting (docs-home-migrate.jsx).
  *
  * The paintings are the website's own (public/img/scenery there, listed in
@@ -33,6 +33,7 @@
 }
 
 .dai-article:has(.dh-home) .dh-home a,
+.dai-article:has(.dh-home) .dh-groups a,
 .dai-article:has(.dh-home) .dh-split a {
   border-bottom: 0;
   text-decoration: none;
@@ -488,87 +489,87 @@
   margin-top: 4px;
 }
 
-/* 3. The lattice: cells share single hairlines; the gap shows the rule. */
+/*
+ * 3. "Explore the docs": the website header's Product menu, its four groups
+ * as a lattice whose cells share single hairlines (the gap shows the rule).
+ */
 
-.dai-article:has(.dh-home) [data-component="Columns"] {
+.dh-groups {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1px !important;
+  gap: 1px;
   margin-top: 28px;
   background: var(--da-rule);
   border: 1px solid var(--da-rule);
 }
 
 @container dh (min-width: 600px) {
-  .dai-article:has(.dh-home) [data-component="Columns"] {
+  .dh-groups {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@container dh (min-width: 860px) {
-  .dai-article:has(.dh-home) [data-component="Columns"] {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+.dh-group {
+  padding: 24px 16px 16px;
+  background: var(--background);
 }
 
-.dai-article:has(.dh-home) [data-component="Columns"] > a {
-  display: block;
-  background: var(--content-bg);
-  transition: background-color 150ms ease;
-}
-
-.dai-article:has(.dh-home) [data-component="Columns"] > a:hover {
-  background: var(--da-card);
-}
-
-.dai-article:has(.dh-home) [data-component="Columns"] [data-component="Card"] {
-  position: relative;
-  height: 100%;
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-}
-
-.dai-article:has(.dh-home) [data-component="Columns"] [data-component="Card"] > div:last-child {
-  padding: 32px 28px;
-}
-
-.dai-article:has(.dh-home) [data-component="Columns"] [data-component="Card"] svg.lucide {
-  width: 24px;
-  height: 24px;
-  stroke-width: 1.5;
-  color: var(--da-muted);
-  margin-bottom: 26px;
-}
-
-.dai-article:has(.dh-home) .dai-card-title {
-  font-family: var(--da-display);
-  line-height: 1.5;
-  letter-spacing: -0.01em;
-}
-
-.dai-article:has(.dh-home) .dai-card-description {
-  display: block;
-}
-
-.dai-article:has(.dh-home) .dai-card-description p {
-  margin-top: 6px;
-}
-
-/* The website's clickable cell: a mono "Explore" under the line, coral on hover. */
-.dai-article:has(.dh-home) [data-component="Columns"] .dai-card-description::after {
-  content: "Explore \2192";
-  display: block;
-  margin-top: 24px;
+/* The header's group heading: mono, uppercase, muted, on the icon column. */
+.dh-group-title {
+  padding: 0 12px 8px;
   font: 500 12px/18px var(--da-mono);
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--heading);
-  transition: color 150ms ease;
+  color: var(--da-muted);
 }
 
-.dai-article:has(.dh-home) [data-component="Columns"] > a:hover .dai-card-description::after {
+.dh-group-links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dh-group-links li {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+/* The header's row: a glyph on the label's line, the label, a line under it. */
+.dh-group-link {
+  display: flex;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--heading);
+  transition: background-color 150ms ease;
+}
+
+.dh-group-link:hover {
+  background: var(--da-card);
+}
+
+.dh-group-link svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 4px;
+  color: var(--da-muted);
+}
+
+.dh-group-link:hover svg {
   color: var(--da-coral);
+}
+
+.dh-group-label {
+  display: block;
+  font-family: var(--da-display);
+}
+
+.dh-group-desc {
+  display: block;
+  margin-top: 2px;
+  color: var(--da-muted);
 }
 
 /* Section text below each h2. */
@@ -857,14 +858,26 @@
     font-weight: 400 !important;
   }
 
-  .dai-article:has(.dh-home) .dai-card-title {
-    font-size: 18px !important;
+  .dai-article:has(.dh-home) .dh-groups {
+    margin: 28px 0 0 !important;
+  }
+
+  .dai-article:has(.dh-home) .dh-group-links {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .dai-article:has(.dh-home) .dh-group-link {
     font-weight: 400 !important;
   }
 
-  .dai-article:has(.dh-home) .dai-card-description,
-  .dai-article:has(.dh-home) .dai-card-description p {
-    font-size: 16px !important;
+  .dai-article:has(.dh-home) .dh-group-label {
+    font-size: 15px !important;
     line-height: 24px !important;
+  }
+
+  .dai-article:has(.dh-home) .dh-group-desc {
+    font-size: 14px !important;
+    line-height: 20px !important;
   }
 }

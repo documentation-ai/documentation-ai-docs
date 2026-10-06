@@ -47,6 +47,54 @@
   line-height: 1.6;
 }
 
+/*
+ * The website's hero dot field, drawn in CSS: its 2px squares on an 18px
+ * step, in its colours, with one coral cluster. The website's field moves
+ * with the cursor; a snippet page cannot run that canvas, so this one holds
+ * still. Masked as the website's left-aligned hero is: clear behind the
+ * title and subheading, full only toward the right, softened at its own
+ * edges and faded out before "Start here". Off on a phone, as the
+ * website's is. The live article starts at the title (its margin collapses
+ * through), so the field's top and height are measured from the title.
+ */
+.dai-article:has(.dh-home) {
+  position: relative;
+  isolation: isolate;
+}
+
+.dai-article:has(.dh-home)::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -56px;
+  left: -40px;
+  right: -40px;
+  height: 280px;
+  pointer-events: none;
+  --dh-dots: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Crect x='8' y='8' width='2' height='2' fill='rgba(9,9,11,0.14)'/%3E%3C/svg%3E");
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Cg fill='rgb(236,91,91)' fill-opacity='0.85'%3E%3Crect x='8' y='8' width='2' height='2'/%3E%3Crect x='26' y='8' width='2' height='2'/%3E%3Crect x='26' y='26' width='2' height='2'/%3E%3C/g%3E%3C/svg%3E") 864px 72px / 36px 36px no-repeat,
+    var(--dh-dots) 0 0 / 18px 18px;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, transparent 62%, rgb(0 0 0 / 0.4) 72%, #000 86%, rgb(0 0 0 / 0.5) 100%),
+    linear-gradient(to bottom, transparent 0%, #000 22%, #000 50%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0%, transparent 62%, rgb(0 0 0 / 0.4) 72%, #000 86%, rgb(0 0 0 / 0.5) 100%),
+    linear-gradient(to bottom, transparent 0%, #000 22%, #000 50%, transparent 100%);
+  mask-composite: intersect;
+}
+
+.dark .dai-article:has(.dh-home)::before {
+  --dh-dots: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Crect x='8' y='8' width='2' height='2' fill='rgba(255,255,255,0.16)'/%3E%3C/svg%3E");
+}
+
+@media (max-width: 767px) {
+  .dai-article:has(.dh-home)::before {
+    display: none;
+  }
+}
+
 /* Paintings: the picture softened by a 1px blur, under its veil. */
 
 .dh-painting {

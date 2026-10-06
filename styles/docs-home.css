@@ -1,0 +1,172 @@
+/*
+ * Docs homepage, in the drafting style of documentation.ai. Loads after
+ * styles/docs-theme.css and reads its tokens (--da-*) and fonts.
+ *
+ * Every rule is scoped to the page that renders snippets/docs-home.jsx, so the
+ * other docs pages get the theme alone. The page itself stays plain MDX
+ * (Columns and Cards), editable in the web editor; this file only restyles it.
+ *
+ * Two Columns blocks share one lattice look and differ in one way:
+ *   - Cards WITHOUT an icon are a sequence, and get a coral index (01, 02, 03).
+ *   - Cards WITH an icon are a list of areas, and show the icon instead.
+ * So "Start here" cards must not set `icon`, and "Explore" cards must.
+ */
+
+.dh-home {
+  display: none;
+}
+
+/* Width: the homepage has no table of contents, so give its column the room. */
+
+.dai-page:has(.dh-home) .dai-page-aside {
+  display: none;
+}
+
+.dai-article:has(.dh-home) {
+  max-width: 960px !important;
+}
+
+/* Hero: mono eyebrow, serif h1 (from the theme), subtext below it. */
+
+.dai-article:has(.dh-home) .page-title::before {
+  content: "Documentation";
+  display: block;
+  margin-bottom: 20px;
+  font: 500 12px/18px var(--da-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--da-coral);
+}
+
+.dai-article:has(.dh-home) .page-description,
+.dai-article:has(.dh-home) .page-description p {
+  max-width: 38rem;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--da-muted);
+}
+
+/* Lattice: cells share single hairlines; the gap shows the rule colour. */
+
+.dai-article:has(.dh-home) [data-component="Columns"] {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px !important;
+  margin-top: 28px;
+  background: var(--da-rule);
+  border: 1px solid var(--da-rule);
+}
+
+@media (min-width: 640px) {
+  .dai-article:has(.dh-home) [data-component="Columns"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .dai-article:has(.dh-home) [data-component="Columns"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.dai-article:has(.dh-home) [data-component="Columns"] > a {
+  display: block;
+  background: var(--content-bg);
+  transition: background-color 150ms ease;
+}
+
+.dai-article:has(.dh-home) [data-component="Columns"] > a:hover {
+  background: var(--da-card);
+}
+
+.dai-article:has(.dh-home) [data-component="Columns"] [data-component="Card"] {
+  height: 100%;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+.dai-article:has(.dh-home) [data-component="Columns"] [data-component="Card"] > div:last-child {
+  padding: 28px 28px 32px;
+}
+
+.dai-article:has(.dh-home) [data-component="Columns"] [data-component="Card"] svg.lucide {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1.5;
+  color: var(--da-muted);
+  margin-bottom: 20px;
+}
+
+.dai-article:has(.dh-home) .dai-card-title {
+  font-family: var(--da-display);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+.dai-article:has(.dh-home) .dai-card-description p {
+  margin-top: 6px;
+}
+
+/* A sequence: cards without an icon carry a coral index above the title. */
+
+.dai-article:has(.dh-home) [data-component="Columns"]:not(:has(svg.lucide)) {
+  counter-reset: dh-step;
+}
+
+.dai-article:has(.dh-home) [data-component="Columns"]:not(:has(svg.lucide)) > a {
+  counter-increment: dh-step;
+}
+
+.dai-article:has(.dh-home) [data-component="Columns"]:not(:has(svg.lucide)) .dai-card-title::before {
+  content: counter(dh-step, decimal-leading-zero);
+  display: block;
+  margin-bottom: 48px;
+  font: 500 12px/18px var(--da-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+  color: var(--da-coral);
+}
+
+/* Section text below each h2. */
+
+.dai-article:has(.dh-home) h2 + p {
+  margin-top: 0;
+  color: var(--da-muted);
+}
+
+/*
+ * Overrides of the platform's `!important` utility classes go in its
+ * `utilities` layer; styles/docs-theme.css explains why.
+ */
+
+@layer utilities {
+  .dai-article:has(.dh-home) .page-title {
+    font-size: clamp(2.25rem, 1.75rem + 1.6vw, 3.25rem) !important;
+    line-height: 1.15 !important;
+    margin-bottom: 20px !important;
+  }
+
+  /* On the homepage the section h2s are serif, as on the website's landing pages. */
+  .dai-article:has(.dh-home) h2 {
+    font-family: var(--da-serif) !important;
+    font-weight: 400 !important;
+    font-size: 28px !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.005em !important;
+    margin-top: 88px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .dai-article:has(.dh-home) .dai-card-title {
+    font-size: 18px !important;
+    font-weight: 500 !important;
+  }
+
+  .dai-article:has(.dh-home) .dai-card-description,
+  .dai-article:has(.dh-home) .dai-card-description p {
+    font-size: 16px !important;
+    line-height: 24px !important;
+    color: var(--da-muted) !important;
+  }
+}

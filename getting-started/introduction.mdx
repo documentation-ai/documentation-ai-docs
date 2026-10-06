@@ -1,32 +1,73 @@
 ---
-title: Documentation.AI
+title: Get started with Documentation.AI
 description: >-
-  AI-native documentation platform to help teams create, maintain, and publish
-  rich documentation and knowledge bases with built-in AI agents.
+  Set up a docs site, write in the web editor or your IDE, and let the AI agent
+  keep every page current as your product changes.
 ---
-<Columns uid="cc6e31d1-851a-4073-9a49-50e80be7fb70" cols="2">
-  <Card title="Quick Start " href="/getting-started/quickstart" image="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1764861394390-f2h9nrjuyp-pasted-image-1764861391990.png" cta="Start Now" horizontal="false" target="_self">
-    Get hands-on and build your first documentation site in minutes
+import DocsHome from "/snippets/docs-home.jsx"
+
+<DocsHome />
+
+## Start here
+
+From an empty project to docs on your own domain.
+
+<Columns cols="3">
+  <Card title="Create your site" href="/getting-started/quickstart">
+    Sign up, pick a starting point, and publish a branded site in minutes.
   </Card>
 
-  <Card title="Core Concepts" href="/getting-started/core-concepts" image="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1764860577492-1jym9xs49h2h-pasted-image-1764860575507.png" cta="Learn More" horizontal="false" target="_self">
-    Understand the architecture and key principles behind Documentation.AI
+  <Card title="Learn the model" href="/getting-started/core-concepts">
+    How pages, navigation, branches, and the AI agent fit together.
   </Card>
 
-  <Card title="Web editor" href="/write-and-publish/web-editor" image="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1764861137915-w669v7hdg2k-pasted-image-1764861136323.png" cta="Customize" horizontal="false" target="_self">
-    Write and publish documentation with notion like web editor
-  </Card>
-
-  <Card title="Code editor" href="/write-and-publish/code-editor" image="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1764860639300-egwg8vgmz2u-pasted-image-1764860637847.png" cta="Develop" horizontal="false" target="_self">
-    Write and publish documentation in your IDE with coding agents and a Git‑native workflow
-  </Card>
-
-  <Card title="Components" href="/components/heading-and-text" image="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1764861731387-egtu34zq5jg-pasted-image-1764861729788.png" cta="View" horizontal="false" target="_self">
-    Build integrative documentation with our ready-to-use components
-  </Card>
-
-  <Card title="AI documentation agent" href="/ai/ai-documentation-agent" image="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1764861137915-w669v7hdg2k-pasted-image-1764861136323.png" cta="Learn More" horizontal="false" target="_self">
-    Draft, edit, and restructure pages across your docs with context aware AI agent
+  <Card title="Go live on your domain" href="/customize/custom-domain">
+    Connect your own domain, or serve your docs under a path like /docs.
   </Card>
 </Columns>
 
+## Explore the docs
+
+Everything the platform does, grouped the way the sidebar is.
+
+<Columns cols="3">
+  <Card title="Write and publish" href="/write-and-publish/web-editor" icon="pen-line">
+    Write in the web editor or in your IDE, with branches and previews.
+  </Card>
+
+  <Card title="Components" href="/components/components" icon="component">
+    Cards, tabs, steps, code groups, diagrams, and more, all in MDX.
+  </Card>
+
+  <Card title="AI documentation agent" href="/ai/ai-documentation-agent" icon="sparkles">
+    Draft, edit, and restructure pages with an agent that reads your code.
+  </Card>
+
+  <Card title="Organize" href="/organize/overview" icon="folder-tree">
+    Tabs, groups, and dimensions for products, versions, and languages.
+  </Card>
+
+  <Card title="API documentation" href="/api-documentation-and-playground/openapi-import" icon="code">
+    Import an OpenAPI spec and ship a reference with a live playground.
+  </Card>
+
+  <Card title="Customize" href="/customize/branding" icon="palette">
+    Branding, navigation, custom domains, and custom CSS.
+  </Card>
+
+  <Card title="Embedded docs" href="/embedded-docs/overview" icon="app-window">
+    Put your docs inside your product, public or private.
+  </Card>
+
+  <Card title="SEO and GEO" href="/seo-and-geo/optimize-for-geo" icon="search">
+    Sitemaps, metadata, and llms.txt, for search engines and AI answers.
+  </Card>
+
+  <Card title="Integrations" href="/integrations/overview" icon="plug">
+    Analytics, support chat, GitHub, Slack, Linear, and more.
+  </Card>
+</Columns>
+
+## Moving from another platform?
+
+The migrator brings your pages, navigation, and media across from [Mintlify](/migrations/mintlify), [GitBook](/migrations/gitbook), [ReadMe](/migrations/readme), [Document360](/migrations/document360), or [Docusaurus, Nextra, and Fern](/migrations/docusaurus), and you check a preview before anything goes live. Start with the [migration guide](/migrations/overview).

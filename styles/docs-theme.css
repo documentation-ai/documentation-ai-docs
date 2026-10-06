@@ -1,0 +1,109 @@
+/*
+ * Docs theme: the documentation.ai website's look, applied lightly to every
+ * docs page.
+ *
+ * It changes grounds, hairlines, greys and type, and nothing about layout or
+ * behaviour. Most of it is the platform's own CSS variables; the rest targets
+ * the stable `dai-*` class names. The homepage adds its own layer on top in
+ * styles/docs-home.css, and that file reads the tokens defined here.
+ *
+ * Values come from the website's tokens (src/app/globals.css there):
+ *   page #fcfcfc / #020101, card #f5f3f1 / #141312, rail-border #eeeeee /
+ *   #1b1a1a, card-border #e4e4e4 / #262422, ink-muted #6b645b / #b8b2ac,
+ *   coral #ec5b5b in both themes.
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&family=Merriweather:wght@400&display=swap");
+
+:root {
+  --da-coral: #ec5b5b;
+  --da-muted: #6b645b;
+  --da-rule: #eeeeee;
+  --da-card: #f5f3f1;
+  --da-serif: "Merriweather", Georgia, serif;
+  --da-display: "Geist", "Inter", system-ui, sans-serif;
+  --da-mono: "Geist Mono", ui-monospace, monospace;
+
+  /* Platform variables */
+  --background: #fcfcfc;
+  --border-muted: #e4e4e4;
+  --navbar-border: var(--da-rule);
+  --sub-text: var(--da-muted);
+  --sidebar-accent: var(--da-card);
+  --font-mono: var(--da-mono);
+}
+
+.dark {
+  --da-muted: #b8b2ac;
+  --da-rule: #1b1a1a;
+  --da-card: #141312;
+
+  --background: #020101;
+  --sidebar: #020101;
+  --sidebar-bg: var(--background);
+  --border-muted: #262422;
+  --sidebar-border: var(--da-rule);
+}
+
+/* Links in running text: ink, with the accent as the underline. */
+
+.dai-article a {
+  border-bottom-color: var(--da-coral);
+}
+
+/* The active page in the sidebar sits on the website's soft fill. */
+
+.dai-sidebar-page-active {
+  background-color: var(--da-card);
+}
+
+/*
+ * Type. The platform sets these with Tailwind classes such as `!font-semibold`,
+ * which are `!important` inside its `utilities` cascade layer, and a layered
+ * `!important` beats an unlayered one whatever the specificity. So these rules
+ * sit in the same layer, where specificity decides and these selectors win. If
+ * the platform renames the layer, they stop applying and the docs fall back to
+ * the default type, nothing worse.
+ */
+
+@layer utilities {
+  /* Page title: the website's serif, at its one weight. */
+  .dai-article .page-title {
+    font-family: var(--da-serif) !important;
+    font-weight: 400 !important;
+    letter-spacing: -0.01em !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Headings inside a page: Geist 500, as in the website's articles. */
+  .dai-article :is(h2, h3, h4):not(.page-title) {
+    font-family: var(--da-display) !important;
+    font-weight: 500 !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  /* Breadcrumbs above the title read as the website's eyebrow. */
+  .dai-breadcrumbs a,
+  .dai-breadcrumbs span {
+    font-family: var(--da-mono) !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    line-height: 18px !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase;
+  }
+
+  .dai-breadcrumbs a {
+    color: var(--da-coral) !important;
+  }
+
+  /* Sidebar group titles read as the website's footer group headings. */
+  .dai-sidebar-group-title {
+    font-family: var(--da-mono) !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase;
+    color: var(--da-muted) !important;
+  }
+}

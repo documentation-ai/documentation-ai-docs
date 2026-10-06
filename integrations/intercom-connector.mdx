@@ -1,0 +1,169 @@
+---
+title: Intercom Connector
+description: >-
+  Connect Intercom so the AI agent can read your conversations, tickets, and
+  Help Center articles while it writes or updates documentation in the editor
+  and in workflows.
+---
+Connect an Intercom workspace to give the AI agent live context from your support conversations, tickets, and Help Center. The agent uses them to find the questions customers ask that your docs miss. It reads Intercom only when a prompt needs it, and it never changes anything in Intercom.
+
+This page is about using Intercom as context for the AI agent. To add the Intercom chat bubble to your published docs, see [Intercom](/integrations/intercom).
+
+<Callout kind="info" collapsed="false">
+  **Before you begin**
+
+  - You need a Documentation.AI account. If you came from the Intercom App Store and don't have one, [sign up](https://dashboard.documentation.ai/signup) first.
+  - You need the **Admin** or **Editor** role in your Documentation.AI organization to connect Intercom, disconnect it, or turn the connector on or off.
+  - You need to be an Intercom teammate who can install apps in the workspace you want to connect.
+  - Your organization can connect one Intercom workspace.
+</Callout>
+
+## Web editor
+
+### How to connect Intercom
+
+<Steps>
+  <Step title="Open Agent Settings" icon="bot" title-type="p">
+    Go to [Agent Settings](https://dashboard.documentation.ai/agent) in the Documentation.AI dashboard, or click **Agent Settings** under **AI** in the dashboard sidebar. The **Connectors** section lists the tools the agent can pull context from.
+
+    If you are in the editor, you can click **Connectors** below the chat input instead. It opens the same list.
+  </Step>
+
+  <Step title="Click Connect on the Intercom card" icon="plug" title-type="p">
+    Intercom opens in the same tab. Sign in if Intercom asks you to.
+  </Step>
+
+  <Step title="Approve access in Intercom" icon="lock" title-type="p">
+    If you belong to more than one Intercom workspace, choose the one to connect. Intercom lists the read-only permissions the app needs: conversations, tickets, tags, and Help Center articles. Approve access.
+
+    Intercom sends you back to the page you started from, and "Connected successfully" appears.
+  </Step>
+
+  <Step title="Check that the connector is on" icon="toggle-right" title-type="p">
+    The Intercom card now shows your workspace name, **Manage**, and a switch that is on. Intercom is now on for the documentation project you have open.
+  </Step>
+</Steps>
+
+The connection belongs to your organization. To use Intercom in another documentation project, open that project, go to **Agent Settings**, and turn on the Intercom switch.
+
+### How to use Intercom in the editor
+
+<Steps>
+  <Step title="Check that Intercom is on" icon="layers" title-type="p">
+    In the editor chat, look at the **Connectors** button below the chat input. The Intercom icon appears there when the connector is on for this documentation project.
+  </Step>
+
+  <Step title="Ask for Intercom context in your prompt" icon="message-square" title-type="p">
+    Name Intercom and what to look for, such as a topic, a tag, a time range, or a Help Center article. See [Example prompts](#example-prompts).
+
+    The agent reads the conversations, tickets, or articles it needs, then answers or edits your pages.
+  </Step>
+</Steps>
+
+## Code editor (Git)
+
+### How to use Intercom in a workflow
+
+Workflows run the agent in the background and commit their changes to your Git repository. They use the connectors that are on for the documentation project.
+
+<Steps>
+  <Step title="Open the workflow form" icon="zap" title-type="p">
+    In the dashboard sidebar, under **AI**, click **Workflows**. Click **Create workflow**, or open an existing workflow and click **Edit**.
+  </Step>
+
+  <Step title="Keep Intercom selected" icon="list-checks" title-type="p">
+    Open **Connectors** in the form. Intercom is selected by default. Clear its checkbox if you want this workflow to run without Intercom.
+  </Step>
+
+  <Step title="Tell the workflow what to read from Intercom" icon="text" title-type="p">
+    In **Prompt**, say what to read and what to update, for example: "Read the Intercom conversations closed this week, find questions our docs do not answer, and add them to the FAQ."
+  </Step>
+</Steps>
+
+For triggers, schedules, and run history, see [Workflows](/ai/workflows).
+
+## Turn off or disconnect Intercom
+
+To stop one documentation project from using Intercom, turn off the switch on the Intercom card in **Agent Settings**. "Intercom connector disabled" appears. Other documentation projects keep using Intercom.
+
+<Callout kind="danger" collapsed="false">
+  Disconnecting removes Intercom from every documentation project in your organization, including the workflows that use it.
+</Callout>
+
+To disconnect Intercom from your organization:
+
+<Steps>
+  <Step title="Open Manage" icon="settings" title-type="p">
+    On the Intercom card, click **Manage**.
+  </Step>
+
+  <Step title="Disconnect" icon="trash-2" title-type="p">
+    Click the trash icon next to your workspace, then click **Disconnect** to confirm. "Intercom disconnected" appears.
+  </Step>
+</Steps>
+
+## What the agent can read
+
+The agent reads Intercom through these tools. It picks the tools that fit your prompt.
+
+| Tool | What it does |
+| --- | --- |
+| `searchArticles` | Searches Help Center articles by phrase. It looks at published articles first, and at drafts if nothing turns up. |
+| `listArticles` | Lists Help Center articles. |
+| `getArticle` | Reads one Help Center article in full. |
+| `listCollections` | Lists Help Center collections, which show how the Help Center is organized. |
+| `searchConversations` | Searches conversations by text, state, tag, priority, or date. |
+| `getConversation` | Reads a conversation's full thread: the customer's messages, teammate replies, internal notes, and tags. |
+| `searchTickets` | Searches tickets by title, description, state, category, or date. |
+| `getTicket` | Reads one ticket, including its replies and notes. |
+| `listTags` | Lists the tags in the workspace. |
+
+## Example prompts
+
+- *Search Intercom conversations from the last 30 days about SSO and list the questions our docs do not answer.*
+- *Read the closed Intercom conversations tagged webhooks and add a troubleshooting section to the webhooks guide.*
+- *Compare our Intercom Help Center articles with our docs and list topics that only the Help Center covers.*
+- *Read the open Intercom tickets about billing and update the billing FAQ with the fixes the team gave.*
+
+## Common questions
+
+<ExpandableGroup>
+  <Expandable title="Does the agent change anything in Intercom?" default-open="false">
+    No. The app asks Intercom for read-only permissions, and the agent has no tools that reply to, edit, or close conversations, tickets, or articles.
+  </Expandable>
+
+  <Expandable title="Can teammates see Intercom content they cannot open in Intercom?" default-open="false">
+    Yes. Anyone who can use the agent in a documentation project where Intercom is on can ask about the connected workspace's conversations, tickets, and articles. Customer details can appear in the agent's answers, so review drafts before you publish them.
+  </Expandable>
+
+  <Expandable title="Can I connect a different Intercom workspace?" default-open="false">
+    Your organization has one Intercom connection. To switch workspaces, disconnect Intercom, then connect again and choose the other workspace.
+  </Expandable>
+
+  <Expandable title="Is this the same as the Intercom chat bubble on my docs?" default-open="false">
+    No. The connector gives the AI agent context from Intercom. The chat bubble lets your readers contact your support team from your published docs. You set it up separately, on the [Intercom](/integrations/intercom) page.
+  </Expandable>
+</ExpandableGroup>
+
+## If Intercom fails
+
+- **"Could not complete the connection"** or **"Failed to complete the connection"**: Click **Connect** on the Intercom card again.
+- **"Connection could not be verified"**: Start again from the Intercom card in **Agent Settings**, in the same browser tab.
+- **"connection expired"** in the Manage dialog: Click **Reconnect Intercom** and approve access again.
+- **The agent says "No Intercom workspace is connected to this organization"**: The agent shows this message whenever Intercom is off for this documentation project, even if your organization is connected. Open **Agent Settings** in this project. If the Intercom card shows **Connect**, connect Intercom. If it shows a switch, turn it on. In a workflow, also check that Intercom is selected under **Connectors** in the workflow form.
+
+## Related
+
+<Columns cols="3">
+  <Card title="AI Documentation Agent" href="/ai/ai-documentation-agent" icon="bot" horizontal="false">
+    Ask the agent to write and update pages.
+  </Card>
+
+  <Card title="Workflows" href="/ai/workflows" icon="zap" horizontal="false">
+    Run the agent on a schedule or on merge.
+  </Card>
+
+  <Card title="Integrations overview" href="/integrations/overview" icon="info" horizontal="false">
+    See every tool you can connect.
+  </Card>
+</Columns>

@@ -630,6 +630,11 @@
                 "icon": "messages-square"
               },
               {
+                "title": "Intercom Connector",
+                "path": "integrations/intercom-connector",
+                "icon": "headset"
+              },
+              {
                 "group": "Analytics",
                 "icon": "trending-up",
                 "pages": [

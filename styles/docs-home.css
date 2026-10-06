@@ -43,7 +43,6 @@
   max-width: 38rem;
   font-size: 18px;
   line-height: 1.6;
-  color: var(--da-muted);
 }
 
 /* Lattice: cells share single hairlines; the gap shows the rule colour. */
@@ -167,6 +166,5 @@
   .dai-article:has(.dh-home) .dai-card-description p {
     font-size: 16px !important;
     line-height: 24px !important;
-    color: var(--da-muted) !important;
   }
 }

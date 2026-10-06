@@ -45,6 +45,18 @@
   --sidebar-border: var(--da-rule);
 }
 
+/*
+ * Text colours. Headings and body come from `colors` in documentation.json,
+ * set to the website's ink (mauve-950) and article body (mauve-900). The
+ * description under a page title is a deck, so it takes the website's muted
+ * grey on every page, the homepage included.
+ */
+
+.dai-article .page-description,
+.dai-article .page-description p {
+  color: var(--da-muted);
+}
+
 /* Links in running text: ink, with the accent as the underline. */
 
 .dai-article a {
@@ -95,6 +107,12 @@
 
   .dai-breadcrumbs a {
     color: var(--da-coral) !important;
+  }
+
+  /* Card descriptions in the muted grey, as on the website's cards. */
+  .dai-card-description,
+  .dai-card-description p {
+    color: var(--da-muted) !important;
   }
 
   /* Sidebar group titles read as the website's footer group headings. */

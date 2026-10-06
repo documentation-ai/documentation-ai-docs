@@ -4,13 +4,13 @@
   "colors": {
     "light": {
       "brand": "#1a1a1a",
-      "heading": "#1a1a1a",
-      "text": "#374151"
+      "heading": "#09090b",
+      "text": "#473c39"
     },
     "dark": {
       "brand": "#f2f2f2",
-      "heading": "#f2f2f2",
-      "text": "#c1c1c1"
+      "heading": "#ffffff",
+      "text": "#d6d4cf"
     }
   },
   "navbar": {

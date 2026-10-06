@@ -9,15 +9,19 @@
  *
  * Values come from the website's tokens (src/app/globals.css there):
  *   page #fcfcfc / #020101, card #f5f3f1 / #141312, rail-border #eeeeee /
- *   #1b1a1a, card-border #e4e4e4 / #262422, ink-muted #6b645b / #b8b2ac,
- *   coral #ec5b5b in both themes.
+ *   #1b1a1a, card-border #e4e4e4 / #262422, coral #ec5b5b in both themes.
+ *
+ * The muted grey is one step darker than the website's ink-muted (#6b645b):
+ * mauve-800, #5b4f4b, at 7.7:1 on the page. Docs set long descriptions, card
+ * text and the table of contents in it, and ink-muted's 5.7:1 read as too
+ * light there. Dark keeps the website's #b8b2ac, which is already 9.9:1.
  */
 
 @import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&family=Merriweather:wght@400&display=swap");
 
 :root {
   --da-coral: #ec5b5b;
-  --da-muted: #6b645b;
+  --da-muted: #5b4f4b;
   --da-rule: #eeeeee;
   --da-card: #f5f3f1;
   --da-serif: "Merriweather", Georgia, serif;

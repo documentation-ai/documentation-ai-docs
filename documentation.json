@@ -5,12 +5,12 @@
     "light": {
       "brand": "#1a1a1a",
       "heading": "#09090b",
-      "text": "#473c39"
+      "text": "#2a2422"
     },
     "dark": {
       "brand": "#f2f2f2",
       "heading": "#ffffff",
-      "text": "#d6d4cf"
+      "text": "#ebe9e6"
     }
   },
   "navbar": {

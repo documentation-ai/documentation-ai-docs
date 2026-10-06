@@ -11,17 +11,19 @@
  *   page #fcfcfc / #020101, card #f5f3f1 / #141312, rail-border #eeeeee /
  *   #1b1a1a, card-border #e4e4e4 / #262422, coral #ec5b5b in both themes.
  *
- * The muted grey is one step darker than the website's ink-muted (#6b645b):
- * mauve-800, #5b4f4b, at 7.7:1 on the page. Docs set long descriptions, card
- * text and the table of contents in it, and ink-muted's 5.7:1 read as too
- * light there. Dark keeps the website's #b8b2ac, which is already 9.9:1.
+ * Docs text runs darker than the website's, which is set for short decks
+ * rather than long reading. Body text (`colors.text` in documentation.json) is
+ * #2a2422, 14.9:1 on the page, and the muted grey for descriptions, card text
+ * and the table of contents is #473c39 (the website's article body), 10.4:1.
+ * Dark mode mirrors them: #ebe9e6 at 17.2:1 and #cdc8c3 at 12.6:1. The
+ * website's own ink-muted (#6b645b, 5.7:1) read as too light in the docs.
  */
 
 @import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&family=Merriweather:wght@400&display=swap");
 
 :root {
   --da-coral: #ec5b5b;
-  --da-muted: #5b4f4b;
+  --da-muted: #473c39;
   --da-rule: #eeeeee;
   --da-card: #f5f3f1;
   --da-serif: "Merriweather", Georgia, serif;
@@ -38,7 +40,7 @@
 }
 
 .dark {
-  --da-muted: #b8b2ac;
+  --da-muted: #cdc8c3;
   --da-rule: #1b1a1a;
   --da-card: #141312;
 
@@ -51,7 +53,7 @@
 
 /*
  * Text colours. Headings and body come from `colors` in documentation.json,
- * set to the website's ink (mauve-950) and article body (mauve-900). The
+ * set to the website's ink (mauve-950) and a darker warm body (#2a2422). The
  * description under a page title is a deck, so it takes the website's muted
  * grey on every page, the homepage included.
  */

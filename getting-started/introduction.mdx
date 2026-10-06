@@ -5,7 +5,6 @@ description: >-
   keep every page current as your product changes.
 ---
 import DocsHome from "/snippets/docs-home.jsx"
-import DocsHomeExplore from "/snippets/docs-home-explore.jsx"
 import DocsHomeMigrate from "/snippets/docs-home-migrate.jsx"
 
 ## Start here
@@ -18,6 +17,78 @@ From an empty project to docs on your own domain.
 
 Everything the platform does, from writing to AI access.
 
-<DocsHomeExplore />
+<Columns cols="3">
+  <Card title="Web Editor" href="/write-and-publish/web-editor" icon="square-pen">
+    Visual editing, no Git required.
+  </Card>
+
+  <Card title="Docs as Code & Git" href="/write-and-publish/code-editor" icon="git-branch">
+    Branches, PRs, preview builds.
+  </Card>
+
+  <Card title="Collaboration & Comments" href="/write-and-publish/collaboration" icon="users">
+    Live editing, inline comments, mentions.
+  </Card>
+
+  <Card title="Reusable Snippets" href="/write-and-publish/snippets" icon="layers">
+    Write once (text or React), update everywhere.
+  </Card>
+
+  <Card title="Components" href="/components/components" icon="component">
+    Beautiful components designed for documentation.
+  </Card>
+
+  <Card title="AI Documentation Agent" href="/ai/ai-documentation-agent" icon="bot">
+    Runs the workflows in the background and drafts the changes.
+  </Card>
+
+  <Card title="AI Workflows" href="/ai/workflows" icon="workflow">
+    Update from code, changelogs, and user feedback, on merge or a schedule.
+  </Card>
+
+  <Card title="Connectors" href="/integrations/overview" icon="plug">
+    GitHub, GitLab, Jira, Confluence, user feedback.
+  </Card>
+
+  <Card title="Analytics & AI Insights" href="/analytics/overview" icon="chart-column">
+    Traffic, ratings, and the questions Ask AI answered with low confidence.
+  </Card>
+
+  <Card title="API Docs & Playground" href="/api-documentation-and-playground/openapi-import" icon="braces">
+    OpenAPI in, live try-it console out.
+  </Card>
+
+  <Card title="Access Control" href="/customize/access-control/overview" icon="shield-check">
+    SSO, JWT, OAuth 2.0, role-based access.
+  </Card>
+
+  <Card title="Versions & Localization" href="/organize/localization" icon="languages">
+    Ship docs in every language and version.
+  </Card>
+
+  <Card title="Custom Domains" href="/customize/custom-domain" icon="globe">
+    Your docs on your domain or subpath.
+  </Card>
+
+  <Card title="Embedded Docs" href="/embedded-docs/overview" icon="app-window">
+    Docs and the AI Assistant inside your product.
+  </Card>
+
+  <Card title="AI Assistant" href="/ai/ai-assistant" icon="sparkles">
+    Cited answers inside your docs, scored by confidence.
+  </Card>
+
+  <Card title="Reader MCP Server" href="/ai/reader-mcp-server" icon="book-open">
+    Your customers' AI tools read your docs.
+  </Card>
+
+  <Card title="Authoring MCP Server" href="/ai/authoring-mcp-server" icon="file-pen">
+    Your team writes docs from Cursor or Claude Code.
+  </Card>
+
+  <Card title="llms.txt & GEO" href="/seo-and-geo/robots-txt-and-llm-txt" icon="file-text">
+    Discoverable to every model.
+  </Card>
+</Columns>
 
 <DocsHomeMigrate />

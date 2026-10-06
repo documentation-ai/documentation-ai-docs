@@ -1,32 +1,45 @@
 /*
- * Docs homepage, in the drafting style of documentation.ai. Loads after
+ * Docs homepage, in the style of the documentation.ai website. Loads after
  * styles/docs-theme.css and reads its tokens (--da-*) and fonts.
  *
- * Every rule is scoped to the page that renders snippets/docs-home.jsx, so the
- * other docs pages get the theme alone. The page itself stays plain MDX
- * (Columns and Cards), editable in the web editor; this file only restyles it.
+ * Every rule is scoped to the page that renders snippets/docs-home.jsx (its
+ * root carries `dh-home`), so the other docs pages get the theme alone. The
+ * page's two card grids stay plain MDX (Columns and Cards), editable in the web
+ * editor; the hero actions, the painted tiles and the migration row are the two
+ * snippets, and this file styles all of it.
  *
- * Two Columns blocks share one lattice look and differ in one way:
- *   - Cards WITHOUT an icon are a sequence, and get a coral index (01, 02, 03).
- *   - Cards WITH an icon are a list of areas, and show the icon instead.
- * So "Start here" cards must not set `icon`, and "Explore" cards must.
+ * The page, top to bottom:
+ *   1. Title and description (frontmatter), with a mono eyebrow added here.
+ *   2. Actions, then a painting with a drawn Ask AI window (docs-home.jsx).
+ *   3. "Start here": the FIRST Columns block, a sequence, so each cell carries
+ *      a coral index (01, 02, 03) at its top right.
+ *   4. "Explore the docs": any later Columns block, a plain lattice.
+ *   5. The migration row: copy beside a second painting (docs-home-migrate.jsx).
+ *
+ * The paintings are the website's own (public/img/scenery there, listed in
+ * src/lib/scenery.ts), loaded from documentation.ai so both sites show one
+ * set. Each veil follows the website's rule: black at 1 - 0.34 / luma, a touch
+ * heavier in the middle (1.15x) and lighter at the edges (0.85x), so every
+ * painting comes out equally bright; a step darker again in the dark theme.
  */
 
-.dh-home {
-  display: none;
+.dai-article:has(.dh-home) {
+  max-width: 960px !important;
+  container: dh / inline-size;
 }
 
-/* Width: the homepage has no table of contents, so give its column the room. */
-
+/* The homepage has no table of contents, so its column takes the room. */
 .dai-page:has(.dh-home) .dai-page-aside {
   display: none;
 }
 
-.dai-article:has(.dh-home) {
-  max-width: 960px !important;
+.dai-article:has(.dh-home) .dh-home a,
+.dai-article:has(.dh-home) .dh-split a {
+  border-bottom: 0;
+  text-decoration: none;
 }
 
-/* Hero: mono eyebrow, serif h1 (from the theme), subtext below it. */
+/* 1. Hero copy: mono eyebrow, serif h1 (from the theme), subtext below it. */
 
 .dai-article:has(.dh-home) .page-title::before {
   content: "Documentation";
@@ -45,7 +58,348 @@
   line-height: 1.6;
 }
 
-/* Lattice: cells share single hairlines; the gap shows the rule colour. */
+/* 2. Actions: an ink pill and a soft one, as the website's hero buttons. */
+
+.dh-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.dh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 999px;
+  font: 500 15px/1 var(--da-display);
+  cursor: pointer;
+  transition: background-color 150ms ease, opacity 150ms ease;
+}
+
+.dh-btn-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.dh-btn-primary {
+  background: var(--heading);
+  color: var(--background) !important;
+}
+
+.dh-btn-primary:hover {
+  opacity: 0.88;
+}
+
+.dh-btn-soft {
+  background: var(--da-card);
+  color: var(--heading);
+}
+
+.dh-btn-soft:hover {
+  background: #ece9e5;
+}
+
+.dark .dh-btn-soft:hover {
+  background: #1f1d1b;
+}
+
+/* Paintings: the picture softened by a 1px blur, under its veil. */
+
+.dh-painting {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 12px;
+  container: dh-tile / inline-size;
+}
+
+.dh-home .dh-painting {
+  margin-top: 56px;
+}
+
+.dh-painting::before,
+.dh-painting::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.dh-painting::before {
+  background: var(--dh-painting) center / cover no-repeat;
+  filter: blur(1px);
+  transform: scale(1.02);
+}
+
+.dh-painting::after {
+  background: var(--dh-veil);
+}
+
+.dark .dh-painting::after {
+  background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), var(--dh-veil);
+}
+
+/* coast-tidepools, luma 0.555: veil 0.387 */
+.dh-painting-tidepools {
+  --dh-painting: url("https://documentation.ai/img/scenery/coast-tidepools.jpg");
+  --dh-veil: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0, 0, 0, 0.445) 0%, rgba(0, 0, 0, 0.387) 60%, rgba(0, 0, 0, 0.329) 100%);
+}
+
+/* headland-bloom, luma 0.538: veil 0.368 */
+.dh-painting-headland {
+  --dh-painting: url("https://documentation.ai/img/scenery/headland-bloom.jpg");
+  --dh-veil: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0, 0, 0, 0.423) 0%, rgba(0, 0, 0, 0.368) 60%, rgba(0, 0, 0, 0.313) 100%);
+}
+
+/* Glass: the website's clear rim for panels on a painting, a panel inside. */
+
+.dh-glass {
+  position: relative;
+  padding: 10px;
+  border-radius: 24px;
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.08));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 32px 64px -24px rgba(0, 0, 0, 0.55);
+  -webkit-backdrop-filter: blur(6px) brightness(1.15) saturate(1.6);
+  backdrop-filter: blur(6px) brightness(1.15) saturate(1.6);
+}
+
+.dh-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.15));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  pointer-events: none;
+}
+
+.dh-glass-sm {
+  padding: 8px;
+  border-radius: 20px;
+}
+
+.dh-face {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #fff;
+  color: #09090b;
+  font-size: 13px;
+  line-height: 1.5;
+  box-shadow: 0 16px 40px -16px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.dh-glass-sm .dh-face {
+  border-radius: 12px;
+}
+
+.dark .dh-face {
+  background: #0c0b0b;
+  color: #fff;
+}
+
+.dh-window-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 64px;
+}
+
+.dh-window-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.dh-lights {
+  position: absolute;
+  left: 14px;
+  display: flex;
+  gap: 6px;
+}
+
+.dh-lights i {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(9, 9, 11, 0.12);
+}
+
+.dark .dh-lights i {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.dh-window-title,
+.dh-label {
+  font: 500 11px/1 var(--da-mono);
+  letter-spacing: 0.06em;
+  color: #787168;
+}
+
+.dark .dh-window-title,
+.dark .dh-label {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.dh-cursor {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  fill: #09090b;
+  stroke: #fff;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.25));
+}
+
+.dark .dh-cursor {
+  fill: #fff;
+  stroke: #09090b;
+}
+
+/* The Ask AI stage: a window, its sources card over the lower-right corner. */
+
+.dh-stage {
+  position: relative;
+  padding: 56px 48px;
+}
+
+.dh-ask {
+  width: min(640px, 72%);
+}
+
+.dh-ask-body {
+  padding: 4px 20px 24px;
+}
+
+.dh-question {
+  width: fit-content;
+  max-width: 80%;
+  margin-left: auto;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: #f5f3f1;
+}
+
+.dark .dh-question {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dh-answer {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.dh-answer-mark {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: rgba(236, 91, 91, 0.1);
+}
+
+.dark .dh-answer-mark {
+  background: rgba(236, 91, 91, 0.15);
+}
+
+.dh-icon-coral {
+  width: 14px;
+  height: 14px;
+  color: var(--da-coral);
+}
+
+/* The answer stops short of the window's right edge, where the sources card lands. */
+.dh-answer > div {
+  max-width: 400px;
+}
+
+.dh-answer p {
+  margin: 0 0 8px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: inherit;
+}
+
+.dh-answer code {
+  padding: 1px 5px;
+  border-radius: 5px;
+  background: #f5f3f1;
+  font: 12px var(--da-mono);
+}
+
+.dark .dh-answer code {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.dh-sources {
+  position: absolute;
+  right: 48px;
+  bottom: 32px;
+  width: 280px;
+}
+
+.dh-sources .dh-face {
+  padding: 14px;
+}
+
+.dh-source {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-top: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+
+.dh-source svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+  color: #787168;
+}
+
+.dh-source b {
+  display: block;
+  font-weight: 500;
+}
+
+.dh-source em {
+  display: block;
+  font: normal 11px/1.4 var(--da-mono);
+  color: #787168;
+}
+
+.dh-source-on {
+  background: #f5f3f1;
+}
+
+.dark .dh-source-on {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dark .dh-source svg,
+.dark .dh-source em {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.dh-sources .dh-cursor {
+  top: 64px;
+  right: 34px;
+}
+
+/* 3 and 4. The lattice: cells share single hairlines; the gap shows the rule. */
 
 .dai-article:has(.dh-home) [data-component="Columns"] {
   display: grid;
@@ -56,13 +410,13 @@
   border: 1px solid var(--da-rule);
 }
 
-@media (min-width: 640px) {
+@container dh (min-width: 600px) {
   .dai-article:has(.dh-home) [data-component="Columns"] {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (min-width: 1024px) {
+@container dh (min-width: 860px) {
   .dai-article:has(.dh-home) [data-component="Columns"] {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -79,6 +433,7 @@
 }
 
 .dai-article:has(.dh-home) [data-component="Columns"] [data-component="Card"] {
+  position: relative;
   height: 100%;
   border: 0 !important;
   border-radius: 0 !important;
@@ -86,15 +441,15 @@
 }
 
 .dai-article:has(.dh-home) [data-component="Columns"] [data-component="Card"] > div:last-child {
-  padding: 28px 28px 32px;
+  padding: 32px 28px;
 }
 
 .dai-article:has(.dh-home) [data-component="Columns"] [data-component="Card"] svg.lucide {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   stroke-width: 1.5;
   color: var(--da-muted);
-  margin-bottom: 20px;
+  margin-bottom: 26px;
 }
 
 .dai-article:has(.dh-home) .dai-card-title {
@@ -103,24 +458,45 @@
   letter-spacing: -0.01em;
 }
 
+.dai-article:has(.dh-home) .dai-card-description {
+  display: block;
+}
+
 .dai-article:has(.dh-home) .dai-card-description p {
   margin-top: 6px;
 }
 
-/* A sequence: cards without an icon carry a coral index above the title. */
+/* The website's clickable cell: a mono "Explore" under the line, coral on hover. */
+.dai-article:has(.dh-home) [data-component="Columns"] .dai-card-description::after {
+  content: "Explore \2192";
+  display: block;
+  margin-top: 24px;
+  font: 500 12px/18px var(--da-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--heading);
+  transition: color 150ms ease;
+}
 
-.dai-article:has(.dh-home) [data-component="Columns"]:not(:has(svg.lucide)) {
+.dai-article:has(.dh-home) [data-component="Columns"] > a:hover .dai-card-description::after {
+  color: var(--da-coral);
+}
+
+/* The first grid is a sequence: a coral index at each cell's top right. */
+
+.dai-article:has(.dh-home) [data-component="Columns"]:not([data-component="Columns"] ~ [data-component="Columns"]) {
   counter-reset: dh-step;
 }
 
-.dai-article:has(.dh-home) [data-component="Columns"]:not(:has(svg.lucide)) > a {
+.dai-article:has(.dh-home) [data-component="Columns"]:not([data-component="Columns"] ~ [data-component="Columns"]) > a {
   counter-increment: dh-step;
 }
 
-.dai-article:has(.dh-home) [data-component="Columns"]:not(:has(svg.lucide)) .dai-card-title::before {
+.dai-article:has(.dh-home) [data-component="Columns"]:not([data-component="Columns"] ~ [data-component="Columns"]) .dai-card-title::before {
   content: counter(dh-step, decimal-leading-zero);
-  display: block;
-  margin-bottom: 48px;
+  position: absolute;
+  top: 34px;
+  right: 28px;
   font: 500 12px/18px var(--da-mono);
   font-variant-numeric: tabular-nums;
   letter-spacing: 0;
@@ -132,6 +508,246 @@
 .dai-article:has(.dh-home) h2 + p {
   margin-top: 0;
   color: var(--da-muted);
+}
+
+/* 5. The migration row: copy beside a painting, side by side when wide. */
+
+.dh-split {
+  display: grid;
+  gap: 40px;
+  margin-top: 104px;
+}
+
+@container dh (min-width: 860px) {
+  .dh-split {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 56px;
+    align-items: center;
+  }
+}
+
+.dh-eyebrow {
+  font: 500 12px/18px var(--da-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--da-coral);
+}
+
+.dh-deck {
+  margin: 12px 0 0;
+  color: var(--da-muted);
+}
+
+.dh-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 20px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dh-links li {
+  margin: 0;
+  padding: 0;
+}
+
+.dh-links li::marker {
+  content: none;
+}
+
+.dh-links a {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 15px;
+  color: var(--heading);
+}
+
+.dh-links a:hover {
+  color: var(--da-coral);
+}
+
+.dh-links svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  color: var(--da-muted);
+}
+
+.dh-explore {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  margin-top: 28px;
+  font: 500 12px/18px var(--da-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--heading);
+}
+
+.dh-explore:hover {
+  color: var(--da-coral);
+}
+
+.dh-explore svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* The migration stage: a window to the right, the preview card over its lower-left corner. */
+
+/* The bottom padding leaves room for the preview card, which overlaps only the window's rim. */
+.dh-stage-migrate {
+  padding: 40px 32px 136px;
+}
+
+.dh-migrate {
+  width: min(400px, 84%);
+  margin-left: auto;
+}
+
+.dh-rows {
+  padding: 0 18px 16px;
+}
+
+.dh-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid #eeeeee;
+}
+
+.dark .dh-row {
+  border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+.dh-row-result {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  color: #787168;
+}
+
+.dark .dh-row-result {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.dh-check {
+  width: 14px;
+  height: 14px;
+  color: #16a34a;
+}
+
+.dark .dh-check {
+  color: #4ade80;
+}
+
+.dh-preview {
+  position: absolute;
+  left: 24px;
+  bottom: 20px;
+  width: 272px;
+}
+
+.dh-preview .dh-face {
+  padding: 14px;
+}
+
+.dh-preview-status {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-weight: 500;
+}
+
+.dh-live {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--da-coral);
+}
+
+.dh-preview-url {
+  margin-top: 4px;
+  font: 11px/1.4 var(--da-mono);
+  color: #787168;
+}
+
+.dark .dh-preview-url {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.dh-preview-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.dh-chip {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: #f5f3f1;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.dark .dh-chip {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.dh-chip-on {
+  background: #09090b;
+  color: #fff;
+}
+
+.dark .dh-chip-on {
+  background: #fff;
+  color: #09090b;
+}
+
+.dh-preview .dh-cursor {
+  top: 74px;
+  left: 150px;
+}
+
+/*
+ * Narrow tiles show the main window alone, as the website's stages do on a
+ * phone. The Ask AI tile needs 860px before its sources card clears the
+ * answer; the migration tile needs 440px for its preview card.
+ */
+
+@container dh-tile (max-width: 859px) {
+  .dh-stage-ask {
+    padding: 24px;
+  }
+
+  .dh-ask {
+    width: 100%;
+  }
+
+  .dh-answer > div {
+    max-width: none;
+  }
+
+  .dh-sources {
+    display: none;
+  }
+}
+
+@container dh-tile (max-width: 439px) {
+  .dh-stage-migrate {
+    padding: 24px;
+  }
+
+  .dh-migrate {
+    width: 100%;
+  }
+
+  .dh-preview {
+    display: none;
+  }
 }
 
 /*
@@ -153,13 +769,22 @@
     font-size: 28px !important;
     line-height: 1.25 !important;
     letter-spacing: -0.005em !important;
-    margin-top: 88px !important;
+    margin-top: 104px !important;
     margin-bottom: 8px !important;
+  }
+
+  .dai-article:has(.dh-home) .dh-split h2 {
+    margin-top: 12px !important;
+  }
+
+  /* The platform sets links in running text at 600. */
+  .dai-article:has(.dh-home) .dh-links a {
+    font-weight: 400 !important;
   }
 
   .dai-article:has(.dh-home) .dai-card-title {
     font-size: 18px !important;
-    font-weight: 500 !important;
+    font-weight: 400 !important;
   }
 
   .dai-article:has(.dh-home) .dai-card-description,

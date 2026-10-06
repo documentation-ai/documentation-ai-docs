@@ -4,7 +4,7 @@ export const description = "Docs homepage migration row: copy and links beside a
 // the page; the drawing sits on its own painting, as the website's split rows
 // do. The drawing shows a migration finishing: what the migrator moves (pages,
 // sidebar, images, redirects, per migrations/overview) with invented numbers,
-// and the preview a reader checks before going live.
+// and the preview a reader checks before going live
 export const DocsHomeMigrate = () => {
   const base = typeof window !== "undefined" && window.location.pathname.startsWith("/docs") ? "/docs" : ""
 

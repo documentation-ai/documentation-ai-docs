@@ -9,7 +9,7 @@ export const description = "Docs homepage Start here row: four numbered steps, e
 // sunset, night), the last being the work the agent does on its own. They are
 // set like the blog's scenery covers: the step number top-left and
 // its title in the serif, white, bottom-left, with nothing drawn over the
-// picture. The description and the link sit on the page below.
+// picture. The description and the link sit on the page below
 export const DocsHome = () => {
   const base = typeof window !== "undefined" && window.location.pathname.startsWith("/docs") ? "/docs" : ""
 

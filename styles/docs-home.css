@@ -9,7 +9,7 @@
  * this file styles all of it.
  *
  * The page, top to bottom:
- *   1. Title and description (frontmatter), with a mono eyebrow added here.
+ *   1. Title and description (frontmatter).
  *   2. "Start here": three numbered steps, each a drawn window on a painting
  *      with its copy on the page below (docs-home.jsx).
  *   3. "Explore the docs": the Columns block, a plain lattice.
@@ -38,17 +38,7 @@
   text-decoration: none;
 }
 
-/* 1. Hero copy: mono eyebrow, serif h1 (from the theme), subtext below it. */
-
-.dai-article:has(.dh-home) .page-title::before {
-  content: "Documentation";
-  display: block;
-  margin-bottom: 20px;
-  font: 500 12px/18px var(--da-mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--da-coral);
-}
+/* 1. Hero copy: serif h1 (from the theme), subtext below it. */
 
 .dai-article:has(.dh-home) .page-description,
 .dai-article:has(.dh-home) .page-description p {
@@ -809,9 +799,10 @@
  */
 
 @layer utilities {
+  /* A step above the 32px of every other docs page: 32px on a phone, 40px from a laptop up. */
   .dai-article:has(.dh-home) .page-title {
-    font-size: clamp(2.25rem, 1.75rem + 1.6vw, 3.25rem) !important;
-    line-height: 1.15 !important;
+    font-size: clamp(2rem, 1.6rem + 1vw, 2.5rem) !important;
+    line-height: 1.2 !important;
     margin-bottom: 20px !important;
   }
 

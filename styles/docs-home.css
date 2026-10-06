@@ -815,13 +815,10 @@
     margin-bottom: 20px !important;
   }
 
-  /* On the homepage the section h2s are serif, as on the website's landing pages. */
+  /* The section h2s keep the theme's Geist 500 (only the h1 is serif), set larger and further apart. */
   .dai-article:has(.dh-home) h2 {
-    font-family: var(--da-serif) !important;
-    font-weight: 400 !important;
     font-size: 28px !important;
     line-height: 1.25 !important;
-    letter-spacing: -0.005em !important;
     margin-top: 104px !important;
     margin-bottom: 8px !important;
   }

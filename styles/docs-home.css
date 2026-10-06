@@ -10,7 +10,7 @@
  *
  * The page, top to bottom:
  *   1. Title and description (frontmatter).
- *   2. "Start here": three numbered steps, each titled on a painting with
+ *   2. "Start here": four numbered steps, each titled on a painting with
  *      its description below (docs-home.jsx).
  *   3. "Explore the docs": the Columns block, a plain lattice.
  *   4. The migration row: copy beside a painting (docs-home-migrate.jsx).
@@ -96,6 +96,17 @@
   --dh-painting: url("https://documentation.ai/img/scenery/coast-sunset.jpg");
   --dh-focus: right center;
   --dh-veil: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0, 0, 0, 0.416) 0%, rgba(0, 0, 0, 0.362) 60%, rgba(0, 0, 0, 0.308) 100%);
+}
+
+/*
+ * moon-lake, luma 0.244: below the veil's target, so the rule above cannot
+ * match it. Set by eye instead, light enough that the moon and its
+ * reflection still show. Anchored right, where they sit.
+ */
+.dh-painting-night {
+  --dh-painting: url("https://documentation.ai/img/scenery/moon-lake.jpg");
+  --dh-focus: 70% center;
+  --dh-veil: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.08) 60%, rgba(0, 0, 0, 0.04) 100%);
 }
 
 /* headland-bloom, luma 0.538: veil 0.368 */
@@ -215,7 +226,7 @@
 }
 
 /*
- * 2. "Start here": three steps, each a painting set like the blog's scenery
+ * 2. "Start here": four steps, each a painting set like the blog's scenery
  * covers, with the description and link on the page below. The number sits
  * top-left and the title bottom-left, so across the row the numbers line up
  * and so do the titles' last lines, however many lines a title takes.
@@ -229,10 +240,17 @@
   list-style: none;
 }
 
+@container dh (min-width: 560px) {
+  .dh-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px 24px;
+  }
+}
+
 @container dh (min-width: 860px) {
   .dh-steps {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
   }
 }
 
@@ -258,7 +276,7 @@
   flex-direction: column;
   justify-content: space-between;
   aspect-ratio: 4 / 3;
-  padding: 22px 24px 24px;
+  padding: 18px 18px 20px;
   color: #fff;
 }
 
@@ -285,12 +303,12 @@
   color: rgba(255, 255, 255, 0.8);
 }
 
-/* Sized to the tile, so the title keeps its proportion from a phone to three across. */
+/* Sized to the tile, so the title keeps its proportion from a phone to four across. */
 .dh-step-title {
   max-width: 13ch;
   font-family: var(--da-serif);
   font-weight: 400;
-  font-size: clamp(22px, 10cqi, 32px);
+  font-size: clamp(20px, 11cqi, 32px);
   line-height: 1.25;
   letter-spacing: -0.01em;
   color: #fff;
@@ -308,7 +326,7 @@
   color: var(--da-muted);
 }
 
-/* Pinned to the foot, so the three links line up whatever the copy's length. */
+/* Pinned to the foot, so the four links line up whatever the copy's length. */
 .dh-step .dh-explore {
   margin-top: auto;
   padding-top: 20px;

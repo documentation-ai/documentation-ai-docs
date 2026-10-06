@@ -1,12 +1,13 @@
-export const description = "Docs homepage Start here row: three numbered steps, each titled on a painting"
+export const description = "Docs homepage Start here row: four numbered steps, each titled on a painting"
 
 // The homepage's "Start here" row, under the h2 the page itself writes. Its
 // root carries `dh-home`, which styles/docs-home.css uses to scope every
 // homepage rule to this page; remove the import and the page falls back to the
 // theme alone.
 //
-// Three steps, each on a painting in the order of a day (sunrise, full day,
-// sunset), set like the blog's scenery covers: the step number top-left and
+// Four steps, each on a painting in the order of a day (sunrise, full day,
+// sunset, night), the last being the work the agent does on its own. They are
+// set like the blog's scenery covers: the step number top-left and
 // its title in the serif, white, bottom-left, with nothing drawn over the
 // picture. The description and the link sit on the page below.
 export const DocsHome = () => {
@@ -17,15 +18,15 @@ export const DocsHome = () => {
   const steps = [
     {
       n: "01",
-      title: "Create your site",
-      desc: "Sign up, pick a starting point, and publish a branded site in minutes.",
+      title: "Set up your docs",
+      desc: "Sign up, choose how you'll write, and publish your first edit in minutes.",
       href: "/getting-started/quickstart",
       painting: "sunrise",
     },
     {
       n: "02",
-      title: "Learn the model",
-      desc: "How pages, navigation, branches, and the AI agent fit together.",
+      title: "Learn the core concepts",
+      desc: "How the AI features, the two ways to write, and components fit together.",
       href: "/getting-started/core-concepts",
       painting: "valley",
     },
@@ -35,6 +36,13 @@ export const DocsHome = () => {
       desc: "Connect your own domain, or serve your docs under a path like /docs.",
       href: "/customize/custom-domain",
       painting: "sunset",
+    },
+    {
+      n: "04",
+      title: "Keep docs up to date",
+      desc: "Set up a workflow, and the AI agent drafts updates from code changes, changelogs, and user feedback.",
+      href: "/ai/workflows",
+      painting: "night",
     },
   ]
 

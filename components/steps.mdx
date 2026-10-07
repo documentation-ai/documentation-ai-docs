@@ -60,7 +60,7 @@ For each step:
 1. Click the **three-dot menu** on the right side of the step.
 2. In **Step Settings**:
    - **Title**: Change the step title text.
-   - **Icon (optional)**: Search for a Lucide icon (for example, `check`, `arrow-right`, `database`) and select it.
+   - **Icon (optional)**: Search for an icon (for example, `check`, `arrow-right`, `database`) and select it, or add your own on the **Upload / URL** tab.
 
      - When you choose an icon, it **replaces the number** for that step.
 
@@ -214,7 +214,7 @@ Omit the `icon` attribute to display automatic sequential numbering:
 
 ### Custom icons
 
-Add visual context to each step using Lucide icons:
+Add visual context to each step with icons:
 
 ````jsx
 <Steps>
@@ -269,7 +269,7 @@ Add visual context to each step using Lucide icons:
 </Steps>
 
 <Callout kind="info" collapsed="false">
-  Icon names use Lucide icon library. Reference the [Lucide icon directory](https://lucide.dev/icons/) for available options.
+  Icons can come from Lucide, Font Awesome Free, Tabler or your own files. See [Icons](/customize/icons) for every form an icon can take.
 </Callout>
 
 ### Heading levels
@@ -450,7 +450,7 @@ The `<Steps>` component acts as a container and has no configurable attributes. 
 </ParamField>
 
 <ParamField path="icon" param-type="string" required="false" deprecated="false">
-  Lucide icon name to display instead of automatic numbering. Omit this attribute to show sequential numbers. Reference [Lucide icons](https://lucide.dev/icons/) for available options.
+  Icon to display instead of automatic numbering: a name from your site's [icon library](/customize/icons), a name with its library such as `fa-solid:check`, or the address of a file in your media library. Omit this attribute to show sequential numbers.
 </ParamField>
 
 <ParamField path="title-type" param-type="string" required="false" deprecated="false">

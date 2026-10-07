@@ -1,0 +1,197 @@
+---
+title: Icons
+description: >-
+  Choose the icon library your site draws from, mix libraries on one page, and use your own icon files, from the web editor or from Git.
+---
+Every icon on your site, in components like Card, Step, Tab, Callout and Board and on navigation items, products, versions and languages, comes from Lucide, Font Awesome Free, Tabler or your own files in the media library. Your site has one default library, and any single icon can name a different one.
+
+<Callout kind="info" collapsed="false">
+  **Before you begin**
+
+  - You need the Admin or Editor role to change icons or the icon library.
+  - Font Awesome icons are the free set: solid, regular and brands. Pro styles such as light, thin, duotone and sharp aren't available.
+  - Tabler icons come in outline and filled.
+  - Your own icons are SVG, PNG or WebP files in your [media library](/write-and-publish/media-library).
+</Callout>
+
+## Web editor
+
+### How to choose your site's icon library
+
+The library you choose draws every icon written by name alone, such as `rocket`. Sites start with Lucide.
+
+<Steps>
+  <Step title="Open the setting" icon="settings" title-type="p">
+    In the editor, click **Site Config** in the top toolbar, then select **Brand & Theme**.
+  </Step>
+
+  <Step title="Pick a library" icon="shapes" title-type="p">
+    Under **Icon Library**, choose **Lucide**, **Font Awesome** or **Tabler**.
+  </Step>
+
+  <Step title="Decide what happens to existing icons" icon="git-compare" title-type="p">
+    If you want every icon to keep the look it has today, click **Switch and keep current icons**. Each existing icon is marked with the library it comes from, across navigation and every page on the branch.
+
+    If you want existing icons redrawn from the new library, click **Switch and redraw all icons**.
+  </Step>
+
+  <Step title="Publish" icon="upload" title-type="p">
+    Click **Publish documentation** to apply the change to your live site.
+  </Step>
+</Steps>
+
+<Callout kind="alert" collapsed="false">
+  **Switch and redraw all icons** changes how existing icons look. A name that the new library doesn't have is still drawn from Lucide.
+</Callout>
+
+### How to pick an icon
+
+<Steps>
+  <Step title="Open the picker" icon="mouse-pointer-click" title-type="p">
+    Click the icon slot on a Card, Step, Callout or Board card, or **Select Icon** in a tab's or navigation item's settings.
+  </Step>
+
+  <Step title="Choose a library tab" icon="layout-grid" title-type="p">
+    Pick **Lucide**, **Font Awesome** or **Tabler**. On **Font Awesome**, filter by **All**, **Solid**, **Regular** or **Brands**. On **Tabler**, filter by **All**, **Outline** or **Filled**.
+  </Step>
+
+  <Step title="Search and select" icon="search" title-type="p">
+    Search by name, including older names such as `home` for `house`, then click the icon.
+  </Step>
+</Steps>
+
+An icon from your site's default library is saved by name alone. Any other icon is saved with its library, such as `fa-brands:github`, so it keeps its look if you change the site's library later.
+
+### How to use your own icon
+
+<Steps>
+  <Step title="Open the Upload / URL tab" icon="image-plus" title-type="p">
+    Open the icon picker and select **Upload / URL**.
+  </Step>
+
+  <Step title="Add the file" icon="upload" title-type="p">
+    - If the file is on your computer or already in your media library, click **Upload or choose a file**.
+    - If the file is on the web, paste its address under **Web address**. It is copied into your media library, so it loads fast and an SVG takes your theme colour.
+  </Step>
+</Steps>
+
+An SVG from your media library takes the text colour around it, like the library icons do. PNG and WebP files keep their own colours.
+
+## Code editor (Git)
+
+### How to set the icon library
+
+Add `icons.library` to `documentation.json`:
+
+```json
+{
+  "name": "Acme Docs",
+  "icons": {
+    "library": "fontawesome"
+  }
+}
+```
+
+The value is `lucide`, `fontawesome` or `tabler`. Leave `icons` out to use Lucide.
+
+<Callout kind="alert" collapsed="false">
+  Changing `icons.library` in a file redraws every icon written by name alone. To keep how an icon looks, add its library first, such as `lucide:rocket`. The web editor can do this for you.
+</Callout>
+
+### How to write an icon
+
+Every `icon` attribute and every `icon` field in `documentation.json` takes one string:
+
+```mdx
+<Card title="Quickstart" icon="rocket" href="/quickstart">
+  Uses your site's icon library.
+</Card>
+
+<Card title="Source code" icon="fa-brands:github" href="https://github.com/acme/sdk">
+  Always the Font Awesome GitHub logo.
+</Card>
+
+<Card title="Acme" icon="https://blob-cdn.documentation.ai/org-…/doc-…/1757300000000-abc123-acme.svg?rasterize-bypass=true" href="/about">
+  An SVG from your media library, in the theme colour.
+</Card>
+```
+
+See [Icon values](#icon-values) for every form.
+
+### How to use your own icon
+
+Upload the file to your [media library](/write-and-publish/media-library#code-editor-git) and use its address. An icon linked from another website is not drawn, and neither is a file path in your repository, such as `/icons/brand.svg`.
+
+## Common questions
+
+<ExpandableGroup>
+  <Expandable title="Will changing the icon library change my existing icons?" default-open="false">
+    Only icons written by name alone, such as `rocket`. In the web editor, **Switch and keep current icons** keeps every icon as it looks today.
+  </Expandable>
+
+  <Expandable title="Can I use Font Awesome Pro icons?" default-open="false">
+    No. Only the Font Awesome Free solid, regular and brands styles are available. An icon from a Pro style, such as `fa-light:rocket`, draws nothing.
+  </Expandable>
+
+  <Expandable title="Can one page mix icon libraries?" default-open="false">
+    Yes. Add the library to any icon, such as `lucide:rocket`, `fa-regular:bell` or `tabler:rocket`, and it draws from that library whatever your site's setting is.
+  </Expandable>
+
+  <Expandable title="Can I link an icon from another website?" default-open="false">
+    No. An icon linked from another website is not drawn, because a large or slow file there would slow down your pages. Paste its address on the **Upload / URL** tab and it is copied into your media library.
+  </Expandable>
+
+  <Expandable title="Can I use an icon file from my repository?" default-open="false">
+    Not yet. A path such as `/icons/brand.svg` draws nothing. Upload the file to your media library and use its address.
+  </Expandable>
+
+  <Expandable title="Can I paste SVG code as an icon?" default-open="false">
+    No. Upload the SVG file instead. Files are checked when you upload them, and SVG code pasted into a page could run in your readers' browsers.
+  </Expandable>
+</ExpandableGroup>
+
+## If an icon does not show
+
+The editor shows the last two messages. AI agents and the authoring MCP server report the first four when they check `documentation.json`.
+
+- **`"rokcet" is not an icon in Lucide, so nothing is drawn`**: check the spelling in the icon picker, or add the library the icon comes from, such as `fa-solid:rocket`.
+- **`Font Awesome has no "panel-top", so it is drawn from Lucide.`**, or the same message naming Tabler: write `lucide:panel-top`, or pick an icon from your site's library.
+- **`"cdn.example.com" is not your media library, so this icon is not drawn.`**: add the file to your media library and use its address.
+- **`Icons from project files are not drawn yet.`**: upload the file to your media library and use its address.
+- **Icons must be SVG, PNG or WebP files.**: choose a file in one of those formats.
+- **Someone was editing … so nothing was changed. Try again in a moment.**: wait until your teammates finish editing, then change the library again.
+
+## Icon values
+
+| Value | Draws |
+| --- | --- |
+| `rocket` | The icon by that name in your site's library. On a Font Awesome site: solid, then brands, then Lucide. On a Tabler site: outline, then filled, then Lucide. |
+| `lucide:rocket` | Lucide only. |
+| `tabler:rocket` | Tabler outline, then filled. |
+| `tabler-filled:star` | Tabler filled only. |
+| `fa:rocket` | Font Awesome solid, then brands. |
+| `fa-solid:rocket`, `fa-regular:bell`, `fa-brands:github` | That Font Awesome style only. |
+| `fa-solid fa-rocket`, `fab fa-github` | Font Awesome class names, read like the prefixed forms above. |
+| `https://blob-cdn.documentation.ai/…` | An `.svg`, `.png` or `.webp` file in your media library. Icons linked from other websites, and file paths in your repository, are not drawn. |
+
+Names are lowercase words joined by hyphens, without an `Icon` suffix. Older names, such as `home` for `house`, still work. Browse the libraries at [lucide.dev/icons](https://lucide.dev/icons), [fontawesome.com/search?ic=free](https://fontawesome.com/search?ic=free) and [tabler.io/icons](https://tabler.io/icons).
+
+## Licences
+
+Font Awesome Free icons are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), Lucide under the ISC licence, and Tabler under the MIT licence. Every site lists these notices at `/_dai/api/notices`, and each Font Awesome icon carries its attribution. Brand icons are trademarks of their owners; use them only to refer to that company or product.
+
+## Related
+
+<Columns cols="3">
+  <Card title="Site configuration" href="/customize/site-configuration#icons-configuration" icon="file-json" horizontal="false">
+    The `icons` setting and every `icon` field.
+  </Card>
+
+  <Card title="Media library" href="/write-and-publish/media-library" icon="images" horizontal="false">
+    Upload the files you use as icons.
+  </Card>
+
+  <Card title="Branding" href="/customize/branding" icon="palette" horizontal="false">
+    Logos and colours for your site.
+  </Card>
+</Columns>

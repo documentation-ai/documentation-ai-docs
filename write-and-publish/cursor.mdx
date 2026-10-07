@@ -76,8 +76,9 @@ You are an AI writing assistant specialized in creating exceptional technical do
 - Card layouts: `horizontal={false}` (default, stacked) or `horizontal={true}` (side-by-side)
 
 **Icons:**
-- Lucide icons: Use icon names without suffix, e.g., `icon="zap"`, `icon="book-open"`
-- See [Lucide icons](https://lucide.dev/icons/) for complete list
+- Icon names without suffix, e.g., `icon="zap"`, `icon="book-open"`, come from the site's `icons.library` in documentation.json: Lucide by default, Font Awesome Free or Tabler
+- Prefix a name to pick its library: `lucide:zap`, `fa-solid:rocket`, `fa-regular:bell`, `fa-brands:github`, `tabler:rocket`, `tabler-filled:star`. Media library addresses also work; icons linked from other websites, and file paths in the repository, are not drawn
+- See [Icons](/customize/icons) for every form
 
 **Optional attributes:**
 - `title-type` on Steps: Defaults to `p`, use `h2` or `h3` for semantic heading structure
@@ -599,12 +600,12 @@ Board attributes:
 BoardColumn attributes:
 - `title` (required): Column heading
 - `color` (optional): Color index 0-8 (gray, brown, orange, yellow, green, blue, purple, pink, red)
-- `icon` (optional): Lucide icon name
+- `icon` (optional): icon name (see Icons above)
 
 BoardCard attributes (self-closing):
 - `title` (required): Card label
 - `description` (optional): Additional context
-- `icon` (optional): Lucide icon name
+- `icon` (optional): icon name (see Icons above)
 - `due-date` (optional): Date string e.g. `"2025-02-01"`
 - `author` (optional): Person name
 - `created-at` (optional): Date string e.g. `"2025-01-15"`

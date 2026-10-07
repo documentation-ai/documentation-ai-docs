@@ -329,6 +329,11 @@
                 "icon": "layout-template"
               },
               {
+                "title": "Icons",
+                "path": "customize/icons",
+                "icon": "shapes"
+              },
+              {
                 "group": "SEO & GEO",
                 "icon": "search-check-icon",
                 "pages": [

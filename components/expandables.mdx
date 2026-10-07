@@ -165,10 +165,28 @@ Use `<ExpandableGroup>` to group multiple `<Expandable>` components together wit
 
 `<ExpandableGroup>` itself does not take any attributes; it is a simple wrapper that applies layout and spacing to the child `<Expandable>` components.
 
+### Heading-level titles
+
+Set `title-type` to `h2` or `h3` to render the expandable title as a real heading with an anchor link. Heading-level titles appear in the page's table of contents and can be linked to directly.
+
+```jsx
+<Expandable title="Advanced configuration" title-type="h2" default-open="false">
+  This title renders as an h2 heading with an anchor link.
+</Expandable>
+```
+
+When `title-type` is omitted, the title renders as plain text and does not appear in the table of contents. Existing expandables without `title-type` remain unchanged.
+
+In the Web Editor, select **Heading 2** or **Heading 3** from the title-type dropdown in the expandable settings popover to make the title linkable.
+
 ### Attribute reference
 
 <ParamField path="title" param-type="string" required="false" deprecated="false">
   Header text displayed in the expandable button (default: `"Click to expand"`).
+</ParamField>
+
+<ParamField path="title-type" param-type="string" required="false" deprecated="false">
+  Render the title as a heading with an anchor link. Set to `"h2"` or `"h3"`. When omitted, the title renders as plain text.
 </ParamField>
 
 <ParamField path="default-open" param-type="string" required="false" deprecated="false">
@@ -193,6 +211,6 @@ Use `<ExpandableGroup>` to group multiple `<Expandable>` components together wit
 
 ### Behavioral notes and limitations
 
-- Expandables control **only visibility**, not navigation; readers cannot link directly to an individual expandable item unless you add an anchor heading inside the content.
+- Expandables with plain-text titles control **only visibility**, not navigation. Set `title-type` to `h2` or `h3` to make an expandable linkable from the table of contents and external anchors.
 - The `default-open` state is evaluated on initial page load only. User open/close actions are not persisted across sessions.
 - `<ExpandableGroup>` does not currently support additional props such as single-open-only or auto-close behavior; all items expand and collapse independently.

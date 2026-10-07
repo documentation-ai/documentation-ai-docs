@@ -2,6 +2,52 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-10-07" description="External Sources for the AI Assistant, Linear/Notion/HubSpot/Plain connectors, Expandable heading titles, API playground file uploads, deployment error fixing, and editor improvements" tags={["feature","improvement","fix"]}>
+  ## External Sources for the AI Assistant
+
+  Extend the AI Assistant's knowledge beyond your published documentation by adding PDFs and websites as external sources. The assistant searches these sources alongside your docs and cites them in its answers.
+
+  - Upload text-based PDFs (up to 50 MB per file, 10 files at once) and the assistant indexes their content for search and citations
+  - Add website sources by crawling a page and its subpages or a single page, with a preview tree to include or exclude individual pages before indexing
+  - Configure source visibility (public or protected), access roles, priority, and active state per source
+  - Schedule automatic website refreshes (weekly, monthly, or manual) to keep indexed content current
+  - A shared page budget per documentation project covers all PDF and website sources: 100 pages on Standard, 300 pages on Professional, and custom on Enterprise
+
+  See [External Sources](/ai/external-sources) for setup instructions.
+
+  ## New AI Agent Connectors
+
+  Four new context connectors are available for the AI Documentation Agent:
+
+  - **Linear**: Search issues, projects, and cycles to keep your docs aligned with engineering work. See [Linear Integration](/integrations/linear).
+  - **Notion**: Read Notion pages and use them as context for documentation generation and updates. See [Notion Integration](/integrations/notion).
+  - **HubSpot**: Analyze support tickets, contacts, and companies to surface documentation gaps. See [HubSpot Integration](/integrations/hubspot).
+  - **Plain**: Search support threads and help-center articles for context. See [Plain Integration](/integrations/plain).
+
+  Enable these connectors from **Agent Settings** in the dashboard and include or exclude them per workflow.
+
+  ## Expandable Heading Titles
+
+  Expandable titles can now render as real headings with anchor links. Set `title-type` to `h2` or `h3` on any `<Expandable>` to make its title appear in the page's table of contents and become linkable. Plain-text titles remain the default for backward compatibility. See [Expandables](/components/expandables#heading-level-titles).
+
+  ## API Playground File Uploads
+
+  The interactive API playground now supports file uploads for `multipart/form-data` requests. File and file-array parameters from your OpenAPI schema render as file pickers, and whole-body uploads such as `application/octet-stream` are supported. The generated cURL and JavaScript previews include file-aware multipart syntax. Uploads are limited to 4 MB. See [Interactive Playground Setup](/api-documentation-and-playground/interactive-playground-setup#file-uploads).
+
+  ## Fix Deployment Errors with the AI Agent
+
+  Failed deployments are now shown prominently in the dashboard overview instead of being hidden behind the last successful deployment. Select **Fix with Agent** from a failed deployment to open the AI agent with the build error and logs pre-loaded, so you can ask it to diagnose and fix the issue. The previous live deployment remains clearly identified as the version being served.
+
+  ## Improvements
+
+  - **Editor link editing**: Existing links can now be edited in place across the entire link range, including links containing bold or code text. Press `Cmd/Ctrl+K` to edit a link, search for a page or paste a URL, and press Enter to apply. Invalid paths show a warning. Clicking away preserves valid edits.
+  - **Publish button reliability**: Publishing is no longer blocked while a deployment builds in the background. The publish button is only disabled during active commit, tree, or merge operations.
+  - **Default seat allowance**: New organizations now default to 5 editor seats instead of 1.
+  - **Sidebar active link centering**: The active page in the sidebar is now centered within the sidebar panel instead of scrolling the full page.
+  - **Expandable settings popover**: Clicking outside an expandable or step settings popover now closes it on the first click.
+  - **Snippet deployment fix**: Branch previews and no-cache deployments now correctly upload inherited snippets to empty storage namespaces, preventing pages that import snippets from rendering without their shared content.
+</Update>
+
 <Update label="2026-09-28" description="Embedded Docs, Agent Readiness Score, AI assistant mode, strict search dimensions, media and PDF export improvements, llms.txt scaling, and security fixes" tags={["feature","improvement"]}>
   ## Embedded Docs and AI Assistant
 

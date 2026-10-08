@@ -1,48 +1,20 @@
 ---
 title: Icons
 description: >-
-  Choose the icon library your site draws from, mix libraries on one page, and use your own icon files, from the web editor or from Git.
+  Pick icons from Lucide, Font Awesome and Tabler in one place, use your own icon files, and set which library icon names come from.
 ---
-Every icon on your site, in components like Card, Step, Tab, Callout and Board and on navigation items, products, versions and languages, comes from Lucide, Font Awesome Free, Tabler or your own files in the media library. Your site has one default library, and any single icon can name a different one.
+Every icon on your site, in components like Card, Step, Tab, Callout and Board and on navigation items, products, versions and languages, comes from Lucide, Font Awesome Free, Tabler or your own files in the media library. The icon picker shows all three libraries together, so you can choose by look rather than by name.
 
 <Callout kind="info" collapsed="false">
   **Before you begin**
 
-  - You need the Admin or Editor role to change icons or the icon library.
+  - You need the Admin or Editor role to change icons.
   - Font Awesome icons are the free set: solid, regular and brands. Pro styles such as light, thin, duotone and sharp aren't available.
   - Tabler icons come in outline and filled.
   - Your own icons are SVG, PNG or WebP files in your [media library](/write-and-publish/media-library).
 </Callout>
 
 ## Web editor
-
-### How to choose your site's icon library
-
-The library you choose draws every icon written by name alone, such as `rocket`. Sites start with Lucide.
-
-<Steps>
-  <Step title="Open the setting" icon="settings" title-type="p">
-    In the editor, click **Site Config** in the top toolbar, then select **Brand & Theme**.
-  </Step>
-
-  <Step title="Pick a library" icon="shapes" title-type="p">
-    Under **Icon Library**, choose **Lucide**, **Font Awesome** or **Tabler**.
-  </Step>
-
-  <Step title="Decide what happens to existing icons" icon="git-compare" title-type="p">
-    If you want every icon to keep the look it has today, click **Switch and keep current icons**. Each existing icon is marked with the library it comes from, across navigation and every page on the branch.
-
-    If you want existing icons redrawn from the new library, click **Switch and redraw all icons**.
-  </Step>
-
-  <Step title="Publish" icon="upload" title-type="p">
-    Click **Publish documentation** to apply the change to your live site.
-  </Step>
-</Steps>
-
-<Callout kind="alert" collapsed="false">
-  **Switch and redraw all icons** changes how existing icons look. A name that the new library doesn't have is still drawn from Lucide.
-</Callout>
 
 ### How to pick an icon
 
@@ -51,16 +23,16 @@ The library you choose draws every icon written by name alone, such as `rocket`.
     Click the icon slot on a Card, Step, Callout or Board card, or **Select Icon** in a tab's or navigation item's settings.
   </Step>
 
-  <Step title="Choose a library tab" icon="layout-grid" title-type="p">
-    Pick **Lucide**, **Font Awesome** or **Tabler**. On **Font Awesome**, filter by **All**, **Solid**, **Regular** or **Brands**. On **Tabler**, filter by **All**, **Outline** or **Filled**.
+  <Step title="Find the icon" icon="search" title-type="p">
+    On the **Icons** tab, type what the icon should show, such as `launch` or `payment`, or browse a category such as **Arrows** or **Brands**. Results from Lucide, Font Awesome and Tabler appear together, with the same icon from each library side by side.
   </Step>
 
-  <Step title="Search and select" icon="search" title-type="p">
-    Search by name, including older names such as `home` for `house`, then click the icon.
+  <Step title="Select it" icon="mouse-pointer-click" title-type="p">
+    Hover an icon to see its name and library, then click it.
   </Step>
 </Steps>
 
-An icon from your site's default library is saved by name alone. Any other icon is saved with its library, such as `fa-brands:github`, so it keeps its look if you change the site's library later.
+An icon from your site's library is saved by name alone. Any other icon is saved with its library, such as `fa-brands:github`, so it always keeps its look.
 
 ### How to use your own icon
 
@@ -71,7 +43,7 @@ An icon from your site's default library is saved by name alone. Any other icon 
 
   <Step title="Add the file" icon="upload" title-type="p">
     - If the file is on your computer or already in your media library, click **Upload or choose a file**.
-    - If the file is on the web, paste its address under **Web address**. It is copied into your media library, so it loads fast and an SVG takes your theme colour.
+    - If the file is on the web, paste its address into **Paste an image URL** and press Enter. It is copied into your media library, so it loads fast and an SVG takes your theme colour.
   </Step>
 </Steps>
 
@@ -95,7 +67,7 @@ Add `icons.library` to `documentation.json`:
 The value is `lucide`, `fontawesome` or `tabler`. Leave `icons` out to use Lucide.
 
 <Callout kind="alert" collapsed="false">
-  Changing `icons.library` in a file redraws every icon written by name alone. To keep how an icon looks, add its library first, such as `lucide:rocket`. The web editor can do this for you.
+  Changing `icons.library` redraws every icon written by name alone. To keep how an icon looks, add its library first, such as `lucide:rocket`.
 </Callout>
 
 ### How to write an icon
@@ -126,7 +98,7 @@ Upload the file to your [media library](/write-and-publish/media-library#code-ed
 
 <ExpandableGroup>
   <Expandable title="Will changing the icon library change my existing icons?" default-open="false">
-    Only icons written by name alone, such as `rocket`. In the web editor, **Switch and keep current icons** keeps every icon as it looks today.
+    Only icons written by name alone, such as `rocket`. To keep one as it looks today, add its library first, such as `lucide:rocket`. Icons you pick in the web editor from another library already carry it.
   </Expandable>
 
   <Expandable title="Can I use Font Awesome Pro icons?" default-open="false">
@@ -152,14 +124,13 @@ Upload the file to your [media library](/write-and-publish/media-library#code-ed
 
 ## If an icon does not show
 
-The editor shows the last two messages. AI agents and the authoring MCP server report the first four when they check `documentation.json`.
+The editor shows the last message. AI agents and the authoring MCP server report the first four when they check `documentation.json`.
 
 - **`"rokcet" is not an icon in Lucide, so nothing is drawn`**: check the spelling in the icon picker, or add the library the icon comes from, such as `fa-solid:rocket`.
 - **`Font Awesome has no "panel-top", so it is drawn from Lucide.`**, or the same message naming Tabler: write `lucide:panel-top`, or pick an icon from your site's library.
 - **`"cdn.example.com" is not your media library, so this icon is not drawn.`**: add the file to your media library and use its address.
 - **`Icons from project files are not drawn yet.`**: upload the file to your media library and use its address.
 - **Icons must be SVG, PNG or WebP files.**: choose a file in one of those formats.
-- **Someone was editing … so nothing was changed. Try again in a moment.**: wait until your teammates finish editing, then change the library again.
 
 ## Icon values
 

@@ -490,6 +490,59 @@
                 "icon": "workflow"
               },
               {
+                "group": "Connectors",
+                "icon": "plug",
+                "expandable": true,
+                "path": "connectors/overview",
+                "pages": [
+                  {
+                    "title": "GitHub",
+                    "path": "connectors/github",
+                    "icon": "github"
+                  },
+                  {
+                    "title": "Jira",
+                    "path": "connectors/jira",
+                    "icon": "list-todo"
+                  },
+                  {
+                    "title": "Confluence",
+                    "path": "connectors/confluence",
+                    "icon": "book-open"
+                  },
+                  {
+                    "title": "Linear",
+                    "path": "connectors/linear",
+                    "icon": "kanban"
+                  },
+                  {
+                    "title": "Notion",
+                    "path": "connectors/notion",
+                    "icon": "notebook-text"
+                  },
+                  {
+                    "title": "HubSpot",
+                    "path": "connectors/hubspot",
+                    "icon": "contact"
+                  },
+                  {
+                    "title": "Plain",
+                    "path": "connectors/plain",
+                    "icon": "messages-square"
+                  },
+                  {
+                    "title": "Intercom",
+                    "path": "connectors/intercom",
+                    "icon": "headset"
+                  },
+                  {
+                    "title": "User & Agent Feedback",
+                    "path": "connectors/user-feedback",
+                    "icon": "message-square-heart"
+                  }
+                ]
+              },
+              {
                 "title": "AI Assistant",
                 "path": "ai/ai-assistant",
                 "icon": "settings"
@@ -525,62 +578,6 @@
                 "title": "AI Credits",
                 "path": "ai/ai-credits",
                 "icon": "stars"
-              }
-            ]
-          },
-          {
-            "group": "Connectors",
-            "expandable": true,
-            "pages": [
-              {
-                "title": "Overview",
-                "path": "connectors/overview",
-                "icon": "info"
-              },
-              {
-                "title": "GitHub",
-                "path": "connectors/github",
-                "icon": "github"
-              },
-              {
-                "title": "Jira",
-                "path": "connectors/jira",
-                "icon": "list-todo"
-              },
-              {
-                "title": "Confluence",
-                "path": "connectors/confluence",
-                "icon": "book-open"
-              },
-              {
-                "title": "Linear",
-                "path": "connectors/linear",
-                "icon": "kanban"
-              },
-              {
-                "title": "Notion",
-                "path": "connectors/notion",
-                "icon": "notebook-text"
-              },
-              {
-                "title": "HubSpot",
-                "path": "connectors/hubspot",
-                "icon": "contact"
-              },
-              {
-                "title": "Plain",
-                "path": "connectors/plain",
-                "icon": "messages-square"
-              },
-              {
-                "title": "Intercom",
-                "path": "connectors/intercom",
-                "icon": "headset"
-              },
-              {
-                "title": "User & Agent Feedback",
-                "path": "connectors/user-feedback",
-                "icon": "message-square-heart"
               }
             ]
           },

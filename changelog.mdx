@@ -2,6 +2,38 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-10-08" description="External Sources, new agent connectors" tags={["feature","improvement","fix"]}>
+  ## External Sources
+
+  Add PDFs and website URLs as searchable knowledge sources for the AI Assistant. External sources are indexed and searchable alongside your own documentation, so the assistant can ground its answers in reference material that lives outside your docs.
+
+  - **PDF uploads**: Upload PDF files to extract and index their content. Page-count validation and plan-based limits apply.
+  - **Website sources**: Crawl a website or add individual URLs. Preview discovered pages, select which ones to include, and set exclusion patterns.
+  - **Source management**: Search, filter, paginate, edit, refresh, retry, and delete sources from the AI Assistant settings pane.
+  - **Access control**: Sources respect page-level visibility and role-based access, just like your documentation pages.
+
+  See [External Sources](/ai/external-sources) for setup instructions.
+
+  ## New Agent Connectors: Linear, Notion, HubSpot, Plain
+
+  Four new connectors are now available as context sources for the AI Documentation Agent. Connect them from **Agent Settings** and the agent will search and read from these tools alongside your existing GitHub, Confluence, Jira, and User & Agent Feedback connectors.
+
+  - **Linear**: Search and read issues, projects, teams, cycles, and comments. The agent can use issue details and project context to keep your docs aligned with engineering work.
+  - **Notion**: Search pages and databases, read content as Markdown, and query database rows with filters. Useful for pulling specs, wikis, and internal documentation into your agent's context.
+  - **HubSpot**: Search support tickets, contacts, companies, notes, and inbox conversations. The agent can identify recurring customer questions and documentation gaps from real support data.
+  - **Plain**: Search support threads, read thread timelines, browse help center articles, and look up customer profiles. The agent can surface common support questions that indicate missing or unclear docs.
+
+  See [Linear](/integrations/linear), [Notion](/integrations/notion), [HubSpot](/integrations/hubspot), and [Plain](/integrations/plain) for setup instructions.
+
+  ## Improvements
+
+  - **Deployment failure recovery with Fix with Agent**: Failed publishes now show error details and a **Fix with Agent** action that opens the failed branch with the error pre-loaded.
+  - **API Playground file uploads**: The API playground supports native file uploads for multipart requests and binary bodies, with generated cURL and JavaScript previews and a 4 MB limit.
+  - **Expandable heading anchors and copy-link**: Expandable titles can render as headings with anchor IDs, appear in the table of contents, and support copy-link.
+  - **Sidebar scroll isolation**: Sidebar auto-scroll now moves only the sidebar container, keeping the main page from jumping.
+  - **MCP Reader dashboard improvements**: Added auth-aware endpoint display, reusable MCP URL cards, an expanded Authoring MCP tool list, and setup documentation links.
+</Update>
+
 <Update label="2026-09-28" description="Embedded Docs, Agent Readiness Score, AI assistant mode, strict search dimensions, media and PDF export improvements, llms.txt scaling, and security fixes" tags={["feature","improvement"]}>
   ## Embedded Docs and AI Assistant
 
@@ -27,10 +59,10 @@ description: 'Changes, fixes, and improvements across versions'
 
   ## Improvements
 
-  - **Strict search dimensions**: New setting to keep the AI assistant scoped to the reader's current product, version, and language. When disabled, the assistant searches across all dimensions and indicates where the answer came from. See [AI Assistant](/ai/ai-assistant#strict-dimensions).
-  - **Media library MCP**: Upload links let AI agents request files from your computer. Import images from URLs through the API. Improved pagination in the image and SVG pickers, deduplication handling, and plan-aware file-size validation. See [Media Library](/write-and-publish/media-library).
-  - **PDF export**: Works on custom-domain documentation sites. Downloads directly from storage via presigned URLs for faster transfers. Improved cancellation handling and updated plan access requirements. See [API Reference](/api-reference/overview#pdf-exports).
-  - **llms.txt generation**: Section-aware splitting for large documentation sites keeps the file manageable for AI tools. See [llms.txt](/seo-and-geo/llms-txt).
+  - **Strict search dimensions**: Added a setting to scope the AI assistant to the reader's current product, version, and language, with source indicators when disabled. See [AI Assistant](/ai/ai-assistant#strict-dimensions).
+  - **Media library MCP**: Added file requests, URL image imports, improved picker pagination, deduplication handling, and plan-aware file-size validation. See [Media Library](/write-and-publish/media-library).
+  - **PDF export**: Added custom-domain support, faster presigned-URL downloads, improved cancellation handling, and updated plan requirements. See [API Reference](/api-reference/overview#pdf-exports).
+  - **llms.txt generation**: Added section-aware splitting for large documentation sites to keep generated files manageable. See [llms.txt](/seo-and-geo/llms-txt).
 </Update>
 
 <Update label="2026-09-08" description="Media Library, Video Upload, AI assistant reliability, reader experience fixes, and access control enforcement" tags={["feature","improvement","fix"]}>
@@ -62,16 +94,16 @@ description: 'Changes, fixes, and improvements across versions'
 
   ## Improvements
 
-  - **AI Assistant stream recovery**: If your network connection drops during an AI response, the assistant automatically resumes the response without duplicating content.
+  - **AI Assistant stream recovery**: The assistant resumes interrupted responses without duplicating content when the network reconnects.
   - **Insufficient AI credits indicator**: Running out of AI credits now shows a clear status message instead of a generic error. See [AI Credits](/ai/ai-credits).
 
   ## Fixes
 
-  - **Page renames and moves across directories**: Renaming or moving a page now correctly updates all paths. Missing destination folders are created automatically, and existing destinations are rejected instead of being silently overwritten.
-  - **PDF export in Atlas theme**: Long pages now paginate fully instead of cutting off. The sticky header and chat widget are excluded from PDF output.
+  - **Page renames and moves across directories**: Renames and moves now update all paths, create missing folders, and reject existing destinations.
+  - **PDF export in Atlas theme**: Long pages now paginate fully, excluding sticky headers and chat widgets from PDF output.
   - **Video embeds without a poster image**: Video players now preload metadata so an initial frame appears instead of a black rectangle.
-  - **OAuth redirect URI behind reverse proxy**: Fixed OAuth login failures for sites behind a reverse proxy by using the customer-facing domain instead of the internal service URL.
-  - **Repository link handling**: Repository and commit links in the dashboard now correctly handle `.git` suffixes, trailing slashes, and GitHub/GitLab route differences.
+  - **OAuth redirect URI behind reverse proxy**: OAuth login now uses the customer-facing domain behind reverse proxies.
+  - **Repository link handling**: Dashboard repository and commit links now handle `.git` suffixes, trailing slashes, and GitHub/GitLab route differences.
 </Update>
 
 <Update label="2026-09-02" description="Reusable snippets, search analytics, Intercom metadata, and bug fixes" tags={["feature","improvement","fix"]}>
@@ -101,10 +133,10 @@ description: 'Changes, fixes, and improvements across versions'
 
   ## Improvements and Fixes
 
-  - **Sidebar label capitalization**: Sidebar and breadcrumb labels now preserve their authored capitalization instead of being automatically title-cased.
-  - **Sidebar animation speed**: Reduced expand/collapse transition duration for snappier sidebar interactions.
+  - **Sidebar label capitalization**: Sidebar and breadcrumb labels now preserve authored capitalization instead of being title-cased.
+  - **Sidebar animation speed**: Reduced expand/collapse transition duration for faster interactions.
 
-  * **Tag pushes no longer trigger deployments**: Pushing a tag to GitHub or GitLab no longer creates a failed deployment or an unintended preview branch. Only branch pushes trigger auto-deploy.
+  * **Tag pushes no longer trigger deployments**: Tag pushes no longer create failed deployments or unintended preview branches; only branch pushes trigger auto-deploy.
   * **New template categories**: Workflow templates are now organized into categories for easier discovery.
 </Update>
 
@@ -125,15 +157,15 @@ description: 'Changes, fixes, and improvements across versions'
 
   ## Improvements
 
-  - **Chat with Agent on finished runs**: Completed workflow runs with findings now show a **Chat with Agent** button alongside the existing report and commit link. Clicking it opens the editor agent  pre-loaded with the run's findings so you can ask follow-up questions or request fixes.
-  - **llms.txt for partial auth sites**: Sites with partial authentication now serve an llms.txt file containing only public pages. Fully private sites continue to skip llms.txt generation. See [Robots.txt and llms.txt](/seo-and-geo/robots-txt-and-llm-txt).
-  - **External links in nav tabs and dropdowns**: External links configured in tabs and dropdowns are now preserved on auth-filtered sites and open in a new browser tab.
-  - **Style attributes in MDX**: Inline `style="..."` attributes (commonly used in embedded iframes and video embeds) are now correctly converted to React-compatible objects at the rendering layer.
+  - **Chat with Agent on finished runs**: Completed workflow runs with findings now show a **Chat with Agent** button that opens the editor agent with the run's findings.
+  - **llms.txt for partial auth sites**: Partially authenticated sites now serve llms.txt with public pages, while fully private sites skip generation. See [Robots.txt and llms.txt](/seo-and-geo/robots-txt-and-llm-txt).
+  - **External links in nav tabs and dropdowns**: External links in tabs and dropdowns are preserved on auth-filtered sites and open in a new browser tab.
+  - **Style attributes in MDX**: Inline `style="..."` attributes now convert correctly to React-compatible objects at render time.
 
   ## Fixes
 
-  - **External tab links**: Navigation tabs with a custom external `href` now correctly navigate to the configured URL instead of constructing a docs page path.
-  - **Link checker false positives**: Local image paths no longer produce broken-link findings, and unresolvable external hostnames are classified as broken instead of unverified.
+  - **External tab links**: Navigation tabs with custom external `href` values now navigate to the configured URL.
+  - **Link checker false positives**: Local image paths no longer produce broken-link findings, and unresolvable external hostnames are classified as broken.
 </Update>
 
 <Update label="2026-08-11" description="Self-Heal by User Feedback workflow, agent analytics, branch recovery, per-user content, and critical fixes" tags={["feature","improvement","fix"]}>
@@ -159,21 +191,21 @@ description: 'Changes, fixes, and improvements across versions'
 
   ## Improvements
 
-  - **Per-user content in MDX**: Personalize pages with `{user.firstname}`, `{user.company}`, and `{user.accessRoles}` variables. Role-based access is now enforced across the renderer, markdown export, and sidebar. See [Access Control](/customize/access-control/overview).
-  - **Branch recovery screen**: Deleted or inaccessible branches now show a "Branch Not Available" screen with available alternatives instead of a blank page.
-  - **AI credits policy**: Credits reset on a 30-day cycle with 50% of unused credits carrying forward (up to 1.5x monthly allocation). See [AI Credits](/ai/ai-credits).
-  - **Workflow UX**: Compact pill-button trigger selector, connector include/exclude selector, "Agent" sidebar renamed to "Agent Settings", and post-action redirect to workflow detail view.
+  - **Per-user content in MDX**: Added `{user.firstname}`, `{user.company}`, and `{user.accessRoles}` variables with role enforcement across rendering, markdown export, and the sidebar. See [Access Control](/customize/access-control/overview).
+  - **Branch recovery screen**: Deleted or inaccessible branches now show available alternatives instead of a blank page.
+  - **AI credits policy**: Credits reset every 30 days, with 50% of unused credits carrying forward up to 1.5x the monthly allocation. See [AI Credits](/ai/ai-credits).
+  - **Workflow UX**: Added compact trigger controls, connector selection, renamed the "Agent" sidebar to "Agent Settings", and redirected users to workflow details after actions.
   - **Partial mode for JWT and OAuth**: JWT and OAuth 2.0 access control now support Partial mode alongside Private mode. See [Access Control](/customize/access-control/overview).
-  - **AI Assistant error messages**: Errors now show human-readable messages instead of raw or empty states.
+  - **AI Assistant error messages**: Errors now display human-readable messages instead of raw or empty states.
 
   ## Fixes
 
-  - **Search indexing failure on API reference pages**: Double quotes in OpenAPI descriptions broke React syntax, causing HTTP 500 on API reference pages.
-  - **Double deployments on editor publish**: A webhook misfire caused editor-originated commits to trigger two deployments.
-  - **Gated pages in search results**: Role-restricted pages were indexed without their roles, appearing as public content.
-  - **Editor rejecting documents with keyboard or comment marks**: These marks caused 500 errors that locked users out of their editor session.
-  - **Navigation false "page already exists" errors**: False duplicate warnings, stale index after reorder/delete, and orphaned MDX files from failed page creates.
-  - **File duplication on rename or move**: Renaming or moving files in collaborative mode could create duplicate entries.
+  - **Search indexing failure on API reference pages**: Fixed HTTP 500 errors caused by double quotes in OpenAPI descriptions.
+  - **Double deployments on editor publish**: Fixed webhook misfires that triggered duplicate deployments from editor commits.
+  - **Gated pages in search results**: Restricted pages are now indexed with their roles and no longer appear as public content.
+  - **Editor rejecting documents with keyboard or comment marks**: Fixed 500 errors caused by keyboard and comment marks.
+  - **Navigation false "page already exists" errors**: Fixed duplicate warnings, stale indexes, and orphaned MDX files from failed page creation.
+  - **File duplication on rename or move**: Fixed duplicate entries created during collaborative file renames or moves.
 </Update>
 
 <Update label="2026-08-03" description="Reader MCP Server authentication and critical editor fixes and improvements" tags={["feature","improvement","fix"]}>
@@ -185,17 +217,17 @@ description: 'Changes, fixes, and improvements across versions'
 
   ## Improvements
 
-  - **MCP tool annotations**: All MCP tools now declare standard annotations (readOnlyHint, destructiveHint, idempotentHint) per the MCP specification. MCP clients like Claude and Cursor use these to decide which tools require a confirmation prompt, so read-only tools no longer trigger unnecessary confirmation dialogs.
-  - **Collaborative editing expanded**: Real-time collaborative editing now covers Custom CSS settings and Scripts settings editors, not just page content and navigation. OpenAPI files are also handled correctly in the collaboration editor.
+  - **MCP tool annotations**: MCP tools now declare standard annotations so clients can identify read-only and destructive operations.
+  - **Collaborative editing expanded**: Collaboration now covers Custom CSS, Scripts, and OpenAPI files in addition to page content and navigation.
 
   ## Fixes
 
-  - **Editor going silent after publish**: Resolved a critical issue where the editor would stop syncing after publishing, causing pages to disappear from the navigation and subsequent edits to be lost.
-  - **Documentation.json duplication**: Fixed `documentation.json` being duplicated when two clients simultaneously revert or reset the same file, which could corrupt the entire site navigation.
-  - **Images in table cells**: Fixed images and videos inside table cells being silently removed on every save.
-  - **HTML table validation**: Fixed HTML table elements (table, thead, tbody, tr, td, th) being incorrectly blocked during deployment validation.
-  - **Tabs and CodeGroup underline**: Fixed the active tab underline being misaligned when the tab bar is horizontally scrolled.
-  - **BoardCard date props**: Fixed `BoardCard` date attributes not working when written in camelCase (`dueDate`, `createdAt`) in MDX. Both camelCase and kebab-case (`due-date`, `created-at`) are now accepted.
+  - **Editor going silent after publish**: Fixed editor sync failures that caused pages to disappear and subsequent edits to be lost.
+  - **Documentation.json duplication**: Fixed concurrent revert or reset operations that could duplicate `documentation.json` and corrupt navigation.
+  - **Images in table cells**: Fixed images and videos being removed from table cells on save.
+  - **HTML table validation**: Fixed validation incorrectly blocking HTML table elements during deployment.
+  - **Tabs and CodeGroup underline**: Fixed active tab underlines being misaligned when tab bars are horizontally scrolled.
+  - **BoardCard date props**: Fixed camelCase and kebab-case BoardCard date attributes in MDX.
 </Update>
 
 <Update label="2026-07-28" description="GitLab integration, hosted OpenAPI specs by URL, deployments and analytics REST API endpoints, Reader MCP Server rename, and editor reliability fixes" tags={["feature","improvement","fix"]}>
@@ -215,10 +247,10 @@ description: 'Changes, fixes, and improvements across versions'
 
   ## Improvements
 
-  - **Deployments REST API endpoints**: The REST API now supports deployment operations, trigger a live deployment, deploy a preview branch, list recent deployments, and poll deployment status from CI/CD pipelines or scripts. See [API Reference](/api-reference/overview) for endpoint details.
-  - **Reader MCP Server rename**: The **Docs MCP Server** is now called the **Reader MCP Server** to clearly distinguish it from the [Authoring MCP Server](/ai/authoring-mcp-server). The endpoint, behavior, and existing client configurations are unchanged. See [Reader MCP Server](/ai/reader-mcp-server).
-  - **Editor bug fixes**: Resolved several editor reliability issues, including auto-reconnect after dropped collaboration rooms, publish gating during file operations, file operation failure notifications, and reliable persistence of deleted content.
-  - **Agent bug fixes**: Clicking a file link in an AI agent chat result now correctly scrolls to and highlights the specific blocks that were changed in the editor.
+  - **Deployments REST API endpoints**: Added endpoints to trigger live and preview deployments, list recent deployments, and poll deployment status from CI/CD pipelines or scripts. See [API Reference](/api-reference/overview) for endpoint details.
+  - **Reader MCP Server rename**: Renamed the **Docs MCP Server** to the **Reader MCP Server**; endpoints, behavior, and existing client configurations are unchanged. See [Reader MCP Server](/ai/reader-mcp-server).
+  - **Editor bug fixes**: Fixed collaboration reconnects, publish gating, file operation notifications, and persistence of deleted content.
+  - **Agent bug fixes**: File links in agent chat results now scroll to and highlight the changed blocks in the editor.
 </Update>
 
 <Update label="2026-07-23" description="Confluence and Jira integrations, collaboration conflict resolution, and agent chat persistence" tags={["feature","improvement"]}>
@@ -232,8 +264,8 @@ description: 'Changes, fixes, and improvements across versions'
 
   ## Improvements
 
-  - **Collaboration conflict resolution**: When publishing from collaboration mode, you'll see a per-file merge dialog if files changed upstream on Git since you started editing. Clean auto-merges are applied silently.
-  - **Agent chat persistence & cancellation**: Agent chat history now persists across sessions and devices, and resumes automatically after a refresh. Clicking Stop properly cancels the agent run server-side.
+  - **Collaboration conflict resolution**: Added per-file merge dialogs for upstream Git changes during collaborative publishing, with clean auto-merges applied silently.
+  - **Agent chat persistence & cancellation**: Agent chat history now persists across sessions and devices, resumes after refresh, and cancels runs server-side when you click Stop.
 </Update>
 
 <Update label="2026-07-10" description="Real-time collaboration with inline comments and mentions, plan updates, and editor improvements" tags={["feature","improvement"]}>
@@ -254,9 +286,9 @@ description: 'Changes, fixes, and improvements across versions'
   ## Improvements
 
   - **Faster search**: Improved the search algorithm for faster results.
-  - **Ask AI in search**: The Ask AI prompt in search results is now always visible, pinned outside the scrollable results list.
-  - **CodeBlock language aliases**: `node` and `nodejs` now highlight as JavaScript, and `curl` highlights as Bash. CodeGroup tabs auto-capitalize language names.
-  - **Branch-based editor routing**: The editor URL now includes the branch name (for example, /editor/main). Browser back and forward navigation switches branches correctly.
+  - **Ask AI in search**: The Ask AI prompt now stays visible outside the scrollable search results list.
+  - **CodeBlock language aliases**: `node` and `nodejs` now highlight as JavaScript, `curl` highlights as Bash, and CodeGroup tabs auto-capitalize language names.
+  - **Branch-based editor routing**: Editor URLs now include the branch name, and browser navigation switches branches correctly.
 </Update>
 
 <Update label="2026-06-30" description="PDF export, SVG and HTML Block components, SEO meta overrides, API playground server management, heading copy-link, and platform improvements" tags={["feature","improvement","fix"]}>
@@ -295,14 +327,14 @@ description: 'Changes, fixes, and improvements across versions'
 
   ## Improvements
 
-  - **Heading Copy Link&**: licking any heading on a published page now copies its anchor link to the clipboard and updates the browser URL hash. A brief check-icon animation confirms the copy, making it easy to share deep links to specific sections.
-  - **Billing Overage Enforcement**: Credit deductions are now atomic with overage protection. When you reach your plan limit, deductions and associated side effects are blocked entirely, preventing unexpected overage charges.
-  - **Search Ranking**: Page title matching now uses BM25 scoring with a heading-level boost, surfacing canonical top-level pages above same-titled subsections in search results.
-  - **Sidebar Auto-Scroll**: The active page in the sidebar now smoothly scrolls into view on first render, so you land on the right context without manual scrolling.
-  - **Sitemap Timestamps**: Sitemap `lastModified` dates now use actual per-page `updatedAt` timestamps from deployment data instead of the current date, giving search engines accurate freshness signals.
-  - **Danger Zone Settings**: Unpublish and Delete documentation actions are now in a dedicated **Advanced → Danger Zone** settings panel, separated from general settings for clearer organization.
-  - **Navigation Icons**: Dropdown menus, tab labels, and group headers in the sidebar and navbar now display configured icons, with active-state color highlighting.
-  - **External Link Auto-Target&#x20;**: External links in your documentation now automatically open in a new browser tab with `rel="noopener noreferrer"` for security. Internal links and hash anchors are unaffected, and explicit `target` overrides are respected.
+  - **Heading Copy Link&**: Clicking any heading on a published page now copies its anchor link to the clipboard and updates the browser URL hash.
+  - **Billing Overage Enforcement**: Credit deductions are now atomic with overage protection, blocking deductions and side effects after the plan limit is reached.
+  - **Search Ranking**: Page title matching now uses BM25 scoring and heading boosts to surface canonical top-level pages.
+  - **Sidebar Auto-Scroll**: The active page now scrolls smoothly into view in the sidebar on first render.
+  - **Sitemap Timestamps**: Sitemap `lastModified` dates now use per-page `updatedAt` deployment timestamps.
+  - **Danger Zone Settings**: Unpublish and Delete actions now appear under **Advanced → Danger Zone**.
+  - **Navigation Icons**: Configured icons now appear in dropdowns, tabs, and group headers with active-state highlighting.
+  - **External Link Auto-Target&#x20;**: External documentation links now open in new tabs with `rel="noopener noreferrer"` while internal links and explicit targets remain unchanged.
 </Update>
 
 <Update label="2026-06-01" description="Agent file attachments, new editor components, custom CSS, search improvements, and table editor fixes" tags={["feature","improvement","fix"]}>

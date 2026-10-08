@@ -1,0 +1,113 @@
+---
+title: Connectors
+description: >-
+  Connect GitHub, Jira, Confluence, Linear, Notion, HubSpot, Plain, and Intercom
+  so the AI agent can read your code, issues, specs, and support conversations
+  while it writes or updates documentation.
+---
+Connectors give the AI agent live, read-only context from the tools your team already works in. When a prompt needs it, the agent reads your code, issues, specs, or support conversations and uses them to write or update your docs, in the editor and in workflows.
+
+## How connectors work
+
+- **Live, not copied.** The agent reads a connected tool at the moment a prompt needs it. Nothing is imported or synced into your Documentation.AI workspace.
+- **Read-only.** The agent has no tools that create, edit, or delete anything in a connected tool.
+- **Connected once, turned on per project.** A connection belongs to your organization. Each documentation project turns it on or off with its own switch.
+- **Used by the editor and by workflows.** In the editor, the agent uses the connectors that are on for the open project. A [workflow](/ai/workflows) uses them too, and you can clear any connector in the workflow form.
+
+<Callout kind="info" collapsed="false">
+  **Before you begin**
+
+  - You need the **Admin** or **Editor** role in your Documentation.AI organization to connect a tool, disconnect it, or turn it on or off.
+  - You need an account in the connected tool with access to the content you want the agent to read.
+</Callout>
+
+## Connect a tool
+
+<Steps>
+  <Step title="Open Agent Settings" icon="bot" title-type="p">
+    In the dashboard sidebar, under **AI**, click **Agent Settings**. The **Connectors** section lists the tools the agent can pull context from.
+
+    If you are in the editor, you can click **Connectors** below the chat input instead. It opens the same list.
+  </Step>
+
+  <Step title="Click Connect on the tool's card" icon="plug" title-type="p">
+    The tool opens in the same tab. Sign in, choose what the agent can access, and approve. You return to Documentation.AI when it is done.
+  </Step>
+
+  <Step title="Check that the connector is on" icon="toggle-right" title-type="p">
+    The card now shows **Manage** and a switch that is on. The connector is on for the documentation project you have open. To use it in another project, open that project's **Agent Settings** and turn on the switch.
+  </Step>
+</Steps>
+
+Each connector's page covers its own setup, the tools the agent uses to read it, example prompts, and troubleshooting.
+
+## Available connectors
+
+<Columns cols="2">
+  <Card title="GitHub" href="/connectors/github" icon="github">
+    Read code files and recent commits from the repositories you choose, and keep docs aligned with your code.
+  </Card>
+
+  <Card title="Jira" href="/connectors/jira" icon="list-todo">
+    Search issues with JQL, read issue details, and track sprints and releases.
+  </Card>
+
+  <Card title="Confluence" href="/connectors/confluence" icon="book-open">
+    Search pages with CQL, read page content, and browse spaces in your wiki.
+  </Card>
+
+  <Card title="Linear" href="/connectors/linear" icon="kanban">
+    Read issues, projects, and cycles, and write release notes from shipped work.
+  </Card>
+
+  <Card title="Notion" href="/connectors/notion" icon="notebook-text">
+    Read the specs, wiki pages, and databases you share with the agent.
+  </Card>
+
+  <Card title="HubSpot" href="/connectors/hubspot" icon="contact">
+    Read support tickets, notes, contacts, and companies, and cover what customers ask.
+  </Card>
+
+  <Card title="Plain" href="/connectors/plain" icon="messages-square">
+    Read support threads and help center articles, and find gaps in your docs.
+  </Card>
+
+  <Card title="Intercom" href="/connectors/intercom" icon="headset">
+    Read conversations, tickets, and Help Center articles, and find gaps in your docs.
+  </Card>
+</Columns>
+
+## Who can see connected content
+
+Anyone who can use the agent in a documentation project where a connector is on can ask about the content it can reach, even content they cannot open in the tool itself. Give each connection access only to content that suits everyone who uses the agent.
+
+## Turn off or disconnect
+
+- **To stop one project from using a connector**, turn off the switch on its card in **Agent Settings**. Other projects keep using it.
+- **To remove a connection from your organization**, click **Manage** on the card and disconnect. This removes it from every documentation project, including the workflows that use it.
+
+## Connectors, External Sources, and site integrations
+
+Three features connect outside content or tools to your docs. They serve different readers:
+
+| Feature | Who uses it | What it does |
+| --- | --- | --- |
+| Connectors | The AI agent, while you write | Reads live context from your tools to write and update docs. |
+| [External Sources](/ai/external-sources) | The AI Assistant, for your readers | Indexes PDFs and websites so the assistant can cite them in answers. |
+| [Integrations](/integrations/overview) | Your published site | Adds analytics, chat widgets, and deployment hooks to your docs. |
+
+## Related
+
+<Columns cols="3">
+  <Card title="AI Documentation Agent" href="/ai/ai-documentation-agent" icon="bot" horizontal="false">
+    Ask the agent to write and update pages.
+  </Card>
+
+  <Card title="Workflows" href="/ai/workflows" icon="zap" horizontal="false">
+    Run the agent on a schedule or on merge.
+  </Card>
+
+  <Card title="External Sources" href="/ai/external-sources" icon="file-text" horizontal="false">
+    Add PDFs and websites to the AI Assistant's knowledge.
+  </Card>
+</Columns>

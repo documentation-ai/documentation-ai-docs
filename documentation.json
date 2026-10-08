@@ -529,6 +529,57 @@
             ]
           },
           {
+            "group": "Connectors",
+            "expandable": true,
+            "pages": [
+              {
+                "title": "Overview",
+                "path": "connectors/overview",
+                "icon": "info"
+              },
+              {
+                "title": "GitHub",
+                "path": "connectors/github",
+                "icon": "github"
+              },
+              {
+                "title": "Jira",
+                "path": "connectors/jira",
+                "icon": "list-todo"
+              },
+              {
+                "title": "Confluence",
+                "path": "connectors/confluence",
+                "icon": "book-open"
+              },
+              {
+                "title": "Linear",
+                "path": "connectors/linear",
+                "icon": "kanban"
+              },
+              {
+                "title": "Notion",
+                "path": "connectors/notion",
+                "icon": "notebook-text"
+              },
+              {
+                "title": "HubSpot",
+                "path": "connectors/hubspot",
+                "icon": "contact"
+              },
+              {
+                "title": "Plain",
+                "path": "connectors/plain",
+                "icon": "messages-square"
+              },
+              {
+                "title": "Intercom",
+                "path": "connectors/intercom",
+                "icon": "headset"
+              }
+            ]
+          },
+          {
             "group": "Embedded Docs",
             "expandable": true,
             "pages": [
@@ -589,11 +640,6 @@
                 "icon": "info"
               },
               {
-                "title": "Github",
-                "path": "integrations/github",
-                "icon": "github"
-              },
-              {
                 "title": "GitLab",
                 "path": "integrations/gitlab",
                 "icon": "gitlab"
@@ -602,41 +648,6 @@
                 "title": "Webhooks",
                 "path": "integrations/deployment-webhooks",
                 "icon": "webhook"
-              },
-              {
-                "title": "Confluence",
-                "path": "integrations/confluence",
-                "icon": "book-open"
-              },
-              {
-                "title": "Jira",
-                "path": "integrations/jira",
-                "icon": "list-todo"
-              },
-              {
-                "title": "Linear",
-                "path": "integrations/linear",
-                "icon": "kanban"
-              },
-              {
-                "title": "Notion",
-                "path": "integrations/notion",
-                "icon": "notebook-text"
-              },
-              {
-                "title": "HubSpot",
-                "path": "integrations/hubspot",
-                "icon": "contact"
-              },
-              {
-                "title": "Plain",
-                "path": "integrations/plain",
-                "icon": "messages-square"
-              },
-              {
-                "title": "Intercom Connector",
-                "path": "integrations/intercom-connector",
-                "icon": "headset"
               },
               {
                 "group": "Analytics",
@@ -891,7 +902,7 @@
     },
     {
       "source": "/integrations-and-workflows/github-integration",
-      "destination": "/integrations/github"
+      "destination": "/connectors/github"
     },
     {
       "source": "/integrations-and-workflows",
@@ -1064,6 +1075,38 @@
     {
       "source": "/embedded-docs/quickstart",
       "destination": "/embedded-docs/overview"
+    },
+    {
+      "source": "/integrations/github",
+      "destination": "/connectors/github"
+    },
+    {
+      "source": "/integrations/jira",
+      "destination": "/connectors/jira"
+    },
+    {
+      "source": "/integrations/confluence",
+      "destination": "/connectors/confluence"
+    },
+    {
+      "source": "/integrations/linear",
+      "destination": "/connectors/linear"
+    },
+    {
+      "source": "/integrations/notion",
+      "destination": "/connectors/notion"
+    },
+    {
+      "source": "/integrations/hubspot",
+      "destination": "/connectors/hubspot"
+    },
+    {
+      "source": "/integrations/plain",
+      "destination": "/connectors/plain"
+    },
+    {
+      "source": "/integrations/intercom-connector",
+      "destination": "/connectors/intercom"
     }
   ]
 }

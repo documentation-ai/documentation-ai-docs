@@ -51,49 +51,19 @@ Add integrations directly to `documentation.json` if you manage configuration in
 
 Gate integrations behind user consent for GDPR compliance. Each integration can be assigned a consent category; it only loads after the user accepts that category through your consent banner. See the [Cookie Consent guide](/customize/cookie-consent) for full setup instructions and CMP examples.
 
-## Developer Tools
+<Callout kind="info" collapsed="false">
+  Integrations add scripts and widgets to your published site. To give the AI agent context from GitHub, Jira, Confluence, Notion, and other tools while you write, see [Connectors](/connectors/overview).
+</Callout>
+
+## Git and Deployment
 
 <Columns cols={2}>
-  <Card title="GitHub Integration" href="/integrations/github" icon="github">
-    Connect the GitHub App so the AI agent can use your code and commits while working on docs. Configure from the **Integrations** page in the dashboard.
-  </Card>
-
-  <Card title="GitLab Integration" href="/integrations/gitlab" icon="gitlab">
+  <Card title="GitLab" href="/integrations/gitlab" icon="gitlab">
     Connect a GitLab project as your documentation source repository, with support for self-hosted instances and auto-deploy on push.
   </Card>
-</Columns>
 
-## AI Context Sources
-
-Connect external tools as context sources for the AI Documentation Agent. The agent reads from these sources on demand to generate or update documentation aligned with your engineering work.
-
-<Columns cols={2}>
-  <Card title="Jira" href="/integrations/jira" icon="list-todo">
-    Connect Jira so the AI agent can search issues with JQL, read issue details, track sprints and releases, and keep your docs aligned with engineering work.
-  </Card>
-
-  <Card title="Confluence" href="/integrations/confluence" icon="book-open">
-    Connect Confluence so the AI agent can search pages with CQL, read page content, browse spaces, and use your wiki content as context for documentation.
-  </Card>
-
-  <Card title="Linear" href="/integrations/linear" icon="kanban">
-    Connect Linear so the AI agent can read issues, projects, and cycles, and write release notes from shipped work.
-  </Card>
-
-  <Card title="Notion" href="/integrations/notion" icon="notebook-text">
-    Connect Notion so the AI agent can read the specs, wiki pages, and databases you share with it.
-  </Card>
-
-  <Card title="HubSpot" href="/integrations/hubspot" icon="contact">
-    Connect HubSpot so the AI agent can read support tickets, notes, contacts, and companies, and cover what customers ask.
-  </Card>
-
-  <Card title="Plain" href="/integrations/plain" icon="messages-square">
-    Connect Plain so the AI agent can read support threads and help center articles, and find gaps in your docs.
-  </Card>
-
-  <Card title="Intercom" href="/integrations/intercom-connector" icon="headset">
-    Connect Intercom so the AI agent can read conversations, tickets, and Help Center articles, and find gaps in your docs.
+  <Card title="Webhooks" href="/integrations/deployment-webhooks" icon="webhook">
+    Notify your own systems when a deployment of your documentation finishes.
   </Card>
 </Columns>
 

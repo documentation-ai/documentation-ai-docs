@@ -1,0 +1,122 @@
+---
+title: GitHub Integration
+description: >-
+  Publish your documentation from a GitHub repository, choose the deployment
+  branch, and deploy automatically on every push.
+---
+## Overview
+
+Connect a GitHub repository as the source of your documentation. Documentation.AI publishes from that repository and deploys automatically when you push to the deployment branch.
+
+<Callout kind="info" collapsed="false">
+  This page covers the repository your docs are published from. To let the AI agent read code and commits from other repositories while it writes, see the [GitHub connector](/connectors/github). Both use the same Documentation.AI GitHub App, so installing it once covers both, but you choose the repositories for each separately.
+</Callout>
+
+## Before you start
+
+<Callout kind="info" collapsed="false">
+  - Permission in GitHub to install apps on the account or organization that owns the repository
+  - A repository with `documentation.json` at its root, or a documentation project hosted by Documentation.AI that you want to move to GitHub
+</Callout>
+
+## Connect a repository
+
+When you create a documentation project, Documentation.AI asks you to install the GitHub App and select a repository. Your documentation is published from that repository from then on.
+
+To see the connection later, go to **Settings → Git Settings**. The **GitHub** card is marked **Active**, and the table lists the repository, the deployment branch, and the GitHub account that owns it.
+
+## Move hosted docs to GitHub
+
+If Documentation.AI hosts your documentation, Git Settings asks how you want to manage your docs instead of listing a repository.
+
+<Steps>
+  <Step title="Open Git Settings" icon="settings" title-type="p">
+    In the dashboard, go to **Settings → Git Settings**.
+  </Step>
+
+  <Step title="Choose GitHub" icon="github" title-type="p">
+    Select **Connect to GitHub**, then click **Continue**.
+  </Step>
+
+  <Step title="Authorize GitHub" icon="key" title-type="p">
+    Click **Authorize GitHub** and approve access on GitHub. Documentation.AI creates a repository in your GitHub account, moves your documentation into it, and publishes from it from then on.
+  </Step>
+</Steps>
+
+## Change the source repository
+
+Point your documentation at a different repository, or move it from GitLab to GitHub.
+
+<Steps>
+  <Step title="Open Git Settings" icon="settings" title-type="p">
+    Go to **Settings → Git Settings**.
+  </Step>
+
+  <Step title="Open the repository list" icon="list" title-type="p">
+    If GitHub is already active, click **Change Source**. If your documentation publishes from GitLab, select the **GitHub** card instead.
+
+    The list shows the repositories the GitHub App can access. If yours is missing, click **Connect Repo from GitHub** and give the app access to it on GitHub.
+  </Step>
+
+  <Step title="Select the repository" icon="folder-git-2" title-type="p">
+    Search for the repository, click **Select**, then click **Change Source** to confirm.
+  </Step>
+</Steps>
+
+<Callout kind="danger" collapsed="false">
+  Changing the source replaces your documentation's content with the content of the selected repository and starts a fresh deployment from it. This cannot be undone. Make sure the new repository has a valid `documentation.json` at its root.
+</Callout>
+
+## Change the deployment branch
+
+The deployment branch is the branch your live site is built from, labeled **Live** in the editor.
+
+<Steps>
+  <Step title="Pick a branch" icon="git-branch" title-type="p">
+    In **Settings → Git Settings**, open the branch menu in the **Branch** column and choose the new branch.
+  </Step>
+
+  <Step title="Confirm" icon="check-circle" title-type="p">
+    Click **Change Branch**. Documentation.AI redeploys your whole site from the new branch.
+  </Step>
+</Steps>
+
+To work on other branches and review them on a preview site first, see [Branches and previews](/write-and-publish/branches-and-previews).
+
+## Auto-deploy on push
+
+Every push to the deployment branch triggers a build and deploys your live site. You do not need to set up a webhook: the GitHub App receives push events for every repository it can access.
+
+To notify your own systems when a deployment finishes, see [Deployment webhooks](/integrations/deployment-webhooks).
+
+## Troubleshooting
+
+<ExpandableGroup>
+  <Expandable title="&quot;We cannot reach your GitHub repository&quot;" default-open="false">
+    The GitHub App no longer has access to the repository, usually because someone narrowed the app's repository access or uninstalled it. Click **Grant access**, then give the app access to the repository on GitHub. Editing and publishing from the dashboard work again once access is restored.
+  </Expandable>
+
+  <Expandable title="My repository is not in the list" default-open="false">
+    The list shows only repositories the GitHub App can access. Click **Connect Repo from GitHub**, add the repository to the app's access on GitHub, and return to Git Settings.
+  </Expandable>
+
+  <Expandable title="A push did not deploy" default-open="false">
+    Check that you pushed to the deployment branch shown in Git Settings, and that the GitHub App still has access to the repository.
+  </Expandable>
+</ExpandableGroup>
+
+## Related
+
+<Columns cols="3">
+  <Card title="Code Editor" href="/write-and-publish/code-editor" icon="code" horizontal="false">
+    Write docs locally in MDX and publish with Git.
+  </Card>
+
+  <Card title="GitHub connector" href="/connectors/github" icon="github" horizontal="false">
+    Let the AI agent read code and commits as context.
+  </Card>
+
+  <Card title="GitLab Integration" href="/integrations/gitlab" icon="gitlab" horizontal="false">
+    Publish from a GitLab project instead.
+  </Card>
+</Columns>

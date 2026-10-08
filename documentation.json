@@ -640,6 +640,11 @@
                 "icon": "info"
               },
               {
+                "title": "GitHub",
+                "path": "integrations/github",
+                "icon": "github"
+              },
+              {
                 "title": "GitLab",
                 "path": "integrations/gitlab",
                 "icon": "gitlab"
@@ -1075,10 +1080,6 @@
     {
       "source": "/embedded-docs/quickstart",
       "destination": "/embedded-docs/overview"
-    },
-    {
-      "source": "/integrations/github",
-      "destination": "/connectors/github"
     },
     {
       "source": "/integrations/jira",

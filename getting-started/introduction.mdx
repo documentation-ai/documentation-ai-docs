@@ -5,14 +5,68 @@ description: >-
   tools through the MCP server, or let our AI agent keep every page current as
   your product changes.
 ---
-import DocsHome from "/snippets/docs-home.jsx"
-import DocsHomeMigrate from "/snippets/docs-home-migrate.jsx"
+
+{/* The painted steps and the migration row are plain HTML, styled by
+  * styles/docs-home.css, so they render on the server with the rest of the
+  * page. `dh-home` scopes those styles to this page. Text stays on the same
+  * line as its tag: MDX wraps text on a line of its own in a paragraph. */}
 
 ## Start here
 
 From an empty documentation to docs that stay current.
 
-<DocsHome />
+<div className="dh-home">
+  <ol className="dh-steps">
+    <li>
+      <a className="dh-step" href="/docs/getting-started/quickstart">
+        <div className="dh-painting dh-painting-sunrise">
+          <span className="dh-step-n">01</span>
+          <span className="dh-step-title">Set up your docs</span>
+        </div>
+        <div className="dh-step-copy">
+          <span className="dh-step-desc">Sign up, choose how you'll write, and publish your first edit in minutes.</span>
+          <span className="dh-explore">Explore<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg></span>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a className="dh-step" href="/docs/getting-started/core-concepts">
+        <div className="dh-painting dh-painting-valley">
+          <span className="dh-step-n">02</span>
+          <span className="dh-step-title">Learn the core concepts</span>
+        </div>
+        <div className="dh-step-copy">
+          <span className="dh-step-desc">How the AI features, the two ways to write, and components fit together.</span>
+          <span className="dh-explore">Explore<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg></span>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a className="dh-step" href="/docs/customize/custom-domain">
+        <div className="dh-painting dh-painting-sunset">
+          <span className="dh-step-n">03</span>
+          <span className="dh-step-title">Go live on your domain</span>
+        </div>
+        <div className="dh-step-copy">
+          <span className="dh-step-desc">Connect your own domain, or serve your docs under a path like /docs.</span>
+          <span className="dh-explore">Explore<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg></span>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a className="dh-step" href="/docs/ai/workflows">
+        <div className="dh-painting dh-painting-night">
+          <span className="dh-step-n">04</span>
+          <span className="dh-step-title">Keep docs up to date</span>
+        </div>
+        <div className="dh-step-copy">
+          <span className="dh-step-desc">Set up a workflow, and the AI agent drafts updates from code changes, changelogs, and user feedback.</span>
+          <span className="dh-explore">Explore<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg></span>
+        </div>
+      </a>
+    </li>
+  </ol>
+</div>
 
 ## Explore the docs
 
@@ -80,5 +134,54 @@ Everything the platform does, from writing to AI access.
   </Card>
 </Columns>
 
-<DocsHomeMigrate />
+{/* The migration row: copy beside a painting. The drawing shows a migration
+  * finishing, with invented numbers, and the preview a reader checks before
+  * going live. The contact page lives on the website, not under /docs. */}
+
+<div className="dh-split">
+  <div className="dh-split-copy">
+    <div className="dh-eyebrow">Migration</div>
+    <h2>Moving from another platform?</h2>
+    <p className="dh-deck">The migrator copies your pages word for word, rebuilds your sidebar, and moves your images into the media library. You check a preview before anything goes live.</p>
+    <ul className="dh-links">
+      <li><a href="/docs/migrations/mintlify"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>Mintlify</a></li>
+      <li><a href="/docs/migrations/gitbook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>GitBook</a></li>
+      <li><a href="/docs/migrations/readme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>ReadMe</a></li>
+      <li><a href="/docs/migrations/document360"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>Document360</a></li>
+      <li><a href="/docs/migrations/docusaurus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>Docusaurus, Nextra, Fern</a></li>
+      <li><a href="/docs/migrations/markdown"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>Any other platform</a></li>
+    </ul>
+    <a className="dh-explore" href="/docs/migrations/overview">Read the migration guide<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg></a>
+    <p className="dh-note">Want us to do it for you? Migration is free: just <a href="https://documentation.ai/contact">contact us</a>.</p>
+  </div>
+  <div className="dh-painting dh-painting-headland">
+    <div className="dh-stage dh-stage-migrate" aria-hidden="true">
+      <div className="dh-glass dh-migrate">
+        <div className="dh-face">
+          <div className="dh-window-head">
+            <span className="dh-lights"><i /><i /><i /></span>
+            <span className="dh-window-title">Migrating from Mintlify</span>
+          </div>
+          <div className="dh-rows">
+            <div className="dh-row"><span>Pages</span><span className="dh-row-result">142 copied<svg className="dh-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg></span></div>
+            <div className="dh-row"><span>Sidebar</span><span className="dh-row-result">6 groups rebuilt<svg className="dh-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg></span></div>
+            <div className="dh-row"><span>Images and files</span><span className="dh-row-result">38 in media library<svg className="dh-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg></span></div>
+            <div className="dh-row"><span>Redirects</span><span className="dh-row-result">4 added<svg className="dh-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg></span></div>
+          </div>
+        </div>
+      </div>
+      <div className="dh-glass dh-glass-sm dh-preview">
+        <div className="dh-face">
+          <div className="dh-preview-status"><i className="dh-live" />Preview ready</div>
+          <div className="dh-preview-url">acme-migration.documentation.ai</div>
+          <div className="dh-preview-actions">
+            <span className="dh-chip">Changes</span>
+            <span className="dh-chip dh-chip-on">Review</span>
+          </div>
+          <svg className="dh-cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.04 2.88a.75.75 0 0 1 .98-.98l15.5 6.5a.75.75 0 0 1-.06 1.4l-6.03 1.9-1.9 6.03a.75.75 0 0 1-1.4.06z" /></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 

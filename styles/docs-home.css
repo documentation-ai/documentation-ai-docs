@@ -2,18 +2,18 @@
  * Docs homepage, in the style of the documentation.ai website. Loads after
  * styles/docs-theme.css and reads its tokens (--da-*) and fonts.
  *
- * Every rule is scoped to the page that renders snippets/docs-home.jsx (its
- * root carries `dh-home`), so the other docs pages get the theme alone. The
- * headings and the "Explore the docs" grid stay plain MDX, editable in the web
- * editor; the painted steps and the migration row are the two snippets, and
- * this file styles all of it.
+ * Every rule is scoped to getting-started/introduction.mdx, whose "Start
+ * here" block carries `dh-home`, so the other docs pages get the theme alone.
+ * The whole page is plain MDX: the painted steps and the migration row are
+ * HTML written into the page, so they render on the server and stay editable
+ * in the web editor, and this file styles all of it.
  *
  * The page, top to bottom:
  *   1. Title and description (frontmatter).
  *   2. "Start here": four numbered steps, each titled on a painting with
- *      its description below (docs-home.jsx).
+ *      its description below.
  *   3. "Explore the docs": the Columns block, a plain lattice.
- *   4. The migration row: copy beside a painting (docs-home-migrate.jsx).
+ *   4. The migration row: copy beside a painting.
  *
  * The paintings are the website's own (public/img/scenery there, listed in
  * src/lib/scenery.ts), loaded from documentation.ai so both sites show one
@@ -50,7 +50,7 @@
 /*
  * The website's hero dot field, drawn in CSS: its 2px squares on an 18px
  * step, in its colours, with one coral cluster. The website's field moves
- * with the cursor; a snippet page cannot run that canvas, so this one holds
+ * with the cursor; this page runs no script for that canvas, so this one holds
  * still. Masked as the website's left-aligned hero is: clear behind the
  * title and subheading, full only toward the right, softened at its own
  * edges and faded out before "Start here". Off on a phone, as the

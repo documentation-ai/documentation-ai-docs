@@ -576,6 +576,11 @@
                 "title": "Intercom",
                 "path": "connectors/intercom",
                 "icon": "headset"
+              },
+              {
+                "title": "User & Agent Feedback",
+                "path": "connectors/user-feedback",
+                "icon": "message-square-heart"
               }
             ]
           },

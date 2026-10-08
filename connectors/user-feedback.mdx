@@ -1,0 +1,128 @@
+---
+title: User & Agent Feedback Connector
+description: >-
+  Let the AI agent read page ratings, reader comments, and AI Assistant
+  confidence scores to find the gaps in your documentation and fix them.
+---
+Turn on User & Agent Feedback to give the AI agent the signals your readers leave behind: page ratings and comments, questions the AI Assistant answered with low confidence, and answers readers disliked. The agent uses them to find where your docs fall short. It reads only, and it changes nothing in your analytics.
+
+Unlike other connectors, this one needs no outside account. It reads your documentation's own [Analytics](/analytics/overview), so there is nothing to connect, only a switch to turn on.
+
+<Callout kind="info" collapsed="false">
+  **Before you begin**
+
+  - You need the **Admin** or **Editor** role in your Documentation.AI organization to turn the connector on or off.
+  - Page ratings come from the feedback reactions on your published pages. AI confidence scores and answer ratings come from the [AI Assistant](/ai/ai-assistant). The agent can only read the signals your site collects.
+</Callout>
+
+## How the agent uses feedback
+
+Feedback tells the agent **where** a problem is, not **what** the fix should be. So the agent does not edit a page on feedback alone:
+
+1. It reads the feedback to find the pages and questions that need attention.
+2. For each one, it looks for the correct information in your published docs, in your [connected repositories](/connectors/github), in your other connectors, and on the web.
+3. It edits only when that evidence does not conflict with your existing content, and it cites the source.
+4. When sources conflict, or when it finds no evidence, it reports the gap to you instead of guessing.
+
+## Web editor
+
+### How to turn on User & Agent Feedback
+
+<Steps>
+  <Step title="Open Agent Settings" icon="bot" title-type="p">
+    In the dashboard sidebar, under **AI**, click **Agent Settings**. The **Connectors** section lists the tools the agent can pull context from.
+
+    If you are in the editor, you can click **Connectors** below the chat input instead. It opens the same list.
+  </Step>
+
+  <Step title="Turn on the switch" icon="toggle-right" title-type="p">
+    On the **User & Agent Feedback** card, turn on the switch. "User & Agent Feedback connector enabled" appears.
+  </Step>
+</Steps>
+
+The switch applies to the documentation project you have open. Each project reads its own feedback, so turn it on in every project where you want the agent to use it.
+
+### How to use feedback in the editor
+
+Ask the agent about feedback in your prompt, and give it a time period: the last 7, 30, or 90 days. See [Example prompts](#example-prompts).
+
+## Code editor (Git)
+
+### How to use feedback in a workflow
+
+Workflows run the agent in the background and commit their changes to your Git repository. They use the connectors that are on for the documentation project.
+
+<Steps>
+  <Step title="Open the workflow form" icon="zap" title-type="p">
+    In the dashboard sidebar, under **AI**, click **Workflows**. Click **Create workflow**, or open an existing workflow and click **Edit**.
+  </Step>
+
+  <Step title="Keep User & Agent Feedback selected" icon="list-checks" title-type="p">
+    Open **Connectors** in the form and check that **User & Agent Feedback** is selected.
+  </Step>
+
+  <Step title="Tell the workflow what to look for" icon="text" title-type="p">
+    In **Prompt**, say what to review and what to do with it, for example: "Every Monday, review the last 7 days of feedback, fix the pages where the evidence is clear, and list the rest."
+  </Step>
+</Steps>
+
+For triggers, schedules, and run history, see [Workflows](/ai/workflows).
+
+## Turn off User & Agent Feedback
+
+To stop the agent from reading feedback in a documentation project, turn off the switch on the **User & Agent Feedback** card in **Agent Settings**. "User & Agent Feedback connector disabled" appears. Your analytics are not affected.
+
+## What the agent can read
+
+The agent reads feedback for one period at a time: the last 7, 30, or 90 days.
+
+| Signal | What the agent gets |
+| --- | --- |
+| Page feedback | Total likes, dislikes, and satisfaction rate, and up to 20 of the lowest-rated pages that have dislikes. For the 10 lowest-rated, it also gets up to 5 reader comments each. |
+| AI Assistant confidence | How many questions scored high, medium, or low confidence, and up to 20 questions scored below 50%, each with the start of the answer and the page it was asked on. |
+| AI answer ratings | Total likes, dislikes, and satisfaction rate for AI Assistant answers, and up to 20 disliked answers, each with the question and the page it was asked on. |
+
+These are the same numbers you see in the **Feedback** and **AI Assistant** tabs of [Analytics](/analytics/overview).
+
+## Example prompts
+
+- *Review the last 30 days of feedback and list the five pages readers struggle with most, with their comments.*
+- *Find the questions the AI Assistant answered with low confidence this week and tell me which ones our docs do not cover.*
+- *Look at the disliked AI answers from the last 90 days, check our docs and the codebase for the right answer, and fix the pages where the evidence is clear.*
+- *Compare reader comments on the authentication guide with the code in our API repository and propose an update.*
+
+## Common questions
+
+<ExpandableGroup>
+  <Expandable title="Does the agent change my feedback or analytics?" default-open="false">
+    No. The agent only reads. Turning the connector on or off does not change what your site collects or what Analytics shows.
+  </Expandable>
+
+  <Expandable title="Will the agent rewrite a page because readers disliked it?" default-open="false">
+    Not on feedback alone. The agent needs evidence for a change from your docs, your code, your other connectors, or the web. Without it, the agent reports the gap and explains what it searched.
+  </Expandable>
+
+  <Expandable title="Why does the agent find no feedback?" default-open="false">
+    Your site may not have collected any in the period you asked about. Try a longer period, such as the last 90 days. Page ratings need feedback reactions on your published pages, and confidence scores need readers using the AI Assistant.
+  </Expandable>
+
+  <Expandable title="Is any data sent to another service?" default-open="false">
+    No outside account is involved. The agent reads the analytics Documentation.AI already keeps for your documentation project.
+  </Expandable>
+</ExpandableGroup>
+
+## Related
+
+<Columns cols="3">
+  <Card title="Analytics" href="/analytics/overview" icon="bar-chart" horizontal="false">
+    See the feedback and confidence scores yourself.
+  </Card>
+
+  <Card title="Workflows" href="/ai/workflows" icon="zap" horizontal="false">
+    Review feedback on a schedule.
+  </Card>
+
+  <Card title="Connectors overview" href="/connectors/overview" icon="info" horizontal="false">
+    See every tool the agent can read from.
+  </Card>
+</Columns>

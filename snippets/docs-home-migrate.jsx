@@ -54,6 +54,12 @@ export const DocsHomeMigrate = () => {
           Read the migration guide
           <Icon d={arrowRight} />
         </a>
+        {/* The offer for teams that would rather not run the migrator themselves.
+          * The contact page lives on the website, not under /docs, so no `base`. */}
+        <p className="dh-note">
+          Want us to do it for you? Migration is free: just{" "}
+          <a href="https://documentation.ai/contact">contact us</a>.
+        </p>
       </div>
 
       <div className="dh-painting dh-painting-headland">

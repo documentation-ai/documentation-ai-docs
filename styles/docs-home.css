@@ -559,6 +559,25 @@
   height: 14px;
 }
 
+/* The free-migration offer under the guide link: a hairline above, one muted line, the link in ink. */
+.dh-note {
+  margin: 24px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--da-rule);
+  font-size: 15px;
+  color: var(--da-muted);
+}
+
+.dh-note a {
+  color: var(--heading);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.dh-note a:hover {
+  color: var(--da-coral);
+}
+
 /* The migration stage: a window to the right, the preview card over its lower-left corner. */
 
 .dh-stage {

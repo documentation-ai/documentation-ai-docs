@@ -23,6 +23,10 @@
         {
           "title": "Login",
           "link": "https://dashboard.documentation.ai/login"
+        },
+        {
+          "title": "Book a Demo",
+          "link": "https://documentation.ai/get-a-demo"
         }
       ]
     }

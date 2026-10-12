@@ -169,6 +169,29 @@ Rendered result:
 
 You can combine styles, such as **`GET /v1/projects`** to make an entire inline code phrase bold.
 
+### Blockquotes
+
+Use `>` at the start of a line to create a blockquote for quoting text or highlighting a passage:
+
+```markdown
+> This is a blockquote. It's useful for quoting source material
+> or drawing attention to an important statement.
+```
+
+Rendered:
+
+> This is a blockquote. It's useful for quoting source material
+> or drawing attention to an important statement.
+
+You can nest formatting inside blockquotes, including bold, italic, and links:
+
+```markdown
+> **Note:** See the [Callout component](/components/callout) for styled
+> call-to-action boxes with icons and colors.
+```
+
+For structured tips, warnings, or alerts with visual styling, prefer the [Callout](/components/callout) component instead of a plain blockquote.
+
 ### Links
 
 **Internal links**
@@ -234,6 +257,16 @@ Use these patterns when you need finer control or are designing page-wide typogr
   - `####` for fine-grained details when absolutely necessary.
 
 Keeping a consistent hierarchy improves readability, search, and AI summaries.
+
+### Anchor links
+
+Every heading on a published page has an auto-generated anchor (a URL fragment based on the heading text, such as `#blockquotes`). To link to a specific section on any page, append the anchor to the page URL:
+
+```markdown
+[Skip to blockquotes](/components/heading-and-text#blockquotes)
+```
+
+You can also copy an anchor link directly: click any heading on a published page to copy its anchor link to your clipboard and update the browser URL hash.
 
 ### Manual line breaks with `<br />`
 

@@ -15,11 +15,9 @@ Automations run AI-powered documentation tasks in the background so you can catc
 
 ## What automations are
 
-Automations automate common documentation jobs inside Documentation.AI. You can use them to audit content, enforce standards, generate updates, and run repo-aware tasks that use your connected documentation and code context.
+Automations handle common documentation jobs inside Documentation.AI. You can use them to audit content, enforce standards, generate updates, and run repo-aware tasks that use your connected documentation and code context.
 
 Each automation starts from a template or a custom setup. After you create it, the automation can run on a trigger such as a pull request merge or a schedule, and you can also run it manually when you need an on-demand result.
-
-<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1778841367200-cbu621qwgpp-workflows.png?fm=auto&auto=compress%2Cformat" width="2148" height="1212" alt="" />
 
 ## Where to find automations
 
@@ -36,22 +34,22 @@ Automations depend on your plan and repository connection setup. Confirm these r
 <Callout kind="alert" collapsed="false">
   You need all of the following before Automations are available:
 
-  - A **Standard** plan or higher
+  - Any plan, starting with **Starter**
 
   - A documentation site synced to a **connected Git repository** (GitHub or GitLab)
 
-  - Any repository you want to use as a trigger repo or context repo connected in Documentation.AI
+  - Any repository you want an automation to watch for pull request merges, connected in Documentation.AI
 
-  - Optionally, connect [Jira](/connectors/jira), [Confluence](/connectors/confluence), [Linear](/connectors/linear), [Notion](/connectors/notion), [HubSpot](/connectors/hubspot), [Plain](/connectors/plain), [Intercom](/connectors/intercom), or [User & Agent Feedback](/connectors/user-feedback) as additional context sources for the AI agent
+  - Optionally, connect [GitHub](/connectors/github) for code context, plus any of [Jira](/connectors/jira), [Confluence](/connectors/confluence), [Linear](/connectors/linear), [Notion](/connectors/notion), [HubSpot](/connectors/hubspot), [Plain](/connectors/plain), [Intercom](/connectors/intercom), or [User & Agent Feedback](/connectors/user-feedback) for other context the AI agent can read
 
   - Optionally, enable the **User & Agent Feedback** connector from Agent Settings to use the Self-Heal by User Feedback template
 </Callout>
 
-If your repositories are not connected, you can still explore the Automations page, but repo-based automation setup and repository selection will be limited.
+If Documentation.AI can't reach the repository your documentation is published from, the Automations page shows **We cannot reach your repository** instead of the templates. Click **Fix connection** to open your Git settings.
 
 ## Built-in automation templates
 
-Start with a built-in template when you want a focused automation for a common task. Choose **Custom** when none of the preset templates matches your process.
+Start with a built-in template when you want a focused automation for a common task. Choose **Start from scratch** under **Custom** when none of the templates matches your process.
 
 Templates are organized into two categories in the template picker:
 
@@ -85,10 +83,6 @@ Templates are organized into two categories in the template picker:
     Scan your published live site for broken internal links, anchors, redirects, and external URLs. Results include a grouped findings report with an AI-written summary. Use Chat with Agent on a finished run to open the findings in the editor chat and propose fixes.
   </Card>
 
-  <Card title="Grammar and Typo Check" icon="check-circle" horizontal="false">
-    Find writing issues across your documentation and generate suggested fixes.
-  </Card>
-
   <Card title="Style Guide Enforcement" icon="book-open" horizontal="false">
     Check content against your documentation standards and highlight places that need revision.
   </Card>
@@ -99,16 +93,16 @@ Templates are organized into two categories in the template picker:
 </Columns>
 
 <Columns cols="1">
-  <Card title="Custom" icon="settings" horizontal="false">
-    Create an automation for a task that does not fit one of the built-in templates.
+  <Card title="Start from scratch" icon="settings" horizontal="false">
+    Build a custom automation with your own prompt and configuration for a task that does not fit one of the built-in templates.
   </Card>
 </Columns>
 
-The best template depends on the job you want to automate. Content-only checks such as grammar or style usually require less setup than repo-aware automations such as code-driven updates or API sync tasks.
+The best template depends on the job you want to automate. Content-only checks such as style or navigation audits usually require less setup than repo-aware automations such as code-driven updates or API sync tasks.
 
 ## Create an automation
 
-Create your first automation from the Automations page in a few steps. The setup flow asks you to choose a template, define how it should run, and select repository context when needed.
+Create your first automation from the Automations page in a few steps. The setup flow asks you to choose a template, define how it should run, and pick a trigger repository when needed.
 
 <Steps>
   <Step title="Open the Automations page" icon="home" title-type="p">
@@ -118,31 +112,31 @@ Create your first automation from the Automations page in a few steps. The setup
   </Step>
 
   <Step title="Choose a template" icon="plus" title-type="p">
-    Select one of the built-in templates or choose **Custom**.
+    Select one of the built-in templates, or **Start from scratch** under **Custom**.
 
     Pick the template that matches the task you want to automate. For example, choose **Broken Link Audit** for content health checks or **Documentation Update from Code** when documentation changes depend on repository activity.
   </Step>
 
   <Step title="Configure the trigger" icon="play-circle" title-type="p">
-    Choose how the automation should start:
+    Under **Trigger type**, choose how the automation should start:
 
-    - **Pull request merge** to run after merges in the selected trigger repository
+    - **On pull request merge** to run after merges in the selected trigger repository
 
-    - **Schedule** to run daily, weekly, or monthly
+    - **On schedule** to run daily, weekly, or monthly
 
-    - **Manual run** after creation when you want to start the automation yourself
+    You can also start a run yourself at any time with **Run now**.
 
     After you save the automation, it becomes available in your automations list.
   </Step>
 
-  <Step title="Select repositories" icon="github" title-type="p">
-    Choose one **trigger repository** for repo-based runs. This repository determines where the automation watches for repository-driven activity.
-
-    You can also add **additional context repositories**. These repositories give the automation more source material to reference while planning and executing the task.
+  <Step title="Choose a trigger repository" icon="github" title-type="p">
+    If you chose **On pull request merge**, pick the repository to watch under **Trigger repos**. A merged pull request in that repository starts a run. Scheduled automations don't need one.
   </Step>
 
   <Step title="Select connectors" icon="plug" title-type="p">
     Open **Connectors** in the form. It lists every connector that is on for this documentation project, such as GitHub, Jira, Confluence, Linear, Notion, HubSpot, Plain, Intercom, and User & Agent Feedback. Each one is selected by default. Clear a checkbox to leave that connector out of this automation.
+
+    Keep **GitHub** selected when the automation needs your code. It reads the context repositories you linked in the [GitHub connector](/connectors/github).
 
     To connect or turn on another connector, click **Manage in Agent Settings**.
 
@@ -152,17 +146,17 @@ Create your first automation from the Automations page in a few steps. The setup
   <Step title="Save and verify the automation" icon="check-circle" title-type="p">
     Finish the setup and save the automation.
 
-    A saved automation appears in the automations list. From there, you can wait for its trigger or run it manually to confirm the configuration works.
+    A saved automation appears in the automations list. From there, you can wait for its trigger or click **Run now** to confirm the configuration works.
   </Step>
 </Steps>
 
 <Callout kind="tip" collapsed="false">
-  Run the automation manually after creation if you want to verify the setup before waiting for the next merge or scheduled window.
+  Click **Run now** after creating the automation to verify the setup before waiting for the next merge or scheduled window.
 </Callout>
 
 ## Triggers and repository context
 
-Triggers control **when** an automation runs. Repository selection controls **what context** the automation uses.
+Triggers control **when** an automation runs. Connectors control **what context** the automation can read.
 
 ### Trigger options
 
@@ -170,17 +164,17 @@ Use the trigger that matches how often the task should happen:
 
 - **On pull request merge** for automations that should react to repository changes
 
-- **On a schedule** for recurring checks such as audits or maintenance tasks
+- **On schedule** for recurring checks such as audits or maintenance tasks
 
-- **Manual run** after creation when you want to start a run on demand
+To start a run on demand, click **Run now** (the play icon) next to the automation in the automations list, or the play button on its edit page.
 
 If you schedule an automation monthly, pick a day from **1** through **28**. Monthly scheduling does not support days later in the month.
 
-### Trigger repo and additional context repos
+### Trigger repository and code context
 
-The **trigger repo** is the single repository tied to the automation's repo-based trigger behavior. If the automation runs from a merge event, that event comes from the trigger repo.
+The **trigger repository** is the one repository an **On pull request merge** automation watches. A merge in that repository starts a run.
 
-**Additional context repos** do not trigger runs. They expand the repository context available to the automation so it can produce better updates, checks, or summaries across related code and docs.
+Code context is separate from the trigger. Whenever **GitHub** is selected under **Connectors**, the agent reads code from the context repositories you linked in the [GitHub connector](/connectors/github), the same ones it uses in the editor.
 
 <Callout kind="info" collapsed="false">
   You can only select repositories that are already connected in Documentation.AI.
@@ -200,11 +194,9 @@ When a run finishes, the result can include:
 
 - A summary of what the automation found or changed
 
-- A downloadable report
+- A **View changes** button, when the run changed files, that opens the run's branch in the editor with its changes shown
 
-- A commit link when the run produced a commit
-
-- A **Chat with Agent** button that opens the editor chat pre-loaded with the run's findings, so you can ask follow-up questions or request fixes based on the results
+- A **Chat with Agent** button, when a Broken Link Audit run has findings, that opens the editor chat pre-loaded with them so you can ask follow-up questions or request fixes
 
 Those outputs help you decide whether to accept the result, investigate further, or continue the task in the editor chat.
 
@@ -225,7 +217,7 @@ The current Automations experience covers the most common user-facing automation
 
   - Automations require a documentation site synced to a **connected Git repository** (GitHub or GitLab)
 
-  - You can only choose from **connected repositories** for trigger and context selection
+  - You can only choose a **connected repository** as the trigger repository
 
   - **Monthly schedules** are limited to days **1** through **28**
 

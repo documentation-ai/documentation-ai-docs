@@ -87,7 +87,7 @@ Front matter is a block of YAML configuration placed at the very top of an MDX f
 </ParamField>
 
 <Callout kind="note" collapsed="false">
-  You can also include any other custom key-value pairs in your front matter. This data is not used by default but can be accessed for custom component or theme logic.
+  You can also include any other custom key-value pairs in your front matter. These values are preserved by the system but are not used by default. They are available to page templates and layout code, but are not automatically exposed to MDX content or custom components. To use custom frontmatter values inside a component, pass them explicitly as props from your page template.
 </Callout>
 
 <Callout kind="info" collapsed="false">

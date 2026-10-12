@@ -5,14 +5,14 @@ description: >-
   your own reader feedback so the AI agent can read your code, issues, specs,
   and support conversations while it writes or updates documentation.
 ---
-Connectors give the AI agent live, read-only context from the tools your team already works in. When a prompt needs it, the agent reads your code, issues, specs, or support conversations and uses them to write or update your docs, in the editor and in workflows.
+Connectors give the AI agent live, read-only context from the tools your team already works in. When a prompt needs it, the agent reads your code, issues, specs, or support conversations and uses them to write or update your docs, in the editor and in automations.
 
 ## How connectors work
 
 - **Live, not copied.** The agent reads a connected tool at the moment a prompt needs it. Nothing is imported or synced into your Documentation.AI workspace.
 - **Read-only.** The agent has no tools that create, edit, or delete anything in a connected tool.
 - **Connected once, turned on per project.** A connection belongs to your organization. Each documentation project turns it on or off with its own switch.
-- **Used by the editor and by workflows.** In the editor, the agent uses the connectors that are on for the open project. A [workflow](/ai/workflows) uses them too, and you can clear any connector in the workflow form.
+- **Used by the editor and by automations.** In the editor, the agent uses the connectors that are on for the open project. An [automation](/ai/automations) uses them too, and you can clear any connector in the automation form.
 
 <Callout kind="info" collapsed="false">
   **Before you begin**
@@ -88,7 +88,7 @@ Anyone who can use the agent in a documentation project where a connector is on 
 ## Turn off or disconnect
 
 - **To stop one project from using a connector**, turn off the switch on its card in **Agent Settings**. Other projects keep using it.
-- **To remove a connection from your organization**, click **Manage** on the card and disconnect. This removes it from every documentation project, including the workflows that use it.
+- **To remove a connection from your organization**, click **Manage** on the card and disconnect. This removes it from every documentation project, including the automations that use it.
 
 ## Connectors, External Sources, and site integrations
 
@@ -107,7 +107,7 @@ Three features connect outside content or tools to your docs. They serve differe
     Ask the agent to write and update pages.
   </Card>
 
-  <Card title="Workflows" href="/ai/workflows" icon="zap" horizontal="false">
+  <Card title="Automations" href="/ai/automations" icon="zap" horizontal="false">
     Run the agent on a schedule or on merge.
   </Card>
 

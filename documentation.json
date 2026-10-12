@@ -485,9 +485,9 @@
                 "icon": "stars-icon"
               },
               {
-                "title": "Workflows",
-                "path": "ai/workflows",
-                "icon": "workflow"
+                "title": "Automations",
+                "path": "ai/automations",
+                "icon": "zap"
               },
               {
                 "group": "Connectors",
@@ -1110,6 +1110,10 @@
     {
       "source": "/integrations/intercom-connector",
       "destination": "/connectors/intercom"
+    },
+    {
+      "source": "/ai/workflows",
+      "destination": "/ai/automations"
     }
   ]
 }

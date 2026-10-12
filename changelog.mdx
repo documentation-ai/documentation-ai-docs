@@ -2,6 +2,17 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-10-12" description="Workflows renamed to Automations" tags={["improvement"]}>
+  ## Workflows are now Automations
+
+  Workflows have been renamed to **Automations** in the dashboard and the documentation. Only the name changed. Your existing workflows are now automations, with the same templates, triggers, schedules, connectors, and run history, so there is nothing to set up again.
+
+  - **Dashboard**: In the sidebar, under **AI**, click **Automations**. The page address changed from `/workflows` to `/automations`, and old links and bookmarks redirect automatically.
+  - **Branch names**: Runs now create branches that start with `automation/`. Branches from earlier runs keep their `workflow/` names.
+
+  See [Automations](/ai/automations).
+</Update>
+
 <Update label="2026-10-08" description="External Sources, new agent connectors" tags={["feature","improvement","fix"]}>
   ## External Sources
 
@@ -149,7 +160,7 @@ description: 'Changes, fixes, and improvements across versions'
   - Results are grouped by issue type with a natural-language summary
   - Use **Chat with Agent** on a finished run to open findings in the editor chat and propose fixes
 
-  See [Workflows](/ai/workflows) for setup instructions.
+  See [Automations](/ai/automations) for setup instructions.
 
   ## Seat Limit Increases
 
@@ -175,7 +186,7 @@ description: 'Changes, fixes, and improvements across versions'
 
   This workflow requires the **User & Agent Feedback** connector. When the connector is not yet active, the workflow creation form prompts you to enable it before proceeding.
 
-  See [Workflows](/ai/workflows) for setup instructions.
+  See [Automations](/ai/automations) for setup instructions.
 
   ## User & Agent Feedback Connector
 
@@ -425,7 +436,7 @@ description: 'Changes, fixes, and improvements across versions'
 
   ### AI Workflows
 
-  AI Workflows let you automate recurring documentation tasks in the background so your docs stay accurate without repeating the same manual work. You can create a workflow from a built-in template or a custom setup, choose how it should run, and review the results from workflow history. Learn more in [Workflows](/ai/workflows).
+  AI Workflows let you automate recurring documentation tasks in the background so your docs stay accurate without repeating the same manual work. You can create a workflow from a built-in template or a custom setup, choose how it should run, and review the results from workflow history. Learn more in [Automations](/ai/automations).
 
   - Run documentation tasks on a schedule or after pull request merges.
   - Use built-in templates for jobs like broken link audits, grammar and typo checks, style guide enforcement, changelog generation, and code-aware documentation updates.

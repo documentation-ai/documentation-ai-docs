@@ -24,7 +24,9 @@ Every icon on your site, in components like Card, Step, Tab, Callout and Board a
   </Step>
 
   <Step title="Find the icon" icon="search" title-type="p">
-    On the **Icons** tab, type what the icon should show, such as `launch` or `payment`, or browse a category such as **Arrows** or **Brands**. Results from Lucide, Font Awesome and Tabler appear together, with the same icon from each library side by side.
+    On the **Icons** tab, type part of the icon's name, such as `arrow` or `credit card`. Icons with the same name from Lucide, Font Awesome and Tabler appear side by side, and more load as you scroll.
+
+    If you want one look only, pick **Outline**, **Filled** or **Brands**. See [Picker styles](#picker-styles) for what each shows.
   </Step>
 
   <Step title="Select it" icon="mouse-pointer-click" title-type="p">
@@ -32,7 +34,7 @@ Every icon on your site, in components like Card, Step, Tab, Callout and Board a
   </Step>
 </Steps>
 
-An icon from your site's library is saved by name alone. Any other icon is saved with its library, such as `fa-brands:github`, so it always keeps its look.
+An icon from your site's library is saved by name alone, such as `rocket`: Lucide, Font Awesome solid or Tabler outline. Any other icon is saved with its library, such as `fa-brands:github`, so it always keeps its look.
 
 ### How to use your own icon
 
@@ -43,7 +45,7 @@ An icon from your site's library is saved by name alone. Any other icon is saved
 
   <Step title="Add the file" icon="upload" title-type="p">
     - If the file is on your computer or already in your media library, click **Upload or choose a file**.
-    - If the file is on the web, paste its address into **Paste an image URL** and press Enter. It is copied into your media library, so it loads fast and an SVG takes your theme colour.
+    - If the file is on the web, paste its address into **Paste an image URL** and press Enter. It is copied into your media library, so it loads fast and an SVG takes your text colour.
   </Step>
 </Steps>
 
@@ -124,13 +126,18 @@ Upload the file to your [media library](/write-and-publish/media-library#code-ed
 
 ## If an icon does not show
 
-The editor shows the last message. AI agents and the authoring MCP server report the first four when they check `documentation.json`.
+The **Upload / URL** tab shows these messages:
 
-- **`"rokcet" is not an icon in Lucide, so nothing is drawn`**: check the spelling in the icon picker, or add the library the icon comes from, such as `fa-solid:rocket`.
-- **`Font Awesome has no "panel-top", so it is drawn from Lucide.`**, or the same message naming Tabler: write `lucide:panel-top`, or pick an icon from your site's library.
-- **`"cdn.example.com" is not your media library, so this icon is not drawn.`**: add the file to your media library and use its address.
-- **`Icons from project files are not drawn yet.`**: upload the file to your media library and use its address.
 - **Icons must be SVG, PNG or WebP files.**: choose a file in one of those formats.
+- **That address is not an SVG, PNG or WebP file.**: paste the address of an SVG, PNG or WebP file.
+- **Enter an https:// address.**: paste the full address, starting with `https://`.
+- **Could not copy that file into the media library.**: download the file, then add it with **Upload or choose a file**.
+
+An icon written in code that cannot be drawn shows nothing, with no message. A Callout shows its kind's icon instead, and a Step its number.
+
+- **The name is misspelled or not in your site's library**: check the spelling in the icon picker, or add the library the icon comes from, such as `fa-brands:github`.
+- **The icon is a Font Awesome class name**, such as `fa-solid fa-rocket`: write `fa-solid:rocket`.
+- **The icon is a file on another website or in your repository**, such as `/icons/brand.svg`: upload it to your media library and use its address.
 
 ## Icon values
 
@@ -142,10 +149,18 @@ The editor shows the last message. AI agents and the authoring MCP server report
 | `tabler-filled:star` | Tabler filled only. |
 | `fa:rocket` | Font Awesome solid, then brands. |
 | `fa-solid:rocket`, `fa-regular:bell`, `fa-brands:github` | That Font Awesome style only. |
-| `fa-solid fa-rocket`, `fab fa-github` | Font Awesome class names, read like the prefixed forms above. |
 | `https://blob-cdn.documentation.ai/…` | An `.svg`, `.png` or `.webp` file in your media library. Icons linked from other websites, and file paths in your repository, are not drawn. |
 
 Names are lowercase words joined by hyphens, without an `Icon` suffix. Older names, such as `home` for `house`, still work. Browse the libraries at [lucide.dev/icons](https://lucide.dev/icons), [fontawesome.com/search?ic=free](https://fontawesome.com/search?ic=free) and [tabler.io/icons](https://tabler.io/icons).
+
+## Picker styles
+
+| Style | Shows |
+| --- | --- |
+| **All** | Every icon. |
+| **Outline** | Lucide, Tabler outline and Font Awesome regular. |
+| **Filled** | Font Awesome solid and Tabler filled. |
+| **Brands** | Font Awesome brands. |
 
 ## Licences
 

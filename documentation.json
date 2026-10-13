@@ -46,8 +46,6 @@
                 "path": "getting-started/introduction",
                 "icon": "star",
                 "show-parent-label": false,
-                "show-page-navigation": false,
-                "ask-feedback": false,
                 "show-toc": false
               },
               {
@@ -862,6 +860,11 @@
     },
     {
       "src": "styles/docs-home.css"
+    }
+  ],
+  "scripts": [
+    {
+      "src": "scripts/docs-home.js"
     }
   ],
   "ai": {},

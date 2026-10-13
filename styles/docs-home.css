@@ -1,309 +1,283 @@
 /*
- * Docs homepage, in the style of the documentation.ai website. Loads after
- * styles/docs-theme.css and reads its tokens (--da-*) and fonts.
+ * Docs homepage. Loads after styles/docs-theme.css and reads its tokens
+ * (--da-*) and fonts.
  *
- * Every rule is scoped to getting-started/introduction.mdx, whose "Start
- * here" block carries `dh-home`, so the other docs pages get the theme alone.
- * The whole page is plain MDX: the painted steps and the migration row are
- * HTML written into the page, so they render on the server and stay editable
- * in the web editor, and this file styles all of it.
+ * Every rule is scoped to getting-started/introduction.mdx, whose body is one
+ * `dh-home` block, so the other docs pages get the theme alone. The page is
+ * plain MDX: everything under the title is HTML written into the page, so it
+ * renders on the server and stays editable in the web editor.
  *
  * The page, top to bottom:
- *   1. Title and description (frontmatter).
- *   2. "Start here": four numbered steps, each titled on a painting with
- *      its description below.
- *   3. "Explore the docs": the Columns block, a plain lattice.
- *   4. The migration row: copy beside a painting.
+ *   1. Title and description (frontmatter), then the Ask AI box and its
+ *      "Try" questions. scripts/docs-home.js hands those to the AI Assistant.
+ *   2. "Start here": four numbered steps under a rule.
+ *   3. "Write the way your team works": three cards, each over a drawing.
+ *   4. "Explore the docs": four groups of links.
+ *   5. The migration panel: copy beside a drawing of a migration.
  *
- * The paintings are the website's own (public/img/scenery there, listed in
- * src/lib/scenery.ts), loaded from documentation.ai so both sites show one
- * set. Each veil follows the website's rule: black at 1 - 0.34 / luma, a touch
- * heavier in the middle (1.15x) and lighter at the edges (0.85x), so every
- * painting comes out equally bright; a step darker again in the dark theme.
+ * The platform's header, sidebar and page footer are untouched.
  */
 
+/* Tokens for this page, light then dark. */
+
+.dh-home {
+  --dh-ink: #09090b;
+  --dh-text: #2a2422;
+  --dh-muted: var(--da-muted);
+  --dh-faint: #6b5f5b;
+  --dh-line: #e5e5e5;
+  --dh-edge: #dadada;
+  --dh-edge-strong: #cfcfcf;
+  --dh-hover-edge: #c4c4c4;
+  --dh-surface: #ffffff;
+  --dh-soft: var(--da-card);
+  --dh-softer: #f8f6f4;
+  --dh-btn: #18181b;
+  --dh-btn-ink: #ffffff;
+  --dh-ok: #2f6b3a;
+  --dh-ok-dot: #3c8a4a;
+  --dh-ok-bg: #eef5ee;
+  --dh-shadow: 0 1px 2px rgba(20, 16, 14, 0.04), 0 10px 30px rgba(20, 16, 14, 0.05);
+  --dh-shadow-lift: 0 1px 2px rgba(20, 16, 14, 0.04), 0 8px 24px rgba(20, 16, 14, 0.06);
+}
+
+.dark .dh-home {
+  --dh-ink: #ffffff;
+  --dh-text: #ebe9e6;
+  --dh-faint: #a39a95;
+  --dh-line: #262422;
+  --dh-edge: #2e2b29;
+  --dh-edge-strong: #3a3633;
+  --dh-hover-edge: #4a4542;
+  --dh-surface: #0c0b0b;
+  --dh-softer: #100f0e;
+  --dh-btn: #ffffff;
+  --dh-btn-ink: #09090b;
+  --dh-ok: #7fcf8c;
+  --dh-ok-dot: #4ade80;
+  --dh-ok-bg: rgba(74, 222, 128, 0.12);
+  --dh-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px rgba(0, 0, 0, 0.35);
+  --dh-shadow-lift: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* The homepage's column is wider and has no table of contents. */
+
 .dai-article:has(.dh-home) {
-  max-width: 960px !important;
+  max-width: 1000px !important;
   container: dh / inline-size;
 }
 
-/* The homepage has no table of contents, so its column takes the room. */
 .dai-page:has(.dh-home) .dai-page-aside {
   display: none;
 }
 
-.dai-article:has(.dh-home) .dh-home a,
-.dai-article:has(.dh-home) .dh-split a {
+.dh-home {
+  color: var(--dh-text);
+}
+
+.dh-home a {
+  color: inherit;
   border-bottom: 0;
   text-decoration: none;
 }
 
-/* 1. Hero copy: serif h1 (from the theme), subtext below it. */
+.dh-home svg {
+  flex: none;
+}
+
+.dh-home h2,
+.dh-home h3,
+.dh-home p {
+  margin: 0;
+}
+
+/* 1. Hero: the description under the title, then the Ask AI box. */
 
 .dai-article:has(.dh-home) .page-description,
 .dai-article:has(.dh-home) .page-description p {
-  max-width: 38rem;
-  font-size: 18px;
+  max-width: 680px;
+  font-size: 19px;
   line-height: 1.6;
 }
 
-/*
- * The website's hero dot field, drawn in CSS: its 2px squares on an 18px
- * step, in its colours, with one coral cluster. The website's field moves
- * with the cursor; this page runs no script for that canvas, so this one holds
- * still. Masked as the website's left-aligned hero is: clear behind the
- * title and subheading, full only toward the right, softened at its own
- * edges and faded out before "Start here". Off on a phone, as the
- * website's is. The live article starts at the title (its margin collapses
- * through), so the field's top and height are measured from the title.
- */
-.dai-article:has(.dh-home) {
-  position: relative;
-  isolation: isolate;
+.dh-ask {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 720px;
+  margin: 36px 0 0;
 }
 
-.dai-article:has(.dh-home)::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: -56px;
-  left: -40px;
-  right: -40px;
-  height: 280px;
-  pointer-events: none;
-  --dh-dots: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Crect x='8' y='8' width='2' height='2' fill='rgba(9,9,11,0.14)'/%3E%3C/svg%3E");
-  background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Cg fill='rgb(236,91,91)' fill-opacity='0.85'%3E%3Crect x='8' y='8' width='2' height='2'/%3E%3Crect x='26' y='8' width='2' height='2'/%3E%3Crect x='26' y='26' width='2' height='2'/%3E%3C/g%3E%3C/svg%3E") 864px 72px / 36px 36px no-repeat,
-    var(--dh-dots) 0 0 / 18px 18px;
-  -webkit-mask-image:
-    linear-gradient(to right, transparent 0%, transparent 62%, rgb(0 0 0 / 0.4) 72%, #000 86%, rgb(0 0 0 / 0.5) 100%),
-    linear-gradient(to bottom, transparent 0%, #000 22%, #000 50%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(to right, transparent 0%, transparent 62%, rgb(0 0 0 / 0.4) 72%, #000 86%, rgb(0 0 0 / 0.5) 100%),
-    linear-gradient(to bottom, transparent 0%, #000 22%, #000 50%, transparent 100%);
-  mask-composite: intersect;
-}
-
-.dark .dai-article:has(.dh-home)::before {
-  --dh-dots: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Crect x='8' y='8' width='2' height='2' fill='rgba(255,255,255,0.16)'/%3E%3C/svg%3E");
-}
-
-@media (max-width: 767px) {
-  .dai-article:has(.dh-home)::before {
-    display: none;
-  }
-}
-
-/* Paintings: the picture softened by a 1px blur, under its veil. */
-
-.dh-painting {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  border-radius: 12px;
-  container: dh-tile / inline-size;
-}
-
-.dh-painting::before,
-.dh-painting::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-}
-
-.dh-painting::before {
-  background: var(--dh-painting) var(--dh-focus, center) / cover no-repeat;
-  filter: blur(1px);
-  transform: scale(1.02);
-}
-
-.dh-painting::after {
-  background: var(--dh-veil);
-}
-
-.dark .dh-painting::after {
-  background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), var(--dh-veil);
-}
-
-/* river-sunrise, luma 0.521: veil 0.347 */
-.dh-painting-sunrise {
-  --dh-painting: url("https://documentation.ai/img/scenery/river-sunrise.jpg");
-  --dh-veil: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0, 0, 0, 0.400) 0%, rgba(0, 0, 0, 0.347) 60%, rgba(0, 0, 0, 0.295) 100%);
-}
-
-/* castle-valley, luma 0.506: veil 0.328 */
-.dh-painting-valley {
-  --dh-painting: url("https://documentation.ai/img/scenery/castle-valley.jpg");
-  --dh-veil: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0, 0, 0, 0.377) 0%, rgba(0, 0, 0, 0.328) 60%, rgba(0, 0, 0, 0.279) 100%);
-}
-
-/* coast-sunset, luma 0.533: veil 0.362. Its middle is open sea, so it anchors right. */
-.dh-painting-sunset {
-  --dh-painting: url("https://documentation.ai/img/scenery/coast-sunset.jpg");
-  --dh-focus: right center;
-  --dh-veil: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0, 0, 0, 0.416) 0%, rgba(0, 0, 0, 0.362) 60%, rgba(0, 0, 0, 0.308) 100%);
-}
-
-/*
- * moon-lake, luma 0.244: below the veil's target, so the rule above cannot
- * match it. Set by eye instead, light enough that the moon and its
- * reflection still show. Anchored right, where they sit.
- */
-.dh-painting-night {
-  --dh-painting: url("https://documentation.ai/img/scenery/moon-lake.jpg");
-  --dh-focus: 70% center;
-  --dh-veil: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.08) 60%, rgba(0, 0, 0, 0.04) 100%);
-}
-
-/* headland-bloom, luma 0.538: veil 0.368 */
-.dh-painting-headland {
-  --dh-painting: url("https://documentation.ai/img/scenery/headland-bloom.jpg");
-  --dh-veil: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0, 0, 0, 0.423) 0%, rgba(0, 0, 0, 0.368) 60%, rgba(0, 0, 0, 0.313) 100%);
-}
-
-/* Glass: the website's clear rim for panels on a painting, a panel inside. */
-
-.dh-glass {
-  position: relative;
-  padding: 10px;
-  border-radius: 24px;
-  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.08));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 32px 64px -24px rgba(0, 0, 0, 0.55);
-  -webkit-backdrop-filter: blur(6px) brightness(1.15) saturate(1.6);
-  backdrop-filter: blur(6px) brightness(1.15) saturate(1.6);
-}
-
-.dh-glass::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  padding: 1px;
-  border-radius: inherit;
-  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.15));
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-  pointer-events: none;
-}
-
-.dh-glass-sm {
-  padding: 8px;
-  border-radius: 20px;
-}
-
-.dh-face {
-  position: relative;
-  overflow: hidden;
-  border-radius: 16px;
-  background: #fff;
-  color: #09090b;
-  font-size: 13px;
-  line-height: 1.5;
-  box-shadow: 0 16px 40px -16px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 0, 0, 0.1);
-}
-
-.dh-glass-sm .dh-face {
-  border-radius: 12px;
-}
-
-.dark .dh-face {
-  background: #0c0b0b;
-  color: #fff;
-}
-
-.dh-window-head {
-  position: relative;
+.dh-ask-box {
   display: flex;
   align-items: center;
-  justify-content: center;
-  height: 40px;
-  padding: 0 64px;
+  gap: 12px;
+  height: 60px;
+  padding: 0 8px 0 18px;
+  border: 1px solid var(--dh-edge-strong);
+  border-radius: 14px;
+  background: var(--dh-surface);
+  box-shadow: var(--dh-shadow);
+  transition: border-color 150ms ease;
 }
 
-.dh-window-title {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+.dh-ask-box:focus-within {
+  border-color: var(--dh-faint);
 }
 
-.dh-lights {
-  position: absolute;
-  left: 14px;
-  display: flex;
-  gap: 6px;
-}
-
-.dh-lights i {
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  background: rgba(9, 9, 11, 0.12);
-}
-
-.dark .dh-lights i {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-.dh-window-title,
-.dh-label {
-  font: 500 11px/1 var(--da-mono);
-  letter-spacing: 0.06em;
-  color: #787168;
-}
-
-.dark .dh-window-title,
-.dark .dh-label {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.dh-cursor {
-  position: absolute;
+.dh-ask-spark {
   width: 20px;
   height: 20px;
-  fill: #09090b;
-  stroke: #fff;
-  stroke-width: 1.5;
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.25));
+  color: var(--da-coral);
 }
 
-.dark .dh-cursor {
-  fill: #fff;
-  stroke: #09090b;
+.dh-ask-input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  font-size: 16px;
+  color: var(--dh-text);
 }
 
-/*
- * 2. "Start here": four steps, each a painting set like the blog's scenery
- * covers, with the description and link on the page below. The number sits
- * top-left and the title bottom-left, so across the row the numbers line up
- * and so do the titles' last lines, however many lines a title takes.
- */
+.dh-ask-input::placeholder {
+  color: var(--dh-faint);
+  opacity: 1;
+}
+
+/* The one filled button style on the page: the ask button and the migration guide link. */
+.dh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--dh-btn);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: opacity 150ms ease;
+}
+
+.dh-home .dh-btn,
+.dh-home .dh-btn:hover {
+  color: var(--dh-btn-ink);
+}
+
+.dh-btn:hover {
+  opacity: 0.88;
+}
+
+.dh-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.dh-try {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.dh-try-label {
+  margin-right: 4px;
+  font-size: 13px;
+  color: var(--dh-faint);
+}
+
+/* Pills: the "Try" questions and the migration platforms. */
+.dh-pill {
+  padding: 6px 12px;
+  border: 1px solid var(--dh-edge);
+  border-radius: 999px;
+  background: var(--dh-surface);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--dh-muted);
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.dh-home .dh-pill:hover {
+  border-color: var(--dh-hover-edge);
+  background: var(--dh-soft);
+  color: var(--dh-ink);
+}
+
+/* Section heads: an h2 and its line, an optional link on the right. */
+
+.dh-section {
+  margin-top: 88px;
+}
+
+.dh-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px 24px;
+  margin-bottom: 28px;
+}
+
+.dh-sub {
+  margin-top: 8px;
+  color: var(--dh-muted);
+}
+
+.dh-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.dh-home .dh-more {
+  color: var(--dh-ink);
+}
+
+.dh-home .dh-more:hover {
+  color: var(--da-coral);
+}
+
+.dh-more svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* 2. "Start here": the first step's rule in the accent, the others in grey. */
 
 .dh-steps {
   display: grid;
-  gap: 40px;
-  margin: 28px 0 0;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
-@container dh (min-width: 560px) {
+@container dh (min-width: 520px) {
   .dh-steps {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 40px 24px;
+    gap: 32px 24px;
   }
 }
 
 @container dh (min-width: 860px) {
   .dh-steps {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 20px;
   }
 }
 
 .dh-steps li {
-  display: block;
   margin: 0;
   padding: 0;
 }
@@ -315,179 +289,426 @@
 .dh-step {
   display: flex;
   flex-direction: column;
+  gap: 10px;
   height: 100%;
-  color: inherit;
+  padding-top: 18px;
+  border-top: 2px solid var(--dh-edge);
 }
 
-.dh-step .dh-painting {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  aspect-ratio: 4 / 3;
-  padding: 18px 18px 20px;
-  color: #fff;
-}
-
-.dh-step .dh-painting::before {
-  transition: transform 400ms ease;
-}
-
-.dh-step:hover .dh-painting::before {
-  transform: scale(1.06);
-}
-
-/* The painting's own veil, plus a shade rising from the foot under the title. */
-.dh-step .dh-painting::after {
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0) 60%), var(--dh-veil);
-}
-
-.dark .dh-step .dh-painting::after {
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0) 60%), linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), var(--dh-veil);
+.dh-step-first {
+  border-top-color: var(--da-coral);
 }
 
 .dh-step-n {
   font: 500 12px/18px var(--da-mono);
   font-variant-numeric: tabular-nums;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--dh-faint);
 }
 
-/* Sized to the tile, so the title keeps its proportion from a phone to four across. */
-.dh-step-title {
-  max-width: 13ch;
-  font-family: var(--da-serif);
-  font-weight: 400;
-  font-size: clamp(20px, 11cqi, 32px);
-  line-height: 1.25;
-  letter-spacing: -0.01em;
-  color: #fff;
-  text-wrap: balance;
-}
-
-.dh-step-copy {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding-top: 20px;
-}
-
-.dh-step-desc {
-  color: var(--da-muted);
-}
-
-/* Pinned to the foot, so the four links line up whatever the copy's length. */
-.dh-step .dh-explore {
-  margin-top: auto;
-  padding-top: 20px;
-}
-
-.dh-step:hover .dh-explore {
+.dh-step-first .dh-step-n {
   color: var(--da-coral);
 }
 
-/* 3. The lattice: cells share single hairlines; the gap shows the rule. */
-
-.dai-article:has(.dh-home) [data-component="Columns"] {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1px !important;
-  margin-top: 28px;
-  background: var(--da-rule);
-  border: 1px solid var(--da-rule);
+.dh-step-title {
+  font-family: var(--da-serif);
+  font-size: 18px;
+  line-height: 1.35;
+  color: var(--dh-ink);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
 }
 
-@container dh (min-width: 600px) {
-  .dai-article:has(.dh-home) [data-component="Columns"] {
+.dh-step:hover .dh-step-title {
+  text-decoration-line: underline;
+}
+
+.dh-step-desc {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--dh-muted);
+}
+
+/* Pinned to the foot, so the four links line up whatever the copy's length. */
+.dh-step-link {
+  margin-top: auto;
+  padding-top: 4px;
+  font: 500 11px/18px var(--da-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dh-muted);
+  transition: color 150ms ease;
+}
+
+.dh-step:hover .dh-step-link {
+  color: var(--da-coral);
+}
+
+/* 3. Ways to write: three cards, each a drawing over its copy. */
+
+.dh-ways {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: 20px;
+}
+
+.dh-way {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--dh-edge);
+  border-radius: 14px;
+  background: var(--dh-surface);
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.dh-way:hover {
+  border-color: var(--dh-hover-edge);
+  box-shadow: var(--dh-shadow-lift);
+}
+
+.dh-art {
+  display: flex;
+  height: 168px;
+  box-sizing: border-box;
+  padding: 22px;
+  background: var(--dh-soft);
+  font: 11px/1.5 var(--da-mono);
+  color: var(--dh-muted);
+}
+
+.dh-way-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 22px 22px;
+}
+
+.dh-label {
+  font: 500 11px/18px var(--da-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dh-faint);
+}
+
+.dh-way-title {
+  font-family: var(--da-serif);
+  font-size: 19px;
+  line-height: 1.35;
+  color: var(--dh-ink);
+}
+
+.dh-way-desc {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--dh-muted);
+}
+
+/* The editor drawing: a page with a slash menu open. */
+.dh-art-editor {
+  padding-bottom: 0;
+}
+
+.dh-doc {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 12px 14px;
+  border: 1px solid var(--dh-edge);
+  border-bottom: 0;
+  border-radius: 10px 10px 0 0;
+  background: var(--dh-surface);
+}
+
+.dh-bars {
+  display: flex;
+  gap: 6px;
+}
+
+.dh-bars i {
+  width: 14px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--dh-edge);
+}
+
+.dh-line {
+  width: 92%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--dh-edge);
+}
+
+.dh-line-title {
+  width: 60%;
+  height: 9px;
+  background: var(--dh-text);
+}
+
+.dh-line-short {
+  width: 78%;
+}
+
+.dh-slash {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dh-caret {
+  width: 1px;
+  height: 12px;
+  background: var(--dh-ink);
+}
+
+.dh-menu {
+  position: absolute;
+  left: 28px;
+  top: 92px;
+  display: flex;
+  flex-direction: column;
+  width: 132px;
+  padding: 4px;
+  border: 1px solid var(--dh-edge);
+  border-radius: 8px;
+  background: var(--dh-surface);
+  box-shadow: 0 8px 20px rgba(20, 16, 14, 0.08);
+  font-family: var(--da-display);
+}
+
+.dh-menu span {
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+
+.dh-menu .dh-menu-on {
+  background: var(--dh-soft);
+  color: var(--dh-ink);
+}
+
+/* The Git drawing: main, and a branch with its preview. */
+.dh-art-git {
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.dh-branch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border: 1px solid var(--dh-edge);
+  border-radius: 8px;
+  background: var(--dh-surface);
+}
+
+.dh-branch svg {
+  width: 14px;
+  height: 14px;
+  color: var(--dh-faint);
+}
+
+.dh-branch-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.dh-branch-meta {
+  color: var(--dh-faint);
+}
+
+.dh-branch-on {
+  margin-left: 18px;
+  border-color: var(--dh-edge-strong);
+  box-shadow: 0 6px 16px rgba(20, 16, 14, 0.06);
+  color: var(--dh-ink);
+}
+
+.dh-branch-on svg {
+  color: var(--dh-ink);
+}
+
+.dh-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--dh-ok-bg);
+  color: var(--dh-ok);
+}
+
+.dh-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--dh-ok-dot);
+}
+
+/* The MCP drawing: an agent session in a terminal. */
+.dh-art-mcp {
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 22px;
+  color: var(--dh-text);
+}
+
+.dh-term {
+  display: flex;
+  gap: 8px;
+}
+
+.dh-term-prompt {
+  color: var(--da-coral);
+}
+
+.dh-term-dim {
+  color: var(--dh-faint);
+}
+
+.dh-term-ok {
+  align-items: center;
+  color: var(--dh-ok);
+}
+
+.dh-term-ok svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* 4. "Explore the docs": four groups, two across when there's room. */
+
+.dh-groups {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 36px 40px;
+}
+
+@container dh (min-width: 760px) {
+  .dh-groups {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@container dh (min-width: 860px) {
-  .dai-article:has(.dh-home) [data-component="Columns"] {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+.dh-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.dai-article:has(.dh-home) [data-component="Columns"] > a {
-  display: block;
-  background: var(--content-bg);
+.dh-group-title {
+  margin-bottom: 6px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--dh-line);
+}
+
+.dh-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin: 0 -10px;
+  padding: 10px;
+  border-radius: 10px;
   transition: background-color 150ms ease;
 }
 
-.dai-article:has(.dh-home) [data-component="Columns"] > a:hover {
-  background: var(--da-card);
+.dh-row:hover {
+  background: var(--dh-soft);
 }
 
-.dai-article:has(.dh-home) [data-component="Columns"] [data-component="Card"] {
-  position: relative;
-  height: 100%;
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: transparent !important;
+.dh-icon {
+  flex: 0 0 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  border: 1px solid var(--dh-line);
+  border-radius: 9px;
+  background: var(--dh-softer);
+  color: var(--dh-text);
+  transition: background-color 150ms ease, border-color 150ms ease;
 }
 
-.dai-article:has(.dh-home) [data-component="Columns"] [data-component="Card"] > div:last-child {
-  padding: 32px 28px;
+.dh-row:hover .dh-icon {
+  border-color: var(--dh-edge-strong);
+  background: var(--dh-surface);
 }
 
-.dai-article:has(.dh-home) [data-component="Columns"] [data-component="Card"] svg.lucide {
-  width: 24px;
-  height: 24px;
-  stroke-width: 1.5;
-  color: var(--da-muted);
-  margin-bottom: 26px;
+.dh-icon svg {
+  width: 17px;
+  height: 17px;
 }
 
-.dai-article:has(.dh-home) .dai-card-title {
-  font-family: var(--da-display);
+.dh-row-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dh-row-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--dh-ink);
+}
+
+.dh-row-desc {
+  font-size: 14px;
   line-height: 1.5;
-  letter-spacing: -0.01em;
+  color: var(--dh-muted);
 }
 
-.dai-article:has(.dh-home) .dai-card-description {
-  display: block;
+.dh-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 18px;
+  border: 1px dashed var(--dh-edge-strong);
+  border-radius: 12px;
 }
 
-.dai-article:has(.dh-home) .dai-card-description p {
-  margin-top: 6px;
+.dh-aside-text {
+  font-size: 14px;
+  color: var(--dh-muted);
 }
 
-/* The website's clickable cell: a mono "Explore" under the line, coral on hover. */
-.dai-article:has(.dh-home) [data-component="Columns"] .dai-card-description::after {
-  content: "Explore \2192";
-  display: block;
-  margin-top: 24px;
-  font: 500 12px/18px var(--da-mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--heading);
-  transition: color 150ms ease;
-}
+/* 5. The migration panel: copy beside a window, on the soft fill. */
 
-.dai-article:has(.dh-home) [data-component="Columns"] > a:hover .dai-card-description::after {
-  color: var(--da-coral);
-}
-
-/* Section text below each h2. */
-
-.dai-article:has(.dh-home) h2 + p {
-  margin-top: 0;
-  color: var(--da-muted);
-}
-
-/* 4. The migration row: copy beside a painting, side by side when wide. */
-
-.dh-split {
-  display: grid;
+.dh-migrate {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 40px;
-  margin-top: 104px;
+  margin-top: 88px;
+  padding: 48px;
+  border-radius: 20px;
+  background: var(--dh-soft);
 }
 
-@container dh (min-width: 860px) {
-  .dh-split {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-    gap: 56px;
-    align-items: center;
+@container dh (max-width: 640px) {
+  .dh-migrate {
+    padding: 28px;
   }
+}
+
+.dh-migrate-copy {
+  flex: 1 1 360px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.dh-migrate-copy .dh-sub {
+  max-width: 460px;
+  margin-top: 0;
+  line-height: 1.6;
 }
 
 .dh-eyebrow {
@@ -497,224 +718,164 @@
   color: var(--da-coral);
 }
 
-.dh-deck {
-  margin: 12px 0 0;
-  color: var(--da-muted);
-}
-
-.dh-links {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px 20px;
-  margin: 24px 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.dh-links li {
-  margin: 0;
-  padding: 0;
-}
-
-.dh-links li::marker {
-  content: none;
-}
-
-.dh-links a {
+.dh-platforms {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
+}
+
+.dh-platforms .dh-pill {
+  color: var(--dh-text);
+}
+
+.dh-migrate-actions {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  font-size: 15px;
-  color: var(--heading);
+  gap: 12px 20px;
+  margin-top: 6px;
 }
 
-.dh-links a:hover {
-  color: var(--da-coral);
-}
-
-.dh-links svg {
-  flex: none;
-  width: 16px;
-  height: 16px;
-  color: var(--da-muted);
-}
-
-.dh-explore {
-  display: inline-flex;
-  gap: 6px;
-  align-items: center;
-  margin-top: 28px;
-  font: 500 12px/18px var(--da-mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--heading);
-}
-
-.dh-explore:hover {
-  color: var(--da-coral);
-}
-
-.dh-explore svg {
-  width: 14px;
-  height: 14px;
-}
-
-/* The free-migration offer under the guide link: a hairline above, one muted line, the link in ink. */
 .dh-note {
-  margin: 24px 0 0;
-  padding-top: 20px;
-  border-top: 1px solid var(--da-rule);
-  font-size: 15px;
-  color: var(--da-muted);
+  font-size: 14px;
+  color: var(--dh-muted);
 }
 
-.dh-note a {
-  color: var(--heading);
+.dh-home .dh-note a {
+  font-weight: 500;
+  color: var(--dh-ink);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
-.dh-note a:hover {
+.dh-home .dh-note a:hover {
   color: var(--da-coral);
 }
 
-/* The migration stage: a window to the right, the preview card over its lower-left corner. */
-
-.dh-stage {
-  position: relative;
+.dh-migrate-art {
+  flex: 1 1 300px;
+  min-width: 0;
+  display: flex;
+  justify-content: center;
 }
 
-/* The bottom padding leaves room for the preview card, which overlaps only the window's rim. */
-.dh-stage-migrate {
-  padding: 40px 32px 136px;
+.dh-window {
+  width: 100%;
+  max-width: 360px;
+  overflow: hidden;
+  border: 1px solid var(--dh-edge);
+  border-radius: 14px;
+  background: var(--dh-surface);
+  box-shadow: 0 1px 2px rgba(20, 16, 14, 0.04), 0 16px 40px rgba(20, 16, 14, 0.08);
+  font-size: 13px;
 }
 
-.dh-migrate {
-  width: min(400px, 84%);
-  margin-left: auto;
+.dh-window-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--dh-line);
 }
 
-.dh-rows {
-  padding: 0 18px 16px;
+.dh-window-head i {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--dh-edge);
 }
 
-.dh-row {
+.dh-window-head span {
+  margin-left: 8px;
+  font-weight: 500;
+  color: var(--dh-ink);
+}
+
+.dh-window-rows {
+  padding: 6px 16px;
+}
+
+.dh-window-row {
   display: flex;
   justify-content: space-between;
   gap: 12px;
   padding: 10px 0;
-  border-top: 1px solid #eeeeee;
+  border-bottom: 1px solid var(--dh-soft);
 }
 
-.dark .dh-row {
-  border-top-color: rgba(255, 255, 255, 0.08);
+.dh-window-row:last-child {
+  border-bottom: 0;
 }
 
-.dh-row-result {
-  display: inline-flex;
-  gap: 8px;
-  align-items: center;
-  color: #787168;
+.dh-window-row span {
+  color: var(--dh-muted);
 }
 
-.dark .dh-row-result {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.dh-check {
-  width: 14px;
-  height: 14px;
-  color: #16a34a;
-}
-
-.dark .dh-check {
-  color: #4ade80;
-}
-
-.dh-preview {
-  position: absolute;
-  left: 24px;
-  bottom: 20px;
-  width: 272px;
-}
-
-.dh-preview .dh-face {
-  padding: 14px;
-}
-
-.dh-preview-status {
-  display: flex;
-  gap: 8px;
-  align-items: center;
+.dh-window-row b {
   font-weight: 500;
+  color: var(--dh-ink);
 }
 
-.dh-live {
-  width: 8px;
-  height: 8px;
-  border-radius: 2px;
-  background: var(--da-coral);
-}
-
-.dh-preview-url {
-  margin-top: 4px;
-  font: 11px/1.4 var(--da-mono);
-  color: #787168;
-}
-
-.dark .dh-preview-url {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.dh-preview-actions {
+.dh-window-foot {
   display: flex;
-  gap: 8px;
-  margin-top: 12px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-top: 1px solid var(--dh-line);
+  background: var(--dh-softer);
 }
 
-.dh-chip {
-  padding: 5px 12px;
-  border-radius: 999px;
-  background: #f5f3f1;
+.dh-window-status {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.dh-window-ready {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  color: var(--dh-ink);
+}
+
+.dh-window-ready .dh-dot {
+  width: 7px;
+  height: 7px;
+}
+
+.dh-window-url {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font: 11px/1.4 var(--da-mono);
+  color: var(--dh-faint);
+}
+
+.dh-window-review {
+  flex: none;
+  padding: 7px 12px;
+  border-radius: 8px;
+  background: var(--dh-btn);
   font-size: 12px;
   font-weight: 500;
+  color: var(--dh-btn-ink);
 }
 
-.dark .dh-chip {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.dh-chip-on {
-  background: #09090b;
-  color: #fff;
-}
-
-.dark .dh-chip-on {
-  background: #fff;
-  color: #09090b;
-}
-
-.dh-preview .dh-cursor {
-  top: 74px;
-  left: 150px;
-}
-
-/*
- * A narrow migration tile shows its window alone, as the website's stages do
- * on a phone: the preview card needs 440px to clear the window's rows.
- */
-
-@container dh-tile (max-width: 439px) {
-  .dh-stage-migrate {
-    padding: 24px;
+/* On a phone the ask button shrinks to its arrow. */
+@container dh (max-width: 479px) {
+  .dh-ask-box {
+    padding-left: 14px;
   }
 
-  .dh-migrate {
-    width: 100%;
-  }
-
-  .dh-preview {
-    display: none;
+  .dh-ask .dh-btn {
+    width: 44px;
+    padding: 0;
+    justify-content: center;
+    font-size: 0;
+    gap: 0;
   }
 }
 
@@ -731,51 +892,49 @@
     margin-bottom: 20px !important;
   }
 
-  /* The section h2s keep the theme's Geist 500 (only the h1 is serif), set larger and further apart. */
-  .dai-article:has(.dh-home) h2 {
+  /* Section h2s keep the theme's Geist 500, set larger. Spacing comes from the sections. */
+  .dai-article:has(.dh-home) .dh-home h2 {
+    margin: 0 !important;
     font-size: 28px !important;
     line-height: 1.25 !important;
-    margin-top: 104px !important;
-    margin-bottom: 8px !important;
+    letter-spacing: -0.01em !important;
+    color: var(--dh-ink) !important;
   }
 
-  .dai-article:has(.dh-home) .dh-split h2 {
-    margin-top: 12px !important;
+  /* Group titles read as mono eyebrows, not headings. */
+  .dai-article:has(.dh-home) .dh-group-title {
+    margin: 0 0 6px !important;
+    font-family: var(--da-mono) !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    line-height: 18px !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase;
+    color: var(--dh-faint) !important;
   }
 
-  /* "Start here" opens the page, straight under the description. */
-  .dai-article:has(.dh-home) .mdx-container > h2:first-child {
-    margin-top: 64px !important;
+  .dai-article:has(.dh-home) .dh-home p {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
   }
 
   /* The platform indents every list; the steps are a grid, not running text. */
   .dai-article:has(.dh-home) .dh-steps {
-    margin: 28px 0 0 !important;
+    margin: 0 !important;
     padding: 0 !important;
   }
 
-  .dai-article:has(.dh-home) .dh-step {
-    font-weight: 400 !important;
-  }
-
-  .dai-article:has(.dh-home) .dh-step-desc {
-    font-size: 16px !important;
-    line-height: 24px !important;
+  .dai-article:has(.dh-home) .dh-steps li {
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   /* The platform sets links in running text at 600. */
-  .dai-article:has(.dh-home) .dh-links a {
+  .dai-article:has(.dh-home) .dh-home a {
     font-weight: 400 !important;
   }
 
-  .dai-article:has(.dh-home) .dai-card-title {
-    font-size: 18px !important;
-    font-weight: 400 !important;
-  }
-
-  .dai-article:has(.dh-home) .dai-card-description,
-  .dai-article:has(.dh-home) .dai-card-description p {
-    font-size: 16px !important;
-    line-height: 24px !important;
+  .dai-article:has(.dh-home) .dh-home :is(.dh-btn, .dh-more, .dh-note a) {
+    font-weight: 500 !important;
   }
 }

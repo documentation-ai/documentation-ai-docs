@@ -2,28 +2,51 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
-<Update label="2026-10-13" description="Documentation.AI authentication" tags={["feature"]}>
-  ## Documentation.AI authentication
+<Update label="2026-10-13" description="Documentation.AI Auth, expanded icon library, SEO language and structured data, faster search, Workflows renamed to Automations, and fixes" tags={["feature","improvement","fix"]}>
+  ## Documentation.AI auth for published sites
 
-  Access control has a fourth sign-in method: readers sign in to your documentation with their Documentation.AI account. Every member of your organization can read your protected docs, so you manage access from **Settings > Members** instead of sharing a password or setting up an identity provider.
+  Access control has a fourth sign-in method: readers sign in to your published documentation with their Documentation.AI account. Every member of your organization can read your protected docs, so you manage access from **Settings > Members** instead of sharing a password or setting up an identity provider.
 
-  - **Availability**: All plans, in Private and Partial modes.
-  - **Setup**: Select **Documentation.AI** in **Settings > Access Control** and re-publish. Sign-in works on subdomains, custom domains and subpaths, with no callback URL to register.
-  - **Removing access**: Removing someone from your organization ends their access within 5 minutes, across pages, search, the AI Assistant and the Reader MCP Server.
-  - **Reader MCP Server and embedded docs**: Readers sign in with their Documentation.AI account during the MCP OAuth flow. Embedded docs sign users in with reader tokens from your server.
+  See [Documentation.AI Auth](/customize/access-control/documentation-ai-auth).
 
-  See [Documentation.AI authentication](/customize/access-control/documentation-ai).
-</Update>
+  ## Expanded icon library
 
-<Update label="2026-10-12" description="Workflows renamed to Automations" tags={["improvement"]}>
+  Navigation icons now support three icon libraries: **Lucide**, **Font Awesome**, and **Tabler**  alongside uploaded SVG, PNG, and WebP files from your media library. The icon picker in the editor has been redesigned with cross-library search, outline and filled style filters, and lazy loading as you scroll.
+
+  See [Navigation and Sidebar](/customize/navigation-and-sidebar).
+
+  ## SEO language and structured data
+
+  New site-level and page-level SEO controls give search engines richer metadata for multilingual and structured-data compliance.
+
+  - **Site language**: Set a default language for your site with `seo.language` using BCP 47 codes such as `es-ES`. The `<html lang>` attribute reflects this on every page.
+  - **Page language and hreflang**: Override the language per page with `lang` frontmatter and declare alternate-language pages with `hreflang` mappings.
+  - **Connected JSON-LD**: Structured data is now emitted as a single `@graph` containing Organization, WebSite, WebPage, BreadcrumbList, and Article nodes, with per-node overrides and the ability to disable individual nodes.
+  - **Open Graph locale**: Open Graph tags now include the correct locale from your language settings.
+
+  See [Metadata](/seo-and-geo/metadata) and [Page Configuration](/customize/page-configuration).
+
   ## Workflows are now Automations
 
-  Workflows have been renamed to **Automations** in the dashboard and the documentation. Only the name changed. Your existing workflows are now automations, with the same templates, triggers, schedules, connectors, and run history, so there is nothing to set up again.
+  Workflows have been renamed to **Automations** in the dashboard and documentation — only the name changed, with no setup needed. Run-notification email links now point to `/automations` instead of `/workflows`. See [Automations](/ai/automations).
 
-  - **Dashboard**: In the sidebar, under **AI**, click **Automations**. The page address changed from `/workflows` to `/automations`, and old links and bookmarks redirect automatically.
-  - **Branch names**: Runs now create branches that start with `automation/`. Branches from earlier runs keep their `workflow/` names.
+  ## Improvements
 
-  See [Automations](/ai/automations).
+  - **Faster search**: Reduced search debounce, added result caching within the current session, and warmed the search index when the modal opens. Search highlighting now matches word starts and handles punctuation-separated terms, with proper HTML escaping.
+  - **Search indexes table contents**: Markdown table rows are now indexed with their column labels, so table-only sections can be found through keyword and semantic search.
+  - **Search citations link to correct headings**: Citation URLs now use the docs site's actual heading-ID generation, fixing links that previously pointed to non-existent anchors for accented, non-Latin, or punctuation-heavy headings.
+  - **OpenAPI page validation before deployment**: Generated API pages are now validated during deployment instead of failing later during search indexing, with error messages identifying the source spec and line/column.
+  - **OpenAPI descriptions preserve Markdown safely**: Tags, braces, and HTML-like text in OpenAPI descriptions are now converted to valid MDX, so `<redirect_uri>` and similar text renders literally instead of being interpreted as JSX.
+  - **Frontmatter validation for complex YAML**: Long frontmatter containing flow maps, JSON-LD, or complex YAML is now handled correctly during deployment validation.
+  - **Auth session renewal for search and AI assistant**: Reader sessions no longer expire unexpectedly for readers who primarily search or chat. Search and assistant requests refresh the access check once it is five minutes old, without extending the original sign-in expiration.
+
+  ## Fixes
+
+  - **Heading spacing**: Fixed missing spaces between inline formatting (bold, italic, code, links) and following text in headings.
+  - **MDX HTML-entity handling**: Preserved encoded spaces around Markdown emphasis markers, list items, blockquotes, and paragraphs so bold, italic, and links render correctly.
+  - **Same-site auth redirect security**: Post-login redirects are now restricted to paths on the current site, preventing open-redirect vulnerabilities across Documentation.AI Auth, OAuth, and JWT flows.
+  - **DNS rebinding protection for media imports**: Remote media downloads now use a pinned DNS lookup to prevent DNS rebinding attacks during URL image imports.
+  - **Tab and code-group drag-and-drop persistence**: Fixed drag-and-drop reordering for tabs and code groups not saving the new order to the document.
 </Update>
 
 <Update label="2026-10-08" description="External Sources, new agent connectors" tags={["feature","improvement","fix"]}>

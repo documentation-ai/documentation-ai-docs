@@ -426,8 +426,8 @@
                     "icon": "key"
                   },
                   {
-                    "title": "Documentation.AI",
-                    "path": "customize/access-control/documentation-ai",
+                    "title": "Documentation.AI Auth",
+                    "path": "customize/access-control/documentation-ai-auth",
                     "icon": "users"
                   },
                   {
@@ -1119,6 +1119,10 @@
     {
       "source": "/ai/workflows",
       "destination": "/ai/automations"
+    },
+    {
+      "source": "/customize/access-control/documentation-ai",
+      "destination": "/customize/access-control/documentation-ai-auth"
     }
   ]
 }

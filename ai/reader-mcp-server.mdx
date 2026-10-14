@@ -43,7 +43,7 @@ For **public** documentation, the server exposes content that is open to anyone.
 
 For **private, partial, or password-protected** documentation, the `/_mcp/auth` endpoint supports two authentication types:
 
-- **OAuth 2.1**: For interactive connections where a user is present. The client opens a browser, the user approves the connection and signs in through your site's existing authentication method (password, JWT, or OAuth 2.0), and a credential is minted automatically.
+- **OAuth 2.1**: For interactive connections where a user is present. The client opens a browser, the user approves the connection and signs in through your site's existing authentication method (password, Documentation.AI, JWT, or OAuth 2.0), and a credential is minted automatically.
 - **Machine-to-machine credentials**: For automated access without a browser. An admin creates a credential in the dashboard that produces a token with a `dmcp_` prefix. The token authenticates directly with the `/_mcp/auth` endpoint, scoped by the access roles assigned at creation time.
 
 Both types produce a token the client uses for subsequent requests. Access is scoped by the roles assigned to the credential or OAuth session.
@@ -60,7 +60,7 @@ When your documentation has [access control](/customize/access-control/overview)
 
 ### OAuth 2.1
 
-OAuth 2.1 works with any authentication method you have configured (password, JWT, or OAuth 2.0). The flow is handled automatically by supported MCP clients.
+OAuth 2.1 works with any authentication method you have configured (password, Documentation.AI, JWT, or OAuth 2.0). The flow is handled automatically by supported MCP clients.
 
 <Steps>
   <Step title="Connect your MCP client to the authenticated endpoint" icon="link" title-type="p">
@@ -72,7 +72,7 @@ OAuth 2.1 works with any authentication method you have configured (password, JW
   </Step>
 
   <Step title="Sign in through your site's authentication" icon="lock" title-type="p">
-    After approving, you are redirected to your documentation site's sign-in page. Complete authentication using whatever method your site uses (password, JWT, or OAuth 2.0).
+    After approving, you are redirected to your documentation site's sign-in page. Complete authentication using whatever method your site uses (password, Documentation.AI, JWT, or OAuth 2.0).
   </Step>
 
   <Step title="Start using the server" icon="play" title-type="p">
@@ -84,6 +84,10 @@ Built-in support for Claude Desktop, Cursor, VS Code, Claude Web, and ChatGPT co
 
 <Callout kind="info" collapsed="false">
   For password-gated sites, a dedicated sign-in page is shown within the OAuth flow so users can enter their credentials without leaving the MCP authentication process.
+</Callout>
+
+<Callout kind="info" collapsed="false">
+  On sites that use [Documentation.AI authentication](/customize/access-control/documentation-ai), a connection stays tied to the person who signed in. If they're removed from your organization, the client loses access within 5 minutes. Machine-to-machine credentials aren't tied to a person and keep working until they expire or you revoke them.
 </Callout>
 
 #### Callback URLs

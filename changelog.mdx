@@ -2,6 +2,19 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-10-13" description="Documentation.AI authentication" tags={["feature"]}>
+  ## Documentation.AI authentication
+
+  Access control has a fourth sign-in method: readers sign in to your documentation with their Documentation.AI account. Every member of your organization can read your protected docs, so you manage access from **Settings > Members** instead of sharing a password or setting up an identity provider.
+
+  - **Availability**: All plans, in Private and Partial modes.
+  - **Setup**: Select **Documentation.AI** in **Settings > Access Control** and re-publish. Sign-in works on subdomains, custom domains and subpaths, with no callback URL to register.
+  - **Removing access**: Removing someone from your organization ends their access within 5 minutes, across pages, search, the AI Assistant and the Reader MCP Server.
+  - **Reader MCP Server and embedded docs**: Readers sign in with their Documentation.AI account during the MCP OAuth flow. Embedded docs sign users in with reader tokens from your server.
+
+  See [Documentation.AI authentication](/customize/access-control/documentation-ai).
+</Update>
+
 <Update label="2026-10-12" description="Workflows renamed to Automations" tags={["improvement"]}>
   ## Workflows are now Automations
 

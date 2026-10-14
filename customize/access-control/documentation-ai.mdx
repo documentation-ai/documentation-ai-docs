@@ -1,0 +1,69 @@
+---
+title: Documentation.AI Authentication
+description: Let members of your organization sign in to your documentation with their Documentation.AI account.
+---
+
+<Callout kind="info" collapsed="false">
+  Documentation.AI authentication is available on all plans.
+</Callout>
+
+Readers sign in with their Documentation.AI account, the same account they use to sign in to the dashboard. Every member of your organization can read your protected documentation, whatever their role: **Admin**, **Editor** or **Viewer**. There is no password to share and no identity provider to configure.
+
+It suits internal documentation for a team that already works in Documentation.AI. You decide who can read by managing your organization's members.
+
+Like [Password](/customize/access-control/password), it gives every signed-in reader all protected pages. It doesn't support [role-based access control](/customize/access-control/overview#role-based-access-control) or per-user content. For those, use [JWT](/customize/access-control/jwt) or [OAuth 2.0](/customize/access-control/oauth).
+
+Documentation.AI authentication works in both modes:
+
+- **Private**: All pages require sign-in.
+- **Partial**: A mix of public and protected pages. You choose which pages are public with the `public` property in your navigation, as described in [Partial access control](/customize/access-control/password#partial-access-control).
+
+## Set up
+
+<Steps>
+  <Step title="Choose access mode" icon="lock" title-type="p">
+    In your dashboard, go to **Settings > Access Control** and select **Private** (all pages protected) or **Partial** (mix of public and protected pages).
+  </Step>
+
+  <Step title="Select the Documentation.AI method" icon="key" title-type="p">
+    In the **Authentication Method** selector, choose **Documentation.AI**, then click **Save**.
+
+    There is nothing else to configure. Sign-in works on your Documentation.AI subdomain, your custom domain and subpath deployments, with no callback URL to register.
+  </Step>
+
+  <Step title="Re-publish" icon="upload" title-type="p">
+    Re-publish your documentation so the deployed site uses the updated configuration.
+  </Step>
+
+  <Step title="Add your readers" icon="users" title-type="p">
+    In **Settings > Members**, add each person who should read the documentation to your organization. The **Viewer** role is enough to read.
+  </Step>
+</Steps>
+
+## How readers sign in
+
+1. A reader opens a protected page.
+2. They're taken to the Documentation.AI sign-in page. If they're already signed in to the dashboard in the same browser, they go straight to the next step without signing in again.
+3. Documentation.AI checks that they're a member of your organization.
+4. They return to the page they opened, signed in.
+
+If the account isn't a member of your organization, the reader sees a message that they don't have access to your documentation, with the email they signed in with. No session is created. They can ask one of your admins to add them, or click **Use different account** to sign in with another account.
+
+## Remove access
+
+Remove the person from your organization in **Settings > Members**. Access is checked again every 5 minutes while someone reads, so they lose access to pages, search, the AI Assistant and the [Reader MCP Server](/ai/reader-mcp-server) within 5 minutes.
+
+## Sessions
+
+- Readers stay signed in for **14 days**. After that, they're asked to sign in again. If they're still signed in to the dashboard, this happens without a prompt.
+- Signing out of the dashboard doesn't sign them out of the documentation. To end someone's access, remove them from your organization.
+
+## AI tools and embedded docs
+
+- **AI Assistant and search** work for signed-in readers, with no extra setup.
+- **Reader MCP Server**: Readers connect their MCP client to the `/_mcp/auth` endpoint and sign in with their Documentation.AI account during the OAuth flow. If they're removed from your organization, the client loses access within 5 minutes. See [Reader MCP Server](/ai/reader-mcp-server#authentication-for-private-documentation).
+- **Embedded docs**: Your server signs users in with reader tokens. Documentation.AI doesn't check organization membership for these users, so your server decides who gets a token. See [Private Docs](/embedded-docs/private-docs).
+
+## Example
+
+Your team keeps its engineering handbook at `handbook.example.com`. Everyone who should read it already has a Documentation.AI account. Choose **Private** mode with **Documentation.AI** authentication. Then add new joiners as **Viewers** in **Settings > Members**, and remove people when they leave.

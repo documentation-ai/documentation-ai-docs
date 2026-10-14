@@ -426,6 +426,11 @@
                     "icon": "key"
                   },
                   {
+                    "title": "Documentation.AI",
+                    "path": "customize/access-control/documentation-ai",
+                    "icon": "users"
+                  },
+                  {
                     "title": "JWT",
                     "path": "customize/access-control/jwt",
                     "icon": "key-round"

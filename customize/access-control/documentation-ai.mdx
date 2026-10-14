@@ -7,7 +7,7 @@ description: Let members of your organization sign in to your documentation with
   Documentation.AI authentication is available on all plans.
 </Callout>
 
-Readers sign in with the same Documentation.AI account they use for the dashboard. Every member of your organization can read your protected documentation, whatever their role: **Admin**, **Editor** or **Viewer**. There is no password to share and no identity provider to configure.
+Readers sign in with their Documentation.AI account, the same account they use to sign in to the dashboard. Every member of your organization can read your protected documentation, whatever their role: **Admin**, **Editor** or **Viewer**. There is no password to share and no identity provider to configure.
 
 It suits internal documentation for a team that already works in Documentation.AI. You decide who can read by managing your organization's members.
 
@@ -43,11 +43,11 @@ Documentation.AI authentication works in both modes:
 ## How readers sign in
 
 1. A reader opens a protected page.
-2. They're taken to the Documentation.AI sign-in page. If they're already signed in to the dashboard in the same browser, this step is skipped.
+2. They're taken to the Documentation.AI sign-in page. If they're already signed in to the dashboard in the same browser, they go straight to the next step without signing in again.
 3. Documentation.AI checks that they're a member of your organization.
 4. They return to the page they opened, signed in.
 
-If the account isn't a member of your organization, the reader sees **You don't have access** with the email they signed in with. They can ask one of your admins to add them, or click **Use different account** to sign in with another account.
+If the account isn't a member of your organization, the reader sees a message that they don't have access to your documentation, with the email they signed in with. No session is created. They can ask one of your admins to add them, or click **Use different account** to sign in with another account.
 
 ## Remove access
 
@@ -61,8 +61,8 @@ Remove the person from your organization in **Settings > Members**. Access is ch
 ## AI tools and embedded docs
 
 - **AI Assistant and search** work for signed-in readers, with no extra setup.
-- **Reader MCP Server**: Connect to the `/_mcp/auth` endpoint and sign in with your Documentation.AI account during the OAuth flow. If you're removed from the organization, the client loses access within 5 minutes. See [Reader MCP Server](/ai/reader-mcp-server#authentication-for-private-documentation).
-- **Embedded docs**: Your server signs users in with reader tokens. Documentation.AI doesn't check organization membership for these users; your server decides who gets a token. See [Private Docs](/embedded-docs/private-docs).
+- **Reader MCP Server**: Readers connect their MCP client to the `/_mcp/auth` endpoint and sign in with their Documentation.AI account during the OAuth flow. If they're removed from your organization, the client loses access within 5 minutes. See [Reader MCP Server](/ai/reader-mcp-server#authentication-for-private-documentation).
+- **Embedded docs**: Your server signs users in with reader tokens. Documentation.AI doesn't check organization membership for these users, so your server decides who gets a token. See [Private Docs](/embedded-docs/private-docs).
 
 ## Example
 

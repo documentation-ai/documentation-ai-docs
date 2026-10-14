@@ -175,6 +175,10 @@ Use `<ExpandableGroup>` to group multiple `<Expandable>` components together wit
   Initial state: `"true"` (open) or `"false"` (closed). Defaults to `"false"`.
 </ParamField>
 
+<ParamField path="title-type" param-type="string" required="false" deprecated="false">
+  Renders the expandable title as a real heading element with an anchor ID, table-of-contents entry, and copy-link support. Values: h2 or h3. When omitted, the title renders as plain text without a heading or anchor. Expandables with a heading title automatically open when a reader navigates to the anchor.
+</ParamField>
+
 ## Advanced options
 
 ### Content and layout best practices
@@ -193,6 +197,6 @@ Use `<ExpandableGroup>` to group multiple `<Expandable>` components together wit
 
 ### Behavioral notes and limitations
 
-- Expandables control **only visibility**, not navigation; readers cannot link directly to an individual expandable item unless you add an anchor heading inside the content.
+- Expandables with a plain-text title control only visibility and cannot be linked to directly. Set the title-type attribute to h2 or h3 to give the title an anchor ID, table-of-contents entry, and copy-link support. Readers navigating to the anchor automatically open the expandable.
 - The `default-open` state is evaluated on initial page load only. User open/close actions are not persisted across sessions.
 - `<ExpandableGroup>` does not currently support additional props such as single-open-only or auto-close behavior; all items expand and collapse independently.

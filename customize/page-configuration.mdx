@@ -86,6 +86,23 @@ Front matter is a block of YAML configuration placed at the very top of an MDX f
   </Expandable>
 </ParamField>
 
+<ParamField path="lang" param-type="string" required="false" deprecated="false" show-location="false">
+  Overrides the site-level language for this page using a BCP 47 code such as `en`, `es-ES`, or `fr-CA`. Sets the `<html lang>` attribute and the Open Graph locale for this page. Falls back to the site-level `seo.language` setting when not set. See [Site Configuration](/customize/site-configuration#site-language).
+</ParamField>
+
+<ParamField path="hreflang" param-type="object" required="false" deprecated="false" show-location="false">
+  Declares alternate-language versions of this page so search engines can serve the correct locale. Keys are BCP 47 language codes and values are relative or absolute URLs to the corresponding page.
+
+  ```yaml
+  hreflang:
+    en: /guides/introduction
+    es: /es/guias/introduccion
+    fr: /fr/guides/introduction
+  ```
+
+  When set, the published page includes `<link rel="alternate" hreflang="...">` tags for each entry. See [Site Configuration](/customize/site-configuration#site-language) for site-level language settings.
+</ParamField>
+
 <Callout kind="note" collapsed="false">
   You can also include any other custom key-value pairs in your front matter. This data is not used by default but can be accessed for custom component or theme logic.
 </Callout>

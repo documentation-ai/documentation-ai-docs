@@ -14,7 +14,7 @@ Automatically generated metadata includes:
 - Open Graph image
 - Open Graph title, description, URL, type, and image
 - Twitter card title, description, card type, and image
-- Site-level JSON-LD structured data using the `WebSite` and `Organization` schemas
+- Site-level JSON-LD structured data emitted as a connected `@graph` with Organization, WebSite, WebPage, BreadcrumbList, and Article nodes
 
 You can customize metadata visually through the web editor or directly in the MDX frontmatter at the top of the page file.
 
@@ -143,6 +143,7 @@ The generated Open Graph metadata includes:
 - `og:url`
 - `og:type` with the value `article`
 - `og:image` with a 1200 by 630 pixel image
+- `og:locale` derived from your site or page language setting
 
 The generated Twitter metadata includes:
 
@@ -159,11 +160,35 @@ Protected and private pages return `noindex, nofollow` and do not expose their r
 
 </Callout>
 
+## Site language and hreflang
+
+Set a default language for your entire site with the `seo.language` property in `documentation.json` using a BCP 47 code such as `en`, `es-ES`, or `fr-CA`. The `<html lang>` attribute on every page reflects this value, and Open Graph tags include the matching locale.
+
+Override the language for a specific page with the `lang` frontmatter field. When set, the page's `<html lang>` attribute and Open Graph locale use the page-level value instead of the site default.
+
+Declare alternate-language versions of a page with the `hreflang` frontmatter field. Keys are BCP 47 language codes and values are URLs to the corresponding page. When set, the published page includes `<link rel="alternate" hreflang="...">` tags for each entry so search engines can serve the correct language version.
+
+```yaml
+---
+title: Introduction
+description: Get started with the platform.
+lang: es-ES
+hreflang:
+  en: /guides/introduction
+  es: /es/guias/introduccion
+  fr: /fr/guides/introduction
+---
+```
+
+See [Site Configuration](/customize/site-configuration#site-language) for the site-level language setting and [Page Configuration](/customize/page-configuration) for the `lang` and `hreflang` frontmatter fields.
+
 ## Structured data (JSON-LD)
 
-Documentation.AI automatically adds site-level JSON-LD to each page using the `WebSite` and `Organization` schemas. The generated data uses your site name, domain URL, and configured logo, and does not require frontmatter configuration.
+Documentation.AI automatically adds JSON-LD structured data to each published page as a connected `@graph` containing Organization, WebSite, WebPage, BreadcrumbList, and Article nodes. The generated data uses your site name, domain URL, and configured logo, and does not require frontmatter configuration.
 
-The `jsonLd` frontmatter field, also accepted as `jsonld`, is defined for page-level Schema.org data such as `Article`, `TechArticle`, `FAQPage`, or `HowTo`. The current renderer does not output document-level `jsonLd` values, so adding this field does not currently add page-specific structured data to the published HTML. You can set `jsonLd` in the **SEO & Meta** panel of the web editor or in MDX frontmatter.
+You can customize site-level structured data in `documentation.json` with the `seo.jsonld` property. Provide an `organization` object with `name` and `url` to populate the Organization node, and disable individual nodes by setting them to `null`. See [Site Configuration](/customize/site-configuration#structured-data-json-ld) for details.
+
+The `jsonLd` frontmatter field, also accepted as `jsonld`, adds page-level Schema.org data such as `Article`, `TechArticle`, `FAQPage`, or `HowTo`. Page-level `jsonLd` merges with and overrides site-level values, so both appear in the published HTML. You can set `jsonLd` in the **SEO & Meta** panel of the web editor or in MDX frontmatter.
 
 When you use the JSON-LD field in the web editor's **SEO & Meta** panel, enter valid JSON. Invalid JSON is silently skipped, so make sure the input is properly formatted.
 

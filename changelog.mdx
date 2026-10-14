@@ -47,6 +47,8 @@ description: 'Changes, fixes, and improvements across versions'
   - **Same-site auth redirect security**: Post-login redirects are now restricted to paths on the current site, preventing open-redirect vulnerabilities across Documentation.AI Auth, OAuth, and JWT flows.
   - **DNS rebinding protection for media imports**: Remote media downloads now use a pinned DNS lookup to prevent DNS rebinding attacks during URL image imports.
   - **Tab and code-group drag-and-drop persistence**: Fixed drag-and-drop reordering for tabs and code groups not saving the new order to the document.
+  - **h4 heading spacing**: Added missing top margin to h4 headings and corrected the Update component's heading styles from incorrectly matching nested headings.
+  - **Snippet deployment for empty namespaces**: Fixed inherited snippets being silently dropped when deploying to an empty namespace, such as during branch previews.
 </Update>
 
 <Update label="2026-10-08" description="External Sources, new agent connectors" tags={["feature","improvement","fix"]}>

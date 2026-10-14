@@ -299,7 +299,7 @@ Each dimension item must have a unique identifier and can contain nested dimensi
 </ParamField>
 
 <ParamField path="icon" param-type="string" required="false" deprecated="false" show-location="true">
-  Visual icon from the Lucide React icon library.
+  Visual icon from Lucide, Font Awesome, or Tabler, or an uploaded SVG, PNG, or WebP file from your media library.
 </ParamField>
 
 <ParamField path="public" param-type="boolean" required="false" deprecated="false" show-location="true">
@@ -673,7 +673,7 @@ Tabs create horizontal navigation sections that are visible at the top of your d
 </ParamField>
 
 <ParamField path="icon" param-type="string" required="false" deprecated="false" show-location="true">
-  Visual icon from the Lucide React icon library.
+  Visual icon from Lucide, Font Awesome, or Tabler, or an uploaded SVG, PNG, or WebP file from your media library.
 </ParamField>
 
 <ParamField path="href" param-type="string" required="false" deprecated="false" show-location="true">
@@ -730,7 +730,7 @@ Dropdowns create collapsible sections in the sidebar for hierarchical navigation
 </ParamField>
 
 <ParamField path="icon" param-type="string" required="false" deprecated="false" show-location="true">
-  Visual icon from the Lucide React icon library.
+  Visual icon from Lucide, Font Awesome, or Tabler, or an uploaded SVG, PNG, or WebP file from your media library.
 </ParamField>
 
 <ParamField path="description" param-type="string" required="false" deprecated="false" show-location="true">
@@ -873,7 +873,7 @@ Groups organize related pages into collapsible sections within your sidebar navi
 </ParamField>
 
 <ParamField path="icon" param-type="string" required="false" deprecated="false" show-location="true">
-  Visual icon from the Lucide React icon library.
+  Visual icon from Lucide, Font Awesome, or Tabler, or an uploaded SVG, PNG, or WebP file from your media library.
 </ParamField>
 
 <ParamField path="expandable" param-type="boolean" required="false" deprecated="false" show-location="true">
@@ -973,7 +973,7 @@ Pages are the individual documentation files that contain your content.
 </ParamField>
 
 <ParamField path="icon" param-type="string" required="false" deprecated="false" show-location="true">
-  Page icon from the Lucide React icon library.
+  Page icon from Lucide, Font Awesome, or Tabler, or an uploaded SVG, PNG, or WebP file from your media library.
 </ParamField>
 
 <ParamField path="method" param-type="string" required="false" deprecated="false" show-location="true">
@@ -1392,7 +1392,14 @@ Configure search engine optimization and meta tag behavior.
     "robots:index": true,
     "robots:follow": true,
     "sitemap:enabled": true,
-    "llms-txt:enabled": true
+    "llms-txt:enabled": true,
+    "language": "en",
+    "jsonld": {
+      "organization": {
+        "name": "Example Corp",
+        "url": "https://example.com"
+      }
+    }
   }
 }
 ```
@@ -1420,6 +1427,18 @@ Configure search engine optimization and meta tag behavior.
 
 <ParamField path="llms-txt:enabled" param-type="boolean" required="false" deprecated="false" show-location="true">
   Generate and serve `/llms.txt` and `/llms-full.txt` files for LLM consumption. Default: `true`. See [Robots.txt & llms.txt](/seo-and-geo/robots-txt-and-llm-txt) for details.
+</ParamField>
+
+### Site Language
+
+<ParamField path="language" param-type="string" required="false" deprecated="false" show-location="true">
+  Sets the default language for your site using a BCP 47 code such as `en`, `es-ES`, or `fr-CA`. The `<html lang>` attribute reflects this value on every page. Override per page with the `lang` frontmatter field. See [Page Configuration](/customize/page-configuration).
+</ParamField>
+
+### Structured Data (JSON-LD)
+
+<ParamField path="jsonld" param-type="object" required="false" deprecated="false" show-location="true">
+  Site-level JSON-LD structured data. When set, the published site emits a connected `@graph` containing Organization, WebSite, WebPage, BreadcrumbList, and Article nodes. You can provide an `organization` object with `name` and `url` to populate the Organization node, and disable individual nodes by setting them to `null`. Page-level `jsonLd` frontmatter merges with and overrides site-level values. See [Metadata](/seo-and-geo/metadata).
 </ParamField>
 
 ## Search Configuration

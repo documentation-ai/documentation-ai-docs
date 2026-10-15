@@ -166,6 +166,11 @@
                     "icon": "paperclip"
                   },
                   {
+                    "title": "Icon",
+                    "path": "components/icon",
+                    "icon": "star"
+                  },
+                  {
                     "title": "Code and Groups",
                     "path": "components/code-blocks-and-groups",
                     "icon": "code"

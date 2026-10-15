@@ -1,9 +1,9 @@
 ---
 title: Icons
 description: >-
-  Pick icons from Lucide, Font Awesome and Tabler in one place, use your own icon files, and set which library icon names come from.
+  Pick icons from Lucide, Font Awesome and Tabler in one place, put icons in text, use your own icon files, and set which library icon names come from.
 ---
-Every icon on your site, in components like Card, Step, Tab, Callout and Board and on navigation items, products, versions and languages, comes from Lucide, Font Awesome Free, Tabler or your own files in the media library. The icon picker shows all three libraries together, so you can choose by look rather than by name.
+Every icon on your site, in components like Card, Step, Tab, Callout and Board, on navigation items, products, versions and languages, and inside text, comes from Lucide, Font Awesome Free, Tabler or your own files in the media library. The icon picker shows all three libraries together, so you can choose by look rather than by name.
 
 <Callout kind="info" collapsed="false">
   **Before you begin**
@@ -51,6 +51,20 @@ An icon from your site's library is saved by name alone, such as `rocket`: Lucid
 
 An SVG from your media library takes the text colour around it, like the library icons do. PNG and WebP files keep their own colours.
 
+### How to add an icon to text
+
+<Steps>
+  <Step title="Insert the icon" icon="type" title-type="p">
+    Place the cursor where the icon should go, type `/icon` and select **Icon**. The icon picker opens at the cursor.
+  </Step>
+
+  <Step title="Pick it" icon="mouse-pointer-click" title-type="p">
+    Click an icon, or add a file on the **Upload / URL** tab. The cursor moves after the icon so you can keep typing.
+  </Step>
+</Steps>
+
+To change an icon in text, click it. To remove it, hover it and click the **×** badge. To give it a size or colour, or put it in a link, use MDX view. See [Icon](/components/icon).
+
 ## Code editor (Git)
 
 ### How to set the icon library
@@ -91,6 +105,20 @@ Every `icon` attribute and every `icon` field in `documentation.json` takes one 
 ```
 
 See [Icon values](#icon-values) for every form.
+
+### How to write an icon in text
+
+Put `<Icon>` anywhere text goes: a sentence, a list item, a table cell, a heading or a callout.
+
+```mdx
+Click the <Icon icon="settings" /> button to open settings.
+
+Follow us on [<Icon icon="fa-brands:github" />](https://github.com/acme).
+
+A <Icon icon="star" size="20" color="#f59e0b" /> rating.
+```
+
+`icon` takes the same values as any icon. `size` and `color` are optional. See [Icon](/components/icon) for every prop.
 
 ### How to use your own icon
 
@@ -179,5 +207,9 @@ Font Awesome Free icons are licensed under [CC BY 4.0](https://creativecommons.o
 
   <Card title="Branding" href="/customize/branding" icon="palette" horizontal="false">
     Logos and colours for your site.
+  </Card>
+
+  <Card title="Icon component" href="/components/icon" icon="star" horizontal="false">
+    Icons inside text, with their props.
   </Card>
 </Columns>

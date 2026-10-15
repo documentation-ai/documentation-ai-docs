@@ -1,9 +1,9 @@
 ---
-title: HubSpot Integration
+title: HubSpot Connector
 description: >-
   Connect HubSpot so the AI agent can read support tickets, notes, contacts,
   and companies while it writes or updates documentation in the editor and in
-  workflows.
+  automations.
 ---
 Connect a HubSpot account to give the AI agent live context from your support tickets and CRM records. The agent uses them to find the questions customers keep asking, so you can write docs that answer them. It reads HubSpot only when a prompt needs it, and it never changes anything in HubSpot.
 
@@ -59,32 +59,32 @@ The connection belongs to your organization. To use HubSpot in another documenta
 
 ## Code editor (Git)
 
-### How to use HubSpot in a workflow
+### How to use HubSpot in an automation
 
-Workflows run the agent in the background and commit their changes to your Git repository. They use the connectors that are on for the documentation project.
+Automations run the agent in the background and commit their changes to your Git repository. They use the connectors that are on for the documentation project.
 
 <Steps>
-  <Step title="Open the workflow form" icon="zap" title-type="p">
-    In the dashboard sidebar, under **AI**, click **Workflows**. Click **Create workflow**, or open an existing workflow and click **Edit**.
+  <Step title="Open the automation form" icon="zap" title-type="p">
+    In the dashboard sidebar, under **AI**, click **Automations**. Click **Create automation**, or open an existing automation and click **Edit**.
   </Step>
 
   <Step title="Keep HubSpot selected" icon="list-checks" title-type="p">
-    Open **Connectors** in the form. HubSpot is selected by default. Clear its checkbox if you want this workflow to run without HubSpot.
+    Open **Connectors** in the form. HubSpot is selected by default. Clear its checkbox if you want this automation to run without HubSpot.
   </Step>
 
-  <Step title="Tell the workflow what to read from HubSpot" icon="text" title-type="p">
+  <Step title="Tell the automation what to read from HubSpot" icon="text" title-type="p">
     In **Prompt**, say what to read and what to update, for example: "Read the HubSpot tickets created in the last 7 days, find questions our docs do not answer, and add them to the FAQ."
   </Step>
 </Steps>
 
-For triggers, schedules, and run history, see [Workflows](/ai/workflows).
+For triggers, schedules, and run history, see [Automations](/ai/automations).
 
 ## Turn off or disconnect HubSpot
 
 To stop one documentation project from using HubSpot, turn off the switch on the HubSpot card in **Agent Settings**. "HubSpot connector disabled" appears. Other documentation projects keep using HubSpot.
 
 <Callout kind="danger" collapsed="false">
-  Disconnecting removes HubSpot from every documentation project in your organization, including the workflows that use it.
+  Disconnecting removes HubSpot from every documentation project in your organization, including the automations that use it.
 </Callout>
 
 To disconnect HubSpot from your organization:
@@ -145,7 +145,7 @@ The agent reads HubSpot through these tools. It picks the tools that fit your pr
 - **"Could not complete the connection"** or **"Failed to complete the connection"**: Click **Connect** on the HubSpot card again.
 - **"Connection could not be verified"**: Start again from the HubSpot card in **Agent Settings**, in the same browser tab.
 - **"connection expired"** in the Manage dialog: Click **Reconnect HubSpot** and approve access again.
-- **The agent says "No HubSpot account is connected to this organization"**: The agent shows this message whenever HubSpot is off for this documentation project, even if your organization is connected. Open **Agent Settings** in this project. If the HubSpot card shows **Connect**, connect HubSpot. If it shows a switch, turn it on. In a workflow, also check that HubSpot is selected under **Connectors** in the workflow form.
+- **The agent says "No HubSpot account is connected to this organization"**: The agent shows this message whenever HubSpot is off for this documentation project, even if your organization is connected. Open **Agent Settings** in this project. If the HubSpot card shows **Connect**, connect HubSpot. If it shows a switch, turn it on. In an automation, also check that HubSpot is selected under **Connectors** in the automation form.
 
 ## Related
 
@@ -154,11 +154,11 @@ The agent reads HubSpot through these tools. It picks the tools that fit your pr
     Ask the agent to write and update pages.
   </Card>
 
-  <Card title="Workflows" href="/ai/workflows" icon="zap" horizontal="false">
+  <Card title="Automations" href="/ai/automations" icon="zap" horizontal="false">
     Run the agent on a schedule or on merge.
   </Card>
 
-  <Card title="Integrations overview" href="/integrations/overview" icon="info" horizontal="false">
-    See every tool you can connect.
+  <Card title="Connectors overview" href="/connectors/overview" icon="info" horizontal="false">
+    See every tool the agent can read from.
   </Card>
 </Columns>

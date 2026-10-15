@@ -1,9 +1,9 @@
 ---
-title: Notion Integration
+title: Notion Connector
 description: >-
   Connect Notion so the AI agent can read the pages and databases you share
   with it while it writes or updates documentation in the editor and in
-  workflows.
+  automations.
 ---
 Connect a Notion workspace to give the AI agent live context from your specs, wiki pages, and databases. You choose which pages the agent can read when you connect. The agent reads them only when a prompt needs them, and it never edits anything in Notion.
 
@@ -63,32 +63,32 @@ The agent can only read pages you shared when you connected. To add pages, disco
 
 ## Code editor (Git)
 
-### How to use Notion in a workflow
+### How to use Notion in an automation
 
-Workflows run the agent in the background and commit their changes to your Git repository. They use the connectors that are on for the documentation project.
+Automations run the agent in the background and commit their changes to your Git repository. They use the connectors that are on for the documentation project.
 
 <Steps>
-  <Step title="Open the workflow form" icon="zap" title-type="p">
-    In the dashboard sidebar, under **AI**, click **Workflows**. Click **Create workflow**, or open an existing workflow and click **Edit**.
+  <Step title="Open the automation form" icon="zap" title-type="p">
+    In the dashboard sidebar, under **AI**, click **Automations**. Click **Create automation**, or open an existing automation and click **Edit**.
   </Step>
 
   <Step title="Keep Notion selected" icon="list-checks" title-type="p">
-    Open **Connectors** in the form. Notion is selected by default. Clear its checkbox if you want this workflow to run without Notion.
+    Open **Connectors** in the form. Notion is selected by default. Clear its checkbox if you want this automation to run without Notion.
   </Step>
 
-  <Step title="Tell the workflow what to read from Notion" icon="text" title-type="p">
+  <Step title="Tell the automation what to read from Notion" icon="text" title-type="p">
     In **Prompt**, say what to read and what to update, for example: "Read the Notion pages in the Product Specs database edited this week and update the matching feature guides."
   </Step>
 </Steps>
 
-For triggers, schedules, and run history, see [Workflows](/ai/workflows).
+For triggers, schedules, and run history, see [Automations](/ai/automations).
 
 ## Turn off or disconnect Notion
 
 To stop one documentation project from using Notion, turn off the switch on the Notion card in **Agent Settings**. "Notion connector disabled" appears. Other documentation projects keep using Notion.
 
 <Callout kind="danger" collapsed="false">
-  Disconnecting removes Notion from every documentation project in your organization, including the workflows that use it.
+  Disconnecting removes Notion from every documentation project in your organization, including the automations that use it.
 </Callout>
 
 To disconnect Notion from your organization:
@@ -151,7 +151,7 @@ The agent reads Notion through these tools. It picks the tools that fit your pro
 - **"Could not complete the connection"** or **"Failed to complete the connection"**: Click **Connect** on the Notion card again.
 - **"Connection could not be verified"**: Start again from the Notion card in **Agent Settings**, in the same browser tab.
 - **"connection expired"** in the Manage dialog: Click **Reconnect Notion** and approve access again.
-- **The agent says "No Notion workspace is connected to this organization"**: The agent shows this message whenever Notion is off for this documentation project, even if your organization is connected. Open **Agent Settings** in this project. If the Notion card shows **Connect**, connect Notion. If it shows a switch, turn it on. In a workflow, also check that Notion is selected under **Connectors** in the workflow form.
+- **The agent says "No Notion workspace is connected to this organization"**: The agent shows this message whenever Notion is off for this documentation project, even if your organization is connected. Open **Agent Settings** in this project. If the Notion card shows **Connect**, connect Notion. If it shows a switch, turn it on. In an automation, also check that Notion is selected under **Connectors** in the automation form.
 
 ## Related
 
@@ -160,11 +160,11 @@ The agent reads Notion through these tools. It picks the tools that fit your pro
     Ask the agent to write and update pages.
   </Card>
 
-  <Card title="Workflows" href="/ai/workflows" icon="zap" horizontal="false">
+  <Card title="Automations" href="/ai/automations" icon="zap" horizontal="false">
     Run the agent on a schedule or on merge.
   </Card>
 
-  <Card title="Integrations overview" href="/integrations/overview" icon="info" horizontal="false">
-    See every tool you can connect.
+  <Card title="Connectors overview" href="/connectors/overview" icon="info" horizontal="false">
+    See every tool the agent can read from.
   </Card>
 </Columns>

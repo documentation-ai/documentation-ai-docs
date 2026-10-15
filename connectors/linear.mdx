@@ -1,8 +1,8 @@
 ---
-title: Linear Integration
+title: Linear Connector
 description: >-
   Connect Linear so the AI agent can read your issues, projects, and cycles
-  while it writes or updates documentation in the editor and in workflows.
+  while it writes or updates documentation in the editor and in automations.
 ---
 Connect a Linear workspace to give the AI agent live context from your issues, projects, and cycles. The agent reads Linear only when a prompt needs it, so release notes and feature docs reflect what your team actually shipped. It never creates, changes, or deletes anything in Linear.
 
@@ -58,32 +58,32 @@ The connection belongs to your organization. To use Linear in another documentat
 
 ## Code editor (Git)
 
-### How to use Linear in a workflow
+### How to use Linear in an automation
 
-Workflows run the agent in the background and commit their changes to your Git repository. They use the connectors that are on for the documentation project.
+Automations run the agent in the background and commit their changes to your Git repository. They use the connectors that are on for the documentation project.
 
 <Steps>
-  <Step title="Open the workflow form" icon="zap" title-type="p">
-    In the dashboard sidebar, under **AI**, click **Workflows**. Click **Create workflow**, or open an existing workflow and click **Edit**.
+  <Step title="Open the automation form" icon="zap" title-type="p">
+    In the dashboard sidebar, under **AI**, click **Automations**. Click **Create automation**, or open an existing automation and click **Edit**.
   </Step>
 
   <Step title="Keep Linear selected" icon="list-checks" title-type="p">
-    Open **Connectors** in the form. Linear is selected by default. Clear its checkbox if you want this workflow to run without Linear.
+    Open **Connectors** in the form. Linear is selected by default. Clear its checkbox if you want this automation to run without Linear.
   </Step>
 
-  <Step title="Tell the workflow what to read from Linear" icon="text" title-type="p">
+  <Step title="Tell the automation what to read from Linear" icon="text" title-type="p">
     In **Prompt**, say what to read and what to update, for example: "Read the Linear issues completed this week in the API project and add them to the changelog."
   </Step>
 </Steps>
 
-For triggers, schedules, and run history, see [Workflows](/ai/workflows).
+For triggers, schedules, and run history, see [Automations](/ai/automations).
 
 ## Turn off or disconnect Linear
 
 To stop one documentation project from using Linear, turn off the switch on the Linear card in **Agent Settings**. "Linear connector disabled" appears. Other documentation projects keep using Linear.
 
 <Callout kind="danger" collapsed="false">
-  Disconnecting removes Linear from every documentation project in your organization, including the workflows that use it.
+  Disconnecting removes Linear from every documentation project in your organization, including the automations that use it.
 </Callout>
 
 To disconnect Linear from your organization:
@@ -147,7 +147,7 @@ The agent reads Linear through these tools. It picks the tools that fit your pro
 - **"Could not complete the connection"** or **"Failed to complete the connection"**: Click **Connect** on the Linear card again.
 - **"Connection could not be verified"**: Start again from the Linear card in **Agent Settings**, in the same browser tab.
 - **"connection expired"** in the Manage dialog: Click **Reconnect Linear** and approve access again.
-- **The agent says "No Linear workspace is connected to this organization"**: The agent shows this message whenever Linear is off for this documentation project, even if your organization is connected. Open **Agent Settings** in this project. If the Linear card shows **Connect**, connect Linear. If it shows a switch, turn it on. In a workflow, also check that Linear is selected under **Connectors** in the workflow form.
+- **The agent says "No Linear workspace is connected to this organization"**: The agent shows this message whenever Linear is off for this documentation project, even if your organization is connected. Open **Agent Settings** in this project. If the Linear card shows **Connect**, connect Linear. If it shows a switch, turn it on. In an automation, also check that Linear is selected under **Connectors** in the automation form.
 
 ## Related
 
@@ -156,11 +156,11 @@ The agent reads Linear through these tools. It picks the tools that fit your pro
     Ask the agent to write and update pages.
   </Card>
 
-  <Card title="Workflows" href="/ai/workflows" icon="zap" horizontal="false">
+  <Card title="Automations" href="/ai/automations" icon="zap" horizontal="false">
     Run the agent on a schedule or on merge.
   </Card>
 
-  <Card title="Integrations overview" href="/integrations/overview" icon="info" horizontal="false">
-    See every tool you can connect.
+  <Card title="Connectors overview" href="/connectors/overview" icon="info" horizontal="false">
+    See every tool the agent can read from.
   </Card>
 </Columns>

@@ -76,13 +76,11 @@ Documentation.AI groups entries by the navigation section that contains each pag
 
 External links in your navigation are excluded because Documentation.AI cannot generate Markdown page content for them.
 
-Documentation.AI also generates an `llms-search.txt` file in parallel. This file contains the same page entries as `llms.txt` and adds the extracted H1 to H3 headings from each page, giving AI search tools more context about page content.
-
 For documentation sites with many pages, the generated content is split into section-specific files when it exceeds a size threshold. Each section uses a stable filename so AI tools can request individual sections rather than loading the entire file at once.
 
 <Callout kind="info" collapsed="false">
 
-Generation is skipped for preview deployments. Publish your documentation to generate updated `llms.txt` and `llms-search.txt` files.
+Generation is skipped for preview deployments. Publish your documentation to generate updated `llms.txt` files.
 
 </Callout>
 

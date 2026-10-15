@@ -1,9 +1,9 @@
 ---
 title: Private Docs
-description: Show private docs pages in your product to users who are signed in, whether your docs use a password, JWT or OAuth, without a second sign-in.
+description: Show private docs pages in your product to users who are signed in, whether your docs use a password, Documentation.AI, JWT or OAuth sign-in, without a second sign-in.
 ---
 
-If your docs site has private pages, the embed needs to know that a user is signed in to your product. Your server vouches for each user with your embed key's **secret key**, and the embed signs them in to your docs. Users never see a sign-in prompt, whatever sign-in your docs site uses: password, JWT or OAuth 2.0.
+If your docs site has private pages, the embed needs to know that a user is signed in to your product. Your server vouches for each user with your embed key's **secret key**, and the embed signs them in to your docs. Users never see a sign-in prompt, whatever sign-in your docs site uses: password, Documentation.AI, JWT or OAuth 2.0.
 
 <Callout kind="info">
   Public docs don't need any of this. If your [Access Control](/customize/access-control/overview) mode is **Public**, the publishable key is all you need.
@@ -33,7 +33,7 @@ sequenceDiagram
 
 ## Before you start
 
-- Your docs site uses **Private** or **Partial** access with [Password](/customize/access-control/password), [JWT](/customize/access-control/jwt) or [OAuth 2.0](/customize/access-control/oauth) sign-in.
+- Your docs site uses **Private** or **Partial** access with [Password](/customize/access-control/password), [Documentation.AI](/customize/access-control/documentation-ai), [JWT](/customize/access-control/jwt) or [OAuth 2.0](/customize/access-control/oauth) sign-in.
 - You have an embed key and its secret key. The secret key is shown only once, when you create the key. If you've lost it, open the key's menu in **Settings > Embed** and choose **Rotate secret key** to get a new one.
 
 ## Step 1: Store the secret key on your server
@@ -162,13 +162,16 @@ See [Events](/embedded-docs/reference#events) to react to these in your own code
 
 On **JWT** and **OAuth 2.0** sites with [role-based access control](/customize/access-control/overview#role-based-access-control), the `accessRoles` you send in step 2 decide which private pages a user can open. The rules are the same as for sign-in on your docs site: a page tagged with `access-roles` needs at least one matching role, and the role `*` opens every page.
 
-**Password** sites don't use roles. Every signed-in user sees every private page, and any `accessRoles` you send are ignored.
+**Password** and **Documentation.AI** sites don't use roles. Every signed-in user sees every private page, and any `accessRoles` you send are ignored.
+
+On **Documentation.AI** sites, the embed doesn't check whether a user is a member of your organization: your server decides who gets a reader token.
 
 ## How long sessions last
 
 | Your docs site's sign-in | A user stays signed in for |
 | --- | --- |
 | Password | 7 days |
+| Documentation.AI | 14 days |
 | JWT | Your JWT **Session duration** (14 days by default) |
 | OAuth 2.0 | Your OAuth session duration (7 days by default) |
 
@@ -176,7 +179,7 @@ When a session ends, the `identity-required` event fires once and the user sees 
 
 ## Already using JWT sign-in?
 
-On JWT sites, you can pass `identify()` a JWT signed with the private key from **Settings > Access Control**, the same token you create for [JWT sign-in](/customize/access-control/jwt) on your docs site. Reader tokens work on JWT sites too, so use whichever is easier. On password and OAuth sites, use a reader token.
+On JWT sites, you can pass `identify()` a JWT signed with the private key from **Settings > Access Control**, the same token you create for [JWT sign-in](/customize/access-control/jwt) on your docs site. Reader tokens work on JWT sites too, so use whichever is easier. On password, Documentation.AI and OAuth sites, use a reader token.
 
 ## Rotate or revoke
 

@@ -1,9 +1,9 @@
 ---
-title: Plain Integration
+title: Plain Connector
 description: >-
   Connect Plain so the AI agent can read support threads, customers, and help
   center articles while it writes or updates documentation in the editor and
-  in workflows.
+  in automations.
 ---
 Connect a Plain workspace to give the AI agent live context from your support threads and help center. The agent uses them to find the questions customers ask that your docs miss. It reads Plain only when a prompt needs it, and it never changes anything in Plain.
 
@@ -59,32 +59,32 @@ The connection belongs to your organization. To use Plain in another documentati
 
 ## Code editor (Git)
 
-### How to use Plain in a workflow
+### How to use Plain in an automation
 
-Workflows run the agent in the background and commit their changes to your Git repository. They use the connectors that are on for the documentation project.
+Automations run the agent in the background and commit their changes to your Git repository. They use the connectors that are on for the documentation project.
 
 <Steps>
-  <Step title="Open the workflow form" icon="zap" title-type="p">
-    In the dashboard sidebar, under **AI**, click **Workflows**. Click **Create workflow**, or open an existing workflow and click **Edit**.
+  <Step title="Open the automation form" icon="zap" title-type="p">
+    In the dashboard sidebar, under **AI**, click **Automations**. Click **Create automation**, or open an existing automation and click **Edit**.
   </Step>
 
   <Step title="Keep Plain selected" icon="list-checks" title-type="p">
-    Open **Connectors** in the form. Plain is selected by default. Clear its checkbox if you want this workflow to run without Plain.
+    Open **Connectors** in the form. Plain is selected by default. Clear its checkbox if you want this automation to run without Plain.
   </Step>
 
-  <Step title="Tell the workflow what to read from Plain" icon="text" title-type="p">
+  <Step title="Tell the automation what to read from Plain" icon="text" title-type="p">
     In **Prompt**, say what to read and what to update, for example: "Read the Plain threads labeled docs that were closed this week and add the answers to the troubleshooting guide."
   </Step>
 </Steps>
 
-For triggers, schedules, and run history, see [Workflows](/ai/workflows).
+For triggers, schedules, and run history, see [Automations](/ai/automations).
 
 ## Turn off or disconnect Plain
 
 To stop one documentation project from using Plain, turn off the switch on the Plain card in **Agent Settings**. "Plain connector disabled" appears. Other documentation projects keep using Plain.
 
 <Callout kind="danger" collapsed="false">
-  Disconnecting removes Plain from every documentation project in your organization, including the workflows that use it.
+  Disconnecting removes Plain from every documentation project in your organization, including the automations that use it.
 </Callout>
 
 To disconnect Plain from your organization:
@@ -148,7 +148,7 @@ The agent reads Plain through these tools. It picks the tools that fit your prom
 - **"Could not complete the connection"** or **"Failed to complete the connection"**: Click **Connect** on the Plain card again.
 - **"Connection could not be verified"**: Start again from the Plain card in **Agent Settings**, in the same browser tab.
 - **"connection expired"** in the Manage dialog: Click **Reconnect Plain** and approve access again.
-- **The agent says "No Plain workspace is connected to this organization"**: The agent shows this message whenever Plain is off for this documentation project, even if your organization is connected. Open **Agent Settings** in this project. If the Plain card shows **Connect**, connect Plain. If it shows a switch, turn it on. In a workflow, also check that Plain is selected under **Connectors** in the workflow form.
+- **The agent says "No Plain workspace is connected to this organization"**: The agent shows this message whenever Plain is off for this documentation project, even if your organization is connected. Open **Agent Settings** in this project. If the Plain card shows **Connect**, connect Plain. If it shows a switch, turn it on. In an automation, also check that Plain is selected under **Connectors** in the automation form.
 
 ## Related
 
@@ -157,11 +157,11 @@ The agent reads Plain through these tools. It picks the tools that fit your prom
     Ask the agent to write and update pages.
   </Card>
 
-  <Card title="Workflows" href="/ai/workflows" icon="zap" horizontal="false">
+  <Card title="Automations" href="/ai/automations" icon="zap" horizontal="false">
     Run the agent on a schedule or on merge.
   </Card>
 
-  <Card title="Integrations overview" href="/integrations/overview" icon="info" horizontal="false">
-    See every tool you can connect.
+  <Card title="Connectors overview" href="/connectors/overview" icon="info" horizontal="false">
+    See every tool the agent can read from.
   </Card>
 </Columns>

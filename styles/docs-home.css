@@ -1,0 +1,781 @@
+/*
+ * Docs homepage, in the style of the documentation.ai website. Loads after
+ * styles/docs-theme.css and reads its tokens (--da-*) and fonts.
+ *
+ * Every rule is scoped to getting-started/introduction.mdx, whose "Start
+ * here" block carries `dh-home`, so the other docs pages get the theme alone.
+ * The whole page is plain MDX: the painted steps and the migration row are
+ * HTML written into the page, so they render on the server and stay editable
+ * in the web editor, and this file styles all of it.
+ *
+ * The page, top to bottom:
+ *   1. Title and description (frontmatter).
+ *   2. "Start here": four numbered steps, each titled on a painting with
+ *      its description below.
+ *   3. "Explore the docs": the Columns block, a plain lattice.
+ *   4. The migration row: copy beside a painting.
+ *
+ * The paintings are the website's own (public/img/scenery there, listed in
+ * src/lib/scenery.ts), loaded from documentation.ai so both sites show one
+ * set. Each veil follows the website's rule: black at 1 - 0.34 / luma, a touch
+ * heavier in the middle (1.15x) and lighter at the edges (0.85x), so every
+ * painting comes out equally bright; a step darker again in the dark theme.
+ */
+
+.dai-article:has(.dh-home) {
+  max-width: 960px !important;
+  container: dh / inline-size;
+}
+
+/* The homepage has no table of contents, so its column takes the room. */
+.dai-page:has(.dh-home) .dai-page-aside {
+  display: none;
+}
+
+.dai-article:has(.dh-home) .dh-home a,
+.dai-article:has(.dh-home) .dh-split a {
+  border-bottom: 0;
+  text-decoration: none;
+}
+
+/* 1. Hero copy: serif h1 (from the theme), subtext below it. */
+
+.dai-article:has(.dh-home) .page-description,
+.dai-article:has(.dh-home) .page-description p {
+  max-width: 38rem;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/*
+ * The website's hero dot field, drawn in CSS: its 2px squares on an 18px
+ * step, in its colours, with one coral cluster. The website's field moves
+ * with the cursor; this page runs no script for that canvas, so this one holds
+ * still. Masked as the website's left-aligned hero is: clear behind the
+ * title and subheading, full only toward the right, softened at its own
+ * edges and faded out before "Start here". Off on a phone, as the
+ * website's is. The live article starts at the title (its margin collapses
+ * through), so the field's top and height are measured from the title.
+ */
+.dai-article:has(.dh-home) {
+  position: relative;
+  isolation: isolate;
+}
+
+.dai-article:has(.dh-home)::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -56px;
+  left: -40px;
+  right: -40px;
+  height: 280px;
+  pointer-events: none;
+  --dh-dots: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Crect x='8' y='8' width='2' height='2' fill='rgba(9,9,11,0.14)'/%3E%3C/svg%3E");
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Cg fill='rgb(236,91,91)' fill-opacity='0.85'%3E%3Crect x='8' y='8' width='2' height='2'/%3E%3Crect x='26' y='8' width='2' height='2'/%3E%3Crect x='26' y='26' width='2' height='2'/%3E%3C/g%3E%3C/svg%3E") 864px 72px / 36px 36px no-repeat,
+    var(--dh-dots) 0 0 / 18px 18px;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, transparent 62%, rgb(0 0 0 / 0.4) 72%, #000 86%, rgb(0 0 0 / 0.5) 100%),
+    linear-gradient(to bottom, transparent 0%, #000 22%, #000 50%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0%, transparent 62%, rgb(0 0 0 / 0.4) 72%, #000 86%, rgb(0 0 0 / 0.5) 100%),
+    linear-gradient(to bottom, transparent 0%, #000 22%, #000 50%, transparent 100%);
+  mask-composite: intersect;
+}
+
+.dark .dai-article:has(.dh-home)::before {
+  --dh-dots: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Crect x='8' y='8' width='2' height='2' fill='rgba(255,255,255,0.16)'/%3E%3C/svg%3E");
+}
+
+@media (max-width: 767px) {
+  .dai-article:has(.dh-home)::before {
+    display: none;
+  }
+}
+
+/* Paintings: the picture softened by a 1px blur, under its veil. */
+
+.dh-painting {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 12px;
+  container: dh-tile / inline-size;
+}
+
+.dh-painting::before,
+.dh-painting::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.dh-painting::before {
+  background: var(--dh-painting) var(--dh-focus, center) / cover no-repeat;
+  filter: blur(1px);
+  transform: scale(1.02);
+}
+
+.dh-painting::after {
+  background: var(--dh-veil);
+}
+
+.dark .dh-painting::after {
+  background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), var(--dh-veil);
+}
+
+/* river-sunrise, luma 0.521: veil 0.347 */
+.dh-painting-sunrise {
+  --dh-painting: url("https://documentation.ai/img/scenery/river-sunrise.jpg");
+  --dh-veil: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0, 0, 0, 0.400) 0%, rgba(0, 0, 0, 0.347) 60%, rgba(0, 0, 0, 0.295) 100%);
+}
+
+/* castle-valley, luma 0.506: veil 0.328 */
+.dh-painting-valley {
+  --dh-painting: url("https://documentation.ai/img/scenery/castle-valley.jpg");
+  --dh-veil: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0, 0, 0, 0.377) 0%, rgba(0, 0, 0, 0.328) 60%, rgba(0, 0, 0, 0.279) 100%);
+}
+
+/* coast-sunset, luma 0.533: veil 0.362. Its middle is open sea, so it anchors right. */
+.dh-painting-sunset {
+  --dh-painting: url("https://documentation.ai/img/scenery/coast-sunset.jpg");
+  --dh-focus: right center;
+  --dh-veil: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0, 0, 0, 0.416) 0%, rgba(0, 0, 0, 0.362) 60%, rgba(0, 0, 0, 0.308) 100%);
+}
+
+/*
+ * moon-lake, luma 0.244: below the veil's target, so the rule above cannot
+ * match it. Set by eye instead, light enough that the moon and its
+ * reflection still show. Anchored right, where they sit.
+ */
+.dh-painting-night {
+  --dh-painting: url("https://documentation.ai/img/scenery/moon-lake.jpg");
+  --dh-focus: 70% center;
+  --dh-veil: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.08) 60%, rgba(0, 0, 0, 0.04) 100%);
+}
+
+/* headland-bloom, luma 0.538: veil 0.368 */
+.dh-painting-headland {
+  --dh-painting: url("https://documentation.ai/img/scenery/headland-bloom.jpg");
+  --dh-veil: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0, 0, 0, 0.423) 0%, rgba(0, 0, 0, 0.368) 60%, rgba(0, 0, 0, 0.313) 100%);
+}
+
+/* Glass: the website's clear rim for panels on a painting, a panel inside. */
+
+.dh-glass {
+  position: relative;
+  padding: 10px;
+  border-radius: 24px;
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.08));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 32px 64px -24px rgba(0, 0, 0, 0.55);
+  -webkit-backdrop-filter: blur(6px) brightness(1.15) saturate(1.6);
+  backdrop-filter: blur(6px) brightness(1.15) saturate(1.6);
+}
+
+.dh-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.15));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  pointer-events: none;
+}
+
+.dh-glass-sm {
+  padding: 8px;
+  border-radius: 20px;
+}
+
+.dh-face {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #fff;
+  color: #09090b;
+  font-size: 13px;
+  line-height: 1.5;
+  box-shadow: 0 16px 40px -16px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.dh-glass-sm .dh-face {
+  border-radius: 12px;
+}
+
+.dark .dh-face {
+  background: #0c0b0b;
+  color: #fff;
+}
+
+.dh-window-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 64px;
+}
+
+.dh-window-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.dh-lights {
+  position: absolute;
+  left: 14px;
+  display: flex;
+  gap: 6px;
+}
+
+.dh-lights i {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(9, 9, 11, 0.12);
+}
+
+.dark .dh-lights i {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.dh-window-title,
+.dh-label {
+  font: 500 11px/1 var(--da-mono);
+  letter-spacing: 0.06em;
+  color: #787168;
+}
+
+.dark .dh-window-title,
+.dark .dh-label {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.dh-cursor {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  fill: #09090b;
+  stroke: #fff;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.25));
+}
+
+.dark .dh-cursor {
+  fill: #fff;
+  stroke: #09090b;
+}
+
+/*
+ * 2. "Start here": four steps, each a painting set like the blog's scenery
+ * covers, with the description and link on the page below. The number sits
+ * top-left and the title bottom-left, so across the row the numbers line up
+ * and so do the titles' last lines, however many lines a title takes.
+ */
+
+.dh-steps {
+  display: grid;
+  gap: 40px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+@container dh (min-width: 560px) {
+  .dh-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px 24px;
+  }
+}
+
+@container dh (min-width: 860px) {
+  .dh-steps {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+  }
+}
+
+.dh-steps li {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.dh-steps li::marker {
+  content: none;
+}
+
+.dh-step {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: inherit;
+}
+
+.dh-step .dh-painting {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  aspect-ratio: 4 / 3;
+  padding: 18px 18px 20px;
+  color: #fff;
+}
+
+.dh-step .dh-painting::before {
+  transition: transform 400ms ease;
+}
+
+.dh-step:hover .dh-painting::before {
+  transform: scale(1.06);
+}
+
+/* The painting's own veil, plus a shade rising from the foot under the title. */
+.dh-step .dh-painting::after {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0) 60%), var(--dh-veil);
+}
+
+.dark .dh-step .dh-painting::after {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0) 60%), linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), var(--dh-veil);
+}
+
+.dh-step-n {
+  font: 500 12px/18px var(--da-mono);
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Sized to the tile, so the title keeps its proportion from a phone to four across. */
+.dh-step-title {
+  max-width: 13ch;
+  font-family: var(--da-serif);
+  font-weight: 400;
+  font-size: clamp(20px, 11cqi, 32px);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: #fff;
+  text-wrap: balance;
+}
+
+.dh-step-copy {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-top: 20px;
+}
+
+.dh-step-desc {
+  color: var(--da-muted);
+}
+
+/* Pinned to the foot, so the four links line up whatever the copy's length. */
+.dh-step .dh-explore {
+  margin-top: auto;
+  padding-top: 20px;
+}
+
+.dh-step:hover .dh-explore {
+  color: var(--da-coral);
+}
+
+/* 3. The lattice: cells share single hairlines; the gap shows the rule. */
+
+.dai-article:has(.dh-home) [data-component="Columns"] {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px !important;
+  margin-top: 28px;
+  background: var(--da-rule);
+  border: 1px solid var(--da-rule);
+}
+
+@container dh (min-width: 600px) {
+  .dai-article:has(.dh-home) [data-component="Columns"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container dh (min-width: 860px) {
+  .dai-article:has(.dh-home) [data-component="Columns"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.dai-article:has(.dh-home) [data-component="Columns"] > a {
+  display: block;
+  background: var(--content-bg);
+  transition: background-color 150ms ease;
+}
+
+.dai-article:has(.dh-home) [data-component="Columns"] > a:hover {
+  background: var(--da-card);
+}
+
+.dai-article:has(.dh-home) [data-component="Columns"] [data-component="Card"] {
+  position: relative;
+  height: 100%;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+.dai-article:has(.dh-home) [data-component="Columns"] [data-component="Card"] > div:last-child {
+  padding: 32px 28px;
+}
+
+.dai-article:has(.dh-home) [data-component="Columns"] [data-component="Card"] svg.lucide {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.5;
+  color: var(--da-muted);
+  margin-bottom: 26px;
+}
+
+.dai-article:has(.dh-home) .dai-card-title {
+  font-family: var(--da-display);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+.dai-article:has(.dh-home) .dai-card-description {
+  display: block;
+}
+
+.dai-article:has(.dh-home) .dai-card-description p {
+  margin-top: 6px;
+}
+
+/* The website's clickable cell: a mono "Explore" under the line, coral on hover. */
+.dai-article:has(.dh-home) [data-component="Columns"] .dai-card-description::after {
+  content: "Explore \2192";
+  display: block;
+  margin-top: 24px;
+  font: 500 12px/18px var(--da-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--heading);
+  transition: color 150ms ease;
+}
+
+.dai-article:has(.dh-home) [data-component="Columns"] > a:hover .dai-card-description::after {
+  color: var(--da-coral);
+}
+
+/* Section text below each h2. */
+
+.dai-article:has(.dh-home) h2 + p {
+  margin-top: 0;
+  color: var(--da-muted);
+}
+
+/* 4. The migration row: copy beside a painting, side by side when wide. */
+
+.dh-split {
+  display: grid;
+  gap: 40px;
+  margin-top: 104px;
+}
+
+@container dh (min-width: 860px) {
+  .dh-split {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 56px;
+    align-items: center;
+  }
+}
+
+.dh-eyebrow {
+  font: 500 12px/18px var(--da-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--da-coral);
+}
+
+.dh-deck {
+  margin: 12px 0 0;
+  color: var(--da-muted);
+}
+
+.dh-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 20px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dh-links li {
+  margin: 0;
+  padding: 0;
+}
+
+.dh-links li::marker {
+  content: none;
+}
+
+.dh-links a {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 15px;
+  color: var(--heading);
+}
+
+.dh-links a:hover {
+  color: var(--da-coral);
+}
+
+.dh-links svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  color: var(--da-muted);
+}
+
+.dh-explore {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  margin-top: 28px;
+  font: 500 12px/18px var(--da-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--heading);
+}
+
+.dh-explore:hover {
+  color: var(--da-coral);
+}
+
+.dh-explore svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* The free-migration offer under the guide link: a hairline above, one muted line, the link in ink. */
+.dh-note {
+  margin: 24px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--da-rule);
+  font-size: 15px;
+  color: var(--da-muted);
+}
+
+.dh-note a {
+  color: var(--heading);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.dh-note a:hover {
+  color: var(--da-coral);
+}
+
+/* The migration stage: a window to the right, the preview card over its lower-left corner. */
+
+.dh-stage {
+  position: relative;
+}
+
+/* The bottom padding leaves room for the preview card, which overlaps only the window's rim. */
+.dh-stage-migrate {
+  padding: 40px 32px 136px;
+}
+
+.dh-migrate {
+  width: min(400px, 84%);
+  margin-left: auto;
+}
+
+.dh-rows {
+  padding: 0 18px 16px;
+}
+
+.dh-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid #eeeeee;
+}
+
+.dark .dh-row {
+  border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+.dh-row-result {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  color: #787168;
+}
+
+.dark .dh-row-result {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.dh-check {
+  width: 14px;
+  height: 14px;
+  color: #16a34a;
+}
+
+.dark .dh-check {
+  color: #4ade80;
+}
+
+.dh-preview {
+  position: absolute;
+  left: 24px;
+  bottom: 20px;
+  width: 272px;
+}
+
+.dh-preview .dh-face {
+  padding: 14px;
+}
+
+.dh-preview-status {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-weight: 500;
+}
+
+.dh-live {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--da-coral);
+}
+
+.dh-preview-url {
+  margin-top: 4px;
+  font: 11px/1.4 var(--da-mono);
+  color: #787168;
+}
+
+.dark .dh-preview-url {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.dh-preview-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.dh-chip {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: #f5f3f1;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.dark .dh-chip {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.dh-chip-on {
+  background: #09090b;
+  color: #fff;
+}
+
+.dark .dh-chip-on {
+  background: #fff;
+  color: #09090b;
+}
+
+.dh-preview .dh-cursor {
+  top: 74px;
+  left: 150px;
+}
+
+/*
+ * A narrow migration tile shows its window alone, as the website's stages do
+ * on a phone: the preview card needs 440px to clear the window's rows.
+ */
+
+@container dh-tile (max-width: 439px) {
+  .dh-stage-migrate {
+    padding: 24px;
+  }
+
+  .dh-migrate {
+    width: 100%;
+  }
+
+  .dh-preview {
+    display: none;
+  }
+}
+
+/*
+ * Overrides of the platform's `!important` utility classes go in its
+ * `utilities` layer; styles/docs-theme.css explains why.
+ */
+
+@layer utilities {
+  /* A step above the 32px of every other docs page: 32px on a phone, 40px from a laptop up. */
+  .dai-article:has(.dh-home) .page-title {
+    font-size: clamp(2rem, 1.6rem + 1vw, 2.5rem) !important;
+    line-height: 1.2 !important;
+    margin-bottom: 20px !important;
+  }
+
+  /* The section h2s keep the theme's Geist 500 (only the h1 is serif), set larger and further apart. */
+  .dai-article:has(.dh-home) h2 {
+    font-size: 28px !important;
+    line-height: 1.25 !important;
+    margin-top: 104px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .dai-article:has(.dh-home) .dh-split h2 {
+    margin-top: 12px !important;
+  }
+
+  /* "Start here" opens the page, straight under the description. */
+  .dai-article:has(.dh-home) .mdx-container > h2:first-child {
+    margin-top: 64px !important;
+  }
+
+  /* The platform indents every list; the steps are a grid, not running text. */
+  .dai-article:has(.dh-home) .dh-steps {
+    margin: 28px 0 0 !important;
+    padding: 0 !important;
+  }
+
+  .dai-article:has(.dh-home) .dh-step {
+    font-weight: 400 !important;
+  }
+
+  .dai-article:has(.dh-home) .dh-step-desc {
+    font-size: 16px !important;
+    line-height: 24px !important;
+  }
+
+  /* The platform sets links in running text at 600. */
+  .dai-article:has(.dh-home) .dh-links a {
+    font-weight: 400 !important;
+  }
+
+  .dai-article:has(.dh-home) .dai-card-title {
+    font-size: 18px !important;
+    font-weight: 400 !important;
+  }
+
+  .dai-article:has(.dh-home) .dai-card-description,
+  .dai-article:has(.dh-home) .dai-card-description p {
+    font-size: 16px !important;
+    line-height: 24px !important;
+  }
+}

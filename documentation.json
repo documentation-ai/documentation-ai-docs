@@ -4,13 +4,13 @@
   "colors": {
     "light": {
       "brand": "#1a1a1a",
-      "heading": "#1a1a1a",
-      "text": "#374151"
+      "heading": "#09090b",
+      "text": "#2a2422"
     },
     "dark": {
       "brand": "#f2f2f2",
-      "heading": "#f2f2f2",
-      "text": "#c1c1c1"
+      "heading": "#ffffff",
+      "text": "#ebe9e6"
     }
   },
   "navbar": {
@@ -23,6 +23,10 @@
         {
           "title": "Login",
           "link": "https://dashboard.documentation.ai/login"
+        },
+        {
+          "title": "Book a Demo",
+          "link": "https://documentation.ai/get-a-demo"
         }
       ]
     }
@@ -432,6 +436,11 @@
                     "icon": "key"
                   },
                   {
+                    "title": "Documentation.AI Auth",
+                    "path": "customize/access-control/documentation-ai-auth",
+                    "icon": "users"
+                  },
+                  {
                     "title": "JWT",
                     "path": "customize/access-control/jwt",
                     "icon": "key-round"
@@ -491,9 +500,62 @@
                 "icon": "stars-icon"
               },
               {
-                "title": "Workflows",
-                "path": "ai/workflows",
-                "icon": "workflow"
+                "title": "Automations",
+                "path": "ai/automations",
+                "icon": "zap"
+              },
+              {
+                "group": "Connectors",
+                "icon": "plug",
+                "expandable": true,
+                "path": "connectors/overview",
+                "pages": [
+                  {
+                    "title": "GitHub",
+                    "path": "connectors/github",
+                    "icon": "github"
+                  },
+                  {
+                    "title": "Jira",
+                    "path": "connectors/jira",
+                    "icon": "list-todo"
+                  },
+                  {
+                    "title": "Confluence",
+                    "path": "connectors/confluence",
+                    "icon": "book-open"
+                  },
+                  {
+                    "title": "Linear",
+                    "path": "connectors/linear",
+                    "icon": "kanban"
+                  },
+                  {
+                    "title": "Notion",
+                    "path": "connectors/notion",
+                    "icon": "notebook-text"
+                  },
+                  {
+                    "title": "HubSpot",
+                    "path": "connectors/hubspot",
+                    "icon": "contact"
+                  },
+                  {
+                    "title": "Plain",
+                    "path": "connectors/plain",
+                    "icon": "messages-square"
+                  },
+                  {
+                    "title": "Intercom",
+                    "path": "connectors/intercom",
+                    "icon": "headset"
+                  },
+                  {
+                    "title": "User & Agent Feedback",
+                    "path": "connectors/user-feedback",
+                    "icon": "message-square-heart"
+                  }
+                ]
               },
               {
                 "title": "AI Assistant",
@@ -595,7 +657,7 @@
                 "icon": "info"
               },
               {
-                "title": "Github",
+                "title": "GitHub",
                 "path": "integrations/github",
                 "icon": "github"
               },
@@ -608,36 +670,6 @@
                 "title": "Webhooks",
                 "path": "integrations/deployment-webhooks",
                 "icon": "webhook"
-              },
-              {
-                "title": "Confluence",
-                "path": "integrations/confluence",
-                "icon": "book-open"
-              },
-              {
-                "title": "Jira",
-                "path": "integrations/jira",
-                "icon": "list-todo"
-              },
-              {
-                "title": "Linear",
-                "path": "integrations/linear",
-                "icon": "kanban"
-              },
-              {
-                "title": "Notion",
-                "path": "integrations/notion",
-                "icon": "notebook-text"
-              },
-              {
-                "title": "HubSpot",
-                "path": "integrations/hubspot",
-                "icon": "contact"
-              },
-              {
-                "title": "Plain",
-                "path": "integrations/plain",
-                "icon": "messages-square"
               },
               {
                 "group": "Analytics",
@@ -839,6 +871,14 @@
   "favicon": "https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1763647259799-dvpow3xiipa-doc-favicon-dark.png",
   "logo-dark": "https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1767703540306-1ow538yjggl-logo_dark_mode.svg?q=85&fm=auto&auto=compress%2Cformat",
   "logo-light": "https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1767703565522-24h54tbc4tf-logo_light_mode.svg?q=85&fm=auto&auto=compress%2Cformat",
+  "customCss": [
+    {
+      "src": "styles/docs-theme.css"
+    },
+    {
+      "src": "styles/docs-home.css"
+    }
+  ],
   "ai": {},
   "integrations": {
     "gtm": {
@@ -884,7 +924,7 @@
     },
     {
       "source": "/integrations-and-workflows/github-integration",
-      "destination": "/integrations/github"
+      "destination": "/connectors/github"
     },
     {
       "source": "/integrations-and-workflows",
@@ -1057,6 +1097,42 @@
     {
       "source": "/embedded-docs/quickstart",
       "destination": "/embedded-docs/overview"
+    },
+    {
+      "source": "/integrations/jira",
+      "destination": "/connectors/jira"
+    },
+    {
+      "source": "/integrations/confluence",
+      "destination": "/connectors/confluence"
+    },
+    {
+      "source": "/integrations/linear",
+      "destination": "/connectors/linear"
+    },
+    {
+      "source": "/integrations/notion",
+      "destination": "/connectors/notion"
+    },
+    {
+      "source": "/integrations/hubspot",
+      "destination": "/connectors/hubspot"
+    },
+    {
+      "source": "/integrations/plain",
+      "destination": "/connectors/plain"
+    },
+    {
+      "source": "/integrations/intercom-connector",
+      "destination": "/connectors/intercom"
+    },
+    {
+      "source": "/ai/workflows",
+      "destination": "/ai/automations"
+    },
+    {
+      "source": "/customize/access-control/documentation-ai",
+      "destination": "/customize/access-control/documentation-ai-auth"
     }
   ]
 }

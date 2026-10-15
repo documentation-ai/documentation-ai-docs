@@ -18,19 +18,20 @@ Access control is configured in the dashboard under **Settings > Access Control*
 
 - **Public**: Anyone can access your documentation. No authentication required.
 
-- **Private**: All pages require authentication. Choose from Password, JWT, or OAuth 2.0.
+- **Private**: All pages require authentication. Choose from Password, Documentation.AI, JWT, or OAuth 2.0.
 
-- **Partial**: A mix of public and protected pages. Choose from Password, JWT, or OAuth 2.0 for the protected pages.
+- **Partial**: A mix of public and protected pages. Choose from Password, Documentation.AI, JWT, or OAuth 2.0 for the protected pages.
 
 ## Authentication methods
 
-Documentation.AI offers three authentication methods to protect your documentation:
+Documentation.AI offers four authentication methods to protect your documentation:
 
-| Method                                         | Available in     | User-level access    | Personalization |
-| ---------------------------------------------- | ---------------- | -------------------- | --------------- |
-| [Password](/customize/access-control/password) | Private, Partial | No (shared password) | No              |
-| [JWT](/customize/access-control/jwt)           | Private, Partial | Yes (per-user roles) | Yes             |
-| [OAuth 2.0](/customize/access-control/oauth)   | Private, Partial | Yes (per-user roles) | Yes             |
+| Method                                                         | Available in     | User-level access                       | Personalization |
+| -------------------------------------------------------------- | ---------------- | --------------------------------------- | --------------- |
+| [Password](/customize/access-control/password)                 | Private, Partial | No (shared password)                    | No              |
+| [Documentation.AI Auth](/customize/access-control/documentation-ai-auth) | Private, Partial | Yes (organization members)              | No              |
+| [JWT](/customize/access-control/jwt)                           | Private, Partial | Yes (per-user roles)                    | Yes             |
+| [OAuth 2.0](/customize/access-control/oauth)                   | Private, Partial | Yes (per-user roles)                    | Yes             |
 
 ### Password
 
@@ -41,6 +42,12 @@ Simple shared password protection. Best for internal docs shared with a small te
 - In **Partial** mode, you configure which pages are public and which require the password.
 
 [Set up password authentication ->](/customize/access-control/password)
+
+### Documentation.AI Auth
+
+Members of your organization sign in with their Documentation.AI account. You manage who can read from **Settings > Members**, and removing someone ends their access within 5 minutes. Every signed-in reader sees all protected pages. Available in **Private** and **Partial** modes, on all plans.
+
+[Set up Documentation.AI Auth ->](/customize/access-control/documentation-ai-auth)
 
 ### JWT
 
@@ -59,6 +66,8 @@ Integrate with OAuth 2.0 or OpenID Connect (OIDC) providers like Okta, Auth0, or
 With JWT and OAuth 2.0 authentication, you can control which pages each user can see using the `access-roles` property in your `documentation.json` navigation.
 
 Users whose token includes at least one matching role can view the page. Pages without `access-roles` are visible to all authenticated users. A special wildcard role `*` grants access to all pages.
+
+Password and Documentation.AI authentication don't use roles: every signed-in reader sees all protected pages, and `access-roles` is ignored.
 
 <Callout kind="info" collapsed="false">
   Role-based access control is available with JWT and OAuth 2.0 authentication in both Private and Partial modes.

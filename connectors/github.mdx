@@ -1,0 +1,101 @@
+---
+title: GitHub Connector
+description: >-
+  Install the Documentation.AI GitHub App and choose context repositories so the
+  AI agent can use your code and commits while working on docs.
+---
+## Overview
+
+Use the GitHub integration to connect the Documentation.AI GitHub App and link specific repositories as context for a documentation project. This lets the AI agent read code files and recent commits while planning and editing your docs.
+
+<Callout kind="info" collapsed="false">
+  Context repositories are GitHub repositories linked to your documentation. The AI agent can reference code files and recent commits from these repositories to generate more accurate plans, execute tasks, and keep documentation aligned with your code.
+</Callout>
+
+For syncing and publishing your docs from a Git repository (for example, building from `main`), see the [GitHub integration](/integrations/github). The context repository feature described here is separate and focuses on read-only context for the AI agent.
+
+## Before you start
+
+<Callout kind="info" collapsed="false">
+  You need:
+
+  - The **Admin** or **Editor** role in your Documentation.AI organization to choose context repositories or turn the GitHub connector on or off
+
+  - Permission in GitHub to install apps and grant repository access
+
+  - At least one documentation project created in your Documentation.AI workspace
+</Callout>
+
+## Connect GitHub and choose context repositories
+
+Install the Documentation.AI GitHub App once for your organization, then choose context repositories in each documentation project that should use them.
+
+<Steps>
+  <Step title="Open Agent Settings" icon="bot" title-type="p">
+    In the dashboard sidebar, under **AI**, click **Agent Settings**. The **Connectors** section lists the tools the agent can pull context from.
+
+    If you are in the editor, you can click **Connectors** below the chat input instead. It opens the same list.
+  </Step>
+
+  <Step title="Click Connect on the GitHub card" icon="plug" title-type="p">
+    GitHub opens in the same tab.
+
+    If the GitHub card shows **Manage** instead of **Connect**, the GitHub App is already installed. Go to [Choose context repositories](#choose-context-repositories).
+  </Step>
+
+  <Step title="Install the Documentation.AI GitHub App" icon="github" title-type="p">
+    On GitHub:
+
+    - Choose the GitHub organization or user account.
+
+    - Select the repositories the app can access *(recommended: only the repos you plan to use as context or for docs).*
+
+    - Confirm the installation.
+
+    GitHub sends you back to Documentation.AI.
+  </Step>
+
+  <Step title="Choose context repositories" icon="folder-git-2" title-type="p">
+    On the GitHub card, click **Manage**. The **Repositories** dialog lists the repositories the GitHub App can access.
+
+    Select the repositories the agent should read for this documentation project, then click **Save**. "Repositories updated" appears.
+  </Step>
+
+  <Step title="Check that the connector is on" icon="toggle-right" title-type="p">
+    The GitHub card now shows how many repositories are connected, **Manage**, and a switch that is on. The agent can now read code files and recent commits from those repositories.
+  </Step>
+</Steps>
+
+<Callout kind="info" collapsed="false">
+  The GitHub App installation belongs to your organization, but context repositories are chosen per documentation project. To use repositories in another project, open that project, go to **Agent Settings**, and click **Manage** on the GitHub card.
+</Callout>
+
+## Change or remove context repositories
+
+- **To add or remove repositories**, click **Manage** on the GitHub card, select or clear repositories, then click **Save**.
+- **To add a repository that is not listed**, click **Connect from GitHub** at the bottom of the **Repositories** dialog. Give the GitHub App access to that repository on GitHub, then select it in the dialog when you return and click **Save**.
+- **To stop the agent from reading all repositories in this project**, turn off the switch on the GitHub card. "GitHub connector disabled" appears. Your selection is kept, so turning the switch back on restores it.
+
+## Troubleshooting
+
+Use these quick checks if the GitHub integration or context repositories are not behaving as expected.
+
+<ExpandableGroup>
+  <Expandable title="Repository is not listed in the Repositories dialog" default-open="false">
+    The dialog lists only the repositories the Documentation.AI GitHub App can access.
+
+    - Click **Connect from GitHub** at the bottom of the dialog.
+
+    - On GitHub, check that the app is installed on the correct organization or user, and give it access to the missing repository.
+
+    - When you return, select the repository and click **Save**.
+  </Expandable>
+
+  <Expandable title="The Repositories dialog says No repositories available" default-open="false">
+    The GitHub App is not installed, or it cannot access any repository. Click **Connect GitHub** in the dialog, then install the app or give it access to at least one repository.
+  </Expandable>
+
+  <Expandable title="Turning on the GitHub switch opens the Repositories dialog" default-open="false">
+    No repositories are selected for this documentation project yet. Select at least one repository and click **Save**.
+  </Expandable>
+</ExpandableGroup>

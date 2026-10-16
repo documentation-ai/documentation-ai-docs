@@ -33,7 +33,7 @@ Before configuring navigation, organize your content:
 1. List all your documentation pages (each should be an MDX file)
 2. Group related topics together  
 3. Determine logical user paths through your content
-4. Choose appropriate icons from the [Lucide React library](https://lucide.dev/icons/)
+4. Choose appropriate icons from your site's [icon library](/customize/icons)
 
 ### Step 2: Configure simple page navigation
 
@@ -71,7 +71,7 @@ For each page in your navigation, configure:
 </ParamField>
 
 <ParamField path="icon" param-type="string" required="false" showLocation="false">
-  Page icon from the Lucide React icon library.
+  Page icon. See [Icons](/customize/icons) for the forms it takes.
 </ParamField>
 
 <ParamField path="href" param-type="string" required="false" showLocation="false">
@@ -205,7 +205,7 @@ The `openapi` property accepts:
 
 **Missing pages**: Verify file paths match your MDX files (without `.mdx` extension)
 
-**Broken icons**: Check icon names against the [Lucide React library](https://lucide.dev/icons/)
+**Broken icons**: Check icon names against your site's [icon library](/customize/icons), or add the library the icon comes from, such as `lucide:rocket`
 
 **Navigation too deep**: Reorganize content into broader categories
 

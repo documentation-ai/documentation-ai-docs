@@ -170,6 +170,11 @@
                     "icon": "paperclip"
                   },
                   {
+                    "title": "Icon",
+                    "path": "components/icon",
+                    "icon": "star"
+                  },
+                  {
                     "title": "Code and Groups",
                     "path": "components/code-blocks-and-groups",
                     "icon": "code"
@@ -331,6 +336,11 @@
                 "title": "Templates",
                 "path": "customize/templates",
                 "icon": "layout-template"
+              },
+              {
+                "title": "Icons",
+                "path": "customize/icons",
+                "icon": "shapes"
               },
               {
                 "group": "SEO & GEO",

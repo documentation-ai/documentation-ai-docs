@@ -169,7 +169,7 @@ Use the `<Tabs>` component as a container with individual `<Tab>` components for
 
 ### Tab icons
 
-Add visual context to tabs using Lucide icons for better recognition:
+Add visual context to tabs with icons for better recognition:
 
 ```jsx
 <Tabs>
@@ -207,7 +207,7 @@ Add visual context to tabs using Lucide icons for better recognition:
 </Tabs>
 
 <Callout kind="info" collapsed="false">
-  Icon names use the Lucide icon library. Reference the [Lucide icon directory](https://lucide.dev/icons/) for all available options.
+  Icons can come from Lucide, Font Awesome Free, Tabler or your own files. See [Icons](/customize/icons) for every form an icon can take.
 </Callout>
 
 ### Rich content support
@@ -457,7 +457,7 @@ The `<Tabs>` component acts as a container and has no configurable attributes. I
 </ParamField>
 
 <ParamField path="icon" param-type="string" required="false" deprecated="false">
-  Optional Lucide icon name to display alongside the tab title. Enhances visual recognition and improves user experience. Reference [Lucide icons](https://lucide.dev/icons/) for available options.
+  Optional icon to display alongside the tab title: a name from your site's [icon library](/customize/icons), a name with its library such as `fa-brands:apple`, or the address of a file in your media library.
 </ParamField>
 
 <ParamField path="children" param-type="node" required="true" deprecated="false">

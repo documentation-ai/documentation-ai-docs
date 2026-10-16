@@ -1,7 +1,8 @@
 ---
 title: Icons
 description: >-
-  Pick icons from Lucide, Font Awesome and Tabler in one place, put icons in text, use your own icon files, and set which library icon names come from.
+  Pick icons from Lucide, Font Awesome and Tabler in one place, put icons in
+  text, use your own icon files, and set which library icon names come from.
 ---
 Every icon on your site, in components like Card, Step, Tab, Callout and Board, on navigation items, products, versions and languages, and inside text, comes from Lucide, Font Awesome Free, Tabler or your own files in the media library. The icon picker shows all three libraries together, so you can choose by look rather than by name.
 
@@ -57,23 +58,7 @@ An SVG from your media library takes the text colour around it, like the library
 
 ### How to add an icon to text
 
-<Steps>
-  <Step title="Insert the icon" icon="type" title-type="p">
-    Place the cursor where the icon should go, type `/icon` and select **Icon**.
-
-    <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1792066765085-ji1240x20bh-slash-menu-icon.png?fm=auto&auto=compress%2Cformat" width="1184" height="696" alt="Slash menu in the web editor after typing /icon in a sentence, with Icon highlighted under Media" caption="Type /icon and select Icon." style="width: 592px; height: auto; margin: 0 auto;" />
-
-    The icon picker opens at the cursor.
-
-    <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1792066761054-jnx93ewsg9-inline-icon-picker.png?fm=auto&auto=compress%2Cformat" width="1184" height="758" alt="Icon picker open at the cursor in a sentence, searching rocket, with rocket icons from Tabler, Lucide and Font Awesome" caption="The icon picker opens where you typed /icon." style="width: 592px; height: auto; margin: 0 auto;" />
-  </Step>
-
-  <Step title="Pick it" icon="mouse-pointer-click" title-type="p">
-    Click an icon, or add a file on the **Upload / URL** tab. The cursor moves after the icon so you can keep typing.
-  </Step>
-</Steps>
-
-To change an icon in text, click it. To remove it, hover it and click the **×** badge. To give it a size or colour, or put it in a link, use MDX view. See [Icon](/components/icon).
+To put an icon inside a sentence, heading or table cell, type `/icon` and pick one. For props such as `size` and `color`, and for MDX syntax, see [Icon](/components/icon).
 
 ## Code editor (Git)
 
@@ -168,7 +153,7 @@ The **Upload / URL** tab shows these messages:
 
 - **Icons must be SVG, PNG or WebP files.**: choose a file in one of those formats.
 - **That address is not an SVG, PNG or WebP file.**: paste the address of an SVG, PNG or WebP file.
-- **Enter an https:// address.**: paste the full address, starting with `https://`.
+- **Enter an https\:// address.**: paste the full address, starting with `https://`.
 - **Could not copy that file into the media library.**: download the file, then add it with **Upload or choose a file**.
 
 An icon written in code that cannot be drawn shows nothing, with no message. A Callout shows its kind's icon instead, and a Step its number.
@@ -179,26 +164,26 @@ An icon written in code that cannot be drawn shows nothing, with no message. A C
 
 ## Icon values
 
-| Value | Draws |
-| --- | --- |
-| `rocket` | The icon by that name in your site's library. On a Font Awesome site: solid, then brands, then Lucide. On a Tabler site: outline, then filled, then Lucide. |
-| `lucide:rocket` | Lucide only. |
-| `tabler:rocket` | Tabler outline, then filled. |
-| `tabler-filled:star` | Tabler filled only. |
-| `fa:rocket` | Font Awesome solid, then brands. |
-| `fa-solid:rocket`, `fa-regular:bell`, `fa-brands:github` | That Font Awesome style only. |
-| `https://blob-cdn.documentation.ai/…` | An `.svg`, `.png` or `.webp` file in your media library. Icons linked from other websites, and file paths in your repository, are not drawn. |
+| Value                                                    | Draws                                                                                                                                                       |
+| -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `rocket`                                                 | The icon by that name in your site's library. On a Font Awesome site: solid, then brands, then Lucide. On a Tabler site: outline, then filled, then Lucide. |
+| `lucide:rocket`                                          | Lucide only.                                                                                                                                                |
+| `tabler:rocket`                                          | Tabler outline, then filled.                                                                                                                                |
+| `tabler-filled:star`                                     | Tabler filled only.                                                                                                                                         |
+| `fa:rocket`                                              | Font Awesome solid, then brands.                                                                                                                            |
+| `fa-solid:rocket`, `fa-regular:bell`, `fa-brands:github` | That Font Awesome style only.                                                                                                                               |
+| `https://blob-cdn.documentation.ai/…`                    | An `.svg`, `.png` or `.webp` file in your media library. Icons linked from other websites, and file paths in your repository, are not drawn.                |
 
 Names are lowercase words joined by hyphens, without an `Icon` suffix. Older names, such as `home` for `house`, still work. Browse the libraries at [lucide.dev/icons](https://lucide.dev/icons), [fontawesome.com/search?ic=free](https://fontawesome.com/search?ic=free) and [tabler.io/icons](https://tabler.io/icons).
 
 ## Picker styles
 
-| Style | Shows |
-| --- | --- |
-| **All** | Every icon. |
+| Style       | Shows                                            |
+| ----------- | ------------------------------------------------ |
+| **All**     | Every icon.                                      |
 | **Outline** | Lucide, Tabler outline and Font Awesome regular. |
-| **Filled** | Font Awesome solid and Tabler filled. |
-| **Brands** | Font Awesome brands. |
+| **Filled**  | Font Awesome solid and Tabler filled.            |
+| **Brands**  | Font Awesome brands.                             |
 
 ## Licences
 
@@ -223,3 +208,4 @@ Font Awesome Free icons are licensed under [CC BY 4.0](https://creativecommons.o
     Icons inside text, with their props.
   </Card>
 </Columns>
+

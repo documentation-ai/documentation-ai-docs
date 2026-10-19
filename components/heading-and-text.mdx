@@ -97,6 +97,14 @@ You can combine styles (for example, bold + link or italic + inline code) when i
 
 To edit or remove a link, place your cursor inside the linked text and reopen the link dialog.
 
+### Blockquotes
+
+1. Place your cursor on a new line.
+2. Type <kbd>/</kbd> and select **Quote**.
+3. Type or paste the quoted text.
+
+Blockquotes render with a left border and italic styling, making them useful for quoting external sources or highlighting a passage. For highlighting important notes or warnings to your readers, use [Callout](/components/callout) instead.
+
 ### Line breaks and spacing
 
 - **New paragraph**: Press **Enter** once.
@@ -195,6 +203,23 @@ You can also combine links with emphasis:
 See the **[Callout component](/components/callout)** for highlighting important notes.
 ```
 
+### Blockquotes
+
+Use standard Markdown `>` syntax for quoting text or highlighting a passage:
+
+```markdown
+> This is a blockquote. It renders with a left border and italic text.
+
+> Multi-paragraph blockquotes need `>` on each line,
+> including blank lines between paragraphs.
+```
+
+Rendered:
+
+> This is a blockquote. It renders with a left border and italic text.
+
+For highlighting important notes or warnings to your readers, use [Callout](/components/callout) instead.
+
 ### Line breaks and spacing
 
 Use a blank line for paragraph breaks:
@@ -234,6 +259,12 @@ Use these patterns when you need finer control or are designing page-wide typogr
   - `####` for fine-grained details when absolutely necessary.
 
 Keeping a consistent hierarchy improves readability, search, and AI summaries.
+
+### Heading anchor links
+
+Every heading on a published page has an anchor link. Click any heading to copy its URL (including the `#` fragment) to your clipboard and update the browser address bar. Readers can use these anchor links to deep-link directly to a specific section of a page.
+
+For example, a heading `## Authentication` on a page at `/getting-started/quickstart` produces the anchor link `https://yourdomain.com/getting-started/quickstart#authentication`.
 
 ### Manual line breaks with `<br />`
 

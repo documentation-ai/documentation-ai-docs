@@ -75,6 +75,16 @@ You can combine styles (for example, bold + link or italic + inline code) when i
 
 <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1767250834603-6mffqb30smh-pasted-image-1767250832056.png?q=85&fm=auto&auto=compress%2Cformat" width="1200" height="291" alt="Inline formatting options on selecting text" caption="Inline formatting options on selecting text" />
 
+### Block quotes
+
+1. Place your cursor on a new line.
+
+2. Type <kbd>/</kbd> to open the block menu.
+
+3. Under **Rich content**, choose **Quote**.
+
+4. Type or paste your quoted text.
+
 ### Links
 
 <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1767251119220-9b903y0lue-pasted-image-1767251113884.png?q=85&fm=auto&auto=compress%2Cformat" width="1200" height="262" alt="Inline text link in Web Editor" caption="Inline text link in Web Editor" />
@@ -90,6 +100,8 @@ You can combine styles (for example, bold + link or italic + inline code) when i
      - Type <kbd>/</kbd> to search existing documentation pages.
 
      - Pick a result to create a link to that page (for example, `/getting-started/quickstart`).
+
+     - To link to a specific heading on a page, append `#` and the heading's anchor (for example, `/getting-started/quickstart#prerequisites`). On published pages, click any heading to copy its anchor link.
 
    - **External link**
 
@@ -169,6 +181,18 @@ Rendered result:
 
 You can combine styles, such as **`GET /v1/projects`** to make an entire inline code phrase bold.
 
+### Block quotes
+
+Use `>` at the start of a line to create a block quote:
+
+```markdown
+> Documentation is easier to use when each section focuses on one idea.
+```
+
+Rendered:
+
+> Documentation is easier to use when each section focuses on one idea.
+
 ### Links
 
 **Internal links**
@@ -179,6 +203,14 @@ Use absolute paths from the docs root:
 [Quickstart](/getting-started/quickstart)
 [Lists and Tables](/components/lists-and-tables)
 [Code and Groups](/components/code-blocks-and-groups)
+```
+
+**Link to a specific heading**
+
+Append `#` and the heading's anchor to any internal link. On published pages, click any heading to copy its anchor link.
+
+```markdown
+[Quickstart prerequisites](/getting-started/quickstart#prerequisites)
 ```
 
 **External links**

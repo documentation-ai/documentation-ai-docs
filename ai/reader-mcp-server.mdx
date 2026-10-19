@@ -175,7 +175,7 @@ Add your endpoint to any MCP-compatible client. Replace `docs.yourdomain.com` wi
   ```
 </CodeGroup>
 
-For Claude Desktop, add the configuration to `claude_desktop_config.json`. For Cursor, add it to your `mcp.json`. For Claude Code, run the command from your terminal, or add the same JSON to a `.mcp.json` file in your project root.
+For Claude Desktop, add the configuration to `claude_desktop_config.json`. For Cursor, add it to your `mcp.json`. For Claude Code, run the command from your terminal, or add the same JSON to a `.mcp.json` file in your project root. For ChatGPT, open **Settings → Connectors**, choose **Add new connector**, and enter your endpoint URL. ChatGPT handles the OAuth flow automatically for access-controlled sites.
 
 <Callout kind="info" collapsed="false">
   If your documentation has access control enabled, replace `/_mcp` with `/_mcp/auth` in the endpoint URL. Clients with built-in OAuth support (Claude Desktop, Cursor, VS Code, ChatGPT) will handle the authentication flow automatically. For clients without OAuth support, create a machine-to-machine credential and use the provided token in your client configuration.

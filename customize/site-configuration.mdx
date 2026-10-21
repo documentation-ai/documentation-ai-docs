@@ -1466,6 +1466,22 @@ Configure AI assistant retrieval behavior to control how search results are scop
   Strict dimensions only applies to documentation projects that use [Dimensions](/organize/dimensions). If your project has no dimensions, this setting has no effect.
 </Callout>
 
+## Sidebar Configuration
+
+Control how the published site's sidebar displays long page titles and group labels.
+
+```json
+{
+  "sidebar": {
+    "title-wrap": false
+  }
+}
+```
+
+<ParamField path="sidebar.title-wrap" param-type="boolean" required="false" deprecated="false" show-location="true">
+  When `true` or omitted, long page titles and group labels wrap onto as many lines as they need. When `false`, they stay on one line and truncate. Default: `true`.
+</ParamField>
+
 ## Navigation Examples
 
 Comprehensive examples demonstrating different navigation architectures for various use cases.

@@ -158,6 +158,22 @@ Include links to external resources:
 }
 ```
 
+### Sidebar title wrapping
+
+Long page titles and group labels in the sidebar wrap onto multiple lines by default so readers can read the full title. To keep titles on a single line with truncation, set `sidebar.title-wrap` to `false` in your site configuration:
+
+```json
+{
+  "sidebar": {
+    "title-wrap": false
+  }
+}
+```
+
+When `true` or omitted, titles wrap onto as many lines as they need. When `false`, titles stay on one line and truncate with an ellipsis.
+
+See [Site Configuration](/customize/site-configuration#sidebar-configuration) for the full reference.
+
 ## Add API Documentation
 
 ### Step 8: Integrate OpenAPI specs

@@ -2,6 +2,41 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-10-21" description="Sidebar title wrapping, inline icons in content, Intercom connector available, Reader MCP Server Cursor OAuth fix" tags={["feature","fix"]}>
+  ## Sidebar title wrapping
+
+  Long page titles and group labels in the sidebar now wrap onto multiple lines instead of truncating. This is on by default. To keep titles on a single line with truncation, set `sidebar.title-wrap` to `false` in your [site configuration](/customize/site-configuration).
+
+  ```json
+  {
+    "sidebar": {
+      "title-wrap": false
+    }
+  }
+  ```
+
+  See [Navigation and Sidebar](/customize/navigation-and-sidebar).
+
+  ## Inline icons in content
+
+  Use the `<Icon>` component to place icons inside running text, headings, table cells, and links. Icons render inline at the size of the surrounding text, sit on the baseline, and take the text colour. In the Web Editor, type `/icon` to open the picker. In the Code Editor, write `<Icon icon="rocket" />`.
+
+  Icons in text are included in PDF exports.
+
+  See [Icon component](/components/icon).
+
+  ## Intercom connector available
+
+  The Intercom connector is now available in **Agent Settings**. Connect an Intercom workspace and the AI agent can search and read your conversations, tickets, and Help Center articles while it writes or updates documentation. The connector works in the editor and in automations.
+
+  See [Intercom Connector](/connectors/intercom).
+
+  ## Fixes
+
+  - **Reader MCP Server OAuth with Cursor**: Cursor's hosted OAuth callback is now accepted. Readers using Cursor's hosted agent can connect to the `/_mcp/auth` endpoint without a manual callback URL override. See [Reader MCP Server](/ai/reader-mcp-server#oauth-21).
+  - **H4 heading margins**: Fixed missing top margin on `h4` headings and reset the Update component's heading level.
+</Update>
+
 <Update label="2026-10-13" description="Documentation.AI Auth, expanded icon library, SEO language and structured data, faster search, Workflows renamed to Automations, and fixes" tags={["feature","improvement","fix"]}>
   ## Documentation.AI auth for published sites
 
@@ -409,7 +444,7 @@ description: 'Changes, fixes, and improvements across versions'
 
   - **Table of Contents Panel**: A new sidebar panel gives you a structural overview of your page, letting you jump to any heading instantly and spot issues like skipped heading levels without scrolling.
   - **Icon Picker & Color Picker**: Visually browse and select icons and colors directly in the editor instead of guessing names or copying hex codes from external tools.
-  - **Drag & Drop Rearrange**: Components like CardGroup, Steps, and ParamFieldGroup now support drag-and-drop reordering with editable popovers, so you can reorganize content without cutting and pasting code.
+  - **Drag & Drop Rearrange**: Components like CardGroup, Steps, and ParamFieldGroup now support drag-and-drop reordering with editable popovers, so you can reorganize content without cutting and pasting.
   - **Turn Into**: Convert any block into a different component type (e.g. paragraph → Callout, list → Steps, Card → Expandable) without rewriting content or manually changing markup.
   - **Editor UI Polish**: Smoother transitions, better focus states, improved keyboard navigation, and more consistent spacing across the editor.
   - **Table Editor Fixes**: Resolved cell selection glitches, content loss on rapid edits, and inconsistent column resizing for more reliable table editing.
@@ -661,4 +696,3 @@ description: 'Changes, fixes, and improvements across versions'
   - Use structured page and API metadata to give agents more grounded and context‑aware responses
   - Help product teams deliver LLM‑native support and troubleshooting experiences directly inside their apps
 </Update>
-

@@ -438,6 +438,7 @@
                   {
                     "title": "Documentation.AI Auth",
                     "path": "customize/access-control/documentation-ai-auth",
+                    "tags": ["New"],
                     "icon": "users"
                   },
                   {
@@ -603,6 +604,7 @@
               {
                 "title": "Overview",
                 "path": "embedded-docs/overview",
+                "tags": ["New"],
                 "icon": "info"
               },
               {

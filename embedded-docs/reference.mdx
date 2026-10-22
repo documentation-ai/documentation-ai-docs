@@ -69,6 +69,14 @@ Calls can come in any order. Widgets created before `init()` finishes appear onc
   Lists of links on home. A link with `path` opens a docs page in the widget. A link with `href` opens in a new tab.
 </ParamField>
 
+<ParamField body="minHeight" param-type="number" show-location="false">
+  A number of pixels, such as `600`, not a string like `'600px'`. Home grows with its content from this height. Defaults to 400. Inline, a docs page keeps this much space free while it loads (480 by default), so your page doesn't jump. Floating, the panel never grows taller than the room beside what opened it.
+</ParamField>
+
+<ParamField body="maxHeight" param-type="number" show-location="false">
+  A number of pixels. Home grows up to this height, then scrolls, and the chat and docs pages in the panel use this height. Defaults to 640 inline and 800 floating.
+</ParamField>
+
 ### Inline widgets
 
 <ParamField body="target" param-type="string | HTMLElement" required="true" show-location="false">
@@ -83,14 +91,6 @@ Calls can come in any order. Widgets created before `init()` finishes appear onc
   For a docs page, where its AI Assistant opens: a panel in the corner (the default), or over the whole visible page, which suits docs in a small box.
 </ParamField>
 
-<ParamField body="minHeight" param-type="number" show-location="false">
-  In pixels. Home grows with its content from this height. Defaults to 400. A docs page keeps this much space free while it loads (480 by default), so your page doesn't jump.
-</ParamField>
-
-<ParamField body="maxHeight" param-type="number" show-location="false">
-  In pixels. Home grows up to this height, then scrolls. Defaults to 640.
-</ParamField>
-
 ### Floating widgets
 
 <ParamField body="launcher" param-type="object | false" show-location="false">
@@ -99,6 +99,10 @@ Calls can come in any order. Widgets created before `init()` finishes appear onc
 
 <ParamField body="expandDocs" param-type="boolean" show-location="false">
   The panel grows wider and taller to show a docs page. Defaults to `true`. Users can expand or collapse it either way.
+</ParamField>
+
+<ParamField body="minWidth" param-type="number" show-location="false">
+  A number of pixels, such as `480`, not a string like `'480px'`. The panel's width. Defaults to 400. When the panel grows to show a docs page, it's at least this wide (760 by default). The panel always fits inside the window, and on phones it fills the screen.
 </ParamField>
 
 <ParamField body="zIndex" param-type="number" show-location="false">
@@ -139,7 +143,7 @@ A page opened with `navigate()` becomes the widget's starting point, so it has n
 
 ### Paths
 
-`path` and `navigate()` take a path on your docs site, such as `/guide/install` or `/guide/install#requirements`, or a full URL on your docs site. Links to anywhere else are ignored, with a warning in the console.
+`path` and `navigate()` take a path on your docs site, such as `/guide/install` or `/guide/install#requirements`, or a full URL on your docs site. A path with a section, such as `#requirements`, opens the page scrolled to that heading. Links to anywhere else are ignored, with a warning in the console.
 
 ## Help link attributes
 
@@ -202,6 +206,6 @@ Your proxy must forward the `Origin`, `Referer` and `X-Forwarded-For` headers. T
 
 `https://embed-cdn.documentation.ai/v1/embed.js` always serves the latest 1.x release, so fixes reach you automatically.
 
-To stay on one version, load it by number instead, such as `https://embed-cdn.documentation.ai/1.0.1/embed.js`. Subresource Integrity (`integrity="..."`) works only with a version number, because an integrity hash matches one exact file.
+To stay on one version, load it by number instead, such as `https://embed-cdn.documentation.ai/1.1.0/embed.js`. Subresource Integrity (`integrity="..."`) works only with a version number, because an integrity hash matches one exact file.
 
 The npm package is [@documentation.ai/embed](https://www.npmjs.com/package/@documentation.ai/embed).

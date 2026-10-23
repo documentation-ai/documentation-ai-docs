@@ -241,6 +241,22 @@ Add supplementary text links for additional navigation options.
   </Expandable>
 </ParamField>
 
+### Sidebar Configuration
+
+Control how long page titles and group labels fit in the sidebar of your published site.
+
+```json
+{
+  "sidebar": {
+    "title-wrap": false
+  }
+}
+```
+
+<ParamField path="title-wrap" param-type="boolean" required="false" deprecated="false" show-location="true">
+  When `true` or omitted, long page titles and group labels wrap onto as many lines as they need. When `false`, they stay on one line and are cut off with an ellipsis, and hovering an item shows its full title. Default: `true`. See [Navigation and Sidebar](/customize/navigation-and-sidebar#long-titles-in-the-sidebar) for details.
+</ParamField>
+
 ## Navigation Architecture
 
 Our documentation system organizes information in three conceptual layers to help developers, writers, and AI agents reason about structure, rendering, and content discovery.

@@ -201,6 +201,24 @@ The `openapi` property accepts:
 - Add icons to improve visual scanning
 - Test navigation on mobile devices
 
+## Long Titles in the Sidebar
+
+By default, a page title or group label too long for the sidebar wraps onto as many lines as it needs, so the full title is always visible. This applies to both templates and to the sidebar menu on phones.
+
+To keep every item on a single line instead, turn off **Wrap long titles** in the Editor under **Site Config > Brand & Theme > Sidebar**, then publish. Long titles are then cut off with an ellipsis, and hovering an item shows its full title.
+
+In `documentation.json`, the same setting is `title-wrap` in the `sidebar` object:
+
+```json
+{
+  "sidebar": {
+    "title-wrap": false
+  }
+}
+```
+
+Omit it, or set it to `true`, to wrap. See the [site configuration reference](/customize/site-configuration#sidebar-configuration).
+
 ## Troubleshooting Navigation Issues
 
 **Missing pages**: Verify file paths match your MDX files (without `.mdx` extension)
@@ -210,6 +228,8 @@ The `openapi` property accepts:
 **Navigation too deep**: Reorganize content into broader categories
 
 **Unclear hierarchy**: Use more descriptive group and page names
+
+**Titles cut off on one line**: `sidebar.title-wrap` is set to `false`. Turn on **Wrap long titles** under **Site Config > Brand & Theme > Sidebar**, or remove the setting, and publish.
 
 ## What's Next
 

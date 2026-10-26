@@ -2,12 +2,12 @@
 title: Reader MCP Server
 description: >-
   Give AI agents read-only MCP access to your published documentation, including
-  private and gated sites, so readers can search and reference your docs from
+  private and gated sites, so readers can search, browse, and read your docs from
   ChatGPT, Claude, Cursor, and other MCP clients.
 ---
 ## Serve your documentation to AI agents
 
-The Reader MCP Server is your own MCP endpoint, served from your documentation domain. It gives MCP-compatible agents read-only access to your published documentation so they can search, retrieve, and reference your content without any ability to change it. Public documentation is available without authentication. Private, partial, and password-protected documentation is accessible through two authentication types: OAuth 2.1 for interactive client connections, and machine-to-machine credentials for automated access without a browser.
+The Reader MCP Server is your own MCP endpoint, served from your documentation domain. It gives MCP-compatible agents read-only access to your published documentation so they can search it, read full pages, and follow your site's navigation, without any ability to change it. Public documentation is available without authentication. Private, partial, and password-protected documentation is accessible through two authentication types: OAuth 2.1 for interactive client connections, and machine-to-machine credentials for automated access without a browser.
 
 This is the server your **readers** connect to: customers, support teams, solution engineers, and internal users, along with the AI agents they work in. If you are looking for the server your documentation team connects to in order to _write_ docs, see the [Authoring MCP Server](/ai/authoring-mcp-server).
 
@@ -185,11 +185,134 @@ For Claude Desktop, add the configuration to `claude_desktop_config.json`. For C
   You can copy your endpoint straight from a documentation page using the **Copy MCP server URL** page action. See [Page Actions](/ai/page-actions).
 </Callout>
 
-## Available tools
+## Tools reference
 
-The Reader MCP Server exposes your published documentation through a retrieval tool, `searchDocumentation`. Connected clients use it to find the most relevant pages, headings, API reference sections, and snippets in your docs.
+The server provides read-only tools. Your MCP client discovers them and their parameters when it connects, so you don't need to configure anything beyond the endpoint.
 
-Your MCP client discovers the tool and its parameters automatically when it connects, so you do not need to configure anything beyond the endpoint itself.
+| Tool | What it does |
+| --- | --- |
+| `search_documentation` | Finds the sections that answer a question |
+| `read_pages` | Returns full pages, several in one call |
+| `get_navigation` | Shows how pages are grouped in your site's navigation |
+| `list_pages` | Lists the pages the connection can read, by folder. Offered only when your site's navigation can't be loaded, in place of `get_navigation` |
+
+Agents usually search first, then read the full pages behind the results, then open a result's navigation group to find related pages. For example, asked how to rotate an API key, an agent searches for "rotate API key", reads `/guides/api-keys.mdx`, and opens that page's group to check the pages beside it.
+
+Every tool returns only what the connection can read: public content on `/_mcp`, and content allowed by the connection's access roles on `/_mcp/auth`. A page the connection can't read is reported as not found, the same as a page that doesn't exist.
+
+All tools read your last deployment. Changes that are still on a branch, or not yet deployed, don't appear.
+
+### Search
+
+<Expandable title="search_documentation" default-open="false">
+  Searches your documentation by meaning and by keyword, and returns the matching sections rather than whole pages. Results also include the [external sources](/ai/external-sources) you've added to the AI Assistant.
+
+  <ParamField body="query" param-type="string" required="true" deprecated="false" show-location="false">
+    What to search for
+  </ParamField>
+
+  <ParamField body="limit" param-type="number" required="false" deprecated="false" show-location="false">
+    Maximum number of results, from 1 to 20. Defaults to 10.
+  </ParamField>
+
+  <ParamField body="semanticRatio" param-type="number" required="false" deprecated="false" show-location="false">
+    Balance between matching by meaning and matching exact keywords, from 0 to 1. Defaults to 0.75. Lower values favor exact matches.
+  </ParamField>
+
+  <ParamField body="version" param-type="string" required="false" deprecated="false" show-location="false">
+    Search one version only. See [Versions, languages, and products](#versions-languages-and-products).
+  </ParamField>
+
+  <ParamField body="language" param-type="string" required="false" deprecated="false" show-location="false">
+    Search one language only.
+  </ParamField>
+
+  <ParamField body="product" param-type="string" required="false" deprecated="false" show-location="false">
+    Search one product only.
+  </ParamField>
+
+  The `version`, `language`, and `product` filters appear only on sites with more than one of each.
+
+  Each result includes the section's text, its page title, and links to the section and its page for citing. Results from your documentation pages also include:
+
+  - `path`: the page's path, to pass to `read_pages`
+  - `navigation_pointer`: the page's place in your navigation, to pass to `get_navigation`
+  - `version`, `language`, and `product`: where the page sits in your navigation
+</Expandable>
+
+### Browse and read
+
+<Expandable title="list_pages" default-open="false">
+  Lists the pages the connection can read, with each page's path and title, sorted by path.
+
+  A call returns up to 200 pages. When there are more, the first reply starts with each folder and its page count, and every reply gives the `offset` for the next pages.
+
+  <ParamField body="folder" param-type="string" required="false" deprecated="false" show-location="false">
+    Only pages under this folder, for example `/guides`. Omit it for the whole site.
+  </ParamField>
+
+  <ParamField body="offset" param-type="number" required="false" deprecated="false" show-location="false">
+    Pages to skip, as given in the previous reply. Defaults to 0.
+  </ParamField>
+
+  <ParamField body="version" param-type="string" required="false" deprecated="false" show-location="false">
+    List one version only. The `language` and `product` filters work the same way. See [Versions, languages, and products](#versions-languages-and-products).
+  </ParamField>
+</Expandable>
+
+<Expandable title="read_pages" default-open="false">
+  Returns full pages as Markdown, up to 20 in one call. Pass the paths that the other tools return, for example `/guides/intro.mdx`. A path without `.mdx`, a page's URL path such as `/api/auth`, or its full URL also works.
+
+  <ParamField body="paths" param-type="array" required="true" deprecated="false" show-location="false">
+    Page paths, up to 20
+  </ParamField>
+
+  <ParamField body="startLine" param-type="number" required="false" deprecated="false" show-location="false">
+    Line to start each page from. Defaults to 1. Use it to continue a page that was cut off.
+  </ParamField>
+
+  Each reply is limited to 30 KB. A longer page is cut at the end of a line, and the reply gives the `startLine` that continues it. Pages that didn't fit are named in the reply so the agent can read them in the next call.
+</Expandable>
+
+### Navigation
+
+<Expandable title="get_navigation" default-open="false">
+  Shows your site's navigation: products, versions, languages, tabs, groups, and pages. Each entry has a pointer such as `/navigation/tabs/0/groups/2/pages/1`. Removing the last two segments of a pointer gives its parent, so `/navigation/tabs/0/groups/2` is the group that page sits in.
+
+  <ParamField body="pointer" param-type="string" required="false" deprecated="false" show-location="false">
+    Entry to open. For a tab or group, returns everything beneath it. For a page, returns its group and the pages beside it. Omit it for an outline of the whole navigation.
+  </ParamField>
+
+  <ParamField body="depth" param-type="number" required="false" deprecated="false" show-location="false">
+    Navigation levels to show below the entry. The outline shows 2 levels by default.
+  </ParamField>
+
+  <ParamField body="find" param-type="string" required="false" deprecated="false" show-location="false">
+    Text to look for in entry titles and paths, ignoring case. Returns up to 50 matching entries, each with its pointer.
+  </ParamField>
+
+  The navigation shows only the pages the connection can read. On a site with access control, pointers count only those pages, so they can differ from the positions in your `documentation.json`.
+</Expandable>
+
+### Versions, languages, and products
+
+If your site uses [dimensions](/organize/dimensions), `search_documentation` and `list_pages` accept `version`, `language`, and `product`. Each filter appears only when your site has more than one value for it, and it takes the names from your navigation, such as `v2` or `Spanish`. Names match regardless of case.
+
+When an agent searches one version and nothing in it matches closely, the server searches your whole site and tells the agent the results come from elsewhere, so the answer can say so. The AI Assistant behaves the same way.
+
+If you want searches to stay inside the requested version, language, or product, turn on [strict dimensions](/ai/ai-assistant#strict-dimensions). The server then keeps the search inside it and tells the agent when nothing there matched closely.
+
+### Limits
+
+| Limit | Value |
+| --- | --- |
+| Reply size | 30 KB per call |
+| Pages per `list_pages` call | 200 |
+| Pages per `read_pages` call | 20 |
+| Matches per `get_navigation` search | 50 |
+| Search results | 10 by default, at most 20 |
+
+When a `read_pages` call asks for several very long pages, it can return fewer than 20. The reply names the pages to read next.
 
 ## Best-fit use cases
 
@@ -211,6 +334,18 @@ Choose the Reader MCP Server when the goal is documentation retrieval, not docum
 
 <Expandable title="The client cannot discover the server" default-open="false">
   Some MCP clients require a remote-server bridge rather than a direct URL. If your client has no option to add a remote or HTTP server, use the `npx mcp-remote` configuration shown above.
+</Expandable>
+
+<Expandable title="read_pages says a page is not found" default-open="false">
+  The reply reads `Not found: <path>`. The path is wrong, or the connection can't read that page. Use a path that `search_documentation` or `get_navigation` returned. If the page is gated, connect to `/_mcp/auth` with a credential whose access roles include the page.
+</Expandable>
+
+<Expandable title="A search or page list says the version is unknown" default-open="false">
+  The reply reads `Unknown version` and lists the versions your site has. Use one of those names. Languages and products work the same way.
+</Expandable>
+
+<Expandable title="get_navigation says there is no entry at a pointer" default-open="false">
+  The reply reads `No navigation entry at <pointer>`. The pointer doesn't exist for this connection. Call `get_navigation` without a pointer to see the outline, or use `find` to locate the entry by title.
 </Expandable>
 
 ## What to use next

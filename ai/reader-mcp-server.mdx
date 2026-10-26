@@ -242,6 +242,20 @@ All tools read your last deployment. Changes that are still on a branch, or not 
 
 ### Browse and read
 
+<Expandable title="read_pages" default-open="false">
+  Returns full pages as Markdown, up to 20 in one call. Pass the paths that the other tools return, for example `/guides/intro.mdx`. A path without `.mdx`, a page's URL path such as `/api/auth`, or its full URL also works.
+
+  <ParamField body="paths" param-type="array" required="true" deprecated="false" show-location="false">
+    Page paths, up to 20
+  </ParamField>
+
+  <ParamField body="startLine" param-type="number" required="false" deprecated="false" show-location="false">
+    Line to start each page from. Defaults to 1. Use it to continue a page that was cut off.
+  </ParamField>
+
+  Each reply is limited to 30 KB. A longer page is cut at the end of a line, and the reply gives the `startLine` that continues it. Pages that didn't fit are named in the reply so the agent can read them in the next call.
+</Expandable>
+
 <Expandable title="list_pages" default-open="false">
   Lists the pages the connection can read, with each page's path and title, sorted by path.
 
@@ -258,20 +272,6 @@ All tools read your last deployment. Changes that are still on a branch, or not 
   <ParamField body="version" param-type="string" required="false" deprecated="false" show-location="false">
     List one version only. The `language` and `product` filters work the same way. See [Versions, languages, and products](#versions-languages-and-products).
   </ParamField>
-</Expandable>
-
-<Expandable title="read_pages" default-open="false">
-  Returns full pages as Markdown, up to 20 in one call. Pass the paths that the other tools return, for example `/guides/intro.mdx`. A path without `.mdx`, a page's URL path such as `/api/auth`, or its full URL also works.
-
-  <ParamField body="paths" param-type="array" required="true" deprecated="false" show-location="false">
-    Page paths, up to 20
-  </ParamField>
-
-  <ParamField body="startLine" param-type="number" required="false" deprecated="false" show-location="false">
-    Line to start each page from. Defaults to 1. Use it to continue a page that was cut off.
-  </ParamField>
-
-  Each reply is limited to 30 KB. A longer page is cut at the end of a line, and the reply gives the `startLine` that continues it. Pages that didn't fit are named in the reply so the agent can read them in the next call.
 </Expandable>
 
 ### Navigation

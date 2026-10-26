@@ -851,7 +851,7 @@ For complete documentation.json reference, see the [documentation.json schema](h
 
 Connect your own Documentation.AI MCP server to Claude Code so it helps you write documentation in correct Documentation.AI MDX format (frontmatter plus components).
 
-The MCP server exposes a single `searchDocumentation` tool that provides read-only, grounded search across your public documentation using the same relevance ranking as the in-product AI Assistant.
+The MCP server gives read-only access to your published documentation. It searches with the same relevance ranking as the in-product AI Assistant, and it can read full pages and your site's navigation.
 
 <Steps>
   <Step title="Add the MCP server via CLI" icon="terminal" title-type="p">
@@ -861,7 +861,7 @@ The MCP server exposes a single `searchDocumentation` tool that provides read-on
     claude mcp add --transport http documentation-ai https://documentation.ai/docs/_mcp
     ```
 
-    This connects Claude Code to your Documentation.AI MCP server and enables the `searchDocumentation` tool for retrieving grounded context from Documentation.AI's published docs.
+    This connects Claude Code to your Documentation.AI MCP server and enables its tools for retrieving grounded context from Documentation.AI's published docs.
 
     <Callout kind="tip" collapsed="false">
       You can verify the server was added by running `claude mcp list` to see all configured MCP servers.
@@ -942,4 +942,4 @@ You can also add the MCP server by editing the configuration file directly.
   If you already have other MCP servers configured, add the `documentation-ai` entry to your existing `mcpServers` object instead of replacing it.
 </Callout>
 
-Learn more about the Documentation.AI MCP server, its `searchDocumentation` tool, and configuration details in the [Reader MCP Server documentation](/ai/reader-mcp-server).
+Learn more about the Documentation.AI MCP server, its tools, and configuration details in the [Reader MCP Server documentation](/ai/reader-mcp-server#tools-reference).

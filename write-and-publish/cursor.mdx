@@ -837,7 +837,7 @@ For complete documentation.json reference, see the [documentation.json schema](h
 
 Connect your own Documentation.AI MCP server to Cursor so it helps you write documentation in correct Documentation.AI MDX format (frontmatter plus components).
 
-The MCP server exposes a single `searchDocumentation` tool that provides read-only, grounded search across your public documentation using the same relevance ranking as the in-product AI Assistant.
+The MCP server gives read-only access to your published documentation. It searches with the same relevance ranking as the in-product AI Assistant, and it can read full pages and your site's navigation.
 
 <Steps>
   <Step title="Add your MCP server to Cursor" icon="settings" title-type="p">
@@ -862,7 +862,7 @@ The MCP server exposes a single `searchDocumentation` tool that provides read-on
     }
     ```
 
-    This configuration tells Cursor to connect to your Documentation.AI MCP server over Server-Sent Events (SSE) and use the `searchDocumentation` tool to retrieve grounded context from Documentation.AI's published docs.
+    This configuration tells Cursor to connect to your Documentation.AI MCP server over Server-Sent Events (SSE) and use its tools to retrieve grounded context from Documentation.AI's published docs.
 
     <Callout kind="tip" collapsed="false">
       If you already have other MCP servers configured, add the `documentation-ai` entry to your existing `mcpServers` object instead of replacing it. Just ensure the URL points to your own `/_mcp` endpoint.
@@ -875,9 +875,9 @@ The MCP server exposes a single `searchDocumentation` tool that provides read-on
     After restarting, the `documentation-ai` MCP server will be available to Cursor's Agent in Composer.
 
     <Callout kind="alert" collapsed="false">
-      MCP tools (including `searchDocumentation`) are only available to the Agent in Composer, not in inline chat. Use Composer when you want grounded documentation generation.
+      MCP tools are only available to the Agent in Composer, not in inline chat. Use Composer when you want grounded documentation generation.
     </Callout>
   </Step>
 </Steps>
 
-Learn more about the Documentation.AI MCP server, its `searchDocumentation` tool, and configuration details in the [Reader MCP Server documentation](/ai/reader-mcp-server).
+Learn more about the Documentation.AI MCP server, its tools, and configuration details in the [Reader MCP Server documentation](/ai/reader-mcp-server#tools-reference).

@@ -51,39 +51,21 @@ If you need a Git-based workflow, local previews, or tight integration with your
 
 If you work in multiple projects, use the project switcher in the dashboard before opening the editor so you are editing the correct documentation set.
 
-### 2. Browse the documentation structure
+### 2. Select the right location
 
-In the web editor, your content follows the same organization model as the rest of your project. At a high level:
+The web editor uses the same organization model as the rest of your project. Select the location where you want to work in this order:
 
-- **Dimensions** are optional, and when present they are always the outermost container.
+1. Choose a **dimension**, if your project uses them. Dimensions are optional top-level spaces for different audiences or products, such as separate docs for end users and API consumers. Switching the dimension changes the documentation tree you are working in. See [Dimensions](/organize/dimensions).
 
-- **Views** are layout or navigation containers (Tabs or Dropdowns) that sit inside a dimension, or at the root when you do not use dimensions.
+2. Choose a **view** within the dimension, or at the root when your project has no dimensions. Views are Tabs or Dropdowns that determine which groups and pages appear in the sidebar. See [Views](/organize/views).
 
-- **Groups and pages** hold the actual content.
+3. Open a **group** or section, such as Getting Started, Write and Publish, or Organize. Groups organize related pages.
 
-This model controls what you see in the left sidebar and which page you are editing.
+4. Select a **page**, such as Web Editor, Code Editor, or Pages, to load it in the editor.
 
-- [**Dimensions**](/organize/dimensions): Optional top-level documentation spaces for different audiences or products, such as separate docs for end users and API consumers. Switching the dimension changes the entire documentation tree you are working in.
+The sidebar can also show top-level tabs such as Documentation, Changelog, and Help. Expand groups to reveal their pages, or use search to find a page by title or content. Your edits always apply to the page selected in the sidebar.
 
-- [**Views**](/organize/views): Layout containers (Tabs or Dropdowns) that arrange content within the current dimension, or at the root when there are no dimensions. Switching the view changes which groups and pages appear in the sidebar.
-
-Within the selected dimension (if any) and view, the left sidebar typically shows:
-
-- **Top-level tabs** such as Documentation, Changelog, and Help.
-
-- **Groups or sections** (for example, Getting Started, Write and Publish, Organize) that act as folders for related content.
-
-- **Pages** inside each group (for example, Web Editor, Code Editor, Pages) that you can open and edit.
-
-From the sidebar you can:
-
-- Expand a group to reveal all pages inside it.
-
-- Select a page to load it in the editor.
-
-- Use search to jump directly to a page by title or content.
-
-Your edits always apply to the page that is currently selected in the sidebar. To go deeper into how pages work, including titles, slugs, and metadata, see [Pages](/organize/pages).
+For page titles, slugs, and metadata, see [Pages](/organize/pages).
 
 ### 3. Create a new page
 
@@ -101,19 +83,11 @@ To add new content to your documentation:
 
 For more detail on how dimensions, views, groups, and pages behave across your project (including slugs, paths, and metadata), see the [organize overview](/organize/overview) and the focused guides on [dimensions](/organize/dimensions), [views](/organize/views), [groups](/organize/groups), and [pages](/organize/pages).
 
-## Organizing structure in the web editor
+## Advanced structure choices
 
-Use the web editor to make safe, incremental changes to your documentation structure while keeping it consistent with your overall organization model.
+After selecting the right dimension and view, use the web editor to make safe, incremental changes to your documentation structure.
 
 <Steps>
-
-  <Step title="Choose the right dimension and view" icon="layers" title-type="p">
-
-    If your project uses [dimensions](/organize/dimensions), start by selecting the correct dimension in the sidebar. Then choose the appropriate [view](/organize/views) within that dimension (or at the root if there are no dimensions) so you are working on the right part of the tree.
-
-
-
-  </Step>
 
   <Step title="Add views with Tabs or Dropdowns (optional)" icon="notebook-tabs-icon" title-type="p">
 
@@ -330,16 +304,6 @@ To learn more, see [Icons](/customize/icons) and [Icon](/components/icon).
 
 As this page becomes the main entry point for the web editor, you will often use it alongside the project organization features.
 
-### Moving and organizing pages
-
-Use the sidebar to adjust your documentation structure:
-
-- Create new groups or sections for related pages.
-
-- Move pages into different groups to keep navigation intuitive.
-
-- Rename pages and update slugs where needed, while keeping paths as stable as possible.
-
 For a deeper look at how dimensions, views, groups, and pages work across your project, see the high-level [organize overview](/organize/overview) and the focused guides on [dimensions](/organize/dimensions), [views](/organize/views), [groups](/organize/groups), and [pages](/organize/pages).
 
 ### Collaboration and review
@@ -477,4 +441,3 @@ To bring your site back online, open the Editor and click **Publish** again. You
 
 
 </Callout>
-

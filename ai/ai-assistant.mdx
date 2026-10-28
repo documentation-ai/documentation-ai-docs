@@ -75,6 +75,7 @@ Control whether the AI assistant searches across all dimensions or stays scoped 
 - **When enabled** – the assistant only answers from the reader's current product, version, and language, preventing cross-dimension answers that could confuse readers.
 - **When disabled or omitted** – the assistant searches across all dimensions and indicates where the answer came from.
 - **When to use it** – enable strict mode when your content varies significantly across dimensions and cross-dimension answers may be misleading or incorrect.
+- **Reader MCP Server** – the same setting applies when an AI agent filters a search by version, language, or product through the [Reader MCP Server](/ai/reader-mcp-server#versions-languages-and-products).
 - **How to enable:**
   - **Via dashboard** – go to Editor → Site Config → Dimensions (Layers icon) → toggle "Strict mode" on.
   - **Via documentation.json** – if you are editing via Code editor, set `search.strict-dimensions` to `true` in `documentation.json`:

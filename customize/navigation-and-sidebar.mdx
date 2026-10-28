@@ -33,7 +33,7 @@ Before configuring navigation, organize your content:
 1. List all your documentation pages (each should be an MDX file)
 2. Group related topics together  
 3. Determine logical user paths through your content
-4. Choose appropriate icons from the [Lucide React library](https://lucide.dev/icons/)
+4. Choose appropriate icons from your site's [icon library](/customize/icons)
 
 ### Step 2: Configure simple page navigation
 
@@ -71,7 +71,7 @@ For each page in your navigation, configure:
 </ParamField>
 
 <ParamField path="icon" param-type="string" required="false" showLocation="false">
-  Page icon from the Lucide React icon library.
+  Page icon. See [Icons](/customize/icons) for the forms it takes.
 </ParamField>
 
 <ParamField path="href" param-type="string" required="false" showLocation="false">
@@ -201,15 +201,35 @@ The `openapi` property accepts:
 - Add icons to improve visual scanning
 - Test navigation on mobile devices
 
+## Long Titles in the Sidebar
+
+By default, a page title or group label too long for the sidebar wraps onto as many lines as it needs, so the full title is always visible. This applies to both templates and to the sidebar menu on phones.
+
+To keep every item on a single line instead, turn off **Wrap long titles** in the Editor under **Site Config > Brand & Theme > Sidebar**, then publish. Long titles are then cut off with an ellipsis, and hovering an item shows its full title.
+
+In `documentation.json`, the same setting is `title-wrap` in the `sidebar` object:
+
+```json
+{
+  "sidebar": {
+    "title-wrap": false
+  }
+}
+```
+
+Omit it, or set it to `true`, to wrap. See the [site configuration reference](/customize/site-configuration#sidebar-configuration).
+
 ## Troubleshooting Navigation Issues
 
 **Missing pages**: Verify file paths match your MDX files (without `.mdx` extension)
 
-**Broken icons**: Check icon names against the [Lucide React library](https://lucide.dev/icons/)
+**Broken icons**: Check icon names against your site's [icon library](/customize/icons), or add the library the icon comes from, such as `lucide:rocket`
 
 **Navigation too deep**: Reorganize content into broader categories
 
 **Unclear hierarchy**: Use more descriptive group and page names
+
+**Titles cut off on one line**: `sidebar.title-wrap` is set to `false`. Turn on **Wrap long titles** under **Site Config > Brand & Theme > Sidebar**, or remove the setting, and publish.
 
 ## What's Next
 

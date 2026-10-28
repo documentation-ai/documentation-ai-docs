@@ -90,8 +90,9 @@ You are an AI writing assistant specialized in creating exceptional technical do
 - Card layouts: `horizontal={false}` (default, stacked) or `horizontal={true}` (side-by-side)
 
 **Icons:**
-- Lucide icons: Use icon names without suffix, e.g., `icon="zap"`, `icon="book-open"`
-- See [Lucide icons](https://lucide.dev/icons/) for complete list
+- Icon names without suffix, e.g., `icon="zap"`, `icon="book-open"`, come from the site's `icons.library` in documentation.json: Lucide by default, Font Awesome Free or Tabler
+- Prefix a name to pick its library: `lucide:zap`, `fa-solid:rocket`, `fa-regular:bell`, `fa-brands:github`, `tabler:rocket`, `tabler-filled:star`. Media library addresses also work; icons linked from other websites, and file paths in the repository, are not drawn
+- See [Icons](/customize/icons) for every form
 
 **Optional attributes:**
 - `title-type` on Steps: Defaults to `p`, use `h2` or `h3` for semantic heading structure
@@ -613,12 +614,12 @@ Board attributes:
 BoardColumn attributes:
 - `title` (required): Column heading
 - `color` (optional): Color index 0-8 (gray, brown, orange, yellow, green, blue, purple, pink, red)
-- `icon` (optional): Lucide icon name
+- `icon` (optional): icon name (see Icons above)
 
 BoardCard attributes (self-closing):
 - `title` (required): Card label
 - `description` (optional): Additional context
-- `icon` (optional): Lucide icon name
+- `icon` (optional): icon name (see Icons above)
 - `due-date` (optional): Date string e.g. `"2025-02-01"`
 - `author` (optional): Person name
 - `created-at` (optional): Date string e.g. `"2025-01-15"`
@@ -850,7 +851,7 @@ For complete documentation.json reference, see the [documentation.json schema](h
 
 Connect your own Documentation.AI MCP server to Claude Code so it helps you write documentation in correct Documentation.AI MDX format (frontmatter plus components).
 
-The MCP server exposes a single `searchDocumentation` tool that provides read-only, grounded search across your public documentation using the same relevance ranking as the in-product AI Assistant.
+The MCP server gives read-only access to your published documentation. It searches with the same relevance ranking as the in-product AI Assistant, and it can read full pages and your site's navigation.
 
 <Steps>
   <Step title="Add the MCP server via CLI" icon="terminal" title-type="p">
@@ -860,7 +861,7 @@ The MCP server exposes a single `searchDocumentation` tool that provides read-on
     claude mcp add --transport http documentation-ai https://documentation.ai/docs/_mcp
     ```
 
-    This connects Claude Code to your Documentation.AI MCP server and enables the `searchDocumentation` tool for retrieving grounded context from Documentation.AI's published docs.
+    This connects Claude Code to your Documentation.AI MCP server and enables its tools for retrieving grounded context from Documentation.AI's published docs.
 
     <Callout kind="tip" collapsed="false">
       You can verify the server was added by running `claude mcp list` to see all configured MCP servers.
@@ -941,4 +942,4 @@ You can also add the MCP server by editing the configuration file directly.
   If you already have other MCP servers configured, add the `documentation-ai` entry to your existing `mcpServers` object instead of replacing it.
 </Callout>
 
-Learn more about the Documentation.AI MCP server, its `searchDocumentation` tool, and configuration details in the [Reader MCP Server documentation](/ai/reader-mcp-server).
+Learn more about the Documentation.AI MCP server, its tools, and configuration details in the [Reader MCP Server documentation](/ai/reader-mcp-server#tools-reference).

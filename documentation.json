@@ -170,6 +170,11 @@
                     "icon": "paperclip"
                   },
                   {
+                    "title": "Icon",
+                    "path": "components/icon",
+                    "icon": "star"
+                  },
+                  {
                     "title": "Code and Groups",
                     "path": "components/code-blocks-and-groups",
                     "icon": "code"
@@ -333,6 +338,11 @@
                 "icon": "layout-template"
               },
               {
+                "title": "Icons",
+                "path": "customize/icons",
+                "icon": "shapes"
+              },
+              {
                 "group": "SEO & GEO",
                 "icon": "search-check-icon",
                 "pages": [
@@ -428,6 +438,7 @@
                   {
                     "title": "Documentation.AI Auth",
                     "path": "customize/access-control/documentation-ai-auth",
+                    "tags": ["New"],
                     "icon": "users"
                   },
                   {
@@ -593,6 +604,7 @@
               {
                 "title": "Overview",
                 "path": "embedded-docs/overview",
+                "tags": ["New"],
                 "icon": "info"
               },
               {

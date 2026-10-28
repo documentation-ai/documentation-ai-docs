@@ -79,7 +79,7 @@ You can add and configure cards visually in the Web Editor without writing MDX.
 
    - **Image Path:** Optional header image displayed above the card content.
 
-   - **Icon:** Lucide icon name, chosen via **Select Icon**.
+   - **Icon:** Chosen via **Select Icon**, from Lucide, Font Awesome, Tabler or your own file.
 
    - **Call-to-Action Text:** Optional CTA label such as “Learn more”.
 
@@ -213,7 +213,7 @@ Use these details when you need precise control over card appearance and behavio
 
 ### Icons
 
-Cards use [Lucide](https://lucide.dev/icons) icon names in the `icon` prop. Use the icon name only (no `Icon` suffix), for example:
+The `icon` prop takes a name from your site's [icon library](/customize/icons) without an `Icon` suffix, a name with its library such as `fa-brands:github`, or the address of a file in your media library. For example:
 
 ```jsx
 <Card title="Security" icon="shield" href="/customize/access-control/overview">
@@ -320,7 +320,7 @@ These attributes are available on the `<Card>` component.
 </ParamField>
 
 <ParamField path="icon" param-type="string" required="false" deprecated="false">
-  Lucide icon name (without `Icon` suffix). Displays in the card header.
+  Icon shown in the card header: a name from your site's [icon library](/customize/icons), a name with its library such as `fa-brands:github`, or the address of a file in your media library.
 </ParamField>
 
 <ParamField path="image" param-type="string" required="false" deprecated="false">

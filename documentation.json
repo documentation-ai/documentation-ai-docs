@@ -338,6 +338,11 @@
                 "icon": "award"
               },
               {
+                "title": "Footer",
+                "path": "customize/footer",
+                "icon": "panel-bottom"
+              },
+              {
                 "title": "Templates",
                 "path": "customize/templates",
                 "icon": "layout-template"

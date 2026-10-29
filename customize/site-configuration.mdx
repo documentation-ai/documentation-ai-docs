@@ -257,6 +257,49 @@ Control how long page titles and group labels fit in the sidebar of your publish
   When `true` or omitted, long page titles and group labels wrap onto as many lines as they need. When `false`, they stay on one line and are cut off with an ellipsis, and hovering an item shows its full title. Default: `true`. See [Navigation and Sidebar](/customize/navigation-and-sidebar#long-titles-in-the-sidebar) for details.
 </ParamField>
 
+### Footer Configuration
+
+Add link groups, social icons, and a copyright notice to the bottom of every page. Each part shows only when it has content. A language item in `navigation` can carry its own `footer`, which replaces this one on that language's pages. See [Footer](/customize/footer) for link formats, language footers, and styling.
+
+```json
+{
+  "footer": {
+    "links": [
+      {
+        "header": "Company",
+        "items": [
+          { "label": "About", "href": "https://example.com/about" },
+          { "label": "Contact", "href": "mailto:support@example.com" }
+        ]
+      }
+    ],
+    "socials": {
+      "github": "https://github.com/example",
+      "x": "https://x.com/example"
+    },
+    "copyright": "© 2026 Example Inc. All rights reserved."
+  }
+}
+```
+
+<ParamField path="footer" param-type="object" required="false" deprecated="false" show-location="true">
+  The site footer.
+
+  <Expandable title="Footer Configuration" default-open="false">
+    <ParamField path="links" param-type="array" required="false" deprecated="false" show-location="true">
+      Link groups, shown as columns. Each has a `header` and `items`, and each item has a `label` and an `href`.
+    </ParamField>
+
+    <ParamField path="socials" param-type="object" required="false" deprecated="false" show-location="true">
+      Platform name to profile URL, shown as icons in the order written.
+    </ParamField>
+
+    <ParamField path="copyright" param-type="string" required="false" deprecated="false" show-location="true">
+      Plain text shown on one line at the bottom of the footer.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
 ## Navigation Architecture
 
 Our documentation system organizes information in three conceptual layers to help developers, writers, and AI agents reason about structure, rendering, and content discovery.
@@ -344,6 +387,10 @@ Each dimension item must have a unique identifier and can contain nested dimensi
 
 <ParamField path="public" param-type="boolean" required="false" deprecated="false" show-location="true">
   Controls visibility for this dimension and its descendants in partial access control mode. See [Visibility Control](#visibility-control-with-public).
+</ParamField>
+
+<ParamField path="footer" param-type="object" required="false" deprecated="false" show-location="true">
+  Language items only. This language's own footer, with the same keys as the top-level [`footer`](#footer-configuration). It replaces the top-level footer on the pages under this item, and `{}` shows no footer there. See [Give a language its own footer](/customize/footer#give-a-language-its-own-footer).
 </ParamField>
 
 <CodeGroup show-lines="true">

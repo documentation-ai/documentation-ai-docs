@@ -2,6 +2,44 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-10-29" description="Announcement banners, multilingual footers, expanded agent context, Reader MCP tools, checkout referrals, embed sizing, and platform fixes" tags={["feature","improvement","fix"]}>
+  ## Announcement banners
+
+  Site admins can create, edit, enable, disable, preview, and delete announcement banners. Configure each banner's text, type, color, dismissibility, and navigation placement, while publishing safeguards handle locking, revalidation, and rollback. Readers see eligible banners above the header before the page's first paint, with the page UI shifting below the banner. See [banners](/customize/banners) for setup and options.
+
+  ## Custom site footers
+
+  Configure a different custom footer for each navigation language in Site Config. The interface identifies languages with divergent footer values and lets you unify them when one footer should apply everywhere. See [Custom site footers](/customize/footer) for configuration details.
+
+  ## GitLab context repositories
+
+  Connect GitLab projects as read-only context repositories without using them as the source repository for your documentation. Select GitLab projects and branches for agent context, including projects located under subgroup paths. For related GitLab connection guidance, see [GitLab Integration](/integrations/gitlab).
+
+  ## Improvements
+
+  - **GitHub context repositories and branch selection**: Connect read-only GitHub context repositories, set a default branch, or choose a different branch per chat or automation. See [GitHub Integration](/connectors/github) and [Automations](/ai/automations).
+  - **Agent repository analysis sandbox**: Runs repository analysis in an isolated microVM with bounded file and history tools; fetch-only authentication prevents pushes. See [AI Documentation Agent](/ai/ai-documentation-agent).
+  - **Reader MCP tools**: Adds read-only access to documentation files, navigation, and product-, version-, or language-filtered search. See [Reader MCP Server](/ai/reader-mcp-server).
+  - **Markdown delivery and redirects**: Applies configured redirects to `.md` URLs, avoids stale CDN caching, preserves query parameters, and tracks Markdown views. See [Redirects and rewrites](/customize/redirects-and-rewrites).
+  - **MCP retrieval and security**: Navigation now uses backend access rules, `read_pages` accepts paths and full URLs, outputs are bounded, and production deployments require a signing key.
+  - **Agent context retrieval**: Consolidated locate, read, and history analysis with pinned-commit caching and retrieval of older or missing history. See [AI Documentation Agent](/ai/ai-documentation-agent).
+  - **Sidebar title wrapping**: Added configuration for wrapping long sidebar titles so the full title remains visible. See [Navigation and Sidebar](/customize/navigation-and-sidebar).
+
+  ## Fixes
+
+  - **Floating embed navigation**: Linked sections now open at the selected section instead of leaving the panel at the top.
+  - **Embed sizing**: Floating documentation embeds now support `minWidth`, `minHeight`, and `maxHeight`, fit the available viewport, and remain full-screen on narrow screens. See [Embedded docs reference](/embedded-docs/reference).
+  - **PDF downloads**: Excluded the site footer from generated PDF files.
+  - **Inline snippets**: Kept inline snippets inside the step or list item where they are used. See [Reusable Snippets](/write-and-publish/snippets).
+  - **Organization permissions**: Refetched organizations after creation to avoid showing the creator as read-only. See [Organizations and projects](/account-and-billing/organizations-and-projects).
+  - **Media uploads**: The media upload page now scrolls when many files are dropped. See [Media Library](/write-and-publish/media-library).
+  - **Organization lists**: Malformed organization lists no longer crash the dashboard.
+  - **Content security policy**: Corrected the CSP API fallback and allowed telemetry and integration origins.
+  - **Search synchronization**: Improved failed-page search-sync error and completion tracking, including frontmatter title and description indexing.
+  - **Agent runs and repositories**: Fixed stale branch picks, branch-list loading, GitLab repository handling, duplicate searches, and agent runs that outlived their sandbox session.
+  - **GitLab automation runs**: Corrected GitLab-triggered run labels and persistence of excluded connectors when creating automations.
+</Update>
+
 <Update label="2026-10-13" description="Documentation.AI Auth, expanded icon library, SEO language and structured data, faster search, Workflows renamed to Automations, and fixes" tags={["feature","improvement","fix"]}>
   ## Documentation.AI auth for published sites
 
@@ -409,7 +447,7 @@ description: 'Changes, fixes, and improvements across versions'
 
   - **Table of Contents Panel**: A new sidebar panel gives you a structural overview of your page, letting you jump to any heading instantly and spot issues like skipped heading levels without scrolling.
   - **Icon Picker & Color Picker**: Visually browse and select icons and colors directly in the editor instead of guessing names or copying hex codes from external tools.
-  - **Drag & Drop Rearrange**: Components like CardGroup, Steps, and ParamFieldGroup now support drag-and-drop reordering with editable popovers, so you can reorganize content without cutting and pasting code.
+  - **Drag & Drop Rearrange**: Components like CardGroup, Steps, and ParamFieldGroup now support drag-and-drop reordering with editable popovers, so you can reorganize content without cutting and pasting.
   - **Turn Into**: Convert any block into a different component type (e.g. paragraph → Callout, list → Steps, Card → Expandable) without rewriting content or manually changing markup.
   - **Editor UI Polish**: Smoother transitions, better focus states, improved keyboard navigation, and more consistent spacing across the editor.
   - **Table Editor Fixes**: Resolved cell selection glitches, content loss on rapid edits, and inconsistent column resizing for more reliable table editing.

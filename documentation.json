@@ -328,14 +328,14 @@
                 "icon": "layout"
               },
               {
-                "title": "Footer",
-                "path": "customize/footer",
-                "icon": "panel-bottom"
-              },
-              {
                 "title": "Branding",
                 "path": "customize/branding",
                 "icon": "award"
+              },
+              {
+                "title": "Footer",
+                "path": "customize/footer",
+                "icon": "panel-bottom"
               },
               {
                 "title": "Templates",

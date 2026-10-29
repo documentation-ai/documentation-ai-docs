@@ -16,6 +16,7 @@ This is the server your **documentation team** connects to, and it uses your rol
 - Nothing goes live until the changes are published.
 - Publishing a branch includes every unpublished change on it, including your teammates' edits.
 - Media is the exception. Your media library is shared by every branch, so importing, replacing, or deleting a file takes effect right away. Replacing or deleting a file changes every page that uses it, including your live site.
+- [Banners](/customize/banners) are another exception. They belong to your live site, not to a branch, so adding, changing, or deleting one reaches readers right away.
 
 <Callout kind="alert" collapsed="false">
   The server acts with your Documentation.AI permissions. Connect it only to AI clients you trust, and ask the agent to work on a separate branch when you want a review before anything goes live.
@@ -166,7 +167,7 @@ For step-by-step instructions, limits, and supported file types, see [Media libr
 
 ## Tools reference
 
-The server provides 32 tools. Read-only tools never change your documentation. Destructive tools can overwrite or discard content, including your teammates' unpublished edits, so most clients ask you to confirm them first. Only tools that add something new, such as creating a page or importing a file, go through without a prompt.
+The server provides 36 tools. Read-only tools never change your documentation. Destructive tools can overwrite or discard content, including your teammates' unpublished edits, so most clients ask you to confirm them first. Only tools that add something new, such as creating a page or importing a file, go through without a prompt.
 
 | Tool                      | What it does                                                | Minimum role | Behavior        |
 | ------------------------- | ----------------------------------------------------------- | ------------ | --------------- |
@@ -185,10 +186,12 @@ The server provides 32 tools. Read-only tools never change your documentation. D
 | `list_pull_requests`      | Lists pull requests                                         | Viewer       | Read-only       |
 | `list_media`              | Lists files in your media library, with URLs and snippets   | Viewer       | Read-only       |
 | `search_media`            | Finds files in your media library by name or alt text       | Viewer       | Read-only       |
+| `list_banners`            | Lists your site's banners in the order readers see them     | Viewer       | Read-only       |
 | `create_page`             | Creates a page or another file                              | Editor       | Makes changes   |
 | `create_branch`           | Creates a branch                                            | Editor       | Makes changes   |
 | `import_media`            | Adds files to your media library from URLs                  | Editor       | Makes changes   |
 | `request_upload`          | Gives you a link to upload files from your computer         | Editor       | Makes changes   |
+| `create_banner`           | Adds a banner to your live site                             | Editor       | Makes changes   |
 | `update_page`             | Replaces specific text in a page                            | Editor       | Destructive     |
 | `rewrite_page`            | Replaces the full content of a page                         | Editor       | Destructive     |
 | `update_site_config`      | Changes values in `documentation.json`                      | Editor       | Destructive     |
@@ -201,6 +204,8 @@ The server provides 32 tools. Read-only tools never change your documentation. D
 | `merge_branches`          | Merges one branch into another                              | Editor       | Destructive     |
 | `delete_branch`           | Deletes a branch                                            | Editor       | Destructive     |
 | `replace_media`           | Replaces a file with a new version, keeping its URL         | Editor       | Destructive     |
+| `update_banner`           | Changes a banner on your live site                          | Editor       | Destructive     |
+| `delete_banner`           | Deletes a banner from your live site                        | Editor       | Destructive     |
 | `delete_media`            | Deletes files from your media library                       | Admin        | Destructive     |
 
 Most tools also accept `organizationId` and `documentationId` to work on a specific project, and `branch` to work on a specific branch. Tools that return lists accept `limit` and `cursor` to page through results.
@@ -537,6 +542,66 @@ Files belong to your documentation project, not to a branch, so these tools do n
   </ParamField>
 </Expandable>
 
+### Banners
+
+[Banners](/customize/banners) belong to your live site, not to a branch, so these tools do not take `branch`, and changes need no `publish`. Banner changes are refused while your site is publishing.
+
+<Expandable title="list_banners" default-open="false">
+  Lists your site's banners in the order readers see them, followed by those that are off, with each banner's `id`, text, type, colour, and where it shows. It also says whether your site is publishing now.
+
+  **Parameters:** None
+</Expandable>
+
+<Expandable title="create_banner" default-open="false">
+  Adds a banner to your live site. Readers see it right away, unless you pass `enabled: false`.
+
+  <ParamField body="content" param-type="string" required="true" deprecated="false" show-location="false">
+    The banner text, up to 300 characters. See [Format the text](/customize/banners#format-the-text).
+  </ParamField>
+
+  <ParamField body="type" param-type="string" required="false" deprecated="false" show-location="false">
+    `info`, `alert`, or `danger`. Defaults to `info`.
+  </ParamField>
+
+  <ParamField body="color" param-type="string" required="false" deprecated="false" show-location="false">
+    Background colour in hex, such as `#6d28d9`, used instead of the type's colours. `null` clears it.
+  </ParamField>
+
+  <ParamField body="dismissible" param-type="boolean" required="false" deprecated="false" show-location="false">
+    Whether readers can close it. Defaults to `true`.
+  </ParamField>
+
+  <ParamField body="enabled" param-type="boolean" required="false" deprecated="false" show-location="false">
+    `false` saves the banner without showing it. Defaults to `true`.
+  </ParamField>
+
+  <ParamField body="dimensions" param-type="object" required="false" deprecated="false" show-location="false">
+    Where it shows: a `product`, a `version` inside it, and a `language` inside that, each named exactly as in your navigation. Defaults to `{}`, the whole site.
+  </ParamField>
+
+  <ParamField body="exclude" param-type="array" required="false" deprecated="false" show-location="false">
+    Entries inside `dimensions` where it doesn't show. Each has the same names as `dimensions` plus at least one more level. Defaults to `[]`.
+  </ParamField>
+</Expandable>
+
+<Expandable title="update_banner" default-open="false">
+  Changes a banner on your live site. Only the fields you pass change. `dimensions` and `exclude` replace the banner's current values rather than adding to them. Turning a banner on again puts it first among the banners of its type.
+
+  <ParamField body="bannerId" param-type="string" required="true" deprecated="false" show-location="false">
+    The banner's `id` from `list_banners`
+  </ParamField>
+
+  Also takes any of the `create_banner` fields.
+</Expandable>
+
+<Expandable title="delete_banner" default-open="false">
+  Deletes a banner from your live site. It cannot be undone. To hide a banner but keep it, use `update_banner` with `enabled: false`.
+
+  <ParamField body="bannerId" param-type="string" required="true" deprecated="false" show-location="false">
+    The banner's `id` from `list_banners`
+  </ParamField>
+</Expandable>
+
 ## Resources
 
 The server also provides these reference resources:
@@ -587,6 +652,10 @@ If you want an AI client to read your published documentation without being able
 
 <Expandable title="Publishing reports a conflict" default-open="false">
   Someone published changes to the same part of a page, so nothing was published. Ask the agent to resolve the conflict, then publish again.
+</Expandable>
+
+<Expandable title="A banner change is refused" default-open="false">
+  Banner changes are refused while your site is publishing. Ask the agent to try again when the publish finishes.
 </Expandable>
 
 <Expandable title="Search does not find a new page" default-open="false">

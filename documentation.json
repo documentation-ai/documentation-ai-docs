@@ -328,6 +328,11 @@
                 "icon": "layout"
               },
               {
+                "title": "Banners",
+                "path": "customize/banners",
+                "icon": "megaphone"
+              },
+              {
                 "title": "Branding",
                 "path": "customize/branding",
                 "icon": "award"

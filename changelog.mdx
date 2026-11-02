@@ -5,11 +5,11 @@ description: 'Changes, fixes, and improvements across versions'
 <Update label="2026-10-29" description="Announcement banners, multilingual footers, expanded agent context, Reader MCP tools, checkout referrals, embed sizing, and platform fixes" tags={["feature","improvement","fix"]}>
   ## Announcement banners
 
-  Site admins can create, edit, enable, disable, preview, and delete announcement banners. Configure each banner's text, type, color, dismissibility, and navigation placement, while publishing safeguards handle locking, revalidation, and rollback. Readers see eligible banners above the header before the page's first paint, with the page UI shifting below the banner. See [banners](/customize/banners) for setup and options.
+  Site admins can create, edit, enable, disable, preview, and delete announcement banners. Configure each banner's text, type, color, dismissibility, and navigation placement, target banners by product, version, and language, and exclude navigation scopes. Banners support info, alert, and danger styles with Markdown and sanitized inline HTML, while publishing safeguards handle locking, revalidation, and rollback. Readers see eligible banners above the header before the page's first paint, with the page UI shifting below the banner. See [banners](/customize/banners) for setup and options.
 
   ## Custom site footers
 
-  Configure a different custom footer for each navigation language in Site Config. The interface identifies languages with divergent footer values and lets you unify them when one footer should apply everywhere. See [Custom site footers](/customize/footer) for configuration details.
+  Configure a different custom footer for each navigation language in Site Config. A language-specific footer replaces the default footer for pages in that language. The interface identifies languages with divergent footer values and lets you unify them when one footer should apply everywhere. See [Custom site footers](/customize/footer) for configuration details.
 
   ## GitLab context repositories
 
@@ -19,8 +19,8 @@ description: 'Changes, fixes, and improvements across versions'
 
   - **GitHub context repositories and branch selection**: Connect read-only GitHub context repositories, set a default branch, or choose a different branch per chat or automation. See [GitHub Integration](/connectors/github) and [Automations](/ai/automations).
   - **Agent repository analysis sandbox**: Runs repository analysis in an isolated microVM with bounded file and history tools; fetch-only authentication prevents pushes. See [AI Documentation Agent](/ai/ai-documentation-agent).
-  - **Reader MCP tools**: Adds read-only access to documentation files, navigation, and product-, version-, or language-filtered search. See [Reader MCP Server](/ai/reader-mcp-server).
-  - **Markdown delivery and redirects**: Applies configured redirects to `.md` URLs, avoids stale CDN caching, preserves query parameters, and tracks Markdown views. See [Redirects and rewrites](/customize/redirects-and-rewrites).
+  - **Reader MCP tools**: Adds read-only access to documentation files, navigation, and product-, version-, or language-filtered search. MCP requests now receive the documentation subdomain and product context and respect the site's strict-dimensions search setting. See [Reader MCP Server](/ai/reader-mcp-server).
+  - **Markdown delivery and redirects**: Applies configured redirects to `.md` URLs, preserves query parameters, uses no-store freshness after publish or delete, and tracks readers server-side while distinguishing human, bot, and agent traffic. See [Redirects and rewrites](/customize/redirects-and-rewrites).
   - **MCP retrieval and security**: Navigation now uses backend access rules, `read_pages` accepts paths and full URLs, outputs are bounded, and production deployments require a signing key.
   - **Agent context retrieval**: Consolidated locate, read, and history analysis with pinned-commit caching and retrieval of older or missing history. See [AI Documentation Agent](/ai/ai-documentation-agent).
   - **Sidebar title wrapping**: Added configuration for wrapping long sidebar titles so the full title remains visible. See [Navigation and Sidebar](/customize/navigation-and-sidebar).

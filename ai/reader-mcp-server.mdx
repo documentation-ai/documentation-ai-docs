@@ -60,7 +60,7 @@ When your documentation has [access control](/customize/access-control/overview)
 
 ### OAuth 2.1
 
-OAuth 2.1 works with any authentication method you have configured (password, Documentation.AI, JWT, or OAuth 2.0). The flow is handled automatically by supported MCP clients.
+OAuth 2.1 works with any authentication method you have configured (password, Documentation.AI, email verification, JWT, or OAuth 2.0). The flow is handled automatically by supported MCP clients.
 
 <Steps>
   <Step title="Connect your MCP client to the authenticated endpoint" icon="link" title-type="p">
@@ -72,7 +72,7 @@ OAuth 2.1 works with any authentication method you have configured (password, Do
   </Step>
 
   <Step title="Sign in through your site's authentication" icon="lock" title-type="p">
-    After approving, you are redirected to your documentation site's sign-in page. Complete authentication using whatever method your site uses (password, Documentation.AI, JWT, or OAuth 2.0).
+    After approving, you are redirected to your documentation site's sign-in page. Complete authentication using whatever method your site uses (password, Documentation.AI, email verification, JWT, or OAuth 2.0).
   </Step>
 
   <Step title="Start using the server" icon="play" title-type="p">
@@ -87,7 +87,7 @@ Built-in support for Claude Desktop, Cursor, VS Code, Claude Web, and ChatGPT co
 </Callout>
 
 <Callout kind="info" collapsed="false">
-  On sites that use [Documentation.AI authentication](/customize/access-control/documentation-ai), a connection stays tied to the person who signed in. If they're removed from your organization, the client loses access within 5 minutes. Machine-to-machine credentials aren't tied to a person and keep working until they expire or you revoke them.
+  On sites that use [Documentation.AI authentication](/customize/access-control/documentation-ai), a connection stays tied to the person who signed in. If they're removed from your organization, the client loses access within 5 minutes. The same holds on sites that use [email verification](/customize/access-control/email-verification) when you remove a reader's access. Machine-to-machine credentials aren't tied to a person and keep working until they expire or you revoke them.
 </Callout>
 
 #### Callback URLs

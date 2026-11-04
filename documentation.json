@@ -455,7 +455,8 @@
                   },
                   {
                     "title": "Email Verification",
-                    "path": "customize/access-control/email-verification"
+                    "path": "customize/access-control/email-verification",
+                    "icon": "mail"
                   },
                   {
                     "title": "JWT",

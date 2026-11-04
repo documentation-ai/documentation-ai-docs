@@ -448,8 +448,14 @@
                   {
                     "title": "Documentation.AI Auth",
                     "path": "customize/access-control/documentation-ai-auth",
-                    "tags": ["New"],
+                    "tags": [
+                      "New"
+                    ],
                     "icon": "users"
+                  },
+                  {
+                    "title": "Email Verification",
+                    "path": "customize/access-control/email-verification"
                   },
                   {
                     "title": "JWT",
@@ -614,7 +620,9 @@
               {
                 "title": "Overview",
                 "path": "embedded-docs/overview",
-                "tags": ["New"],
+                "tags": [
+                  "New"
+                ],
                 "icon": "info"
               },
               {

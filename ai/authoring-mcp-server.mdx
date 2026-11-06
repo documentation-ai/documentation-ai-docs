@@ -24,7 +24,7 @@ This is the server your **documentation team** connects to, and it uses your rol
 
 ## Setup and authentication
 
-Add the server URL to your MCP client, then sign in with your Documentation.AI account. No API keys are needed.
+Add the server URL to your MCP client, then sign in with your Documentation.AI account. No API keys are needed. In ChatGPT you don't need the URL: install the Documentation.AI plugin from the plugin directory, as the **ChatGPT** tab below describes.
 
 ```text
 https://api.documentation.ai/mcp
@@ -51,6 +51,20 @@ https://api.documentation.ai/mcp
     In Claude on the web or in Claude Desktop, open **Settings**, go to **Connectors**, and choose **Add custom connector**. Enter a name such as `Documentation.AI` and the server URL, then connect and sign in.
 
     Custom connector availability depends on your Claude plan.
+  </Tab>
+
+  <Tab title="ChatGPT" icon="message-circle">
+    Documentation.AI is listed in the ChatGPT plugin directory, so you don't need the server URL.
+
+    1. Open the [Documentation.AI plugin](https://chatgpt.com/plugins/plugin_asdk_app_6adb3cc1852881918af40a4c81a9c271), or open **Plugins** in ChatGPT and search for `Documentation.AI`.
+    2. Select **Install plugin**, then sign in with your Documentation.AI account.
+    3. In a chat, type `@`, choose **Documentation.AI**, and describe the change you want.
+
+    <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1793941110521-5i8p3wy2qih-chatgpt-plugin-listing.png?fm=auto&auto=compress%2Cformat" width="1786" height="1320" alt="The Documentation.AI listing in the ChatGPT plugin directory, with the Install plugin button and three starter prompts" caption="The Documentation.AI plugin in the ChatGPT plugin directory." style="width: 893px; height: auto; margin: 0 auto;" />
+
+    The plugin also adds an **Update documentation** skill, which keeps larger changes on a separate branch and shows you the diff before anything is published.
+
+    Plugin availability depends on your ChatGPT plan and workspace policies.
   </Tab>
 
   <Tab title="Cursor" icon="mouse-pointer">
@@ -89,23 +103,7 @@ https://api.documentation.ai/mcp
   <Tab title="Other clients" icon="plug">
     If your client supports remote MCP servers, give it the server URL and sign in when prompted.
 
-    ### ChatGPT
-
-    ChatGPT currently connects to custom MCP servers through its plugin settings. Follow [OpenAI’s ChatGPT MCP setup instructions](https://help.openai.com/en/articles/12584461-connecting-custom-mcp-servers-in-chatgpt) for the latest interface details.
-
-    1. Open **Plugins**, select **+**, and choose **Add custom MCP server**.
-    2. Enter `https://api.documentation.ai/mcp` as the public HTTPS endpoint.
-    3. Configure authentication and complete Documentation.AI OAuth when prompted.
-    4. Accept the safety warning, create the plugin, and review its available tools.
-    5. Start a new chat and select the Documentation.AI plugin.
-
-    <Callout kind="info" collapsed="false">
-
-    Access to custom MCP servers and available capabilities depend on your ChatGPT plan and workspace policies.
-
-    </Callout>
-
-    If your client can only run local servers, connect through `mcp-remote`:"}]}િકેટ-cmpr имҩаԥ? Nope. JSON valid? Curly apostrophe okay. Need response only exact object. Ensure user asked 
+    If your client can only run local servers, connect through `mcp-remote`:
 
     ```json
     {

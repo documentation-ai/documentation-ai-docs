@@ -1,0 +1,79 @@
+---
+title: Site search updates
+description: >-
+  Check whether site search picked up your latest publish, see which pages it
+  missed and what readers get, and retry the update.
+---
+## Overview
+
+Every publish to your live site also updates site search. New pages are added, edited pages are refreshed, deleted pages are removed, and pages whose access changed get their new access rules. Readers and the AI assistant find pages through this search, so a page that search missed stays hard to find or out of date for them, even though the page itself is live.
+
+The dashboard shows how the update went for each live deployment, lists any pages it missed, and lets you retry it.
+
+## Check a deployment's site search
+
+<Steps>
+  <Step title="Open the deployments list" icon="list" title-type="p">
+    In the dashboard, open **Overview** and scroll to **Deployments**.
+
+    A live deployment whose site search failed shows **Site search failed** in place of **Ready**.
+  </Step>
+
+  <Step title="Expand the deployment" icon="chevron-down" title-type="p">
+    Click a live deployment. The last line of its **Deployment Logs** is its site search line.
+  </Step>
+
+  <Step title="Read the site search line" icon="search" title-type="p">
+    - **Site search processing: updating 12 pages…** while the update runs. The dashboard checks every few seconds and changes the line when it finishes.
+    - **Site search ready** when every page is up to date in search.
+    - **Site search failed: 2 of 12 pages not updated** when some pages were missed. The pages are listed under the line.
+  </Step>
+</Steps>
+
+Preview deployments don't change site search, so they have no site search line.
+
+## Pages not updated in search
+
+When an update fails, the pages it missed are grouped by what readers get, with the most harmful first.
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1794148199727-arnqufg96na-site-search-failed-logs.png?fm=auto&auto=compress%2Cformat" width="1004" height="1584" alt="Deployment Logs of a live deployment whose site search failed, with the pages not updated listed in groups under the site search line and a Retry button below them" caption="A failed site search update, with the pages it missed and Retry" />
+
+| Line | What readers get |
+| --- | --- |
+| Pages still show in search to readers who no longer have access | Readers whose access you removed still find these pages in search results. |
+| Deleted pages still show in search | Search results still list pages you deleted. |
+| New pages can't be found in search | Search doesn't return these pages yet. |
+| Pages can't be found in search by readers who now have access | Readers you gave access to don't get these pages in search results. |
+| Pages don't show their latest changes in search | Search results show these pages as they were before this publish. |
+
+<Callout kind="info" collapsed="false">
+  The pages themselves are published. Only search is behind, until you retry the update.
+</Callout>
+
+## Retry the update
+
+Admins and editors can retry the update on the deployment your live site is serving. Retry updates only the pages that weren't updated.
+
+<Steps>
+  <Step title="Click Retry" icon="rotate-cw" title-type="p">
+    Under the list of pages not updated, click **Retry**. The button spins while the request is sent.
+  </Step>
+
+  <Step title="Wait for the update" icon="loader" title-type="p">
+    An **Updating site search** notification appears and the line changes to **Site search processing…**.
+  </Step>
+
+  <Step title="Check the result" icon="check-circle" title-type="p">
+    When the update finishes, a **Site search updated** notification appears and the line reads **Site search ready**. If some pages fail again, they are listed again and you can retry.
+  </Step>
+</Steps>
+
+<Callout kind="tip" collapsed="false">
+  If Retry says the deployment was published before Retry was available, publish your site again. You can retry the new deployment's update if it fails.
+</Callout>
+
+Retry appears only on the deployment your live site is serving. Pages listed under an older deployment are updated in search the next time you edit and publish them.
+
+## Notifications
+
+If site search fails while you have the dashboard open, a **Site search failed to update** notification appears with **View details**, which opens **Overview**. It stays until you close it, switch to another site, or a later update succeeds.

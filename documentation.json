@@ -252,6 +252,10 @@
                 "icon": "git-branch"
               },
               {
+                "title": "Site Search Updates",
+                "path": "write-and-publish/site-search-updates"
+              },
+              {
                 "title": "Media Library",
                 "path": "write-and-publish/media-library",
                 "icon": "images"

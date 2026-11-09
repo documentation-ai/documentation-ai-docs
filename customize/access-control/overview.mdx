@@ -181,3 +181,56 @@ With JWT or OAuth 2.0 authentication, you can personalize page content for each 
 Anonymous visitors see blank values for these variables, so you can safely use them in Partial mode pages that are also visible to the public.
 
 The signed-in reader's identity is also available as `window.dai.user` in custom scripts, so you can build personalized experiences beyond standard MDX content.
+
+## Signing out
+
+Signed-in readers can sign out from the navbar, where a sign-out button sits next to their name. Readers who signed in with a password see the button on its own.
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1794202715005-ehs90k76xv-sign-out-sign-out.png?fm=auto&auto=compress%2Cformat" width="2400" height="1516" alt="A private docs page with the reader signed in, their name in the navbar beside the sign-out button. A line runs to the page sign-out lands on: You've signed out, with a button back to the documentation." />
+
+Where a reader lands after signing out depends on how they signed in:
+
+- **OAuth 2.0 with a Logout URL**: they continue to your provider's logout page, which ends their session there too.
+- **Every other method**: they land on a **You've signed out** page, and stay signed out until they choose **Back to documentation**. A private site doesn't sign them straight back in.
+
+<Callout kind="info" collapsed="false">
+  Signing out of your own product or identity provider doesn't sign a reader out of your docs. Their docs session lasts until it expires, or until they use the docs' sign-out.
+</Callout>
+
+### Use your own sign-out button
+
+To replace the built-in button, turn off **Show sign-out button** under **Settings > Access Control > Sign Out**, then re-publish. Readers stay signed in; only the button goes. Then add your own with a [custom script](/customize/custom-scripts):
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1794202719368-83vbuv8cd8f-sign-out-custom-button.png?fm=auto&auto=compress%2Cformat" width="2400" height="1516" alt="Access Control with Show sign-out button switched off. A line runs to a custom script that shows its own button to signed-in readers, calls window.dai.auth.signOut() on click, and listens for the sign-out event." />
+
+```javascript
+// Show a Sign out button in the navbar to signed-in readers.
+if (window.dai.auth.signedIn) {
+  const button = document.createElement('button');
+  button.textContent = 'Sign out';
+  button.addEventListener('click', () => window.dai.auth.signOut());
+  document.querySelector('.dai-navbar-buttons')?.append(button);
+}
+```
+
+The built-in button calls the same `window.dai.auth.signOut()`, so both behave the same way.
+
+| API | What it does |
+| --- | --- |
+| `window.dai.auth.signedIn` | `true` while a reader is signed in. Read it when you need it: it stays correct after a sign-in or sign-out. |
+| `window.dai.auth.method` | How the reader signed in: `password`, `documentationai`, `email_otp`, `jwt_eddsa` or `oauth2`. `null` when signed out. |
+| `window.dai.auth.signOut(options)` | Signs the reader out and leaves the page. Pass `{ redirect: '/goodbye' }` to choose where they land. Resolves `false` if a `dai:sign-out` listener cancelled it, and rejects if the request fails. |
+| `window.dai.on(name, handler)` | Listens for the `dai:<name>` event on `document`. Returns a function that stops listening. |
+
+Before sign-out starts, a `dai:sign-out` event fires on `document`. Its `event.detail` is `{ method, redirect }`, and calling `event.preventDefault()` stops the sign-out.
+
+```javascript
+// Ask before signing out.
+window.dai.on('sign-out', (event) => {
+  if (!window.confirm('Sign out of the docs?')) event.preventDefault();
+});
+```
+
+<Callout kind="tip" collapsed="false">
+  On [embedded docs](/embedded-docs/private-docs), sign readers out from your own app with `DocumentationAI.signOut()` instead.
+</Callout>

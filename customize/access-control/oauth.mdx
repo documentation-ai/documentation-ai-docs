@@ -57,7 +57,7 @@ Documentation.AI uses the **Authorization Code flow with PKCE** for enhanced sec
 
 ## Token claims
 
-Documentation.AI extracts user identity and access roles from the ID token or the User Info endpoint response. Include the following fields:
+Documentation.AI extracts user identity and access roles from the ID token, the User Info endpoint response, and the access token when your provider issues it as a JWT. A field in the ID token or User Info response takes priority; the access token only fills fields they don't include. Include the following fields:
 
 ```json
 {
@@ -124,6 +124,12 @@ sequenceDiagram
 - User Info URL: `https://{your-domain}.auth0.com/userinfo`
 - Scopes: `openid profile email`
 - Use an Auth0 Action (Post-Login) to add `accessRoles` as a custom claim.
+
+### WorkOS
+
+- Authorization, Token and User Info URLs: take them from your AuthKit domain's `/.well-known/openid-configuration`.
+- Scopes: `openid profile email`
+- Add `accessRoles` (and `company` or `firstname` if you use them) with a JWT template. WorkOS adds template claims to the access token only, which Documentation.AI reads. Make `accessRoles` a list, for example `"accessRoles": {{ organization_membership.roles }}`, not a quoted string.
 
 ### Azure AD / Entra ID
 

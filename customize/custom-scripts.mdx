@@ -108,6 +108,22 @@ Custom scripts load using a non-blocking strategy after the page becomes interac
 
 This ensures your documentation pages remain fast for readers even when multiple custom scripts are configured.
 
+## Reader sign-in state
+
+On sites with [access control](/customize/access-control/overview), `window.dai` is ready before your scripts run:
+
+- `window.dai.user`: the signed-in reader's identity.
+- `window.dai.auth`: whether a reader is signed in, how, and `signOut()` to sign them out.
+- `window.dai.on(name, handler)`: listens for reader events such as `sign-out`.
+
+```javascript
+if (window.dai.auth.signedIn) {
+  console.log('Signed in with', window.dai.auth.method);
+}
+```
+
+See [Signing out](/customize/access-control/overview#signing-out) for the full API and how to add your own sign-out button.
+
 ## Security considerations
 
 Custom scripts execute in your readers' browsers with full page access.

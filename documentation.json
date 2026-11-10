@@ -581,6 +581,22 @@
                 "icon": "settings"
               },
               {
+                "group": "Assistant API",
+                "icon": "bot",
+                "pages": [
+                  {
+                    "title": "Assistant API",
+                    "path": "ai/assistant-api",
+                    "icon": "bot"
+                  },
+                  {
+                    "title": "Assistant API Reference",
+                    "path": "ai/assistant-api-reference",
+                    "icon": "book-open"
+                  }
+                ]
+              },
+              {
                 "title": "External Sources",
                 "path": "ai/external-sources",
                 "icon": "external-link"

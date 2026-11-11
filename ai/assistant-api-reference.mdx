@@ -38,7 +38,7 @@ Send a key in the `Authorization` header: `Authorization: Bearer <key>`.
 </ParamField>
 
 <ParamField body="history" param-type="array" required="false" deprecated="false" show-location="false">
-  Earlier messages, oldest first, each `{ "role": "user" | "assistant", "content": "..." }`. At most 49, so the conversation holds 50 with the new message. Can't be sent with `conversation_id`.
+  Earlier messages, oldest first, each `{ "role": "user" | "assistant", "content": "..." }`. At most 49, so the conversation holds 50 with the new message. The assistant reads the latest 10 of them, or 4 in Lite mode, as on your docs site, so you can send a whole thread. Can't be sent with `conversation_id`.
 </ParamField>
 
 <ParamField body="stream" param-type="boolean" required="false" deprecated="false" show-location="false">
@@ -58,7 +58,9 @@ Send a key in the `Authorization` header: `Authorization: Bearer <key>`.
 </ParamField>
 
 <ParamField header="Idempotency-Key" param-type="string" required="false" deprecated="false" show-location="false">
-  Requests with the same key and the same body within 10 minutes return the first answer, uncharged, with the `Idempotent-Replayed: true` header. Without it, the same message after the same earlier messages counts as a repeat. In a page, only the same visitor's requests count as repeats.
+  Requests with the same key and the same body within 10 minutes return the first answer, uncharged, with the `Idempotent-Replayed: true` header. Without it, the same message after the same earlier messages counts as a repeat. In a page, only the same visitor's requests count as repeats. A repeat sent while the first is still being answered waits for that answer. Publishing a change to which pages need sign-in, or to their roles, ends the 10 minutes early.
+
+  Send it if your tool retries after giving up on a slow answer. With it, an answer keeps being written after your tool hangs up, so the retry gets it, charged once. Without it, hanging up stops the answer, and nothing is charged.
 </ParamField>
 
 ### Response
@@ -84,7 +86,7 @@ Send a key in the `Authorization` header: `Authorization: Bearer <key>`.
 </ResponseField>
 
 <ResponseField name="format" field-type="string" required="true">
-  `markdown`, `html` or `text`.
+  `markdown`, `html`, `text` or `slack`.
 </ResponseField>
 
 <ResponseField name="confidence" field-type="number | null" required="true">
@@ -92,7 +94,7 @@ Send a key in the `Authorization` header: `Authorization: Bearer <key>`.
 </ResponseField>
 
 <ResponseField name="sources" field-type="array" required="true">
-  The pages the answer cites, each `{ "title": string | null, "url": string }` with a full URL.
+  The pages the answer cites, each `{ "title": string | null, "url": string | null }` with a full URL. An answer from a PDF your team uploaded lists the PDF by name, with `url` set to `null`, as it has no web address.
 </ResponseField>
 
 <ResponseField name="follow_up_questions" field-type="array" required="true">
@@ -189,13 +191,13 @@ The response also has `name`, `integration`, `caller`, `access`, `requests_per_m
 
 ## Errors
 
-Errors return the status code below and a flat body:
+Errors return the status code below and a flat body, as does a wrong path or method:
 
 ```json
 { "error": "rate_limited", "message": "This key allows 60 requests a minute. Retry after 12 seconds.", "retry_after_seconds": 12 }
 ```
 
-`retry_after_seconds` and the `Retry-After` header are set when retrying later can succeed.
+`retry_after_seconds` and the `Retry-After` header are set when retrying later can succeed. Once the key is accepted, refusals carry the `X-RateLimit-*` headers too.
 
 | Status | `error` | What to do |
 | --- | --- | --- |
@@ -205,7 +207,6 @@ Errors return the status code below and a flat body:
 | 401 | `key_invalid` | Check the key was copied in full, and that it is an Assistant API key. |
 | 401 | `key_expired` | Create a new key. |
 | 401 | `key_revoked` | Create a new key. |
-| 403 | `key_suspended` | Contact support. |
 | 401 | `reader_credential_invalid` | Have your server create a new reader credential. |
 | 403 | `browser_not_allowed` | Use the secret key from a server only. Rotate it if it was in a page. |
 | 403 | `origin_required` | Call with the publishable key or a reader credential from a page on an allowed origin. |
@@ -215,12 +216,13 @@ Errors return the status code below and a flat body:
 | 429 | `monthly_quota_exceeded` | Wait for the quota to reset on the 1st (UTC). |
 | 403 | `assistant_disabled` | Turn the AI assistant on for the documentation. |
 | 404 | `site_not_published` | Publish the documentation. |
-| 403 | `key_access_insufficient` | Every page now needs sign-in. Open the key's **Edit** dialog and save it to have it read protected pages. |
+| 403 | `key_access_insufficient` | Every page now needs sign-in. In the key's **Edit** dialog, choose **All pages, including protected ones** and save. |
 | 403 | `reader_sign_in_required` | Ask for a signed-in reader: every page needs sign-in. |
 | 429 | `rate_limited` | Retry after `retry_after_seconds`. |
 | 429 | `too_many_concurrent_requests` | Retry when one of the key's 20 running requests finishes. |
-| 409 | `request_in_progress` | The same request is still being answered. Retry for its answer. |
+| 409 | `request_in_progress` | The same request was still being answered when your time limit ran out. Retry for its answer. |
 | 404 | `answer_not_found` | Rate only answers given to this key in the last 30 days. |
+| 404 | `not_found` | Check the method and path, such as `POST /v1/assistant/answers`. |
 | 503 | `site_settings_unavailable` | Retry shortly. No answer is given without your access settings. |
 | 503 | `temporarily_unavailable` | Retry shortly. |
 | 500 | `internal_error` | Retry shortly, and contact support if it persists. |

@@ -90,7 +90,7 @@ Every request is checked against your site's settings as they are published. Cha
 - On a public site, keys answer from every published page and you don't choose. The dialog says **This key answers from every published page.**
 - If some pages need sign-in, choose **Public pages only** or **All pages, including protected ones** under **Answers from**.
 - If every page needs sign-in, keys read protected pages. The dialog says **This key reads protected pages.**
-- A key's access is never raised for you. A public-pages key keeps reading public pages if you later put more pages behind sign-in, and is refused once every page needs sign-in.
+- A key's access is never raised for you, nor changed when you edit its name, tool or origins. A public-pages key keeps reading public pages if you later put more pages behind sign-in, and is refused once every page needs sign-in, until you choose **All pages, including protected ones** in its **Edit** dialog.
 
 <Callout kind="alert" collapsed="false">
   A key that reads protected pages answers anyone who can message the tool it is connected to. The dialog warns: **Anyone who can message the tool you connect can get answers from protected pages.** Connect such keys only to tools your readers sign in to, or narrow each request to its reader as shown below.
@@ -104,7 +104,7 @@ Roles appear when your site signs readers in with JWT, OAuth, or email verificat
 2. If new roles should be included automatically, select **All roles, including ones added later**. Otherwise a role you add later is not given to existing keys.
 3. With no roles selected, the key reads only pages that are not limited to a role.
 
-A key created before you turned on role-based access has no roles, so it reads only pages without a role until you edit it and choose some.
+A key created before you turned on role-based access has no roles, so it reads only pages without a role until you edit it and choose some. If you remove a role from your site, keys keep it until you change their roles; the **Edit** dialog says which ones do.
 
 ### How to answer for one reader
 
@@ -198,7 +198,9 @@ Questions asked through the API appear in **Analytics** with your docs site's. U
   </Expandable>
 
   <Expandable title="What happens when my tool retries a request?" default-open="false">
-    The same request sent again within 10 minutes returns the first answer, without running or charging again. Send an `Idempotency-Key` header to choose which requests count as the same.
+    The same request sent again within 10 minutes returns the first answer, without running or charging again. If the first is still being answered, the retry waits for it. Send an `Idempotency-Key` header to choose which requests count as the same.
+
+    If your tool gives up on a slow answer and retries, send an `Idempotency-Key`: the answer keeps being written after the first request is dropped, and the retry gets it, charged once. Without the header, a dropped request stops its answer, and nothing is charged.
   </Expandable>
 
   <Expandable title="What happens when we run out of AI credits?" default-open="false">
@@ -211,7 +213,7 @@ Questions asked through the API appear in **Analytics** with your docs site's. U
 Every refusal has an `error` code and a `message` saying what to do. The [API reference](/ai/assistant-api-reference#errors) lists them all. The ones you are most likely to see:
 
 - **`browser_not_allowed`**: a secret key was sent from a web page. Rotate the key, and use the publishable key or a reader credential in pages.
-- **`key_access_insufficient`**: the key reads public pages only and every page of the site now needs sign-in. Open the key's **Edit** dialog and save it, and it reads protected pages from then on.
+- **`key_access_insufficient`**: the key reads public pages only and every page of the site now needs sign-in. Open the key's **Edit** dialog, choose **All pages, including protected ones** and save, and it reads protected pages from then on.
 - **`origin_not_allowed`**: add the page's origin under **Allowed origins**, written exactly as the browser sends it.
 - **`rate_limited`**: wait the number of seconds in `retry_after_seconds`, then retry.
 - **`credits_exhausted`**: add credits or turn on overage in **Settings > Billing**.
@@ -224,14 +226,14 @@ Every refusal has an `error` code and a `message` saying what to do. The [API re
 | Requests per minute, per key | 60 |
 | Requests running at once, per key | 20 |
 | Messages per minute, per conversation | 6 |
-| Questions per minute, per website visitor | 10 |
+| Questions per minute, per website visitor (by IP address) | 10 |
 | Message length | 16,000 characters |
-| Messages in a conversation | 50 |
+| Messages in a conversation | 50, of which the assistant reads the latest 10 (4 in Lite mode) |
 | Request size | 64 KB |
 | Conversation kept for | 30 days after its last message |
 | Reader credential lifetime | 15 minutes by default, up to 1 hour |
 
-Every request with a valid key counts towards the per-key limit, and successful responses carry `X-RateLimit-Limit`, `X-RateLimit-Remaining` and `X-RateLimit-Reset` headers. If you need more requests per minute, contact support.
+Every request with a valid key counts towards the per-key limit, and its response, a refusal included, carries `X-RateLimit-Limit`, `X-RateLimit-Remaining` and `X-RateLimit-Reset` headers. If you need more requests per minute, contact support.
 
 ## Related
 

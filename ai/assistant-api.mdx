@@ -34,10 +34,16 @@ The Assistant API lets the tools your team already uses ask your docs assistant.
 
   <Step title="Leave Allowed origins empty for server tools" icon="globe" title-type="p">
     Leave **Allowed origins** empty for Intercom, Zendesk, Zapier or your server. Add a site only if its pages call the API directly. See [Use the API from a website](#use-the-api-from-a-website).
+
+    <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1794395158125-u8lvowcdnsb-assistant-api-create-dialog.png?fm=auto&auto=compress%2Cformat" width="1256" height="1605" alt="The Create Assistant API key dialog with the name Support inbox, Connected to set to Intercom, no allowed origins, the note This key answers from every published page, and Expires set to 1 year" caption="A key for an Intercom inbox on a public site. With no allowed origins, it works only from servers and tools." style="width: 628px; height: auto; margin: 0 auto;" />
   </Step>
 
   <Step title="Create the key and copy the secret key" icon="key-round" title-type="p">
     Choose when the key **Expires** (1 year by default), then click **Create key**. Copy the **Secret key** from the dialog. It is shown only once.
+
+    To check the key, copy the **Try it** command and run it in a terminal. It asks your docs a real question, so it uses a credit when it gets an answer.
+
+    <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1794395165994-vnkkpvsh8wr-assistant-api-secret-dialog.png?fm=auto&auto=compress%2Cformat" width="1256" height="1265" alt="The Copy your secret key dialog for Support inbox, with the secret key, a note that only a hash is stored, and a Try it command that asks How do I get started?" caption="Copy the secret key before you close the dialog. Pressing Esc or clicking outside it doesn't close it." style="width: 628px; height: auto; margin: 0 auto;" />
   </Step>
 </Steps>
 
@@ -178,13 +184,21 @@ See the [API reference](/ai/assistant-api-reference#reader-credentials) for the 
 
 You must have the **Admin** role. Changes apply on the next request.
 
+Each key's actions are in the menu at the end of its row.
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1794395162103-wvmt4pjghin-assistant-api-keys-table.png?fm=auto&auto=compress%2Cformat" width="2080" height="1148" alt="The Assistant API settings with three keys: Help center widget for Your website with the origin https://app.acme.com and its publishable key, Slack support bot and Support inbox for server tools, and the menu of Support inbox open with Edit, Rotate secret key and Revoke" caption="Each row shows the key's tool, the start of its secret key, what it answers from, its allowed origins and when it expires." />
+
 - **Edit**: change the name, the tool, what the key answers from, its roles and its allowed origins. Tools using the key keep working, because the key itself doesn't change.
 - **Rotate secret key**: get a new secret key. The old one stops working at once. The key's settings and usage history stay.
 - **Revoke**: the tool using the key stops getting answers at once. This cannot be undone.
 
 ## Analytics
 
-Questions asked through the API appear in **Analytics** with your docs site's. Use **Type** to show **All**, **Docs site**, **Embed** or **API** questions. Totals include API questions unless you filter them out. Embedded questions are counted as **Embed** from the embed SDK release that reports them; earlier ones count as **Docs site**.
+Questions asked through the API appear in **Analytics > AI Assistant** with your docs site's. Use **Type** to show **All**, **Docs site**, **Embed** or **API** questions. Totals include API questions unless you filter them out. Embedded questions are counted as **Embed** from the embed SDK release that reports them; earlier ones count as **Docs site**.
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1794395153633-ugsomq1kz9p-assistant-api-analytics.png?fm=auto&auto=compress%2Cformat" width="2488" height="1244" alt="The AI Assistant tab of Analytics with Type set to API, showing 3 questions in 3 sessions, 100% answer satisfaction, and the questions asked through the API" caption="With Type set to API, the totals and sessions count only questions asked through the Assistant API." />
+
+Credits used by API answers show as **Assistant API** in **Settings > AI Usage**.
 
 ## Common questions
 

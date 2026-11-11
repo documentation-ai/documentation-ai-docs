@@ -50,7 +50,7 @@ The Assistant API lets the tools your team already uses ask your docs assistant.
 Send the secret key as a bearer token:
 
 ```bash
-curl https://assistant-api.documentation.ai/v1/assistant/answers \
+curl https://api.documentation.ai/api/v1/assistant/answers \
   -H "Authorization: Bearer asst_sk_..." \
   -H "Content-Type: application/json" \
   -d '{"message": "How do I reset my password?"}'
@@ -122,7 +122,7 @@ If your tool knows who is asking, send `reader` with the request. It only ever n
 
 ## Connect your tools
 
-Each tool sends a POST request to `https://assistant-api.documentation.ai/v1/assistant/answers` with the secret key in the `Authorization` header. Set `timeout_seconds` below your tool's own time limit, so a slow answer comes back as not answered instead of failing.
+Each tool sends a POST request to `https://api.documentation.ai/api/v1/assistant/answers` with the secret key in the `Authorization` header. Set `timeout_seconds` below your tool's own time limit, so a slow answer comes back as not answered instead of failing.
 
 An answer usually takes 10 to 20 seconds, because the assistant searches your docs and reads the pages it found. When a tool waits less than that, take its request, reply to it at once, and post the answer from your own server when it arrives, as the Intercom and Zendesk tabs show.
 
@@ -163,14 +163,14 @@ An answer usually takes 10 to 20 seconds, because the assistant searches your do
 
 ### How to report whether an answer helped
 
-Send the answer's `id` to `POST /v1/assistant/feedback` with `"rating": "up"` or `"rating": "down"`. Ratings show with your docs site's in **Analytics**.
+Send the answer's `id` to `POST /api/v1/assistant/feedback` with `"rating": "up"` or `"rating": "down"`. Ratings show with your docs site's in **Analytics**.
 
 ## Use the API from a website
 
 If your own website or product calls the API from its pages, add the site under **Allowed origins**, for example `https://app.acme.com`. Origins are exact: scheme, host and port, with no path and no wildcards.
 
 - Pages on an allowed origin use the key's **Publishable key**, shown when you create the key. It answers from public pages only.
-- For answers from protected pages, your server creates a short-lived reader credential for each visitor with `POST /v1/assistant/reader-credentials`, and the page uses it instead of the publishable key. A credential works only from the origin it was created for, never reads more than its key, and cannot create more credentials.
+- For answers from protected pages, your server creates a short-lived reader credential for each visitor with `POST /api/v1/assistant/reader-credentials`, and the page uses it instead of the publishable key. A credential works only from the origin it was created for, never reads more than its key, and cannot create more credentials.
 
 See the [API reference](/ai/assistant-api-reference#reader-credentials) for the request.
 

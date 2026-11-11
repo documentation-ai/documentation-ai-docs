@@ -10,7 +10,7 @@ type: reference
 The Assistant API answers questions from your documentation. To create keys and connect tools, see [Assistant API](/ai/assistant-api).
 
 ```text
-https://assistant-api.documentation.ai/v1/assistant
+https://api.documentation.ai/api/v1/assistant
 ```
 
 Requests and responses are JSON. Field names, event names and error codes don't change between releases.
@@ -222,7 +222,7 @@ Errors return the status code below and a flat body, as does a wrong path or met
 | 429 | `too_many_concurrent_requests` | Retry when one of the key's 20 running requests finishes. |
 | 409 | `request_in_progress` | The same request was still being answered when your time limit ran out. Retry for its answer. |
 | 404 | `answer_not_found` | Rate only answers given to this key in the last 30 days. |
-| 404 | `not_found` | Check the method and path, such as `POST /v1/assistant/answers`. |
+| 404 | `not_found` | Check the method and path, such as `POST /api/v1/assistant/answers`. |
 | 503 | `site_settings_unavailable` | Retry shortly. No answer is given without your access settings. |
 | 503 | `temporarily_unavailable` | Retry shortly. |
 | 500 | `internal_error` | Retry shortly, and contact support if it persists. |

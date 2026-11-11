@@ -1,0 +1,228 @@
+---
+title: Assistant API Reference
+description: >-
+  Endpoints, request and response fields, stream events and error codes of the
+  Assistant API.
+type: reference
+---
+## Overview
+
+The Assistant API answers questions from your documentation. To create keys and connect tools, see [Assistant API](/ai/assistant-api).
+
+```text
+https://assistant-api.documentation.ai/v1/assistant
+```
+
+Requests and responses are JSON. Field names, event names and error codes don't change between releases.
+
+## Authentication
+
+Send a key in the `Authorization` header: `Authorization: Bearer <key>`.
+
+| Key | Starts with | Used from | Reads |
+| --- | --- | --- | --- |
+| Secret key | `asst_sk_` | Servers and tools. Refused when the request comes from a web page. | What the key allows |
+| Publishable key | `asst_pk_` | Pages on the key's allowed origins | Public pages only |
+| Reader credential | `asst_rc_` | The page it was created for | What the key allows, narrowed to one reader |
+
+## Ask a question
+
+`POST /answers`
+
+<ParamField body="message" param-type="string" required="true" deprecated="false" show-location="false">
+  The question, up to 16,000 characters.
+</ParamField>
+
+<ParamField body="conversation_id" param-type="string" required="false" deprecated="false" show-location="false">
+  Your own id for the conversation, up to 200 characters, such as a ticket id. Earlier messages are kept for you, separately for each key, for 30 days after the last one. Secret key only: pages send `history`. Can't be sent with `history`.
+</ParamField>
+
+<ParamField body="history" param-type="array" required="false" deprecated="false" show-location="false">
+  Earlier messages, oldest first, each `{ "role": "user" | "assistant", "content": "..." }`. At most 49, so the conversation holds 50 with the new message. The assistant reads the latest 10 of them, or 4 in Lite mode, as on your docs site, so you can send a whole thread. Can't be sent with `conversation_id`.
+</ParamField>
+
+<ParamField body="stream" param-type="boolean" required="false" deprecated="false" show-location="false">
+  `true` to receive the answer as [stream events](#stream-events). Defaults to `false`.
+</ParamField>
+
+<ParamField body="format" param-type="string" required="false" deprecated="false" show-location="false">
+  `markdown` (default), `html`, `text` or `slack`. HTML escapes any HTML in the answer. `slack` is Slack's own message formatting, ready to post as a message's text.
+</ParamField>
+
+<ParamField body="timeout_seconds" param-type="number" required="false" deprecated="false" show-location="false">
+  How long to wait for an answer, from 3 to 120 seconds, counted from when the request arrives. Defaults to 25, or 120 with `stream`. Past it, the response is not answered, with `reason` set to `timeout`, and nothing is charged.
+</ParamField>
+
+<ParamField body="reader" param-type="object" required="false" deprecated="false" show-location="false">
+  The reader you are asking for, with the secret key only: `signed_in` (boolean) and `roles` (array of strings). It only narrows what the key reads.
+</ParamField>
+
+<ParamField header="Idempotency-Key" param-type="string" required="false" deprecated="false" show-location="false">
+  Requests with the same key and the same body within 10 minutes return the first answer, uncharged, with the `Idempotent-Replayed: true` header. Without it, the same message after the same earlier messages counts as a repeat. In a page, only the same visitor's requests count as repeats. A repeat sent while the first is still being answered waits for that answer. Publishing a change to which pages need sign-in, or to their roles, ends the 10 minutes early.
+
+  Send it if your tool retries after giving up on a slow answer. With it, an answer keeps being written after your tool hangs up, so the retry gets it, charged once. Without it, hanging up stops the answer, and nothing is charged.
+</ParamField>
+
+### Response
+
+<ResponseField name="id" field-type="string" required="true">
+  The answer's id, starting with `ans_`. Send it to [feedback](#rate-an-answer).
+</ResponseField>
+
+<ResponseField name="conversation_id" field-type="string | null" required="true">
+  The `conversation_id` you sent, or `null`.
+</ResponseField>
+
+<ResponseField name="answered" field-type="boolean" required="true">
+  `true` when the assistant answered from your docs. Credits are used only then.
+</ResponseField>
+
+<ResponseField name="reason" field-type="string | null" required="true">
+  Why `answered` is `false`: `no_answer_found`, `timeout` or `small_talk`. `small_talk` is a reply to a greeting or thanks, such as "hi": send `answer` as it is, without handing off. `null` when answered.
+</ResponseField>
+
+<ResponseField name="answer" field-type="string" required="true">
+  The answer in the requested format, with full links. Empty when not answered, except for `small_talk`.
+</ResponseField>
+
+<ResponseField name="format" field-type="string" required="true">
+  `markdown`, `html`, `text` or `slack`.
+</ResponseField>
+
+<ResponseField name="confidence" field-type="number | null" required="true">
+  The assistant's confidence, from 0 to 1. `null` after a timeout.
+</ResponseField>
+
+<ResponseField name="sources" field-type="array" required="true">
+  The pages the answer cites, each `{ "title": string | null, "url": string | null }` with a full URL. An answer from a PDF your team uploaded lists the PDF by name, with `url` set to `null`, as it has no web address.
+</ResponseField>
+
+<ResponseField name="follow_up_questions" field-type="array" required="true">
+  Questions the reader may ask next. Often empty, so treat it as optional.
+</ResponseField>
+
+<ResponseField name="created_at" field-type="string" required="true">
+  When the answer was given, in ISO 8601 UTC.
+</ResponseField>
+
+### Stream events
+
+With `"stream": true`, the response is `text/event-stream`. A comment line arrives at once, and another every 10 seconds while the answer is written.
+
+| Event | Data |
+| --- | --- |
+| `answer.delta` | `{ "text": "..." }`: the next part of the answer, in Markdown as it is written |
+| `answer.completed` | The [response](#response) object, the same as in normal mode. Use its `answer` as the final text. |
+| `error` | An [error](#errors) object, if the answer fails after the stream starts |
+
+Refusals that happen before the answer starts, such as an invalid key, come back as normal JSON errors with their status code.
+
+## Rate an answer
+
+`POST /feedback`
+
+<ParamField body="answer_id" param-type="string" required="true" deprecated="false" show-location="false">
+  The `id` of an answer given to the same key in the last 30 days.
+</ParamField>
+
+<ParamField body="rating" param-type="string" required="true" deprecated="false" show-location="false">
+  `up` or `down`.
+</ParamField>
+
+Returns `{ "recorded": true }`.
+
+## Reader credentials
+
+`POST /reader-credentials`, with the secret key, from your server.
+
+<ParamField body="origin" param-type="string" required="true" deprecated="false" show-location="false">
+  One of the key's allowed origins, exactly as the browser sends it, such as `https://app.acme.com`.
+</ParamField>
+
+<ParamField body="signed_in" param-type="boolean" required="false" deprecated="false" show-location="false">
+  Whether the visitor is signed in to your product. `false` limits the credential to public pages. Defaults to `true`.
+</ParamField>
+
+<ParamField body="roles" param-type="array" required="false" deprecated="false" show-location="false">
+  The visitor's roles. Only roles the key also has are kept, each time the credential is used.
+</ParamField>
+
+<ParamField body="expires_in_seconds" param-type="integer" required="false" deprecated="false" show-location="false">
+  From 60 to 3,600. Defaults to 900 (15 minutes).
+</ParamField>
+
+<ResponseField name="credential" field-type="string" required="true">
+  The credential, starting with `asst_rc_`. Pass it to the page, which sends it as its bearer token.
+</ResponseField>
+
+<ResponseField name="origin" field-type="string" required="true">
+  The only origin the credential works from.
+</ResponseField>
+
+<ResponseField name="expires_at" field-type="string" required="true">
+  When it stops working, in ISO 8601 UTC.
+</ResponseField>
+
+<ResponseField name="expires_in_seconds" field-type="number" required="true">
+  Its lifetime in seconds.
+</ResponseField>
+
+## Check a key
+
+`GET /key` returns whether the key works now and what it answers from, for setup screens. For a valid key it returns `200`, with any problem reported in the body. It counts towards the key's rate limit like every request.
+
+<ResponseField name="ready" field-type="boolean" required="true">
+  `true` when the key can answer now.
+</ResponseField>
+
+<ResponseField name="problem" field-type="string | null" required="true">
+  The [error code](#errors) a question would get, or `null`. `problem_message` explains it.
+</ResponseField>
+
+<ResponseField name="answers_from" field-type="string | null" required="true">
+  `all_pages`, `public_pages` or `protected_pages`, for the site as it is published now.
+</ResponseField>
+
+The response also has `name`, `integration`, `caller`, `access`, `requests_per_minute` and `expires_at`, and, for the secret key, `access_roles` and `allowed_origins`.
+
+## Delete a conversation
+
+`DELETE /conversations/{conversation_id}`, with the secret key. Returns `{ "deleted": true }`, or `false` if there was none.
+
+## Errors
+
+Errors return the status code below and a flat body, as does a wrong path or method:
+
+```json
+{ "error": "rate_limited", "message": "This key allows 60 requests a minute. Retry after 12 seconds.", "retry_after_seconds": 12 }
+```
+
+`retry_after_seconds` and the `Retry-After` header are set when retrying later can succeed. Once the key is accepted, refusals carry the `X-RateLimit-*` headers too.
+
+| Status | `error` | What to do |
+| --- | --- | --- |
+| 400 | `invalid_request` | Fix the field named in `message`. |
+| 413 | `request_too_large` | Keep requests under 64 KB. |
+| 401 | `key_missing` | Send `Authorization: Bearer <key>`. |
+| 401 | `key_invalid` | Check the key was copied in full, and that it is an Assistant API key. |
+| 401 | `key_expired` | Create a new key. |
+| 401 | `key_revoked` | Create a new key. |
+| 401 | `reader_credential_invalid` | Have your server create a new reader credential. |
+| 403 | `browser_not_allowed` | Use the secret key from a server only. Rotate it if it was in a page. |
+| 403 | `origin_required` | Call with the publishable key or a reader credential from a page on an allowed origin. |
+| 403 | `origin_not_allowed` | Add the origin to the key, exactly as the browser sends it. |
+| 403 | `plan_not_included` | Upgrade to Standard or higher. |
+| 402 | `credits_exhausted` | Add credits or turn on overage. |
+| 429 | `monthly_quota_exceeded` | Wait for the quota to reset on the 1st (UTC). |
+| 403 | `assistant_disabled` | Turn the AI assistant on for the documentation. |
+| 404 | `site_not_published` | Publish the documentation. |
+| 403 | `key_access_insufficient` | Every page now needs sign-in. In the key's **Edit** dialog, choose **All pages, including protected ones** and save. |
+| 403 | `reader_sign_in_required` | Ask for a signed-in reader: every page needs sign-in. |
+| 429 | `rate_limited` | Retry after `retry_after_seconds`. |
+| 429 | `too_many_concurrent_requests` | Retry when one of the key's 20 running requests finishes. |
+| 409 | `request_in_progress` | The same request was still being answered when your time limit ran out. Retry for its answer. |
+| 404 | `answer_not_found` | Rate only answers given to this key in the last 30 days. |
+| 404 | `not_found` | Check the method and path, such as `POST /v1/assistant/answers`. |
+| 503 | `site_settings_unavailable` | Retry shortly. No answer is given without your access settings. |
+| 503 | `temporarily_unavailable` | Retry shortly. |
+| 500 | `internal_error` | Retry shortly, and contact support if it persists. |

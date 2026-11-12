@@ -81,7 +81,7 @@ The answer comes back with full links to the pages it used:
 }
 ```
 
-When `answered` is `false`, the assistant found nothing in your docs to answer with, or ran out of time. `answer` is empty, so your tool can hand the conversation to a person. A greeting or thanks, such as "hi", is the exception: `reason` is `small_talk`, and `answer` holds a short reply to send instead. Neither is charged. See the [API reference](/ai/assistant-api-reference) for every field.
+When `answered` is `false`, the assistant found nothing in your docs to answer with, or ran out of time. `answer` is empty, so your tool can hand the conversation to a person. A greeting or thanks, such as "hi", is the exception: `reason` is `small_talk`, and `answer` holds a short reply to send instead. Neither is charged. See [Ask a question](/api-reference/assistant-api/post-answers) in the API reference for every field.
 
 ## What a key can read
 
@@ -178,7 +178,7 @@ If your own website or product calls the API from its pages, add the site under 
 - Pages on an allowed origin use the key's **Publishable key**, shown when you create the key. It answers from public pages only.
 - For answers from protected pages, your server creates a short-lived reader credential for each visitor with `POST /api/v1/assistant/reader-credentials`, and the page uses it instead of the publishable key. A credential works only from the origin it was created for, never reads more than its key, and cannot create more credentials.
 
-See the [API reference](/ai/assistant-api-reference#reader-credentials) for the request.
+See [Create a reader credential](/api-reference/assistant-api/post-reader-credentials) in the API reference for the request.
 
 ## Manage keys
 
@@ -224,7 +224,7 @@ Credits used by API answers show as **Assistant API** in **Settings > AI Usage**
 
 ## If a request fails
 
-Every refusal has an `error` code and a `message` saying what to do. The [API reference](/ai/assistant-api-reference#errors) lists them all. The ones you are most likely to see:
+Every refusal has an `error` code and a `message` saying what to do. The [API reference](/api-reference/assistant-api/overview#errors) lists them all. The ones you are most likely to see:
 
 - **`browser_not_allowed`**: a secret key was sent from a web page. Rotate the key, and use the publishable key or a reader credential in pages.
 - **`key_access_insufficient`**: the key reads public pages only and every page of the site now needs sign-in. Open the key's **Edit** dialog, choose **All pages, including protected ones** and save, and it reads protected pages from then on.
@@ -252,7 +252,7 @@ Every request with a valid key counts towards the per-key limit, and its respons
 ## Related
 
 <Columns cols="3">
-  <Card title="API reference" href="/ai/assistant-api-reference" icon="book-open" horizontal="false">
+  <Card title="API reference" href="/api-reference/assistant-api/overview" icon="book-open" horizontal="false">
     Every endpoint, field, event and error.
   </Card>
 

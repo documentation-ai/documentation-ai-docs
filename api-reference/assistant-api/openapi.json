@@ -1,0 +1,460 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Documentation.AI Assistant API",
+    "description": "Answers questions from your documentation, with the same answers and access rules as your docs site.\n\nTo create keys and connect tools, see [Assistant API](/ai/assistant-api).",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Documentation.AI Support",
+      "url": "https://documentation.ai"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.documentation.ai/api/v1/assistant",
+      "description": "Production"
+    }
+  ],
+  "security": [
+    {
+      "assistantApiKey": []
+    }
+  ],
+  "paths": {
+    "/answers": {
+      "post": {
+        "operationId": "askQuestion",
+        "summary": "Ask a question",
+        "description": "Answers a question from your documentation. Credits are used only when `answered` is `true`.\n\nWith `\"stream\": true`, the response is `text/event-stream` instead: `answer.delta` events carry the answer as it is written, and `answer.completed` carries the object below. See [Stream events](/api-reference/assistant-api/overview#stream-events).",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "description": "Requests with the same key and the same body within 10 minutes return the first answer, uncharged, with the `Idempotent-Replayed: true` header. Without it, the same message after the same earlier messages counts as a repeat. In a page, only the same visitor's requests count as repeats. A repeat sent while the first is still being answered waits for that answer. Publishing a change to which pages need sign-in, or to their roles, ends the 10 minutes early.\n\nSend it if your tool retries after giving up on a slow answer. With it, an answer keeps being written after your tool hangs up, so the retry gets it, charged once. Without it, hanging up stops the answer, and nothing is charged.",
+            "schema": { "type": "string", "minLength": 1, "maxLength": 200 },
+            "example": "ticket-48213-message-3"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["message"],
+                "additionalProperties": false,
+                "properties": {
+                  "message": { "type": "string", "minLength": 1, "maxLength": 16000, "description": "The question, up to 16,000 characters.", "example": "How do I reset my password?" },
+                  "conversation_id": { "type": "string", "minLength": 1, "maxLength": 200, "description": "Your own id for the conversation, up to 200 characters, such as a ticket id. Earlier messages are kept for you, separately for each key, for 30 days after the last one. Secret key only: pages send `history`. Can't be sent with `history`." },
+                  "history": {
+                    "type": "array",
+                    "maxItems": 49,
+                    "description": "Earlier messages, oldest first. At most 49, so the conversation holds 50 with the new message. The assistant reads the latest 10 of them, or 4 in Lite mode, as on your docs site, so you can send a whole thread. Can't be sent with `conversation_id`.",
+                    "items": {
+                      "type": "object",
+                      "required": ["role", "content"],
+                      "additionalProperties": false,
+                      "properties": {
+                        "role": { "type": "string", "enum": ["user", "assistant"], "description": "Who wrote the message." },
+                        "content": { "type": "string", "maxLength": 16000, "description": "The message." }
+                      }
+                    }
+                  },
+                  "stream": { "type": "boolean", "default": false, "description": "`true` to receive the answer as [stream events](/api-reference/assistant-api/overview#stream-events)." },
+                  "format": { "type": "string", "enum": ["markdown", "html", "text", "slack"], "default": "markdown", "description": "The answer's format. HTML escapes any HTML in the answer. `slack` is Slack's own message formatting, ready to post as a message's text." },
+                  "timeout_seconds": { "type": "number", "minimum": 3, "maximum": 120, "description": "How long to wait for an answer, from 3 to 120 seconds, counted from when the request arrives. Defaults to 25, or 120 with `stream`. Past it, the response is not answered, with `reason` set to `timeout`, and nothing is charged." },
+                  "reader": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "The reader you are asking for, with the secret key only. It only narrows what the key reads.",
+                    "properties": {
+                      "signed_in": { "type": "boolean", "description": "`false` answers from public pages only. On a site where every page needs sign-in, the request is refused with `reader_sign_in_required`." },
+                      "roles": { "type": "array", "maxItems": 100, "items": { "type": "string", "minLength": 1, "maxLength": 64 }, "description": "The reader's roles. Only roles the key also has are kept." }
+                    }
+                  }
+                }
+              },
+              "example": { "message": "How do I reset my password?" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The answer, or why there is none. Every field is always present.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Answer" },
+                "example": {
+                  "id": "ans_7f3c2a9e41b84d0e9a1c6b5d2e8f0a13",
+                  "conversation_id": null,
+                  "answered": true,
+                  "reason": null,
+                  "answer": "Open **Account > Security** and choose **Reset password**. See [Reset your password](https://docs.acme.com/account/reset-password).",
+                  "format": "markdown",
+                  "confidence": 0.92,
+                  "sources": [
+                    { "title": "Reset your password", "url": "https://docs.acme.com/account/reset-password" }
+                  ],
+                  "follow_up_questions": ["How do I turn on two-factor authentication?"],
+                  "created_at": "2026-11-06T09:30:00.000Z"
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/InvalidRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "402": { "$ref": "#/components/responses/CreditsExhausted" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "409": { "$ref": "#/components/responses/RequestInProgress" },
+          "413": { "$ref": "#/components/responses/RequestTooLarge" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" },
+          "500": { "$ref": "#/components/responses/InternalError" },
+          "503": { "$ref": "#/components/responses/Unavailable" }
+        }
+      }
+    },
+    "/feedback": {
+      "post": {
+        "operationId": "rateAnswer",
+        "summary": "Rate an answer",
+        "description": "Records whether an answer helped. Ratings show with your docs site's in **Analytics**.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["answer_id", "rating"],
+                "additionalProperties": false,
+                "properties": {
+                  "answer_id": { "type": "string", "minLength": 1, "maxLength": 100, "description": "The `id` of an answer given to the same key in the last 30 days.", "example": "ans_7f3c2a9e41b84d0e9a1c6b5d2e8f0a13" },
+                  "rating": { "type": "string", "enum": ["up", "down"], "description": "Whether the answer helped." }
+                }
+              },
+              "example": { "answer_id": "ans_7f3c2a9e41b84d0e9a1c6b5d2e8f0a13", "rating": "up" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The rating was recorded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "recorded": { "type": "boolean", "description": "Always `true`." }
+                  }
+                },
+                "example": { "recorded": true }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/InvalidRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": {
+            "description": "No answer with this id was given to this key in the last 30 days.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" },
+                "example": { "error": "answer_not_found", "message": "No answer with this id was given to this key in the last 30 days." }
+              }
+            }
+          },
+          "413": { "$ref": "#/components/responses/RequestTooLarge" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" },
+          "500": { "$ref": "#/components/responses/InternalError" },
+          "503": { "$ref": "#/components/responses/Unavailable" }
+        }
+      }
+    },
+    "/reader-credentials": {
+      "post": {
+        "operationId": "createReaderCredential",
+        "summary": "Create a reader credential",
+        "description": "From your server, with the secret key: a short-lived credential for one visitor of a page on one of the key's allowed origins. The page sends it as its bearer token instead of the publishable key, and gets answers from what the key reads, narrowed to that visitor.\n\nA credential works only from the origin it was created for, never reads more than its key, and cannot create more credentials.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["origin"],
+                "additionalProperties": false,
+                "properties": {
+                  "origin": { "type": "string", "minLength": 1, "maxLength": 267, "description": "One of the key's allowed origins, exactly as the browser sends it.", "example": "https://app.acme.com" },
+                  "signed_in": { "type": "boolean", "default": true, "description": "Whether the visitor is signed in to your product. `false` limits the credential to public pages." },
+                  "roles": { "type": "array", "maxItems": 100, "items": { "type": "string", "minLength": 1, "maxLength": 64 }, "description": "The visitor's roles. Only roles the key also has are kept, each time the credential is used." },
+                  "expires_in_seconds": { "type": "integer", "minimum": 60, "maximum": 3600, "default": 900, "description": "From 60 to 3,600. Defaults to 900 (15 minutes)." }
+                }
+              },
+              "example": { "origin": "https://app.acme.com", "signed_in": true }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The credential. Every field is always present.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ReaderCredential" },
+                "example": {
+                  "credential": "asst_rc_3k9TqX2mVbN7wLp4ZcR8sYd1FhJ6uGe0aKoIiMnB5vQ",
+                  "origin": "https://app.acme.com",
+                  "expires_at": "2026-11-06T09:45:00.000Z",
+                  "expires_in_seconds": 900
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/InvalidRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "413": { "$ref": "#/components/responses/RequestTooLarge" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" },
+          "500": { "$ref": "#/components/responses/InternalError" },
+          "503": { "$ref": "#/components/responses/Unavailable" }
+        }
+      }
+    },
+    "/key": {
+      "get": {
+        "operationId": "checkKey",
+        "summary": "Check a key",
+        "description": "Returns whether the key works now and what it answers from, for setup screens. For a valid key it returns `200`, with any problem reported in the body. It counts towards the key's rate limit like every request.",
+        "responses": {
+          "200": {
+            "description": "The key's state. `access_roles` and `allowed_origins` are sent only for the secret key.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/KeyStatus" },
+                "example": {
+                  "ready": true,
+                  "problem": null,
+                  "problem_message": null,
+                  "name": "Support inbox",
+                  "integration": "intercom",
+                  "caller": "server",
+                  "access": "public",
+                  "answers_from": "all_pages",
+                  "access_roles": [],
+                  "allowed_origins": [],
+                  "requests_per_minute": 60,
+                  "expires_at": "2027-11-11T09:30:00.000Z"
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" },
+          "500": { "$ref": "#/components/responses/InternalError" },
+          "503": { "$ref": "#/components/responses/Unavailable" }
+        }
+      }
+    },
+    "/conversations/{conversation_id}": {
+      "delete": {
+        "operationId": "deleteConversation",
+        "summary": "Delete a conversation",
+        "description": "With the secret key. Deletes the earlier messages the assistant keeps for a `conversation_id`. Conversations are also deleted on their own 30 days after their last message.",
+        "parameters": [
+          {
+            "name": "conversation_id",
+            "in": "path",
+            "required": true,
+            "description": "The `conversation_id` you sent with the questions.",
+            "schema": { "type": "string", "minLength": 1, "maxLength": 200 },
+            "example": "ticket-48213"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Whether a conversation was deleted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "deleted": { "type": "boolean", "description": "`true` if a conversation was deleted, `false` if there was none." }
+                  }
+                },
+                "example": { "deleted": true }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" },
+          "500": { "$ref": "#/components/responses/InternalError" },
+          "503": { "$ref": "#/components/responses/Unavailable" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "assistantApiKey": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "An Assistant API key from **Settings > Assistant API**: the secret key (`asst_sk_...`) from servers and tools, or the publishable key (`asst_pk_...`) or a reader credential (`asst_rc_...`) from pages on the key's allowed origins. See [Authentication](/api-reference/assistant-api/overview#authentication)."
+      }
+    },
+    "schemas": {
+      "Answer": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "The answer's id, starting with `ans_`. Send it to [Rate an answer](/api-reference/assistant-api/post-feedback)." },
+          "conversation_id": { "type": "string", "nullable": true, "description": "The `conversation_id` you sent, or `null`." },
+          "answered": { "type": "boolean", "description": "`true` when the assistant answered from your docs. Credits are used only then." },
+          "reason": { "type": "string", "nullable": true, "enum": ["no_answer_found", "timeout", "small_talk", null], "description": "Why `answered` is `false`. `small_talk` is a reply to a greeting or thanks, such as \"hi\": send `answer` as it is, without handing off. `null` when answered." },
+          "answer": { "type": "string", "description": "The answer in the requested format, with full links. Empty when not answered, except for `small_talk`." },
+          "format": { "type": "string", "enum": ["markdown", "html", "text", "slack"], "description": "The format of `answer`." },
+          "confidence": { "type": "number", "nullable": true, "description": "The assistant's confidence, from 0 to 1. `null` after a timeout." },
+          "sources": {
+            "type": "array",
+            "description": "The pages the answer cites, with full URLs. An answer from a PDF your team uploaded lists the PDF by name, with `url` set to `null`, as it has no web address.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": { "type": "string", "nullable": true, "description": "The page's title, or `null` if it has none." },
+                "url": { "type": "string", "nullable": true, "description": "The page's full URL, or `null` for a PDF your team uploaded." }
+              }
+            }
+          },
+          "follow_up_questions": { "type": "array", "items": { "type": "string" }, "description": "Questions the reader may ask next. Often empty, so treat it as optional." },
+          "created_at": { "type": "string", "format": "date-time", "description": "When the answer was given, in ISO 8601 UTC." }
+        }
+      },
+      "ReaderCredential": {
+        "type": "object",
+        "properties": {
+          "credential": { "type": "string", "description": "The credential, starting with `asst_rc_`. Pass it to the page, which sends it as its bearer token." },
+          "origin": { "type": "string", "description": "The only origin the credential works from." },
+          "expires_at": { "type": "string", "format": "date-time", "description": "When it stops working, in ISO 8601 UTC." },
+          "expires_in_seconds": { "type": "number", "description": "Its lifetime in seconds." }
+        }
+      },
+      "KeyStatus": {
+        "type": "object",
+        "properties": {
+          "ready": { "type": "boolean", "description": "`true` when the key can answer now." },
+          "problem": { "type": "string", "nullable": true, "description": "The [error code](/api-reference/assistant-api/overview#errors) a question would get, or `null`." },
+          "problem_message": { "type": "string", "nullable": true, "description": "What `problem` means and what to do, or `null`." },
+          "name": { "type": "string", "description": "The key's name." },
+          "integration": { "type": "string", "enum": ["intercom", "zendesk", "slack", "zapier", "make", "n8n", "server", "website", "other"], "description": "The tool chosen in **Connected to**." },
+          "caller": { "type": "string", "enum": ["server", "browser", "reader"], "description": "What the request was sent with: `server` for the secret key, `browser` for the publishable key, `reader` for a reader credential." },
+          "access": { "type": "string", "enum": ["public", "protected"], "description": "What the key is set to read: public pages only, or protected pages too." },
+          "answers_from": { "type": "string", "nullable": true, "enum": ["all_pages", "public_pages", "protected_pages", null], "description": "What the key answers from on the site as it is published now. `null` when that can't be worked out, such as before the site is published." },
+          "access_roles": { "type": "array", "items": { "type": "string" }, "description": "The roles the key reads. Secret key only." },
+          "allowed_origins": { "type": "array", "items": { "type": "string" }, "description": "The origins whose pages can use the key. Secret key only." },
+          "requests_per_minute": { "type": "number", "description": "The key's request limit per minute." },
+          "expires_at": { "type": "string", "format": "date-time", "nullable": true, "description": "When the key expires, in ISO 8601 UTC, or `null` if it never does." }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": { "type": "string", "description": "The error code, one of those named for this status. [Errors](/api-reference/assistant-api/overview#errors) says what to do about each." },
+          "message": { "type": "string", "description": "What went wrong and what to do." },
+          "retry_after_seconds": { "type": "number", "description": "Set when retrying later can succeed, together with the `Retry-After` header." }
+        }
+      }
+    },
+    "responses": {
+      "InvalidRequest": {
+        "description": "`invalid_request`: a field is missing or wrong. `message` names it.",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" },
+            "example": { "error": "invalid_request", "message": "message must not be empty." }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "The key is missing, invalid, expired or revoked: `key_missing`, `key_invalid`, `key_expired`, `key_revoked` or `reader_credential_invalid`.",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" },
+            "example": { "error": "key_invalid", "message": "This key is not valid. Check it was copied in full." }
+          }
+        }
+      },
+      "CreditsExhausted": {
+        "description": "`credits_exhausted`: the account has no AI credits left and overage is off.",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" },
+            "example": { "error": "credits_exhausted", "message": "This account has no AI credits left and overage is off. Add credits or turn on overage in the dashboard." }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "The key can't be used this way, or can't answer for this site: `browser_not_allowed`, `origin_required`, `origin_not_allowed`, `plan_not_included`, `assistant_disabled`, `key_access_insufficient` or `reader_sign_in_required`.",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" },
+            "example": { "error": "plan_not_included", "message": "The Assistant API needs a Standard plan or higher." }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "`site_not_published`, or `not_found` for a wrong method or path.",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" },
+            "example": { "error": "site_not_published", "message": "This documentation has not been published yet." }
+          }
+        }
+      },
+      "RequestInProgress": {
+        "description": "`request_in_progress`: the same request was still being answered when your time limit ran out. Retry for its answer.",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" },
+            "example": { "error": "request_in_progress", "message": "The same request is still being answered. Retry in a moment for its answer.", "retry_after_seconds": 2 }
+          }
+        }
+      },
+      "RequestTooLarge": {
+        "description": "`request_too_large`: requests are limited to 64 KB.",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" },
+            "example": { "error": "request_too_large", "message": "Requests are limited to 64 KB." }
+          }
+        }
+      },
+      "TooManyRequests": {
+        "description": "`rate_limited`, `too_many_concurrent_requests` or `monthly_quota_exceeded`. Retry after `retry_after_seconds` when it is set.",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" },
+            "example": { "error": "rate_limited", "message": "This key allows 60 requests a minute. Retry after 12 seconds.", "retry_after_seconds": 12 }
+          }
+        }
+      },
+      "InternalError": {
+        "description": "`internal_error`: retry shortly, and contact support if it persists.",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" },
+            "example": { "error": "internal_error", "message": "Something went wrong on our side. Retry shortly." }
+          }
+        }
+      },
+      "Unavailable": {
+        "description": "`temporarily_unavailable` or `site_settings_unavailable`: retry after `retry_after_seconds`.",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" },
+            "example": { "error": "temporarily_unavailable", "message": "The assistant could not answer right now. Retry shortly.", "retry_after_seconds": 5 }
+          }
+        }
+      }
+    }
+  }
+}

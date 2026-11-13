@@ -257,6 +257,22 @@ Control how long page titles and group labels fit in the sidebar of your publish
   When `true` or omitted, long page titles and group labels wrap onto as many lines as they need. When `false`, they stay on one line and are cut off with an ellipsis, and hovering an item shows its full title. Default: `true`. See [Navigation and Sidebar](/customize/navigation-and-sidebar#long-titles-in-the-sidebar) for details.
 </ParamField>
 
+### Math Configuration
+
+Render LaTeX math written between dollar signs on your published site.
+
+```json
+{
+  "styling": {
+    "latex": true
+  }
+}
+```
+
+<ParamField path="latex" param-type="boolean" required="false" deprecated="false" show-location="true">
+  When `true`, `$…$` in text and `$$…$$` on their own lines render as LaTeX math, and a dollar sign that is not math is written `\$`. Pairs of prices, such as `$20/month and $50/month`, stay text. When `false` or omitted, dollar signs are plain text. Default: `false`. Also set under **Site Config** → **Brand & Theme** → **Math**. See [Math (LaTeX)](/components/math) for the syntax.
+</ParamField>
+
 ### Footer Configuration
 
 Add link groups, social icons, and a copyright notice to the bottom of every page. Each part shows only when it has content. A language item in `navigation` can carry its own `footer`, which replaces this one on that language's pages. See [Footer](/customize/footer) for link formats, language footers, and styling.

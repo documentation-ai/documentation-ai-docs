@@ -34,7 +34,7 @@ You can add math in two ways:
 
 4. Publish to apply the setting to your site.
 
-Pages you opened in the Web Editor before turning LaTeX math on still show their dollar signs as text in the Web Editor. To see their math there, make a change to the page in MDX view. Your site renders their math either way.
+A page that was open in the Web Editor while you turned LaTeX math on shows its formulas once it is closed and opened again.
 
 ### Insert inline math
 
@@ -56,14 +56,14 @@ To change a formula, click it. Saving it empty removes it.
 
 3. Click outside the equation, or press <kbd>Ctrl</kbd>+<kbd>Enter</kbd> (<kbd>Cmd</kbd>+<kbd>Enter</kbd> on Mac), to save. Press <kbd>Esc</kbd> to cancel.
 
-To change an equation, click it. To remove it, click **Delete equation** in its toolbar.
+To change an equation, click it. To remove it, click the trash icon (**Delete equation**) in its toolbar.
 
 If LaTeX math is off, the slash menu does not offer math, and dollar signs in a page are plain text, the way your site shows them.
 
 <Callout kind="info" collapsed="false">
   Prefer writing in code?
 
-  You can switch to **MDX view inside the Web Editor** to write math with the same syntax as the Code Editor. Dollar signs you type as text in the visual editor are saved as `\$`, so they never turn into math.
+  You can switch to **MDX view inside the Web Editor** to write math with the same syntax as the Code Editor. With LaTeX math on, dollar signs you type as text in the visual editor are saved as `\$`, so they never turn into math.
 </Callout>
 
 ## Using with Code Editor
@@ -97,7 +97,7 @@ $$
 - Inline math stays within its paragraph: it cannot cross a blank line.
 - An equation shows centered on its own line. Put each `$$` on a line of its own.
 - `$$…$$` written inside a line of text renders like inline math.
-- A fenced code block with the language `math` also renders as an equation.
+- A fenced code block with the language `math` also renders as an equation on your site. The Web Editor shows it as a code block.
 - Write math between dollar signs. `\(…\)` and `\[…\]` are not supported.
 - Separate two formulas with a space, as in `$a$ $b$`. Written as `$a$$b$`, they read as one formula.
 
@@ -105,7 +105,7 @@ Math works in lists, tables, headings and inside components such as `<Callout>`.
 
 ### Dollar signs
 
-With LaTeX math on, two dollar signs in the same paragraph pair up as math. Prices are the exception: a pair whose text starts with a number and whose closing `$` is followed by a number stays text, so this line needs no changes:
+With LaTeX math on, two dollar signs in the same paragraph pair up as math. Prices are the exception: a pair whose text is plain (no formatting, links, code or LaTeX), starts with a number, and whose closing `$` is followed by a number stays text, so this line needs no changes:
 
 ```markdown
 Pro is $20/month and Team is $50/month.
@@ -114,7 +114,7 @@ Pro is $20/month and Team is $50/month.
 Write any other dollar sign that is not math as `\$`:
 
 ```markdown
-Set the budget to \$5 per seat, or about \$1 a day.
+Set \$HOME and \$PATH before you run the script.
 ```
 
 Dollar signs in inline code and code blocks are never math, so `` `echo $HOME` `` needs no escaping.
@@ -125,7 +125,9 @@ To put a dollar sign inside a formula, write the formula between `$$` instead, b
 The fee is $$\text{costs } \$5$$ per seat.
 ```
 
-## Advanced Options
+A line that starts with `$$` followed by text, such as `$$100 per seat`, opens an equation that runs to the next `$$` or the end of the page. The Web Editor shows an error for it, naming the line. Write those dollar signs as `\$\$`.
+
+## Advanced options
 
 ### Specifications
 
@@ -136,4 +138,4 @@ The fee is $$\text{costs } \$5$$ per seat.
 - **Copying**: copying a rendered formula copies its LaTeX between dollar signs.
 - **Markdown export and AI tools**: a page's Markdown export, `llms.txt` and the AI assistant read the LaTeX source.
 - **PDF export**: math renders in PDF exports, and an equation wider than the page shrinks to fit it.
-- **Turning math off**: math shows as plain LaTeX text again. LaTeX braces, such as those in `\frac{a}{b}`, are read as code when math is off, so publishing checks every page and stops at the first one that still uses math, naming it. Remove or rewrite that math, or turn LaTeX math back on.
+- **Turning math off**: math would show as plain LaTeX text, and LaTeX braces such as those in `\frac{a}{b}` are read as code, which can break the page. So the publish that turns math off checks every page and snippet, and stops at the first one that still uses LaTeX math, naming it. Remove that math, or turn LaTeX math back on.

@@ -34,6 +34,8 @@ You can add math in two ways:
 
 4. Publish to apply the setting to your site.
 
+Pages you opened in the Web Editor before turning LaTeX math on still show their dollar signs as text in the Web Editor. To see their math there, make a change to the page in MDX view. Your site renders their math either way.
+
 ### Insert inline math
 
 1. Place the cursor where the formula goes and type <kbd>/</kbd>.
@@ -56,7 +58,7 @@ To change a formula, click it. Saving it empty removes it.
 
 To change an equation, click it. To remove it, click **Delete equation** in its toolbar.
 
-If LaTeX math is off, the slash menu does not offer math, and dollar signs in a page show as plain text, the way your site shows them. Click such text or press <kbd>Backspace</kbd> next to it to edit it like any other text.
+If LaTeX math is off, the slash menu does not offer math, and dollar signs in a page are plain text, the way your site shows them.
 
 <Callout kind="info" collapsed="false">
   Prefer writing in code?
@@ -133,6 +135,5 @@ The fee is $$\text{costs } \$5$$ per seat.
 - **Links and images**: commands that add links or load files, such as `\href`, `\url` and `\includegraphics`, show in red and do not render.
 - **Copying**: copying a rendered formula copies its LaTeX between dollar signs.
 - **Markdown export and AI tools**: a page's Markdown export, `llms.txt` and the AI assistant read the LaTeX source.
-- **Broken link checks**: text inside math is never checked as a link.
 - **PDF export**: math renders in PDF exports, and an equation wider than the page shrinks to fit it.
 - **Turning math off**: math shows as plain LaTeX text again. LaTeX braces, such as those in `\frac{a}{b}`, are read as code when math is off, so publishing checks every page and stops at the first one that still uses math, naming it. Remove or rewrite that math, or turn LaTeX math back on.

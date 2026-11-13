@@ -185,6 +185,11 @@
                     "icon": "network"
                   },
                   {
+                    "title": "Math (LaTeX)",
+                    "path": "components/math",
+                    "icon": "sigma"
+                  },
+                  {
                     "title": "Callout",
                     "path": "components/callout",
                     "icon": "megaphone"
@@ -900,6 +905,9 @@
         ]
       }
     ]
+  },
+  "styling": {
+    "latex": true
   },
   "seo": {
     "robots:index": true,

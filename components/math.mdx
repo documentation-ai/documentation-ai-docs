@@ -1,0 +1,141 @@
+---
+title: Math (LaTeX)
+description: >-
+  Reference for writing inline formulas and equations in LaTeX, rendered with
+  KaTeX in the web editor and on your published site.
+type: reference
+---
+## Overview
+
+Write formulas in LaTeX, inside a sentence or as an equation on its own line. Documentation.AI renders them with KaTeX in the web editor and on your published site, in both light and dark themes. Copying a formula gives its LaTeX, and search, the Markdown export and AI tools read the LaTeX source.
+
+The area of a circle is $\pi r^2$, and the integral below works out to one third:
+
+$$
+\int_0^1 x^2 \, dx = \frac{1}{3}
+$$
+
+Math is off until you turn it on for your site with **Render LaTeX math**, or `styling.latex` in `documentation.json`. While it is off, dollar signs in your pages stay plain text.
+
+You can add math in two ways:
+
+- In the [Web Editor](/write-and-publish/web-editor), with the **Inline math** and **Equation** slash commands.
+- In the [Code Editor](/write-and-publish/code-editor), between dollar signs in your MDX.
+
+## Using with Web Editor
+
+### Turn on LaTeX math
+
+1. Open **Site Config** in the editor's top toolbar.
+
+2. Go to **Brand & Theme**.
+
+3. Under **Math**, turn on **Render LaTeX math**.
+
+4. Publish to apply the setting to your site.
+
+A page that was open in the Web Editor while you turned LaTeX math on shows its formulas once it is closed and opened again.
+
+### Insert inline math
+
+1. Place the cursor where the formula goes and type <kbd>/</kbd>.
+
+2. Choose **Inline math**.
+
+3. Type the LaTeX, without dollar signs. A preview shows below as you type.
+
+4. Press <kbd>Enter</kbd> to save, or <kbd>Esc</kbd> to cancel.
+
+To change a formula, click it. Saving it empty removes it.
+
+### Insert an equation
+
+1. On an empty line, type <kbd>/</kbd> and choose **Equation**.
+
+2. Type the LaTeX, without the `$$` lines. A preview shows below as you type.
+
+3. Click outside the equation, or press <kbd>Ctrl</kbd>+<kbd>Enter</kbd> (<kbd>Cmd</kbd>+<kbd>Enter</kbd> on Mac), to save. Press <kbd>Esc</kbd> to cancel.
+
+To change an equation, click it. To remove it, click the trash icon (**Delete equation**) in its toolbar.
+
+If LaTeX math is off, the slash menu does not offer math, and dollar signs in a page are plain text, the way your site shows them.
+
+<Callout kind="info" collapsed="false">
+  Prefer writing in code?
+
+  You can switch to **MDX view inside the Web Editor** to write math with the same syntax as the Code Editor. With LaTeX math on, dollar signs you type as text in the visual editor are saved as `\$`, so they never turn into math.
+</Callout>
+
+## Using with Code Editor
+
+### Turn on LaTeX math
+
+Set `latex` to `true` under `styling` in `documentation.json`:
+
+```json
+{
+  "styling": {
+    "latex": true
+  }
+}
+```
+
+See [Site Configuration](/customize/site-configuration#math-configuration).
+
+### Basic usage
+
+Write inline math between single dollar signs, and an equation between `$$` lines:
+
+````markdown
+The area of a circle is $\pi r^2$.
+
+$$
+\int_0^1 x^2 \, dx = \frac{1}{3}
+$$
+````
+
+- Inline math stays within its paragraph: it cannot cross a blank line.
+- An equation shows centered on its own line. Put each `$$` on a line of its own.
+- `$$…$$` written inside a line of text renders like inline math.
+- A fenced code block with the language `math` also renders as an equation on your site. The Web Editor shows it as a code block.
+- Write math between dollar signs. `\(…\)` and `\[…\]` are not supported.
+- Separate two formulas with a space, as in `$a$ $b$`. Written as `$a$$b$`, they read as one formula.
+
+Math works in lists, tables, headings and inside components such as `<Callout>`. In a table cell, write a vertical bar as `\vert`, because `|` ends the cell.
+
+### Dollar signs
+
+With LaTeX math on, two dollar signs in the same paragraph pair up as math. Prices are the exception: a pair whose text is plain (no formatting, links, code or LaTeX), starts with a number, and whose closing `$` is followed by a number stays text, so this line needs no changes:
+
+```markdown
+Pro is $20/month and Team is $50/month.
+```
+
+Write any other dollar sign that is not math as `\$`:
+
+```markdown
+Set \$HOME and \$PATH before you run the script.
+```
+
+Dollar signs in inline code and code blocks are never math, so `` `echo $HOME` `` needs no escaping.
+
+To put a dollar sign inside a formula, write the formula between `$$` instead, because a `$` inside `$…$` ends it:
+
+```markdown
+The fee is $$\text{costs } \$5$$ per seat.
+```
+
+A line that starts with `$$` followed by text, such as `$$100 per seat`, opens an equation that runs to the next `$$` or the end of the page. The Web Editor shows an error for it, naming the line. Write those dollar signs as `\$\$`.
+
+## Advanced options
+
+### Specifications
+
+- **Renderer**: [KaTeX](https://katex.org/docs/supported.html), which supports most math-mode LaTeX. The link lists every supported command.
+- **Themes**: math takes the color of the text around it, in light and dark themes.
+- **Errors**: LaTeX that does not parse shows in red, with the reason when you hover it, instead of breaking the page.
+- **Links and images**: commands that add links or load files, such as `\href`, `\url` and `\includegraphics`, show in red and do not render.
+- **Copying**: copying a rendered formula copies its LaTeX between dollar signs.
+- **Markdown export and AI tools**: a page's Markdown export, `llms.txt` and the AI assistant read the LaTeX source.
+- **PDF export**: math renders in PDF exports, and an equation wider than the page shrinks to fit it.
+- **Turning math off**: math would show as plain LaTeX text, and LaTeX braces such as those in `\frac{a}{b}` are read as code, which can break the page. So the publish that turns math off checks every page and snippet, and stops at the first one that still uses LaTeX math, naming it. Remove that math, or turn LaTeX math back on.

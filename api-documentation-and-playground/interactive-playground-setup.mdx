@@ -59,6 +59,69 @@ The interactive playground automatically generates:
 
 - **Status indicators** for successful and failed requests
 
+## How requests are sent
+
+By default, the playground sends requests through the Documentation.AI proxy. The reader's browser sends the request to your docs site, and Documentation.AI's server forwards it to your API. Your API doesn't need any CORS setup, and requests reach it from Documentation.AI's servers.
+
+You can turn the proxy off so the reader's browser calls your API directly. Do this when:
+
+- Your security or compliance rules don't allow API requests or credentials to pass through a third party
+
+- Your API needs requests to come from the reader's browser, for example to use the reader's own session cookies
+
+### Change it in the dashboard
+
+1. Open **Site Config** and select **API Playground**.
+
+2. Turn off **Send requests through Documentation.AI**.
+
+3. Optionally, turn on **Include browser credentials** to send the reader's cookies and other credentials with each request.
+
+4. Publish your changes.
+
+### Change it in documentation.json
+
+```json
+{
+  "api": {
+    "playground": {
+      "proxy": false,
+      "credentials": true
+    }
+  }
+}
+```
+
+<ParamField path="api.playground.proxy" param-type="boolean" required="false">
+
+  Send playground requests through the Documentation.AI proxy. Set to `false` to send them straight from the reader's browser. Defaults to `true`.
+
+</ParamField>
+
+<ParamField path="api.playground.credentials" param-type="boolean" required="false">
+
+  With `proxy` set to `false`, include the reader's cookies and other browser credentials with each request. Ignored while the proxy is on. Defaults to `false`.
+
+</ParamField>
+
+<Callout kind="alert" collapsed="false">
+
+  With the proxy off, your API must allow cross-origin requests (CORS) from your docs site's address, including the preflight `OPTIONS` request browsers send before requests with an `Authorization` header. With credentials on, your API's response must also include `Access-Control-Allow-Credentials: true` and name your docs site's address exactly, not `*`. See [CORS configuration](#cors-configuration).
+
+</Callout>
+
+### What changes without the proxy
+
+| | Through the proxy (default) | Straight from the browser |
+|---|---|---|
+| CORS setup on your API | Not needed | Required |
+| Where requests come from | Documentation.AI's servers | The reader's browser |
+| API keys sent as cookies | Sent | Sent only with **Include browser credentials** on, from the browser's own cookies |
+| Response headers shown | All | Only the ones your API exposes with `Access-Control-Expose-Headers` |
+| File upload size | Up to 4 MB | No playground limit |
+
+The keys match Mintlify's `api.playground.proxy` and `api.playground.credentials`, so sites migrated from Mintlify keep their setting.
+
 ## Authentication Configuration
 
 ### API Key Authentication
@@ -410,7 +473,7 @@ The playground implements secure authentication handling:
 
 <ParamField path="tokenStorage" param-type="string" required="false" deprecated="false">
 
-  Tokens are stored locally in browser storage, never transmitted to Documentation.AI servers.
+  With the proxy on (the default), each request, including its credentials, passes through Documentation.AI's proxy on its way to your API. Turn the proxy off to send requests from the reader's browser directly. See [How requests are sent](#how-requests-are-sent).
 
 </ParamField>
 
@@ -428,12 +491,12 @@ The playground implements secure authentication handling:
 
 ### CORS Configuration
 
-Ensure your API supports CORS for playground functionality:
+Your API needs CORS only when the playground sends requests straight from the browser (`api.playground.proxy` set to `false`). Allow your docs site's address, and your custom domain if you use one:
 
 ```javascript
 // Example Express.js CORS configuration
 app.use(cors({
-  origin: ['https://your-docs.documentationai.app'],
+  origin: ['https://your-docs.documentationai.com', 'https://docs.example.com'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-API-Key']
@@ -446,7 +509,7 @@ app.use(cors({
 
 <Callout kind="note" collapsed="false">
 
-  **CORS Errors**: If requests fail with CORS errors, ensure your API includes Documentation.AI domains in allowed origins.
+  **"Couldn't reach your API from your browser"**: With the proxy off, this means the API is down or its CORS settings don't allow your docs site's address. Allow the address shown in the message, or turn the proxy back on.
 
 </Callout>
 

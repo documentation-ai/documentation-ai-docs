@@ -4,7 +4,7 @@ description: >-
   Create, edit, and publish documentation directly in your browser with the
   Documentation.AI web editor
 ---
-The web editor is a visual interface for creating, editing, and managing documentation directly in your browser. You do not need Git access or local tooling, so you can start writing from your dashboard immediately.
+The web editor is a visual interface for creating, editing, and managing documentation directly in your browser. You do not need Git access or local tooling, so you can start writing from your dashboard immediately. A typical session is three steps: open a page in the sidebar, write it in visual or markdown mode, then publish it.
 
 ## What the web editor is and when to use it
 
@@ -14,7 +14,7 @@ The web editor gives you:
 
 - Real-time collaboration with your team
 
-- Automatic saving and version-safe publishing
+- Changes save continuously in your current browser session, with publishing kept as a separate step
 
 - Easy access to Documentation.AI components through slash commands
 
@@ -109,7 +109,7 @@ Use the web editor to make safe, incremental changes to your documentation struc
 
   <Step title="Choose the right dimension and view" icon="layers" title-type="p">
 
-    If your project uses [dimensions](/organize/dimensions), start by selecting the correct dimension in the sidebar. Then choose the appropriate [view](/organize/views) within that dimension (or at the root if there are no dimensions) so you are working on the right part of the tree.
+    Select the correct [dimension](/organize/dimensions) in the sidebar if your project uses them, then the [view](/organize/views) you want to work in.
 
 
 
@@ -117,9 +117,7 @@ Use the web editor to make safe, incremental changes to your documentation struc
 
   <Step title="Add views with Tabs or Dropdowns (optional)" icon="notebook-tabs-icon" title-type="p">
 
-    Use [views](/organize/views) to introduce Tabs or Dropdowns when you need multiple layouts or navigation tracks within a dimension or at the root.
-
-    The views model follows a one-child rule: each Tabs or Dropdowns container should have a single type of child (pages, groups, or another nested view). For supported patterns and examples, see the [views guide](/organize/views).
+    Use [views](/organize/views) to introduce Tabs or Dropdowns when you need multiple layouts or navigation tracks within a dimension or at the root. The views model follows a one-child rule: each Tabs or Dropdowns container should have a single type of child (pages, groups, or another nested view). For supported patterns and examples, see the [views guide](/organize/views).
 
 
 
@@ -328,8 +326,6 @@ To learn more, see [Icons](/customize/icons) and [Icon](/components/icon).
 
 ## Organizing and reviewing content
 
-As this page becomes the main entry point for the web editor, you will often use it alongside the project organization features.
-
 ### Moving and organizing pages
 
 Use the sidebar to adjust your documentation structure:
@@ -339,8 +335,6 @@ Use the sidebar to adjust your documentation structure:
 - Move pages into different groups to keep navigation intuitive.
 
 - Rename pages and update slugs where needed, while keeping paths as stable as possible.
-
-For a deeper look at how dimensions, views, groups, and pages work across your project, see the high-level [organize overview](/organize/overview) and the focused guides on [dimensions](/organize/dimensions), [views](/organize/views), [groups](/organize/groups), and [pages](/organize/pages).
 
 ### Collaboration and review
 
@@ -479,4 +473,3 @@ To bring your site back online, open the Editor and click **Publish** again. You
 
 
 </Callout>
-

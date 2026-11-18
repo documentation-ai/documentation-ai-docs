@@ -5,14 +5,14 @@ description: >-
   another platform to Documentation.AI with an AI assistant, and check a preview
   before anything goes live.
 ---
-The Documentation.AI migrator moves an existing documentation site into your Documentation.AI project. You describe the migration to an AI assistant. The migrator copies every page word for word, rebuilds your sidebar, and checks the result against your old site. You make four decisions along the way, and your live site changes only when you merge the result.
+The Documentation.AI migrator moves an existing documentation site into your Documentation.AI project. Run it from the dashboard, or describe it to an AI assistant that walks you through each decision. The migrator copies every page word for word, rebuilds your sidebar, and checks the result against your old site. You make four decisions along the way, and your live site changes only when you merge the result.
 
 <Callout kind="info" collapsed="false">
   **Before you begin**
 
   - You need the **Editor** or **Admin** role in the organization that owns your Documentation.AI project.
   - Every plan includes preview sites, so you can check the result before it goes live. See [Preview sites](/write-and-publish/branches-and-previews#preview-sites).
-  - Install the migrator in Claude Code or Codex. See [Install the migrator](/migrations/install).
+  - Start it from the dashboard, with nothing to install, or install the migrator in Claude Code or Codex. See [Migrate from the dashboard](#migrate-from-the-dashboard) and [Install the migrator](/migrations/install).
   - Migrate only a site you own, or one whose owner has given you permission to copy it.
 </Callout>
 
@@ -59,9 +59,46 @@ What moves in detail depends on your old platform. Anything Documentation.AI has
   </Card>
 </Columns>
 
+## Migrate from the dashboard
+
+Run a migration from inside the editor without installing anything. The dashboard run writes to a branch, the same as any other migration, so your live site changes only when you merge it.
+
+<Steps>
+  <Step title="Start from Complete your setup" icon="play-circle" title-type="p">
+    At the foot of the editor sidebar, open **Complete your setup** and click **Migrate your existing docs**. The same checklist sits on **Activity**.
+  </Step>
+
+  <Step title="Choose what to migrate from" icon="database" title-type="p">
+    Paste the address of your published docs, connect a GitHub or GitLab repository, or upload a ZIP of a repository or a platform export.
+  </Step>
+
+  <Step title="Check the branch and send it" icon="git-branch" title-type="p">
+    The dashboard shows the branch the migration writes to. Confirm it, then send the run.
+  </Step>
+
+  <Step title="Follow the run in the chat" icon="message-square" title-type="p">
+    The editor opens a chat that reports each step. You get an email when the migration finishes.
+  </Step>
+</Steps>
+
+The dashboard run converts your site the same way the rest of this page describes:
+
+- Pages are copied word for word, and your sidebar is rebuilt with the same tabs, groups, languages, versions, and order.
+- Images and your logo are copied into your project's media library.
+- If a page address changes, a redirect sends visitors to the new one.
+- The result lands on its own branch, so your live site changes only when you merge it.
+
+A dashboard run reads a live site of up to 300 pages, a repository, or an export from another platform.
+
+<Callout kind="info" collapsed="false">
+  Is your live site larger than 300 pages? [Contact our team](/help/contact-us) and we run the migration for you.
+</Callout>
+
+The rest of this page describes running the migrator yourself with an assistant, which lets you approve each decision.
+
 ## How a migration works
 
-Your assistant runs the migrator on your computer and stops only when it needs you. At each decision it shows a short summary and asks you to choose. It never approves a decision for you.
+The steps below describe the assistant run. Your assistant runs the migrator on your computer and stops only when it needs you. At each decision it shows a short summary and asks you to choose. It never approves a decision for you.
 
 <Steps>
   <Step title="Start the migration" icon="message-square" title-type="p">

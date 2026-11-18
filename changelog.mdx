@@ -2,6 +2,56 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-11-18" description="Migration from the dashboard, email verification sign-in, reader sign-out, Assistant API keys, playground request mode, a refreshed dashboard and editor, and fixes" tags={["feature","improvement","fix"]}>
+  ## Migrate your docs from the dashboard
+
+  **Complete your setup** now starts with **Migrate your existing docs**, so you can bring your docs across without installing anything. Paste a link to your published docs, connect a GitHub or GitLab repository, or upload a ZIP of a repository or a platform export, then send it. The migration opens as a chat in the editor, where the agent runs it and reports what it is doing, and the box tells you which branch it lands on before you send. You get an email when it finishes, and the source's images and logo are copied into your media library.
+
+  See [Migrate from the dashboard](/migrations/overview#migrate-from-the-dashboard).
+
+  ## Email verification sign-in
+
+  Access Control has a new method for readers who have no account in your systems. Readers enter their email address and a one-time code, and you choose whether they get in straight away or wait for an admin to accept them. Access can expire, and you can require a consent checkbox before a code is sent. Requests and readers appear under **Readers**, where you accept with an expiry and roles, decline, change, or remove access. See [Email Verification](/customize/access-control/email-verification).
+
+  ## Sign-out for readers
+
+  Signed-in readers now have a sign-out button in the site navbar. Turn it off with **Show sign-out button** in Access Control. Signing out follows your identity provider's logout address when you have one configured, and otherwise a signed-out page, so a private site does not sign the reader straight back in. Custom scripts can sign a reader out and listen for it with `window.dai.auth` and `window.dai.on('sign-out', ...)`. See [Signing out](/customize/access-control/overview#signing-out).
+
+  ## Assistant API keys
+
+  **Settings → Assistant API** creates and manages the keys your own tools use to ask your docs assistant. Each key names the tool it is connected to, chooses what it answers from, and can be limited to roles and allowed origins. The secret key is shown once. Rotating a key replaces its secret without changing anything in the tool, and revoking it stops answers immediately. Requests go to `api.documentation.ai`. See [Assistant API](/ai/assistant-api).
+
+  ## Playground request mode
+
+  Site Config has an **API Playground** section. Turn off **Send requests through Documentation.AI** to send Try it requests straight from the reader's browser, and turn on **Include browser credentials** to send the reader's cookies with them. In `documentation.json` these are `api.playground.proxy` and `api.playground.credentials`, the same keys Mintlify sites use. See [How requests are sent](/api-documentation-and-playground/interactive-playground-setup#how-requests-are-sent).
+
+  ## A new dashboard and editor
+
+  - The dashboard is now an icon rail with **Editor**, **Automations**, **Activity**, **Analytics**, **MCP Servers**, **Connectors**, and **Settings**. The editor is the home page, the previous overview is now **Activity**, and the AI Assistant and agent settings live under **Settings**.
+  - The editor sidebar runs the full height of the screen, with **Navigation**, **OpenAPI**, **Files**, and **Media** tabs, a search box, and **Site Config** at its foot. Open rows are remembered for each person.
+  - Navigation items land where you drop them, a problems panel lists what is wrong and holds Save and Publish until it is fixed, and an item converts to a page, group, or container in place.
+  - A new page opens at once and saves behind it. The page header holds the icon and description, and Enter at its end moves into the body, as Backspace at the start of the body moves back to the header.
+  - On a branch, **More options** shows **Preview URL** and **Preview site**, or no preview when the branch has none.
+  - **Create new documentation** now uses the same screen as sign-up, and **Complete your setup** on Activity tracks the setup steps that are left.
+
+  ## Improvements
+
+  - **Search finds component text**: The text readers see inside components is indexed, and each tab and prose expandable gets its own result.
+  - **External results in the assistant search panel**: Source results are listed under documentation results, with a relevance score and a link to open each one on its own site.
+  - **Questions split by channel**: AI analytics separates **Docs site**, **Embed**, and **API** questions, with a **Type** filter on the AI Assistant tab. See [Assistant API](/ai/assistant-api#analytics).
+  - **Code groups without tabs**: A code group saved with no tabs now labels each tab by its language.
+  - **Addresses with spaces and accents**: Pages whose path contains a space or an accented letter open instead of returning not found, redirects match them, and the sitemap, canonical, Open Graph, breadcrumb, and hreflang links percent-encode them.
+  - **Self-referencing OpenAPI schemas**: Specs whose schemas refer to themselves now generate their API pages.
+  - **HTML blocks**: Text and Markdown inside an HTML block survive save and publish, and a code block keeps its filename.
+
+  ## Fixes
+
+  - **Repeated pages in navigation**: Publishing no longer refuses a navigation that lists the same page twice.
+  - **OAuth and JWT roles on the access token**: Readers now get their roles and profile when the provider sends them only on the access token.
+  - **MCP sign-in consent**: The consent screen no longer stays on "Connecting…" and shows progress on the button you clicked.
+  - **Migration runs**: Stopping a migration writes nothing more, and only one migration runs at a time in a project.
+</Update>
+
 <Update label="2026-10-29" description="Announcement banners, multilingual footers, expanded agent context, Reader MCP tools, checkout referrals, embed sizing, and platform fixes" tags={["feature","improvement","fix"]}>
   ## Announcement banners
 

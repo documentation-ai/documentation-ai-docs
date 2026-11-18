@@ -1,0 +1,77 @@
+---
+title: PDF Export
+description: >-
+  Export your live documentation, or the pages you choose, as one PDF with the
+  page size, scale, and page numbers you need.
+---
+Export your live site as a single PDF for offline reading, a compliance submission, a printed handover, or a customer deliverable. Choose the product, version, and language, pick the pages, and set the page size, scale, and page numbers. The PDF holds the pages in navigation order, with a clickable outline you can jump around in.
+
+<Callout kind="info" collapsed="false">
+  **Before you begin**
+
+  - PDF export is available on the **Professional** and **Enterprise** plans.
+  - You need the **Editor** or **Admin** role to start an export.
+  - The export reads your live site. Publish the changes you want in the PDF first. Unpublished edits and working versions are not exported.
+</Callout>
+
+## How to export your site as a PDF
+
+<Steps>
+  <Step title="Open Exports" icon="download" title-type="p">
+    In the dashboard, open **Settings** and select **Exports** under **Advanced**.
+  </Step>
+
+  <Step title="Open the export dialog" icon="file-text" title-type="p">
+    Click **Export PDF**. If your site already has a PDF, the button reads **Export Again**, and the dialog opens on that export's choices.
+  </Step>
+
+  <Step title="Choose the product, version, and language" icon="layers" title-type="p">
+    If your site has [products, versions, or languages](/organize/dimensions), pick one of each. **Version** lists the versions of the chosen product, and **Language** the languages of the chosen version. When the chosen product has no versions or languages, those fields read **No versions** or **No languages**.
+  </Step>
+
+  <Step title="Choose the pages" icon="list-checks" title-type="p">
+    Every page of that product, version, and language starts ticked. Untick a page to leave it out, or untick a tab or group to leave out every page in it. The count above the list shows how many pages the PDF will hold.
+  </Step>
+
+  <Step title="Set how it prints" icon="printer" title-type="p">
+    Choose the **Page size** and **Scale**, and whether to print **Page numbers**. See [Print options](#print-options).
+  </Step>
+
+  <Step title="Start the export" icon="play" title-type="p">
+    Click **Export PDF**. Exports shows the progress page by page, and you can leave the page while it runs. To stop it, click **Cancel**. When it finishes, you get an email with a link back to Exports.
+  </Step>
+
+  <Step title="Download the PDF" icon="file-down" title-type="p">
+    Click **Download PDF**. The line under the button says what the PDF holds, such as "A4 · 100% · Cloud Platform · v1 · en · 3 pages".
+  </Step>
+</Steps>
+
+## Print options
+
+| Option       | Choices                                          | Default |
+| ------------ | ------------------------------------------------ | ------- |
+| Page size    | A4, Letter, Legal, A3, A5                        | A4      |
+| Scale        | 50% to 200%                                      | 100%    |
+| Page numbers | "Page X of Y" at the bottom centre of every page | On      |
+
+- **Scale** shrinks or enlarges the content on each page. In the dashboard it offers 50%, 75%, 90%, 100%, 110%, 125%, 150%, 175%, and 200%. The API takes any whole number from 50 to 200.
+- **Page numbers** count across the whole PDF and read in English, such as "Page 3 of 42", whatever the language of the export.
+
+## What the PDF contains
+
+- The pages you ticked, in navigation order.
+- A clickable outline in your PDF reader's sidebar, built from each page's headings.
+- The content of your live site at the moment the export starts.
+- A page that cannot be rendered, for example because its MDX does not compile, is left out rather than failing the export.
+
+## Things to know
+
+- **One PDF is kept.** A new export replaces the current PDF once it finishes, so download the PDF you need before you start the next one.
+- **One product, version, and language per export.** To get another language or version, export again.
+- **One export at a time.** Wait for the running export to finish, or cancel it, before starting another.
+- **Up to 8,000 pages.** Large sites can take several minutes to export.
+- **A single page** can be saved by readers from the docs site with [Download as PDF](/ai/page-actions#download-as-pdf-pdf).
+
+## Export with the API
+
+To export from a script or a CI pipeline, use the REST API. It takes the same choices as the dialog. See [PDF Exports](/api-reference/overview#pdf-exports).

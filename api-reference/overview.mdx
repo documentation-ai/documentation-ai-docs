@@ -241,6 +241,8 @@ curl https://api.documentationai.app/api/v1/storage \
 
 Export your live site as a single PDF, for offline reading, compliance archives, or sharing outside your docs. Pages are rendered in navigation order. PDF export is available on the Professional and Enterprise plans.
 
+By default an export holds every page, printed on A4 at 100% with page numbers. You can narrow it to a product, version, and language, or to the pages you list, and change how it prints. See [Choose what to export](#choose-what-to-export).
+
 Start an export:
 
 ```bash
@@ -259,6 +261,7 @@ The response is `202 Accepted` with an export to poll:
   "downloadUrl": null,
   "downloadUrlExpiresAt": null,
   "deploymentId": "64e41663-5ac8-422e-a941-00aff79963ed",
+  "options": { "pageSize": "A4", "scale": 100, "showPageNumbers": true },
   "source": "api",
   "errorMessage": null,
   "createdAt": "2026-09-17T13:04:12.000Z",
@@ -285,9 +288,39 @@ The link points straight at our storage, so the file never passes through the AP
   Anyone holding the link can download the PDF until it expires, without an API key. Treat it like a password: don't log it, commit it, or share it, and fetch a fresh one when you need it rather than storing it.
 </Callout>
 
+### Choose what to export
+
+Send your choices as JSON. Every field is optional:
+
+```bash
+curl -X POST https://api.documentationai.app/api/v1/exports/pdf \
+  -H "Authorization: Bearer dai_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "product": "Cloud Platform",
+    "version": "v2",
+    "language": "en",
+    "pageSize": "Letter",
+    "scale": 90
+  }'
+```
+
+| Field                            | What it does                                                                                                       | Default                                                 |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------- |
+| `pageSize`                       | Paper size: `A4`, `Letter`, `Legal`, `A3`, or `A5`                                                                 | `A4`                                                    |
+| `scale`                          | Print scale in percent, a whole number from 50 to 200                                                              | `100`                                                   |
+| `showPageNumbers`                | Print "Page X of Y" at the bottom centre of every page                                                             | `true`                                                  |
+| `product`, `version`, `language` | Export only the pages of this product, version, or language, named as in your navigation                           | Every product, version, and language                    |
+| `pages`                          | Export only these pages, by navigation path, such as `guides/overview`. They print in navigation order, whatever order you list them in | Every page of the chosen product, version, and language |
+
+- Leave out `product`, `version`, and `language` to export every product, version, and language in one PDF. The dashboard exports one of each at a time.
+- A path in `pages` that is not on the live site, or not in the chosen product, version, or language, returns `400` naming it.
+- A product, version, or language with no pages on the live site returns `422`.
+- Every export carries the `options` it was printed with, in both `POST` and `GET` responses.
+
 ### Reusing an export
 
-If your live site has not changed since the last completed export, `POST /exports/pdf` returns that export with `200 OK` instead of rendering again. This makes it safe to call on every CI run. To render again anyway, pass `force`:
+If your live site has not changed since the last completed export, and you ask for the same options, `POST /exports/pdf` returns that export with `200 OK` instead of rendering again. This makes it safe to call on every CI run. To render again anyway, pass `force`:
 
 ```bash
 curl -X POST https://api.documentationai.app/api/v1/exports/pdf \

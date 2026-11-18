@@ -257,6 +257,11 @@
                 "icon": "images"
               },
               {
+                "title": "PDF Export",
+                "path": "write-and-publish/pdf-export",
+                "icon": "file-down"
+              },
+              {
                 "title": "Using Cursor",
                 "path": "write-and-publish/cursor",
                 "icon": "lucide-text-cursor"

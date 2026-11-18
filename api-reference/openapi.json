@@ -1036,7 +1036,7 @@
       "post": {
         "operationId": "requestPdfExport",
         "summary": "Export the site as a PDF",
-        "description": "Exports the live site as a single PDF, rendering every page in navigation order. The export runs in the background: a new export returns `202`, then poll `GET /exports/pdf` until `downloadUrl` is set.\n\nIf the latest completed export was built from the deployment that is live now, it is returned with `200`, already carrying its `downloadUrl`, and nothing is rendered. Pass `force` to render again anyway.\n\nOne export runs per documentation at a time. Exports started through the API are limited to one every 5 minutes and 10 per 24 hours for each documentation; a request answered with an existing export does not count. Pages that cannot be rendered are left out of the PDF.\n\nRequires editor or admin role, on the Professional or Enterprise plan.",
+        "description": "Exports the live site as a single PDF, rendering its pages in navigation order. By default every page is printed on A4 at 100% with page numbers; the body narrows the export to a product, version, language or list of pages and sets how it prints. The export runs in the background: a new export returns `202`, then poll `GET /exports/pdf` until `downloadUrl` is set.\n\nIf the latest completed export was built from the deployment that is live now with the same options, it is returned with `200`, already carrying its `downloadUrl`, and nothing is rendered. Pass `force` to render again anyway.\n\nOne export runs per documentation at a time. Exports started through the API are limited to one every 5 minutes and 10 per 24 hours for each documentation; a request answered with an existing export does not count. Pages that cannot be rendered are left out of the PDF.\n\nRequires editor or admin role, on the Professional or Enterprise plan.",
         "tags": ["PDF Export"],
         "requestBody": {
           "required": false,
@@ -1046,7 +1046,14 @@
                 "type": "object",
                 "additionalProperties": false,
                 "properties": {
-                  "force": { "type": "boolean", "description": "Render again even when an export of the current live deployment already exists. The cooldown and daily quota still apply.", "example": false }
+                  "force": { "type": "boolean", "description": "Render again even when an export of the current live deployment with the same options already exists. The cooldown and daily quota still apply.", "example": false },
+                  "pageSize": { "type": "string", "enum": ["A4", "Letter", "Legal", "A3", "A5"], "description": "Paper size. Defaults to `A4`.", "example": "Letter" },
+                  "scale": { "type": "integer", "minimum": 50, "maximum": 200, "description": "Print scale in percent. Defaults to `100`.", "example": 90 },
+                  "showPageNumbers": { "type": "boolean", "description": "Print \"Page X of Y\" at the bottom centre of every page. Defaults to `true`.", "example": true },
+                  "product": { "type": "string", "minLength": 1, "maxLength": 200, "description": "Export only the pages of this product, named as in the navigation. Leave out for every product.", "example": "Cloud Platform" },
+                  "version": { "type": "string", "minLength": 1, "maxLength": 200, "description": "Export only the pages of this version. Leave out for every version.", "example": "v2" },
+                  "language": { "type": "string", "minLength": 1, "maxLength": 200, "description": "Export only the pages in this language. Leave out for every language.", "example": "en" },
+                  "pages": { "type": "array", "items": { "type": "string", "minLength": 1, "maxLength": 2048 }, "minItems": 1, "maxItems": 8000, "description": "Export only these pages, by navigation path. They print in navigation order, whatever order they are listed in. Leave out for every page of the chosen product, version and language.", "example": ["guides/overview", "guides/installation"] }
                 }
               }
             }
@@ -1054,12 +1061,16 @@
         },
         "responses": {
           "200": {
-            "description": "An export of the current live deployment already exists. Nothing was queued; this is that export.",
+            "description": "An export of the current live deployment with the same options already exists. Nothing was queued; this is that export.",
             "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PdfExport" } } }
           },
           "202": {
             "description": "Export queued. Poll `GET /exports/pdf` until `status` is `completed`, `failed` or `cancelled`.",
             "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PdfExport" } } }
+          },
+          "400": {
+            "description": "The body is not valid, or a path in `pages` is not on the live site in the chosen product, version and language. The error names the paths.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
           },
           "401": { "$ref": "#/components/responses/Unauthorized" },
           "403": {
@@ -1075,7 +1086,7 @@
             "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
           },
           "422": {
-            "description": "The live site has no pages to export, or more than 8,000.",
+            "description": "The live site, or the chosen product, version or language, has no pages to export, or the export would hold more than 8,000.",
             "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
           },
           "429": {
@@ -1953,6 +1964,19 @@
           "downloadUrl": { "type": "string", "nullable": true, "description": "Temporary link for downloading the PDF directly from storage, with no API key. Null while the export runs, after it fails, and once a newer export replaces the file.", "example": "https://exports.r2.cloudflarestorage.com/exports/org-.../documentation-export.pdf?X-Amz-Signature=..." },
           "downloadUrlExpiresAt": { "type": "string", "format": "date-time", "nullable": true, "description": "When `downloadUrl` stops working. Read the export again for a fresh link.", "example": "2026-09-17T14:06:15.000Z" },
           "deploymentId": { "type": "string", "format": "uuid", "nullable": true, "description": "The live deployment this export rendered", "example": "64e41663-5ac8-422e-a941-00aff79963ed" },
+          "options": {
+            "type": "object",
+            "description": "How the export was printed and what it holds. `product`, `version`, `language` and `pages` appear only when the export was narrowed by them.",
+            "properties": {
+              "pageSize": { "type": "string", "enum": ["A4", "Letter", "Legal", "A3", "A5"], "example": "A4" },
+              "scale": { "type": "integer", "description": "Print scale in percent", "example": 100 },
+              "showPageNumbers": { "type": "boolean", "example": true },
+              "product": { "type": "string", "example": "Cloud Platform" },
+              "version": { "type": "string", "example": "v2" },
+              "language": { "type": "string", "example": "en" },
+              "pages": { "type": "array", "items": { "type": "string" }, "example": ["guides/overview"] }
+            }
+          },
           "source": { "type": "string", "enum": ["dashboard", "api"], "description": "Where the export was started", "example": "api" },
           "errorMessage": { "type": "string", "nullable": true, "description": "Why the export failed. Null unless `status` is `failed`." },
           "createdAt": { "type": "string", "format": "date-time", "example": "2026-09-17T13:04:12.000Z" },

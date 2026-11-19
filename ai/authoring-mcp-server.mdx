@@ -24,7 +24,13 @@ This is the server your **documentation team** connects to, and it uses your rol
 
 ## Setup and authentication
 
-Add the server URL to your MCP client, then sign in with your Documentation.AI account. No API keys are needed. In ChatGPT you don't need the URL: install the Documentation.AI plugin from the plugin directory, as the **ChatGPT** tab below describes.
+How you connect depends on your AI client:
+
+- **Claude:** add the [Documentation.AI connector](https://claude.ai/directory/connectors/documentation-ai) from the Claude connectors directory. You don't need the server URL.
+- **ChatGPT:** install the [Documentation.AI plugin](https://chatgpt.com/plugins/plugin_asdk_app_6adb3cc1852881918af40a4c81a9c271) from the ChatGPT plugin directory. You don't need the server URL.
+- **Claude Code, Cursor, VS Code, and other MCP clients:** add the server URL below to your client.
+
+Either way, you then sign in with your Documentation.AI account. No API keys are needed.
 
 ```text
 https://api.documentation.ai/mcp
@@ -37,20 +43,18 @@ https://api.documentation.ai/mcp
 ## Configure your MCP client
 
 <Tabs>
-  <Tab title="Claude Code" icon="terminal">
-    Run this command in your terminal:
-
-    ```bash
-    claude mcp add --transport http documentation-ai https://api.documentation.ai/mcp
-    ```
-
-    Then run `/mcp` in Claude Code, select `documentation-ai`, and sign in when the browser opens.
-  </Tab>
-
   <Tab title="Claude" icon="message-square">
-    In Claude on the web or in Claude Desktop, open **Settings**, go to **Connectors**, and choose **Add custom connector**. Enter a name such as `Documentation.AI` and the server URL, then connect and sign in.
+    Documentation.AI is listed in the Claude connectors directory, so you don't need the server URL. The connector works in Claude on the web, in Claude Desktop, and in the Claude mobile app.
 
-    Custom connector availability depends on your Claude plan.
+    1. Open the [Documentation.AI connector](https://claude.ai/directory/connectors/documentation-ai) while signed in to Claude, or open **Plugins** in Claude and search the directory for `Documentation.AI`.
+    2. Add the connector, then sign in with your Documentation.AI account and approve access.
+    3. Start a chat and ask Claude to use Documentation.AI for the change you want. If Claude doesn't use it, check that the connector is turned on for that chat.
+
+    On Team and Enterprise plans, an Owner may need to allow the connector for your organization before members can add it.
+
+    <Callout kind="info" collapsed="false">
+      If your organization doesn't allow directory connectors, add Documentation.AI by URL instead with the [Add custom connector link](https://claude.ai/customize/connectors?modal=add-custom-connector&connectorName=Documentation.AI&connectorUrl=https%3A%2F%2Fapi.documentation.ai%2Fmcp), which fills in the name and server URL for you. To do it by hand, open **Plugins**, select **Add** > **Add custom connector**, and enter `Documentation.AI` and the server URL. Custom connector availability depends on your Claude plan.
+    </Callout>
   </Tab>
 
   <Tab title="ChatGPT" icon="message-circle">
@@ -64,7 +68,19 @@ https://api.documentation.ai/mcp
 
     The plugin also adds an **Update documentation** skill, which keeps larger changes on a separate branch and shows you the diff before anything is published.
 
-    Plugin availability depends on your ChatGPT plan and workspace policies.
+    The same plugin works in Codex. Plugin availability depends on your ChatGPT plan and workspace policies.
+  </Tab>
+
+  <Tab title="Claude Code" icon="terminal">
+    If you signed in to Claude Code with your Claude account and already connected Documentation.AI in Claude, the connector is available in Claude Code too.
+
+    Otherwise, run this command in your terminal:
+
+    ```bash
+    claude mcp add --transport http documentation-ai https://api.documentation.ai/mcp
+    ```
+
+    Then run `/mcp` in Claude Code, select `documentation-ai`, and sign in when the browser opens.
   </Tab>
 
   <Tab title="Cursor" icon="mouse-pointer">
@@ -120,7 +136,9 @@ https://api.documentation.ai/mcp
 
 ## Choose a project and branch
 
-Tell the agent which documentation project and branch to work on. It finds and selects the project with `list_projects` and `select_project`, and works on your live branch unless you name a different one.
+Tell the agent which documentation project and branch to work on, ideally in your first message. It finds and selects the project with `list_projects` and `select_project`, and works on your live branch unless you name a different one. If you belong to more than one organization, naming the project saves the agent from guessing.
+
+For example: `Use the Acme Docs project and create a branch called update-billing-guides.`
 
 ## Example workflow
 
@@ -151,6 +169,32 @@ Describe the task to your AI client in plain language, and it calls the tools fo
 <Callout kind="tip" collapsed="false">
   For small fixes, the agent can edit your live branch directly. The edits stay unpublished until you ask it to publish, so you can review them first.
 </Callout>
+
+## Get the best results
+
+The agent can change your live documentation, so how you ask matters as much as how you connect.
+
+- **Use a branch for anything bigger than a small fix.** A branch keeps the work off your live site until you merge it, and gives you a preview to check. For a typo or a broken link, editing the live branch is fine, because nothing goes live until you publish. In ChatGPT, the plugin's **Update documentation** skill sets up the branch for you.
+- **Name the pages you mean.** Give the page title or path, such as `guides/setup.mdx`, or ask the agent to search for the pages first. Search covers your published docs, so for pages that aren't published yet, ask it to list your pages instead.
+- **Give it the facts.** The agent writes accurate docs from source material, not from guesses. Paste release notes, link a pull request or spec, or describe the behavior exactly. For screenshots, ask for an upload link, as [Add images and files](#add-images-and-files) describes.
+- **Ask for targeted edits.** Ask the agent to change the sections that need it rather than rewrite whole pages. A targeted edit touches only the text it names, so a teammate editing the same page at the same time keeps their changes.
+- **Have it check the syntax first.** Ask the agent to look up a component before it uses one, and the settings reference before it changes `documentation.json`. Documentation.AI components have their own attributes, and components from other platforms don't render.
+- **Review before you publish.** Ask for a summary of what changed and the diff of each page, or open the Changes panel in the editor. Publishing a branch includes every unpublished change on it, including your teammates' edits.
+- **Keep confirmations on.** Leave your client's approval prompts on for tools that publish, merge, delete, or overwrite content. Media and banner changes take effect right away, without a publish step.
+
+Prompts that follow these practices look like this:
+
+```text
+In the Acme Docs project, create a branch called webhooks-v2. Update guides/webhooks.mdx to document the new retry policy from this pull request: <link>. Show me the diff before you publish.
+```
+
+```text
+On a new branch, find every page that mentions api.acme.io and change it to api.acme.com. List the pages you changed, and don't publish yet.
+```
+
+```text
+Fix the typos on the Quickstart page on the live branch. Show me the changes, and publish only after I confirm.
+```
 
 ## Add images and files
 
@@ -625,7 +669,7 @@ If you want an AI client to read your published documentation without being able
 ## Troubleshooting
 
 <Expandable title="Sign-in fails or the browser window never completes" default-open="false">
-  Make sure you are signed in to the Documentation.AI dashboard in the same browser, then remove the server from your client and add it again. If your client cannot connect to remote servers, use the `mcp-remote` configuration under **Other clients**.
+  Make sure you are signed in to the Documentation.AI dashboard in the same browser, then remove the server from your client and add it again. In Claude or ChatGPT, disconnect Documentation.AI and connect it again with the link in the **Claude** or **ChatGPT** tab under [Configure your MCP client](#configure-your-mcp-client). If your client cannot connect to remote servers, use the `mcp-remote` configuration under **Other clients**.
 </Expandable>
 
 <Expandable title="A tool says no documentation project is selected" default-open="false">

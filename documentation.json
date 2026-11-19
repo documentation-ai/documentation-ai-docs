@@ -581,6 +581,11 @@
                 "icon": "settings"
               },
               {
+                "title": "Assistant API",
+                "path": "ai/assistant-api",
+                "icon": "bot"
+              },
+              {
                 "title": "External Sources",
                 "path": "ai/external-sources",
                 "icon": "external-link"
@@ -822,6 +827,17 @@
             "group": "Endpoints",
             "openapi": "api-reference/openapi.json",
             "pages": []
+          },
+          {
+            "group": "Assistant API",
+            "openapi": "api-reference/assistant-api/openapi.json",
+            "pages": [
+              {
+                "title": "Overview",
+                "path": "api-reference/assistant-api/overview",
+                "icon": "info"
+              }
+            ]
           }
         ]
       },
@@ -907,6 +923,10 @@
     }
   },
   "redirects": [
+    {
+      "source": "/ai/assistant-api-reference",
+      "destination": "/api-reference/assistant-api/overview"
+    },
     {
       "source": "/migrations/from-mintlify",
       "destination": "/migrations/mintlify"

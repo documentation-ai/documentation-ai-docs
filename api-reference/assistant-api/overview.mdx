@@ -1,0 +1,96 @@
+---
+title: Assistant API
+description: >-
+  Base URL, authentication, stream events and error codes of the Assistant API,
+  which answers questions from your documentation.
+---
+## Overview
+
+The Assistant API answers questions from your documentation, with the same answers and access rules as your docs site. To create keys and connect tools such as Intercom, Zendesk or Slack, see the [Assistant API guide](/ai/assistant-api).
+
+Requests and responses are JSON. Field names, event names and error codes don't change between releases.
+
+## Base URL
+
+```text
+https://api.documentation.ai/api/v1/assistant
+```
+
+| Endpoint | What it does |
+| --- | --- |
+| [`POST /answers`](/api-reference/assistant-api/post-answers) | Ask a question |
+| [`POST /feedback`](/api-reference/assistant-api/post-feedback) | Rate an answer |
+| [`POST /reader-credentials`](/api-reference/assistant-api/post-reader-credentials) | Create a reader credential for one visitor of a page |
+| [`GET /key`](/api-reference/assistant-api/get-key) | Check a key |
+| [`DELETE /conversations/{conversation_id}`](/api-reference/assistant-api/delete-conversations-conversation_id) | Delete a conversation |
+
+## Authentication
+
+Send a key in the `Authorization` header: `Authorization: Bearer <key>`. Keys are created in **Settings > Assistant API**. REST API keys don't work here.
+
+| Key | Starts with | Used from | Reads |
+| --- | --- | --- | --- |
+| Secret key | `asst_sk_` | Servers and tools. Refused when the request comes from a web page. | What the key allows |
+| Publishable key | `asst_pk_` | Pages on the key's allowed origins | Public pages only |
+| Reader credential | `asst_rc_` | The page it was created for | What the key allows, narrowed to one reader |
+
+```bash
+curl https://api.documentation.ai/api/v1/assistant/answers \
+  -H "Authorization: Bearer asst_sk_..." \
+  -H "Content-Type: application/json" \
+  -d '{"message": "How do I reset my password?"}'
+```
+
+## Stream events
+
+With `"stream": true` in [`POST /answers`](/api-reference/assistant-api/post-answers), the response is `text/event-stream`. A comment line arrives at once, and another every 10 seconds while the answer is written.
+
+| Event | Data |
+| --- | --- |
+| `answer.delta` | `{ "text": "..." }`: the next part of the answer, in Markdown as it is written |
+| `answer.completed` | The answer object, the same as in normal mode. Use its `answer` as the final text. |
+| `error` | An [error](#errors) object, if the answer fails after the stream starts |
+
+Refusals that happen before the answer starts, such as an invalid key, come back as normal JSON errors with their status code.
+
+## Errors
+
+Errors return the status code below and a flat body, as does a wrong path or method:
+
+```json
+{ "error": "rate_limited", "message": "This key allows 60 requests a minute. Retry after 12 seconds.", "retry_after_seconds": 12 }
+```
+
+`retry_after_seconds` and the `Retry-After` header are set when retrying later can succeed. Once the key is accepted, refusals carry the `X-RateLimit-*` headers too.
+
+| Status | `error` | What to do |
+| --- | --- | --- |
+| 400 | `invalid_request` | Fix the field named in `message`. |
+| 413 | `request_too_large` | Keep requests under 64 KB. |
+| 401 | `key_missing` | Send `Authorization: Bearer <key>`. |
+| 401 | `key_invalid` | Check the key was copied in full, and that it is an Assistant API key. |
+| 401 | `key_expired` | Create a new key. |
+| 401 | `key_revoked` | Create a new key. |
+| 401 | `reader_credential_invalid` | Have your server create a new reader credential. |
+| 403 | `browser_not_allowed` | Use the secret key from a server only. Rotate it if it was in a page. |
+| 403 | `origin_required` | Call with the publishable key or a reader credential from a page on an allowed origin. |
+| 403 | `origin_not_allowed` | Add the origin to the key, exactly as the browser sends it. |
+| 403 | `plan_not_included` | Upgrade to Standard or higher. |
+| 402 | `credits_exhausted` | Add credits or turn on overage. |
+| 429 | `monthly_quota_exceeded` | Wait for the quota to reset on the 1st (UTC). |
+| 403 | `assistant_disabled` | Turn the AI assistant on for the documentation. |
+| 404 | `site_not_published` | Publish the documentation. |
+| 403 | `key_access_insufficient` | Every page now needs sign-in. In the key's **Edit** dialog, choose **All pages, including protected ones** and save. |
+| 403 | `reader_sign_in_required` | Ask for a signed-in reader: every page needs sign-in. |
+| 429 | `rate_limited` | Retry after `retry_after_seconds`. |
+| 429 | `too_many_concurrent_requests` | Retry when one of the key's 20 running requests finishes. |
+| 409 | `request_in_progress` | The same request was still being answered when your time limit ran out. Retry for its answer. |
+| 404 | `answer_not_found` | Rate only answers given to this key in the last 30 days. |
+| 404 | `not_found` | Check the method and path, such as `POST /api/v1/assistant/answers`. |
+| 503 | `site_settings_unavailable` | Retry shortly. No answer is given without your access settings. |
+| 503 | `temporarily_unavailable` | Retry shortly. |
+| 500 | `internal_error` | Retry shortly, and contact support if it persists. |
+
+## Rate limits
+
+Every request with a valid key counts towards the key's limit of 60 requests a minute, and its response, a refusal included, carries `X-RateLimit-Limit`, `X-RateLimit-Remaining` and `X-RateLimit-Reset` headers. The other limits, such as messages per conversation and request size, are listed in the guide's [Limits](/ai/assistant-api#limits).

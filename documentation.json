@@ -888,6 +888,11 @@
             "icon": "mail"
           },
           {
+            "title": "Inactive Accounts and Data Retention",
+            "path": "help/data-retention",
+            "icon": "archive"
+          },
+          {
             "title": "Community",
             "path": "help/community",
             "icon": "users"

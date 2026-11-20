@@ -34,7 +34,7 @@ You can add math in two ways:
 
 4. Publish to apply the setting to your site.
 
-Pages you opened in the Web Editor before turning LaTeX math on still show their formulas as text there, while your published site renders them. To fix one of these pages, switch it to **MDX view**, check that backslash sequences in its formulas (such as `\,` in `$a \, b$`) are still there, and make your change there. The page then shows its formulas in the Web Editor.
+While LaTeX math is off, the Web Editor shows any math already written in a page as plain text, with a note that your site shows it as text too. Turning the setting on renders it in the editor straight away. Your pages are not changed either way.
 
 ### Insert inline math
 
@@ -63,7 +63,7 @@ If LaTeX math is off, the slash menu does not offer math, and dollar signs in a 
 <Callout kind="info" collapsed="false">
   Prefer writing in code?
 
-  You can switch to **MDX view inside the Web Editor** to write math with the same syntax as the Code Editor. With LaTeX math on, dollar signs you type as text in the visual editor are saved as `\$`, so they never turn into math.
+  You can switch to **MDX view inside the Web Editor** to write math with the same syntax as the Code Editor. A dollar sign you type as text in the visual editor is saved so it never turns into math: when it is the only one in its paragraph, heading or table cell it is saved as typed, and when it could pair up with another it is saved as `\$`. Both show as `$` on your site.
 </Callout>
 
 ## Using with Code Editor
@@ -111,11 +111,15 @@ With LaTeX math on, two dollar signs in the same paragraph pair up as math. Pric
 Pro is $20/month and Team is $50/month.
 ```
 
-Write any other dollar sign that is not math as `\$`:
+Write any other dollar sign that is not math as `\$`. That includes prices with formatting or a link between them:
 
 ```markdown
 Set \$HOME and \$PATH before you run the script.
+
+Pro is **\$20** and Team is **\$50**.
 ```
+
+A dollar sign that is the only one in its paragraph, heading or table cell never needs escaping, so `It costs $5 today.` and a price table with one price in each cell stay as they are.
 
 Dollar signs in inline code and code blocks are never math, so `` `echo $HOME` `` needs no escaping.
 

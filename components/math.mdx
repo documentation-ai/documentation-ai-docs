@@ -7,7 +7,12 @@ type: reference
 ---
 ## Overview
 
-Math has two components: **inline math** sits inside a sentence, and **block math** sits on its own line. You write both in LaTeX, and Documentation.AI renders them with KaTeX in the web editor and on your published site, in both light and dark themes. Copying rendered math gives its LaTeX, and search, the Markdown export and AI tools read the LaTeX source.
+This page covers the two math components:
+
+- The **Inline math** component puts math inside a sentence.
+- The **Block math** component puts math on its own line.
+
+You write both in LaTeX, and Documentation.AI renders them with KaTeX in the web editor and on your published site, in both light and dark themes. Copying rendered math gives its LaTeX, and search, the Markdown export and AI tools read the LaTeX source.
 
 The area of a circle is $\pi r^2$, and the integral below works out to one third:
 
@@ -17,10 +22,12 @@ $$
 
 Math is off until you turn it on for your site with **Render math**, or `math.latex` in `documentation.json`. While it is off, dollar signs in your pages stay plain text.
 
-You can add math in two ways:
+You can add either component in two ways:
 
-- In the [Web Editor](/write-and-publish/web-editor), with the **Inline math** and **Block math** slash commands.
-- In the [Code Editor](/write-and-publish/code-editor), between dollar signs in your MDX.
+| Component | Web Editor slash command | Code Editor (MDX) |
+| --- | --- | --- |
+| Inline math | **Inline math** | `$…$` inside a line of text |
+| Block math | **Block math** | `$$` on the line before and the line after |
 
 ## Using with Web Editor
 
@@ -38,7 +45,7 @@ You can add math in two ways:
 
 While math is off, the Web Editor shows any math already written in a page as plain text, with a note that your site shows it as text too. Turning the setting on renders it in the editor straight away. Your pages are not changed either way.
 
-### Insert inline math
+### Insert the Inline math component
 
 1. Place the cursor where the math goes and type <kbd>/</kbd>.
 
@@ -54,7 +61,7 @@ While math is off, the Web Editor shows any math already written in a page as pl
 
 To change inline math, click it. Saving it empty removes it.
 
-### Insert block math
+### Insert the Block math component
 
 1. On an empty line, type <kbd>/</kbd> and choose **Block math**.
 
@@ -90,26 +97,36 @@ Set `latex` to `true` under `math` in `documentation.json`:
 
 See [Site Configuration](/customize/site-configuration#math-configuration).
 
-### Basic usage
+### Inline math component
 
-Write inline math between single dollar signs, and block math between `$$` lines:
+Write the Inline math component between single dollar signs, inside a line of text:
 
 ````markdown
 The area of a circle is $\pi r^2$.
+````
 
+- Inline math stays within its paragraph: it cannot cross a blank line.
+- `$$…$$` written inside a line of text renders like inline math.
+- Separate two pieces of inline math with a space, as in `$a$ $b$`. Written as `$a$$b$`, they read as one.
+
+### Block math component
+
+Write the Block math component between two `$$` lines:
+
+````markdown
 $$
 \int_0^1 x^2 \, dx = \frac{1}{3}
 $$
 ````
 
-- Inline math stays within its paragraph: it cannot cross a blank line.
 - Block math shows centered on its own line. Put each `$$` on a line of its own.
-- `$$…$$` written inside a line of text renders like inline math.
 - A fenced code block with the language `math` also renders as block math on your site. The Web Editor shows it as a code block.
-- Write math between dollar signs. `\(…\)` and `\[…\]` are not supported.
-- Separate two pieces of inline math with a space, as in `$a$ $b$`. Written as `$a$$b$`, they read as one.
 
-Math works in lists, tables, headings and inside components such as `<Callout>`. In a table cell, write a vertical bar as `\vert`, because `|` ends the cell.
+### Rules for both components
+
+- Write math between dollar signs. `\(…\)` and `\[…\]` are not supported.
+- Both work in lists, tables, headings and inside components such as `<Callout>`.
+- In a table cell, write a vertical bar as `\vert`, because `|` ends the cell.
 
 ### Dollar signs
 

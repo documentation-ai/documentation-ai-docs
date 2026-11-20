@@ -1,0 +1,170 @@
+---
+title: Math Components
+description: >-
+  Reference for the two math components, inline math and block math, written in LaTeX and rendered with
+  KaTeX in the web editor and on your published site.
+type: reference
+---
+## Overview
+
+This page covers the two math components:
+
+- The **Inline math** component puts math inside a sentence.
+- The **Block math** component puts math on its own line.
+
+You write both in LaTeX, and Documentation.AI renders them with KaTeX in the web editor and on your published site, in both light and dark themes. Copying rendered math gives its LaTeX, and search, the Markdown export and AI tools read the LaTeX source.
+
+The area of a circle is $\pi r^2$, and the integral below works out to one third:
+
+$$
+\int_0^1 x^2 \, dx = \frac{1}{3}
+$$
+
+Math is off until you turn it on for your site with **Render math**, or `math.latex` in `documentation.json`. While it is off, dollar signs in your pages stay plain text.
+
+You can add either component in two ways:
+
+| Component | Web Editor slash command | Code Editor (MDX) |
+| --- | --- | --- |
+| Inline math | **Inline math** | `$…$` inside a line of text |
+| Block math | **Block math** | `$$` on the line before and the line after |
+
+## Using with Web Editor
+
+### Turn on math
+
+1. Open **Site Config** in the editor's top toolbar.
+
+2. Go to **Brand & Theme**.
+
+3. Under **Math**, turn on **Render math**.
+
+<Image src="https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1795152859039-r0qqqdr2pg-math-latex-setting.png?fm=auto&auto=compress%2Cformat" width="2228" height="826" alt="Brand & Theme in Site Config with the Math section and the Render math switch turned on" caption="Render math under Math in Brand & Theme." style="width: 1114px; height: auto; margin: 0 auto;" />
+
+4. Publish to apply the setting to your site.
+
+While math is off, the Web Editor shows any math already written in a page as plain text, with a note that your site shows it as text too. Turning the setting on renders it in the editor straight away. Your pages are not changed either way.
+
+### Insert the Inline math component
+
+1. Place the cursor where the math goes and type <kbd>/</kbd>.
+
+2. Choose **Inline math**.
+
+<Image src="https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1795152862751-hu5f8vwb5ni-math-slash-menu.png?fm=auto&auto=compress%2Cformat" width="2228" height="1112" alt="Slash menu in the web editor listing Block math and Inline math after typing /math" caption="Type / and choose Inline math or Block math." style="width: 1114px; height: auto; margin: 0 auto;" />
+
+3. Type the LaTeX, without dollar signs. The math in your text updates as you type.
+
+<Image src="https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1795152855123-9eeeurd4bln-math-inline-editor.png?fm=auto&auto=compress%2Cformat" width="2732" height="852" alt="Inline math in a sentence with the LaTeX field and the Done button below it" caption="Inline math updates in the sentence as you type its LaTeX." style="width: 1366px; height: auto; margin: 0 auto;" />
+
+4. Press <kbd>Enter</kbd> or click **Done** to save, or press <kbd>Esc</kbd> to cancel. If the LaTeX has an error, a message under the field says what is wrong, and Enter or **Done** saves only once it is fixed.
+
+To change inline math, click it. Saving it empty removes it.
+
+### Insert the Block math component
+
+1. On an empty line, type <kbd>/</kbd> and choose **Block math**.
+
+2. Type the LaTeX, without the `$$` lines. A preview shows below as you type.
+
+<Image src="https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1795152850356-qu5qyedt2xh-math-equation-editor.png?fm=auto&auto=compress%2Cformat" width="2732" height="1192" alt="Block math in the web editor with the LaTeX field and a rendered preview under it" caption="Block math, with its preview below the LaTeX." style="width: 1366px; height: auto; margin: 0 auto;" />
+
+3. Click outside the block, or press <kbd>Ctrl</kbd>+<kbd>Enter</kbd> (<kbd>Cmd</kbd>+<kbd>Enter</kbd> on Mac), to save. Press <kbd>Esc</kbd> to cancel. If the LaTeX has an error, a message under the field says what is wrong.
+
+To change block math, click it. To remove it, click the trash icon (**Delete block math**) in its toolbar.
+
+If math is off, the slash menu does not offer math, and dollar signs in a page are plain text, the way your site shows them.
+
+<Callout kind="info" collapsed="false">
+  Prefer writing in code?
+
+  You can switch to **MDX view inside the Web Editor** to write math with the same syntax as the Code Editor. A dollar sign you type as text in the visual editor is saved so it never turns into math: when it is the only one in its paragraph, heading or table cell it is saved as typed, and when it could pair up with another it is saved as `\$`. Both show as `$` on your site.
+</Callout>
+
+## Using with Code Editor
+
+### Turn on math
+
+Set `latex` to `true` under `math` in `documentation.json`:
+
+```json
+{
+  "math": {
+    "latex": true
+  }
+}
+```
+
+See [Site Configuration](/customize/site-configuration#math-configuration).
+
+### Inline math component
+
+Write the Inline math component between single dollar signs, inside a line of text:
+
+````markdown
+The area of a circle is $\pi r^2$.
+````
+
+- Inline math stays within its paragraph: it cannot cross a blank line.
+- `$$…$$` written inside a line of text renders like inline math.
+- Separate two pieces of inline math with a space, as in `$a$ $b$`. Written as `$a$$b$`, they read as one.
+
+### Block math component
+
+Write the Block math component between two `$$` lines:
+
+````markdown
+$$
+\int_0^1 x^2 \, dx = \frac{1}{3}
+$$
+````
+
+- Block math shows centered on its own line. Put each `$$` on a line of its own.
+- A fenced code block with the language `math` also renders as block math on your site. The Web Editor shows it as a code block.
+
+### Rules for both components
+
+- Write math between dollar signs. `\(…\)` and `\[…\]` are not supported.
+- Both work in lists, tables, headings and inside components such as `<Callout>`.
+- In a table cell, write a vertical bar as `\vert`, because `|` ends the cell.
+
+### Dollar signs
+
+With math on, two dollar signs in the same paragraph pair up as math. Prices are the exception: a pair whose text is plain (no formatting, links, code or LaTeX), starts with a number, and whose closing `$` is followed by a number stays text, so this line needs no changes:
+
+```markdown
+Pro is $20/month and Team is $50/month.
+```
+
+Write any other dollar sign that is not math as `\$`. That includes prices with formatting or a link between them:
+
+```markdown
+Set \$HOME and \$PATH before you run the script.
+
+Pro is **\$20** and Team is **\$50**.
+```
+
+A dollar sign that is the only one in its paragraph, heading or table cell never needs escaping, so `It costs $5 today.` and a price table with one price in each cell stay as they are.
+
+Dollar signs in inline code and code blocks are never math, so `` `echo $HOME` `` needs no escaping.
+
+To put a dollar sign inside inline math, write it between `$$` instead, because a `$` inside `$…$` ends it:
+
+```markdown
+The fee is $$\text{costs } \$5$$ per seat.
+```
+
+A line that starts with `$$` followed by text, such as `$$100 per seat`, opens block math that runs to the next `$$` or the end of the page. The Web Editor shows an error for it, naming the line. Write those dollar signs as `\$\$`.
+
+## Advanced options
+
+### Specifications
+
+- **Renderer**: [KaTeX](https://katex.org/docs/supported.html), which supports most math-mode LaTeX. The link lists every supported command.
+- **Themes**: math takes the color of the text around it, in light and dark themes.
+- **Errors**: LaTeX that does not parse shows in red, with the reason when you hover it, instead of breaking the page.
+- **Links and images**: commands that add links or load files, such as `\href`, `\url` and `\includegraphics`, show in red and do not render.
+- **Copying**: copying rendered math copies its LaTeX between dollar signs.
+- **Markdown export and AI tools**: a page's Markdown export, `llms.txt` and the AI assistant read the LaTeX source.
+- **PDF export**: math renders in PDF exports, and block math wider than the page shrinks to fit it.
+- **Turning math off**: math would show as plain LaTeX text, and LaTeX braces such as those in `\frac{a}{b}` are read as code, which can break the page. So the publish that turns math off checks every page and snippet, and stops at the first one that still uses math, naming it. Remove that math, or turn math back on.

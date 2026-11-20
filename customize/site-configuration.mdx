@@ -259,7 +259,7 @@ Control how long page titles and group labels fit in the sidebar of your publish
 
 ### Math Configuration
 
-Render LaTeX math written between dollar signs on your published site.
+Render math written in LaTeX between dollar signs on your published site.
 
 ```json
 {
@@ -270,7 +270,7 @@ Render LaTeX math written between dollar signs on your published site.
 ```
 
 <ParamField path="latex" param-type="boolean" required="false" deprecated="false" show-location="true">
-  When `true`, `$…$` in text and `$$…$$` on their own lines render as LaTeX math, and a dollar sign that is not math is written `\$`. Pairs of prices, such as `$20/month and $50/month`, stay text. When `false` or omitted, dollar signs are plain text. Default: `false`. Also set under **Site Config** → **Brand & Theme** → **Math**. See [Math (LaTeX)](/components/math) for the syntax.
+  When `true`, `$…$` in text and `$$…$$` on their own lines render as inline math and block math, and a dollar sign that is not math is written `\$`. Pairs of prices, such as `$20/month and $50/month`, stay text. When `false` or omitted, dollar signs are plain text. Default: `false`. Also set under **Site Config** → **Brand & Theme** → **Math**. See [Math Components](/components/math) for the syntax.
 </ParamField>
 
 ### Footer Configuration

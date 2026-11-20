@@ -185,7 +185,7 @@
                     "icon": "network"
                   },
                   {
-                    "title": "Math (LaTeX)",
+                    "title": "Math Components",
                     "path": "components/math",
                     "icon": "sigma"
                   },

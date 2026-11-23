@@ -252,6 +252,11 @@
                 "icon": "users"
               },
               {
+                "title": "Team Management & Roles",
+                "path": "account-and-billing/team-management",
+                "icon": "user-cog"
+              },
+              {
                 "title": "Branches & Previews",
                 "path": "write-and-publish/branches-and-previews",
                 "icon": "git-branch"

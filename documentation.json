@@ -704,7 +704,8 @@
               },
               {
                 "title": "Monorepo",
-                "path": "integrations/monorepo"
+                "path": "integrations/monorepo",
+                "icon": "folder-git-2"
               },
               {
                 "title": "Webhooks",

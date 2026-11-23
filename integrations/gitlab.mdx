@@ -40,6 +40,10 @@ Follow these steps in Git Settings to connect your repository and enable syncing
     If your project is hosted on your own GitLab instance, enable the self-hosted option and enter the full instance URL, such as `https://gitlab.internal.company.com`. If you use gitlab.com, leave this option off.
   </Step>
 
+  <Step title="Set the folder for a monorepo" icon="folder-git-2" title-type="p">
+    If `documentation.json` is in a folder of the project instead of at its root, turn on **Monorepo** and enter the folder, such as `docs`. See [Monorepo](/integrations/monorepo).
+  </Step>
+
   <Step title="Connect and verify" icon="check-circle" title-type="p">
     Click **Connect**. Documentation.AI validates the token and project, stores the connection, and attempts to register a webhook for auto-deploy.
 
@@ -115,6 +119,10 @@ Use these checks if the connection succeeds partially, auto-deploy does not work
 
   <Expandable title="Token expired or rejected" default-open="false">
     The editor shows a blocking overlay when Documentation.AI can no longer use the stored token. Click **Update Token**, enter a new valid token, and the error clears automatically after the token is accepted.
+  </Expandable>
+
+  <Expandable title="&quot;has no documentation.json in ...&quot;" default-open="false">
+    The project has no `documentation.json` in the folder Documentation.AI looked in. If your docs are in a folder, turn on **Monorepo** and enter the folder that holds `documentation.json`, such as `docs`. See [Monorepo](/integrations/monorepo#troubleshooting).
   </Expandable>
 
   <Expandable title="Cannot find Project ID" default-open="false">

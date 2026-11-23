@@ -16,14 +16,14 @@ Connect a GitHub repository as the source of your documentation. Documentation.A
 
 <Callout kind="info" collapsed="false">
   - Permission in GitHub to install apps on the account or organization that owns the repository
-  - A repository with `documentation.json` at its root, or a documentation project hosted by Documentation.AI that you want to move to GitHub
+  - A repository with `documentation.json` at its root or in a folder, or a documentation project hosted by Documentation.AI that you want to move to GitHub
 </Callout>
 
 ## Connect a repository
 
-When you create a documentation project, Documentation.AI asks you to install the GitHub App and select a repository. Your documentation is published from that repository from then on.
+When you create a documentation project, Documentation.AI asks you to install the GitHub App and select a repository. Your documentation is published from that repository from then on. If your docs are in a folder of the repository, turn on **Monorepo** and enter the folder. See [Monorepo](/integrations/monorepo).
 
-To see the connection later, go to **Settings → Git Settings**. The **GitHub** card is marked **Active**, and the table lists the repository, the deployment branch, and the GitHub account that owns it.
+To see the connection later, go to **Settings → Git Settings**. The **Source repository** box lists the **Organization** that owns the repository, the **Repository**, the **Deployment branch**, and the **Monorepo** setting.
 
 ## Move hosted docs to GitHub
 
@@ -53,18 +53,22 @@ Point your documentation at a different repository, or move it from GitLab to Gi
   </Step>
 
   <Step title="Open the repository list" icon="list" title-type="p">
-    If GitHub is already active, click **Change Source**. If your documentation publishes from GitLab, select the **GitHub** card instead. If Documentation.AI hosts your documentation, Git Settings shows different options, so follow the steps in [Move hosted docs to GitHub](#move-hosted-docs-to-github) instead.
+    If GitHub is already active, click **Change source** under the **Source repository** box. If your documentation publishes from GitLab, select **GitHub** under **Git provider** instead. If Documentation.AI hosts your documentation, Git Settings shows different options, so follow the steps in [Move hosted docs to GitHub](#move-hosted-docs-to-github) instead.
 
-    The list shows the repositories the GitHub App can access. If yours is missing, click **Connect Repo from GitHub** and give the app access to it on GitHub.
+    The list shows the repositories the GitHub App can access. If yours is missing, click **Add it on GitHub** and give the app access to it on GitHub.
   </Step>
 
   <Step title="Select the repository" icon="folder-git-2" title-type="p">
-    Search for the repository, click **Select**, then click **Change Source** to confirm.
+    Search for the repository and click **Select**. The **Change source repository** dialog opens.
+  </Step>
+
+  <Step title="Set the folder and confirm" icon="check-circle" title-type="p">
+    If the docs are in a folder of the new repository, turn on **Monorepo** and enter the folder. Click **Change source** to confirm.
   </Step>
 </Steps>
 
 <Callout kind="danger" collapsed="false">
-  Changing the source replaces your documentation's content with the content of the selected repository and starts a fresh deployment from it. This cannot be undone. Make sure the new repository has a valid `documentation.json` at its root.
+  Changing the source replaces your documentation's content with the content of the selected repository and starts a fresh deployment from it. This cannot be undone. Make sure the new repository has a valid `documentation.json` at its root, or in the folder you enter under **Monorepo**.
 </Callout>
 
 ## Change the deployment branch
@@ -73,7 +77,7 @@ The deployment branch is the branch your live site is built from, labeled **Live
 
 <Steps>
   <Step title="Pick a branch" icon="git-branch" title-type="p">
-    In **Settings → Git Settings**, open the branch menu in the **Branch** column and choose the new branch.
+    In **Settings → Git Settings**, open the branch menu in the **Deployment branch** row and choose the new branch.
   </Step>
 
   <Step title="Confirm" icon="check-circle" title-type="p">
@@ -82,6 +86,10 @@ The deployment branch is the branch your live site is built from, labeled **Live
 </Steps>
 
 To work on other branches and review them on a preview site first, see [Branches and previews](/write-and-publish/branches-and-previews).
+
+## Publish from a folder
+
+If your docs live in a folder of the repository, such as `docs` next to your application code, turn on **Monorepo** and enter that folder. Several documentation projects can also publish from one repository, each from its own folder. See [Monorepo](/integrations/monorepo).
 
 ## Auto-deploy on push
 
@@ -97,11 +105,15 @@ To notify your own systems when a deployment finishes, see [Deployment webhooks]
   </Expandable>
 
   <Expandable title="My repository is not in the list" default-open="false">
-    The list shows only repositories the GitHub App can access. Click **Connect Repo from GitHub**, add the repository to the app's access on GitHub, and return to Git Settings.
+    The list shows only repositories the GitHub App can access. Click **Add it on GitHub**, add the repository to the app's access on GitHub, and return to Git Settings.
   </Expandable>
 
   <Expandable title="A push did not deploy" default-open="false">
-    Check that you pushed to the deployment branch shown in Git Settings, and that the GitHub App still has access to the repository.
+    Check that you pushed to the deployment branch shown in Git Settings, and that the GitHub App still has access to the repository. If **Monorepo** is on, a push deploys only when it changes files inside the folder, so a push that only changes files outside it does not deploy.
+  </Expandable>
+
+  <Expandable title="&quot;has no documentation.json ...&quot;" default-open="false">
+    The repository has no `documentation.json` where Documentation.AI looked. If your docs are in a folder, turn on **Monorepo** and enter the folder that holds it. See [Monorepo](/integrations/monorepo#troubleshooting).
   </Expandable>
 </ExpandableGroup>
 

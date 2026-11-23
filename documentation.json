@@ -703,6 +703,10 @@
                 "icon": "gitlab"
               },
               {
+                "title": "Monorepo",
+                "path": "integrations/monorepo"
+              },
+              {
                 "title": "Webhooks",
                 "path": "integrations/deployment-webhooks",
                 "icon": "webhook"

@@ -1,0 +1,133 @@
+---
+title: Monorepo
+description: >-
+  Publish your documentation from a folder of a GitHub or GitLab repository,
+  and publish several sites from one repository.
+---
+## Overview
+
+By default, Documentation.AI expects `documentation.json` at the root of your repository. If your docs live in a folder, such as `docs` next to your application code, turn on **Monorepo** and enter that folder. This works the same way for GitHub and GitLab.
+
+The folder you enter is the documentation root: the folder that holds `documentation.json`.
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795446727189-uqptgxrsw8f-monorepo-documentation-root-framed.png?fm=auto&auto=compress%2Cformat" width="2400" height="1500" alt="The acme/platform repository with apps, packages and docs folders. The docs folder is marked as the documentation root and holds documentation.json, introduction.mdx, guides and images. Beside it, the live site docs.acme.com, built from that folder." />
+
+- **Paths start at the folder**: every page, image, and OpenAPI path is relative to the documentation root.
+- **The editor shows only the folder**: files outside it do not appear in the dashboard.
+- **Publishing stays inside the folder**: changes you publish from the dashboard are committed inside it.
+- **Pushes outside the folder do not deploy**: your site deploys when a push changes files inside the folder.
+
+## Before you start
+
+<Callout kind="info" collapsed="false">
+  - A GitHub repository or GitLab project with `documentation.json` in the folder you want to publish from
+  - The folder's path from the repository root, such as `docs` or `apps/docs`. A slash at the start or the end is ignored.
+</Callout>
+
+## Set the folder when you connect a repository
+
+<Tabs>
+  <Tab title="GitHub">
+    <Steps>
+      <Step title="Connect an existing repository" icon="github" title-type="p">
+        When you create a documentation project, choose **Git**, then **Connect an existing repository**. Install the GitHub App and connect the repository.
+      </Step>
+
+      <Step title="Turn on Monorepo" icon="folder" title-type="p">
+        Turn on **Monorepo** and enter the folder that holds `documentation.json`.
+      </Step>
+
+      <Step title="Create the project" icon="check-circle" title-type="p">
+        Click **Create project**. Documentation.AI checks the folder first. If it has no `documentation.json`, the reason appears under the folder field and the project is not created until you correct it.
+      </Step>
+    </Steps>
+
+    To move an existing project to a repository that keeps its docs in a folder, see [Change the source repository](/integrations/github#change-the-source-repository). The **Change source repository** dialog has the same **Monorepo** switch.
+  </Tab>
+
+  <Tab title="GitLab">
+    <Steps>
+      <Step title="Enter your project details" icon="gitlab" title-type="p">
+        Connect your GitLab project as described in [Connect a GitLab project](/integrations/gitlab#connect-a-gitlab-project), when you create a documentation project or from **Settings → Git Settings**.
+      </Step>
+
+      <Step title="Turn on Monorepo" icon="folder" title-type="p">
+        In the same form, turn on **Monorepo** and enter the folder that holds `documentation.json`.
+      </Step>
+
+      <Step title="Connect" icon="check-circle" title-type="p">
+        Finish connecting the project. Documentation.AI checks the folder and refuses the connection, with the reason, if it has no `documentation.json`.
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Change the folder later
+
+These steps are the same for GitHub and GitLab.
+
+<Steps>
+  <Step title="Open Git Settings" icon="settings" title-type="p">
+    Go to **Settings → Git Settings** and find the **Monorepo** row in the **Source repository** box.
+  </Step>
+
+  <Step title="Enter the folder" icon="folder" title-type="p">
+    Turn on **Monorepo** and enter the folder, or turn it off to publish from the repository root. Click **Save**.
+  </Step>
+
+  <Step title="Confirm" icon="check-circle" title-type="p">
+    In the **Change Documentation Root** dialog, click **Change Root**.
+  </Step>
+</Steps>
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795446731805-nhva7s9gy3f-monorepo-git-settings-framed.png?fm=auto&auto=compress%2Cformat" width="2400" height="1500" alt="Git Settings with the repository acme/platform on the main deployment branch, Monorepo switched on and docs entered as the folder, next to a Save button. Over its corner, the Change Documentation Root confirmation with a Change Root button." />
+
+<Callout kind="danger" collapsed="false">
+  Changing the documentation root discards unpublished edits and redeploys your whole site from the new folder.
+</Callout>
+
+## Publish several sites from one repository
+
+Several documentation projects can publish from the same repository, each from its own folder, such as `docs` and `api-docs`. Connect the repository to each project and enter a different folder for each.
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795446736663-t2y8aq07d6-monorepo-several-sites-framed.png?fm=auto&auto=compress%2Cformat" width="2400" height="1500" alt="A push to main in acme/platform that changes docs/guides/install.mdx and docs/images/setup.png. The Product docs site, published from the docs folder, is deploying. The API reference site, published from the api-docs folder, shows no changes." />
+
+- **Folders cannot overlap**: two projects cannot use the same folder, and one folder cannot be inside another. A project that publishes from the repository root cannot share the repository.
+- **A push deploys only what it changed**: a push deploys the projects whose folder it changed. A push that only changes files outside a project's folder does not deploy that project.
+- **One deployment branch**: projects that share a repository share its deployment branch.
+
+## Troubleshooting
+
+<ExpandableGroup>
+  <Expandable title="&quot;has no documentation.json in ...&quot;" default-open="false">
+    The repository has no `documentation.json` in the folder Documentation.AI looked in. Check the folder's spelling and enter it as a path from the repository root, such as `docs` or `apps/docs`.
+  </Expandable>
+
+  <Expandable title="&quot;has no documentation.json at its root&quot;" default-open="false">
+    You connected the repository without a folder, and its root has no `documentation.json`. Turn on **Monorepo** and enter the folder that holds it.
+  </Expandable>
+
+  <Expandable title="&quot;Another documentation already uses ...&quot;" default-open="false">
+    Another documentation project publishes from the same repository and its folder overlaps with the one you entered. Two projects cannot use the same folder, and one folder cannot be inside another. Enter a separate folder for this project.
+  </Expandable>
+
+  <Expandable title="A push did not deploy" default-open="false">
+    With **Monorepo** on, a push deploys only when it changes files inside the folder. Also check that you pushed to the deployment branch shown in Git Settings.
+  </Expandable>
+</ExpandableGroup>
+
+## Related
+
+<Columns cols="3">
+  <Card title="GitHub Integration" href="/integrations/github" icon="github" horizontal="false">
+    Publish from a GitHub repository.
+  </Card>
+
+  <Card title="GitLab Integration" href="/integrations/gitlab" icon="gitlab" horizontal="false">
+    Publish from a GitLab project.
+  </Card>
+
+  <Card title="Site configuration" href="/customize/site-configuration" icon="settings" horizontal="false">
+    What `documentation.json` holds.
+  </Card>
+</Columns>

@@ -8,7 +8,7 @@ description: >-
 
 The Authoring MCP Server lets an MCP-compatible AI client work in your documentation project. It can read pages, write and reorganize content, add images and files, update `documentation.json`, manage branches, and publish changes.
 
-This is the server your **documentation team** connects to, and it uses your role in your Documentation.AI organization. To give readers AI access to your published docs, use the [Reader MCP Server](/ai/reader-mcp-server). To work over HTTP from your own scripts or CI/CD, use the [REST API](/api-reference/overview).
+This is the server your **documentation team** connects to, and it uses your role on each documentation project. To give readers AI access to your published docs, use the [Reader MCP Server](/ai/reader-mcp-server). To work over HTTP from your own scripts or CI/CD, use the [REST API](/api-reference/overview).
 
 ## How edits work
 
@@ -255,7 +255,7 @@ Most tools also accept `organizationId` and `documentationId` to work on a speci
 ### Projects
 
 <Expandable title="list_projects" default-open="false">
-  Lists the organizations and documentation projects you can access, with your role in each organization.
+  Lists the organizations and documentation projects you can access, with your role on each project.
 
   **Parameters:** None
 </Expandable>
@@ -656,11 +656,12 @@ The server also provides these reference resources:
 
 ## Role-based access
 
-Your role in your Documentation.AI organization decides which tools you can use.
+Your role on the documentation project decides which tools you can use there. See [Team Management & Roles](/account-and-billing/team-management).
 
 | Role       | Access                                 |
 | ---------- | -------------------------------------- |
 | **Viewer** | Read-only tools, plus `select_project` |
+| **Commenter** | Read-only tools, plus `select_project` |
 | **Editor** | All tools except `delete_media`        |
 | **Admin**  | All tools                              |
 
@@ -677,7 +678,7 @@ If you want an AI client to read your published documentation without being able
 </Expandable>
 
 <Expandable title="An editing tool is refused" default-open="false">
-  Editing, publishing, branch changes, and importing or replacing files require the editor or admin role. Deleting files requires the admin role. Ask an admin in your organization to update your role.
+  Editing, publishing, branch changes, and importing or replacing files require the editor or admin role. Deleting files requires the admin role. Ask an admin of that documentation project to update your role.
 </Expandable>
 
 <Expandable title="A file does not import" default-open="false">
@@ -685,7 +686,7 @@ If you want an AI client to read your published documentation without being able
 </Expandable>
 
 <Expandable title="The upload link does not open" default-open="false">
-  Upload links work for 15 minutes and only for people who can edit the project. If the link has expired, ask the agent for a new one. If you see a permission error, ask an admin in your organization to give you the editor role.
+  Upload links work for 15 minutes and only for people who can edit the project. If the link has expired, ask the agent for a new one. If you see a permission error, ask an admin of that documentation project to give you the editor role.
 </Expandable>
 
 <Expandable title="The agent cannot find a file I uploaded" default-open="false">

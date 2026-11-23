@@ -1,164 +1,112 @@
 ---
 title: Team Management & Roles
-description: Manage team members and understand user permissions in your organization.
+description: Invite people, give each person a role on each documentation project, and change or remove their access.
 ---
-## User Roles Overview
+Access has two layers. Your **organization role** decides who manages the organization. Your **documentation role** decides what you can do in a documentation project, and you can have a different one on each project: edit one, and only read another.
 
-Documentation.ai has two user roles for organization members:
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795413373719-gadtkco8g8a-roles-organization-members.png?fm=auto&auto=compress%2Cformat" width="2400" height="1516" alt="The organization's Members list with Maya Chen as Owner and Arjun Rao and Priya Shah as Members. Arjun's documentation list is open over it: Editor on Acme Docs, Viewer on API Reference and Commenter on Help Center." />
 
-### Admin Role
+## Organization roles
 
-**Full access permissions:**
+| Role       | What they can do |
+| ---------- | ---------------- |
+| **Owner**  | Admin on every documentation project, including new ones. Manages members, invitations, billing, AI credits, GitHub and GitLab connections and integrations. Can delete the organization. |
+| **Member** | Sees only the projects they're added to. Can create a project and becomes its Admin. Sees the members list but can't change it. |
 
-- Delete and manage the organization
+An organization can have several owners, and always has at least one. Every member uses a seat, whatever their roles. See [Billing & Usage Limits](usage-limits).
 
-- Manage team members (invite, remove, change roles)
+## Documentation roles
 
-- Manage documentation (publish, write, create, edit, delete docs)
+Each person has one role on each documentation project they're on.
 
-- Make changes to projects and settings
+| What you can do                                                       | Viewer | Commenter | Editor | Admin |
+| --------------------------------------------------------------------- | :----: | :-------: | :----: | :---: |
+| Read pages, analytics and settings                                    | ✓      | ✓         | ✓      | ✓     |
+| Use the AI agent, which acts with your role                           | ✓      | ✓         | ✓      | ✓     |
+| Comment, reply and resolve your own threads                           |        | ✓         | ✓      | ✓     |
+| Edit pages, navigation and media, and resolve anyone's comments       |        |           | ✓      | ✓     |
+| Publish, and work with branches and merges                            |        |           | ✓      | ✓     |
+| Manage settings, domains, access control, API keys, connectors and PDF export |   |    |        | ✓     |
+| Delete media files and the project                                    |        |           |        | ✓     |
+| Add, invite and remove people, and change their roles                 |        |           |        | ✓     |
 
-- Publish documentation
+The [Authoring MCP Server](/ai/authoring-mcp-server) follows the same roles, and every [API key](/api-reference/overview#roles-and-permissions) carries a role of its own.
 
-### Viewer Role
+<Callout kind="info" collapsed="false">
+  Editor, Commenter and Viewer come with the Professional plan and above, and AppSumo tier 3 and above. On other plans everyone on a project is Admin. See [Roles and your plan](#roles-and-your-plan).
+</Callout>
 
-**Read-only permissions:**
+## Invite people
 
-- View all documentation under the organization
+<Steps>
+  <Step title="Open Members" icon="users" title-type="p">
+    Go to **Settings > Organization Settings > Members** and click **Invite members**.
+  </Step>
 
-- Cannot make any changes or edits
+  <Step title="Enter their emails" icon="mail" title-type="p">
+    Add one or more addresses, separated by commas or new lines.
+  </Step>
 
-- Cannot manage team members or organization settings
+  <Step title="Choose their roles" icon="user-check" title-type="p">
+    Pick **Member** or **Owner**. For a member, tick each project they should get and choose their role on it. An owner becomes Admin on every project.
+  </Step>
 
-- Cannot publish or modify documentation
+  <Step title="Send" icon="send" title-type="p">
+    Click **Send invitations**. They get an email, and join with those roles when they accept it.
+  </Step>
+</Steps>
 
-**Important**: User roles are specific to each organization. The same user can have different roles in different organizations.
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795413379786-gwvliv2f1fu-roles-invite.png?fm=auto&auto=compress%2Cformat" width="2400" height="1516" alt="The Invite members dialog for priya@acme.com as a Member, with Editor on API Reference and Viewer on Acme Docs. Beside it, the invitation she receives, with an Accept invitation button." />
 
-## Inviting Team Members
+A project's admins can invite people from that project's **Members** page too. Their invitations give access to that project only.
 
-### Send Invitations
+Until someone accepts, their invitation is listed on the **Pending invitations** tab of **Settings > Organization Settings > Members**. Click **Resend** to send the email again, or **Revoke** to cancel it.
 
-1. Go to **Settings**
+## Manage a project's members
 
-2. Under **Organization Settings**, click **Members**
+Go to **Settings > Documentation Settings > Members** to see everyone on the project you have open. Its admins can:
 
-3. Click **Invite** button
+- **Add members**: give people already in the organization a role on this project. Invite someone new by email from the same dialog.
+- **Change a role**: open the role next to a person and pick another.
+- **Remove from documentation**: in the same menu. They stay in the organization and keep their roles on other projects.
 
-4. Enter email addresses:
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795413384661-xk9q53wkzck-roles-change-role.png?fm=auto&auto=compress%2Cformat" width="2400" height="1516" alt="A documentation's Members list with the role menu open for Arjun Rao, a Viewer, and the pointer on Editor. The menu lists Admin, Editor, Commenter and Viewer with what each can do." />
 
-   - Single user: `user@example.com`
+Owners are marked **Organization owner**. They're Admin on every project, so their role can't be changed or removed here. To change it, make them a member first.
 
-   - Multiple users: `user1@example.com, user2@example.com, user3@example.com`
+## Change an organization role or remove someone
 
-5. Select the role (Admin or Viewer)
+Owners manage the organization from **Settings > Organization Settings > Members**. Open the **…** menu next to a person:
 
-6. Click **Invite**
+- **Make owner**: they become Admin on every project.
+- **Make member**: they keep their role on each project.
+- **Remove member**: they leave the organization and every project in it.
 
-### Invitation Process
+The last owner can't be made a member or removed. Make someone else an owner first.
 
-**For new invitations:**
+## Leave
 
-- Invited users receive an email invitation
+- **Leave a project**: in **Settings > Documentation Settings > Members**, click **Leave documentation**. You lose access until an admin adds you again.
+- **Leave the organization**: in **Settings > Organization Settings > Organization**, click **Leave organization**. The last owner can't leave.
 
-- They click **Accept Invite** in the email
+## Roles and your plan
 
-- Get redirected to documentation.ai
+On Starter, Standard and AppSumo below tier 3, everyone on a project is Admin. Editor, Commenter and Viewer still show in every role picker, greyed out with a **Pro** badge. Click **Upgrade** beside one to see the plans that include them.
 
-- Login using the same email address used for invitation
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795413389773-iyxcv5z0nuh-roles-locked-below-pro.png?fm=auto&auto=compress%2Cformat" width="2400" height="1516" alt="On a plan without documentation roles, everyone on the documentation is Admin. In the role menu, Editor, Commenter and Viewer are greyed with a Pro badge, each with its own Upgrade button." />
 
-- Are directly connected to the organization automatically
-
-- Gain access to all projects in the organization based on their assigned role
-
-## Managing Team Members
-
-### View Current Members
-
-Access the members list at **Settings** → **Organization Settings** → **Members**
-
-### Change User Roles
-
-1. In the members table, find the user
-
-2. Click the **3-dot menu** under **Actions**
-
-3. Select **Change Role**
-
-4. Choose new role (Admin or Viewer)
-
-5. Click **Save**
-
-### Remove Team Members
-
-1. In the members table, find the user
-
-2. Click the **3-dot menu** under **Actions**
-
-3. Select **Remove User**
-
-4. Confirm removal
-
-## Managing Pending Invitations
-
-### View Pending Invites
-
-1. Go to **Settings** → **Organization Settings** → **Members**
-
-2. Click the **Invitations** tab
-
-3. View all pending invitations
-
-### Resend or Cancel Invitations
-
-- **Resend**: Click **Resend** next to the pending invitation
-
-- **Cancel**: Click **Cancel** to revoke the invitation
-
-## Access Control
-
-### Organization-Wide Permissions
-
-- User roles apply to the entire organization and all its projects
-
-- Admins have full control across all documentation projects
-
-- Viewers have read-only access across all documentation projects
-
-### Multi-Organization Users
-
-- Users can be members of multiple organizations
-
-- They may have different roles in each organization
-
-- Role permissions only apply within each specific organization
-
-## Best Practices
-
-### Role Assignment
-
-- **Use Admin role for**: Team leads, content managers, developers who need full access
-
-- **Use Viewer role for**: Stakeholders, clients, or team members who only need to read documentation
-
-### Security
-
-- Regularly review team member access
-
-- Remove users who no longer need access
-
-- Use Viewer role as default unless full access is required
+If you move to a plan without roles, everyone acts as Admin until you upgrade again. The roles you set are kept, and come back when you do.
 
 ## Troubleshooting
 
-**Can't invite users?** Ensure you have Admin role in the organization.
+**Someone can't see a project.** Members only see the projects they're on. An admin of that project, or an owner, adds them from its **Members** page.
 
-**User not receiving invitation?** Check their spam/promotions folder or resend the invitation.
+**Editor, Commenter and Viewer are greyed out.** Your plan doesn't include documentation roles. See [Roles and your plan](#roles-and-your-plan).
 
-**Permission denied errors?** Verify the user has the correct role for their intended actions.
+**An invitation didn't arrive.** Ask them to check spam or promotions, then click **Resend** on the **Pending invitations** tab.
 
-## Related Topics
+## Related topics
 
-- [Understanding Organizations & Projects](organizations-and-projects)
-
-- [Billing & Usage Limits](usage-limits) - Team member limits by plan
-
+- [Organizations & Projects](organizations-and-projects)
+- [Billing & Usage Limits](usage-limits)
+- [Authoring MCP Server](/ai/authoring-mcp-server)

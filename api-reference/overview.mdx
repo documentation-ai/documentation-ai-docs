@@ -18,7 +18,7 @@ Before using the Documentation.AI REST API, make sure you have the following:
 
 1. **A Documentation.AI account** on the Standard plan or above
 2. **A published documentation project** with a connected repository
-3. **Admin access** to the organization that owns the documentation project (required to create API keys)
+3. **The Admin role** on the documentation project (required to create API keys)
 
 ## Getting Your API Key
 
@@ -61,14 +61,18 @@ Every API key carries a role that determines which endpoints are accessible.
 | Role       | Read endpoints                                              | Write endpoints                                                        |
 | ---------- | ----------------------------------------------------------- | ---------------------------------------------------------------------- |
 | **Viewer** | All read endpoints, including analytics, media, and storage | None                                                                   |
-| **Editor** | All read endpoints                                          | Push, branches, merge, deploy, PDF exports, and media except deletion  |
-| **Admin**  | All read endpoints                                          | All write endpoints, including deleting media                          |
+| **Editor** | All read endpoints                                          | Push, branches, merge, deploy, and media except deletion               |
+| **Admin**  | All read endpoints                                          | All write endpoints, including PDF exports and deleting media          |
 
 Write endpoints return `403 Forbidden` if the API key role does not have sufficient permissions.
 
 Deploying sits behind **editor** because it publishes to your live site. Analytics is read-only, so a **viewer** key is enough.
 
-Starting a PDF export needs **editor**. Reading the current export, and the link it carries, needs only **viewer**.
+PDF exports need **admin**, both to start one and to read the current export and its link.
+
+<Callout kind="info" collapsed="false">
+  Viewer and Editor keys come with the Professional plan and above, and AppSumo tier 3 and above. On other plans you create Admin keys. A Viewer or Editor key created earlier keeps its role.
+</Callout>
 
 ## Rate Limiting
 

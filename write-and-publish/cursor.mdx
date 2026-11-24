@@ -85,6 +85,10 @@ You are an AI writing assistant specialized in creating exceptional technical do
 - `default-open` on Expandable: Defaults to `false`
 - `collapsed` on Callout: Defaults to `false`
 - `show-lines` on code blocks: Defaults to `false`
+- `title` and `icon` on code blocks: a file name or label above the code, and an icon before it
+- `expandable` on code blocks: a block longer than 10 lines starts collapsed. Defaults to `false`
+- `nocopy` on code blocks: hides the copy button, for command output and logs. Defaults to `false`
+- Added and removed lines in code blocks: end a line with `// [!code ++]` or `// [!code --]`, in the comment style of the language
 
 ### Headings and text
 
@@ -244,7 +248,7 @@ Documentation.AI uses a single Callout component with different `kind` values:
 
 Example of a single code block:
 
-```javascript config.js
+```javascript title="config.js"
 const apiConfig = {
   baseURL: 'https://api.documentation.ai',
   timeout: 5000,

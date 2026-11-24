@@ -64,6 +64,7 @@ Documentation.AI extracts user identity and access roles from the ID token, the 
   "host": "docs.example.com",
   "firstname": "Alice",
   "company": "Acme Inc",
+  "email": "alice@example.com",
   "accessRoles": ["engineering", "sre"]
 }
 ```
@@ -73,6 +74,7 @@ Documentation.AI extracts user identity and access roles from the ID token, the 
 | `host` | No | The docs site hostname (for personalization) |
 | `firstname` | No | User's first name (for personalization) |
 | `company` | No | User's company name (for personalization) |
+| `email` | No | User's email address, recorded with the page feedback they send |
 | `accessRoles` | No | Array of role strings for [role-based access control](/customize/access-control/overview#role-based-access-control). Omit if not using scoped access. Use `["*"]` for full access. |
 
 <Callout kind="info" collapsed="false">

@@ -180,6 +180,52 @@ Customize your site's color scheme with automatic contrast optimization.
   </Expandable>
 </ParamField>
 
+### Font Configuration
+
+Choose fonts for headings, body text and code on your published site, each from a fixed list.
+
+```json
+{
+  "fonts": {
+    "heading": { "family": "Playfair Display" },
+    "body": { "family": "Poppins" },
+    "code": { "family": "Fira Code" }
+  }
+}
+```
+
+<ParamField path="heading" param-type="object" required="false" deprecated="false" show-location="true">
+  Font for page titles and headings. When omitted, headings use the body font.
+
+  <Expandable title="Font Options" default-open="false">
+    <ParamField path="family" param-type="string" required="true" deprecated="false" show-location="true">
+      One of `Inter`, `Roboto`, `Open Sans`, `Montserrat`, `Poppins`, `Source Sans 3`, `DM Sans`, `Playfair Display`, `Plus Jakarta Sans` or `Geist`, written exactly as here.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField path="body" param-type="object" required="false" deprecated="false" show-location="true">
+  Font for all other text, including the sidebar and the navbar. Default: `Inter`.
+
+  <Expandable title="Font Options" default-open="false">
+    <ParamField path="family" param-type="string" required="true" deprecated="false" show-location="true">
+      One of the fonts listed for `heading`, written exactly as there.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField path="code" param-type="object" required="false" deprecated="false" show-location="true">
+  Font for code blocks, inline code and keyboard keys. Default: `JetBrains Mono`.
+
+  <Expandable title="Font Options" default-open="false">
+    <ParamField path="family" param-type="string" required="true" deprecated="false" show-location="true">
+      One of `JetBrains Mono`, `Roboto Mono`, `Source Code Pro`, `Fira Code` or `Geist Mono`, written exactly as here.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+A name that isn't on its list is ignored, and that part of your site keeps its default font. Also set under **Site Config** → **Brand & Theme** → **Fonts**. See [Colors and Typography](/customize/colors-and-typography#choose-fonts) for details.
+
 ### Navbar Configuration
 
 Configure the top navigation bar with action buttons and links.

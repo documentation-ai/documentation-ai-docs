@@ -29,7 +29,7 @@ You can configure your brand, heading, and text colors directly from Site Config
 
 2. Scroll down to the **Theme Colors** section.
 
-All changes made here are stored under `theme.colors` in `documentation.json` and appear in the **Changes** panel. Publish your documentation to apply the changes.
+All changes made here are stored under `colors` in `documentation.json` and appear in the **Changes** panel. Publish your documentation to apply the changes.
 
 <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1764935915486-cp10pbpu3ht-pasted-image-1764935912576.png?q=85&fm=auto&auto=compress%2Cformat" width="743" height="279" alt="Theme Colors section in Documentation.AI Site Config with light and dark theme color options" style="width: 743px; height: auto; cursor: pointer;" 
   />
@@ -161,9 +161,77 @@ Add complementary colors for dark mode that maintain brand consistency:
 
 5. Verify brand colors maintain visual hierarchy
 
-## Typography Best Practices
+## Choose Fonts
 
-The Documentation.AI platform automatically handles typography optimization, but consider these guidelines when choosing colors:
+Your site uses Inter for text and JetBrains Mono for code until you choose other fonts. You can choose fonts for three parts of your site:
+
+- **Heading**: page titles and headings. Until you choose one, headings use the body font.
+
+- **Body**: all other text, including the sidebar and the navbar. Default: Inter.
+
+- **Code**: code blocks, inline code and keyboard keys. Default: JetBrains Mono.
+
+Heading and Body choose from the same text fonts. Code has its own list of monospace fonts:
+
+- **Heading and Body**: Inter, Roboto, Open Sans, Montserrat, Poppins, Source Sans 3, DM Sans, Playfair Display, Plus Jakarta Sans and Geist.
+
+- **Code**: JetBrains Mono, Roboto Mono, Source Code Pro, Fira Code and Geist Mono.
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795414189934-hpkq2asl8x-site-fonts-heading-body-framed.png?fm=auto&auto=compress%2Cformat" width="828" height="566" alt="A documentation page with its title and headings in Playfair Display and its body text in Poppins" caption="Headings in Playfair Display, body text in Poppins." />
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795414185566-ffd617aqnha-site-fonts-code-framed.png?fm=auto&auto=compress%2Cformat" width="828" height="335" alt="A code block on a documentation page set in Fira Code" caption="Code in Fira Code." />
+
+### Choose fonts from the Editor
+
+1. In the Editor, click **Site Config**, then **Brand & Theme**.
+
+2. In the **Fonts** section, open the **Heading**, **Body** or **Code** list.
+
+3. Click a font to choose it. To go back to the default, choose the first entry in the list.
+
+4. **Publish** your documentation so the new fonts appear on your live site.
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795496744882-4sj37t1q90h-dashboard-fonts-section-framed.png?fm=auto&auto=compress%2Cformat" width="1768" height="1334" alt="The Fonts section in Site Config with Playfair Display and Poppins chosen and the Body list open" caption="The Fonts section in Brand & Theme, with the Body list open." />
+
+### Set fonts in documentation.json
+
+Add a `fonts` object with any of the three slots. Each slot names one font from its list:
+
+```json
+{
+  "fonts": {
+    "heading": { "family": "Playfair Display" },
+    "body": { "family": "Poppins" },
+    "code": { "family": "Fira Code" }
+  }
+}
+```
+
+<ParamField path="heading.family" param-type="string" required="false" deprecated="false">
+  Font for page titles and headings. When omitted, headings use the body font.
+</ParamField>
+
+<ParamField path="body.family" param-type="string" required="false" deprecated="false">
+  Font for all other text, including the sidebar and the navbar. Default: `Inter`.
+</ParamField>
+
+<ParamField path="code.family" param-type="string" required="false" deprecated="false">
+  Font for code blocks, inline code and keyboard keys. Default: `JetBrains Mono`.
+</ParamField>
+
+Write each name exactly as it is listed above, capital letters included: `Playfair Display`, not `playfair display`. A name that isn't on the list is ignored, and that part of your site keeps its default font. Remove a slot to go back to its default.
+
+### How fonts load for readers
+
+Documentation.AI serves your fonts from your documentation site's own domain, and the fonts load with each page.
+
+<Callout kind="info" collapsed="false">
+  Only the fonts listed above can be chosen here. To use another font, such as a licensed brand font, load it with [Custom CSS](custom-css).
+</Callout>
+
+## Color Best Practices
+
+Consider these guidelines when choosing colors:
 
 ### Contrast Requirements
 

@@ -1318,13 +1318,7 @@
             "required": false,
             "schema": { "type": "string", "enum": ["asc", "desc"], "default": "desc" }
           },
-          {
-            "name": "category",
-            "in": "query",
-            "description": "Count only feedback from people on your docs site (`human`) or from AI agents through your Reader MCP Server (`agent`). Omit it for both.",
-            "required": false,
-            "schema": { "type": "string", "enum": ["human", "agent"] }
-          }
+          { "$ref": "#/components/parameters/FeedbackCategory" }
         ],
         "responses": {
           "200": {
@@ -1394,13 +1388,7 @@
           { "$ref": "#/components/parameters/EndDate" },
           { "$ref": "#/components/parameters/Limit" },
           { "$ref": "#/components/parameters/Offset" },
-          {
-            "name": "category",
-            "in": "query",
-            "description": "Return only feedback from people on your docs site (`human`) or from AI agents through your Reader MCP Server (`agent`). Omit it for both.",
-            "required": false,
-            "schema": { "type": "string", "enum": ["human", "agent"] }
-          }
+          { "$ref": "#/components/parameters/FeedbackCategory" }
         ],
         "responses": {
           "200": {
@@ -1933,6 +1921,13 @@
         "description": "Number of rows to skip. Combined with `total`, this is how you page through results.",
         "required": false,
         "schema": { "type": "integer", "minimum": 0, "default": 0 }
+      },
+      "FeedbackCategory": {
+        "name": "category",
+        "in": "query",
+        "description": "Include only feedback from people on your docs site (`human`) or from AI agents through your Reader MCP Server (`agent`). Omit it for both.",
+        "required": false,
+        "schema": { "type": "string", "enum": ["human", "agent"] }
       },
       "MediaId": {
         "name": "mediaId",

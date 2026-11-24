@@ -76,7 +76,7 @@ You can monitor:
 
 - Which pages receive the most positive or negative reactions
 
-- Individual feedback entries for a specific page, including the feedback type, reason, comment, and timestamp
+- Individual feedback entries for a specific page, including the feedback type, reason, comment, who it is from, and timestamp
 
 Feedback analytics also supports **CSV export** for both page-level feedback data and page-specific feedback details, making it easier to review trends outside the dashboard or share findings with your team.
 
@@ -92,7 +92,7 @@ After a thumbs up or thumbs down reaction, you can optionally prompt readers for
 
 ### Agent feedback
 
-AI agents connected to your [Reader MCP Server](/ai/reader-mcp-server#agent-feedback) can report a problem with a page they read, for example a command that no longer works or a page that contradicts another one. Agent feedback counts as a dislike on that page and appears in the page's feedback entries with an **AI Agent** label, the reason the agent chose, and its comment.
+AI agents connected to your [Reader MCP Server](/ai/reader-mcp-server#agent-feedback) can report a problem with a page they read, for example a command that no longer works or a page that contradicts another one. Agent feedback counts as a dislike on that page and appears in the page's feedback entries with the reason the agent chose, its comment, and **AI Agent** in the **From** column. For a reader's entry, **From** shows the email the reader signed in with or typed in the survey, when there is one.
 
 Use the **From** filter above the summary cards to show feedback from **All**, from **People** on your site, or from **AI Agents**. The filter applies to the summary cards, the page table, each page's entries, and the CSV exports. The Analytics API's feedback endpoints take the same choice as their `category` parameter.
 

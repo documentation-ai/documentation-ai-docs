@@ -97,7 +97,8 @@ Configure logo variants for different themes and sizes. All logo fields are opti
   "logo-dark": "https://example.com/logo-dark.svg",
   "logo-light": "https://example.com/logo-light.svg",
   "logo-small-dark": "https://example.com/favicon-dark.svg",
-  "logo-small-light": "https://example.com/favicon-light.svg"
+  "logo-small-light": "https://example.com/favicon-light.svg",
+  "logo-href": "https://example.com"
 }
 ```
 
@@ -115,6 +116,10 @@ Configure logo variants for different themes and sizes. All logo fields are opti
 
 <ParamField path="logo-small-light" param-type="string" required="false" deprecated="false" show-location="true">
   Small logo/favicon for light theme.
+</ParamField>
+
+<ParamField path="logo-href" param-type="string" required="false" deprecated="false" show-location="true">
+  Where clicking the header logo takes readers: a full URL such as `https://example.com`, or a page path in your docs such as `/quickstart`. The link opens in the same tab. When unset, the logo links to your documentation home page.
 </ParamField>
 
 ### Brand Colors

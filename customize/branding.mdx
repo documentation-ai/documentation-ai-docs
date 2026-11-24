@@ -53,8 +53,13 @@ Scroll down to the **Brand & Theme** section and locate **Documentation Logos**.
 - **Light Theme logo**\
   Displayed when users view your documentation in light mode.
 
+- **Logo link**\
+  Where clicking the logo in the header takes readers. Search for one of your pages or paste a full URL, such as your company website. Leave it empty to link the logo to your documentation home page.
+
 - **Favicon**\
   Small square icon used in browser tabs and shortcuts.
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795445182171-nsxmbbqdzb-logo-link-field.png?fm=auto&auto=compress%2Cformat" width="1244" height="708" alt="The Logo link field in Brand and Theme, set to https://northwindtravel.com, under the Light Theme logo" caption="Set where the header logo links in Brand & Theme." />
 
 <Callout kind="info" collapsed="false">
 
@@ -111,7 +116,8 @@ Add your logo URLs to `documentation.json`:
   "logo-dark": "https://example.com/logo-dark.svg",
   "logo-light": "https://example.com/logo-light.svg", 
   "logo-small-dark": "https://example.com/favicon-dark.svg",
-  "logo-small-light": "https://example.com/favicon-light.svg"
+  "logo-small-light": "https://example.com/favicon-light.svg",
+  "logo-href": "https://example.com"
 }
 ```
 
@@ -136,6 +142,12 @@ Add your logo URLs to `documentation.json`:
 <ParamField path="logo-small-light" param-type="string" required="false" deprecated="false">
 
   Small logo/favicon for light theme. Used in browser tabs and mobile view.
+
+</ParamField>
+
+<ParamField path="logo-href" param-type="string" required="false" deprecated="false">
+
+  Where clicking the header logo takes readers: a full URL such as `https://example.com`, or a page path in your docs such as `/quickstart`. The link opens in the same tab. When unset, the logo links to your documentation home page.
 
 </ParamField>
 

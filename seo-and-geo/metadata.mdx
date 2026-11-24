@@ -29,15 +29,15 @@ Open the web editor and select the page you want to edit from the navigation sid
 
 </Step>
 
-<Step title="Edit the SEO & Meta section" icon="settings">
+<Step title="Edit the SEO and meta section" icon="settings">
 
-In the navigation sidebar, click the three-dot menu (⋮) next to the page, then select **Edit Page Settings**. Expand the **SEO & Meta** section to edit the meta title, meta description, canonical URL, OG image URL, and JSON-LD schema.
+In the navigation sidebar, click the three-dot menu (⋮) next to the page, then select **Page settings**. Expand **SEO and meta** to edit the meta title, meta description, canonical URL, social image URL, and JSON-LD schema, or to [hide the page from search engines](#hide-from-search-engines).
 
 </Step>
 
 <Step title="Save and publish" icon="rocket">
 
-Click **Update Page** to save your changes, then publish your documentation so the updated metadata appears on your live site.
+Click **Save** to save your changes, then publish your documentation so the updated metadata appears on your live site.
 
 </Step>
 </Steps>
@@ -56,7 +56,7 @@ Technical users can edit metadata fields directly in the YAML frontmatter block 
 
 Documentation.AI uses the page `title` as the browser tab title and formats it as `Page Title - Site Name`. The same title is used for Open Graph metadata, Twitter cards, and automatically generated OG images.
 
-Set `metaTitle` when the title you want search engines and social platforms to display differs from the visible page title. The visible H1 remains the value of `title`. If you omit `metaTitle`, Documentation.AI falls back to `title`. You can set `metaTitle` in the **SEO & Meta** panel of the web editor or in MDX frontmatter.
+Set `metaTitle` when the title you want search engines and social platforms to display differs from the visible page title. The visible H1 remains the value of `title`. If you omit `metaTitle`, Documentation.AI falls back to `title`. You can set `metaTitle` in **SEO and meta** in the web editor or in MDX frontmatter.
 
 <CodeGroup show-lines="true" tabs={[]}>
 
@@ -72,7 +72,7 @@ description: Send authenticated requests to the Acme API using API keys.
 
 Documentation.AI uses the page `description` as the SEO meta description and the description shown in social sharing previews. Set `metaDescription` when you need a search snippet or social preview that differs from the visible page description.
 
-If you omit `metaDescription`, Documentation.AI falls back to `description`. You can set `metaDescription` in the **SEO & Meta** panel of the web editor or in MDX frontmatter.
+If you omit `metaDescription`, Documentation.AI falls back to `description`. You can set `metaDescription` in **SEO and meta** in the web editor or in MDX frontmatter.
 
 <CodeGroup show-lines="true" tabs={[]}>
 
@@ -92,7 +92,7 @@ Documentation.AI builds the canonical URL from your site domain and the page pat
 https://docs.example.com/introduction
 ```
 
-Set `canonical` when the page should point search engines to a different URL. Use an absolute URL. A common use case is a versioned documentation page that should point to the equivalent page in the latest version. You can set `canonical` in the **SEO & Meta** panel of the web editor or in MDX frontmatter.
+Set `canonical` when the page should point search engines to a different URL. Use an absolute URL. A common use case is a versioned documentation page that should point to the equivalent page in the latest version. You can set `canonical` in **SEO and meta** in the web editor or in MDX frontmatter.
 
 <CodeGroup show-lines="true" tabs={[]}>
 
@@ -104,6 +104,47 @@ canonical: https://docs.example.com/latest/api/authentication
 
 </CodeGroup>
 
+## Hide from search engines
+
+Turn on **Hide from search engines** to keep one page out of Google and other search engines while readers can still use it. Use it for the docs of an older version, a beta page that should not rank above the stable one, or a page meant for partners.
+
+If an older page has a newer equivalent, set its [canonical URL](#canonical-url) to the newer page instead. Use one or the other on a page, not both: together they tell search engines two different things.
+
+Set it in **SEO and meta** in the web editor, or add `noindex: true` to the MDX frontmatter:
+
+<CodeGroup show-lines="true" tabs={[]}>
+
+```yaml
+title: API authentication (v1)
+description: Authenticate requests to version 1 of the Acme API.
+noindex: true
+```
+
+</CodeGroup>
+
+| Where | What happens |
+| --- | --- |
+| Search engines | The page gets a `noindex` robots tag and no JSON-LD structured data |
+| [Sitemap](/seo-and-geo/sitemap) and [llms.txt](/seo-and-geo/llms-txt) | The page is left out |
+| Navigation and access | No change: the page stays in the navigation, and the same readers can open it |
+| Site search, AI Assistant, and Reader MCP | No change: the page is still found and used in answers |
+
+API pages generated from a whole OpenAPI spec have no MDX file of their own, so they cannot be hidden one by one.
+
+To list the page again, turn the setting off or remove `noindex`, then publish. Search engines apply either change the next time they visit the page, which can take days or weeks.
+
+<Callout kind="alert" collapsed="false">
+
+Hiding a page from search engines does not make it private. To limit who can open a page, use [Access control](/customize/access-control/overview).
+
+</Callout>
+
+<Callout kind="info" collapsed="false">
+
+To hide the whole site instead, turn indexing off in [Robots.txt](/seo-and-geo/robots-txt). A page cannot opt back in while the site has indexing off.
+
+</Callout>
+
 ## Open Graph image
 
 When you do not provide a custom image, Documentation.AI generates a 1200 by 630 pixel Open Graph image through its internal image endpoint. The generated image can include:
@@ -114,7 +155,7 @@ When you do not provide a custom image, Documentation.AI generates a 1200 by 630
 - The page description, when available
 - The site's configured dark logo
 
-Documentation.AI uses the generated image for both Open Graph and Twitter card previews. Set `ogImage` to replace it with a custom image. A 1200 by 630 pixel image is recommended. You can set `ogImage` in the **SEO & Meta** panel of the web editor or in MDX frontmatter.
+Documentation.AI uses the generated image for both Open Graph and Twitter card previews. Set `ogImage` to replace it with a custom image. A 1200 by 630 pixel image is recommended. You can set `ogImage` in **SEO and meta** in the web editor or in MDX frontmatter.
 
 <CodeGroup show-lines="true" tabs={[]}>
 
@@ -163,9 +204,9 @@ Protected and private pages return `noindex, nofollow` and do not expose their r
 
 Documentation.AI automatically adds site-level JSON-LD to each page using the `WebSite` and `Organization` schemas. The generated data uses your site name, domain URL, and configured logo, and does not require frontmatter configuration.
 
-The `jsonLd` frontmatter field, also accepted as `jsonld`, is defined for page-level Schema.org data such as `Article`, `TechArticle`, `FAQPage`, or `HowTo`. The current renderer does not output document-level `jsonLd` values, so adding this field does not currently add page-specific structured data to the published HTML. You can set `jsonLd` in the **SEO & Meta** panel of the web editor or in MDX frontmatter.
+The `jsonLd` frontmatter field, also accepted as `jsonld`, is defined for page-level Schema.org data such as `Article`, `TechArticle`, `FAQPage`, or `HowTo`. The current renderer does not output document-level `jsonLd` values, so adding this field does not currently add page-specific structured data to the published HTML. You can set `jsonLd` in **SEO and meta** in the web editor or in MDX frontmatter.
 
-When you use the JSON-LD field in the web editor's **SEO & Meta** panel, enter valid JSON. Invalid JSON is silently skipped, so make sure the input is properly formatted.
+When you use the JSON-LD field in **SEO and meta** in the web editor, enter valid JSON. Invalid JSON is silently skipped, so make sure the input is properly formatted.
 
 The field format is shown below for reference:
 

@@ -187,7 +187,7 @@ For Claude Desktop, add the configuration to `claude_desktop_config.json`. For C
 
 ## Tools reference
 
-The server provides read-only tools. Your MCP client discovers them and their parameters when it connects, so you don't need to configure anything beyond the endpoint.
+The server provides read-only tools, plus `submit_feedback`, which lets an agent tell your team that a page has a problem. Your MCP client discovers them and their parameters when it connects, so you don't need to configure anything beyond the endpoint.
 
 | Tool | What it does |
 | --- | --- |
@@ -195,6 +195,7 @@ The server provides read-only tools. Your MCP client discovers them and their pa
 | `read_pages` | Returns full pages, several in one call |
 | `get_navigation` | Shows how pages are grouped in your site's navigation |
 | `list_pages` | Lists the pages the connection can read, by folder. Offered only when your site's navigation can't be loaded, in place of `get_navigation` |
+| `submit_feedback` | Reports a problem with a page, which shows up in your [Feedback analytics](/analytics/overview#agent-feedback). Offered alongside `get_navigation` |
 
 Agents usually search first, then read the full pages behind the results, then open a result's navigation group to find related pages. For example, asked how to rotate an API key, an agent searches for "rotate API key", reads `/guides/api-keys.mdx`, and opens that page's group to check the pages beside it.
 
@@ -294,6 +295,28 @@ All tools read your last deployment. Changes that are still on a branch, or not 
   The navigation shows only the pages the connection can read. On a site with access control, pointers count only those pages, so they can differ from the positions in your `documentation.json`.
 </Expandable>
 
+### Agent feedback
+
+<Expandable title="submit_feedback" default-open="false">
+  Reports a problem with a page that the agent read: the page is wrong or out of date, hard to understand, missing what the task needed, or badly organized. The feedback appears in your [Feedback analytics](/analytics/overview#agent-feedback) as a dislike on that page, marked **AI Agent**, beside the feedback readers leave on your site. Use the **From** filter to see only feedback from AI agents or only from people.
+
+  <ParamField body="path" param-type="string" required="true" deprecated="false" show-location="false">
+    The page the feedback is about, in any form `read_pages` takes: `/guides/intro.mdx`, a URL path such as `/guides/intro`, or the page's full URL.
+  </ParamField>
+
+  <ParamField body="reason" param-type="string" required="true" deprecated="false" show-location="false">
+    One of the reasons readers choose on your site: `Incorrect or out of date`, `Hard to understand`, `Missing the information I need`, `Needs better organization`, or `Something else`.
+  </ParamField>
+
+  <ParamField body="detail" param-type="string" required="false" deprecated="false" show-location="false">
+    What exactly is wrong and what the agent expected instead, up to 2,000 characters. It appears as the comment.
+  </ParamField>
+
+  An agent can report only pages the connection can read. A page it can't read is reported as not found, and nothing is recorded. The tool records feedback only: it never changes your documentation.
+
+  Agents follow your feedback settings, as readers do. If you turn off **Reactions** in your feedback settings, or a page's navigation entry sets `"ask-feedback": false` (see [Pages Configuration](/customize/site-configuration#pages-configuration)), the tool tells the agent that the page doesn't take feedback and records nothing.
+</Expandable>
+
 ### Versions, languages, and products
 
 If your site uses [dimensions](/organize/dimensions), `search_documentation` and `list_pages` accept `version`, `language`, and `product`. Each filter appears only when your site has more than one value for it, and it takes the names from your navigation, such as `v2` or `Spanish`. Names match regardless of case.
@@ -311,6 +334,8 @@ If you want searches to stay inside the requested version, language, or product,
 | Pages per `read_pages` call | 20 |
 | Matches per `get_navigation` search | 50 |
 | Search results | 10 by default, at most 20 |
+| Agent feedback from one MCP client | 10 per hour for your site |
+| Agent feedback from all MCP clients | 200 per hour for your site |
 
 When a `read_pages` call asks for several very long pages, it can return fewer than 20. The reply names the pages to read next.
 

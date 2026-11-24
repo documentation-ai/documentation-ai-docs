@@ -1,10 +1,10 @@
 ---
 title: User & Agent Feedback Connector
 description: >-
-  Let the AI agent read page ratings, reader comments, and AI Assistant
-  confidence scores to find the gaps in your documentation and fix them.
+  Let the AI agent read page ratings, comments from readers and AI agents, and
+  AI Assistant confidence scores to find the gaps in your documentation and fix them.
 ---
-Turn on User & Agent Feedback to give the AI agent the signals your readers leave behind: page ratings and comments, questions the AI Assistant answered with low confidence, and answers readers disliked. The agent uses them to find where your docs fall short. It reads only, and it changes nothing in your analytics.
+Turn on User & Agent Feedback to give the AI agent the signals your readers, and the AI agents that read your docs, leave behind: page ratings and comments, questions the AI Assistant answered with low confidence, and answers readers disliked. The agent uses them to find where your docs fall short. It reads only, and it changes nothing in your analytics.
 
 Unlike other connectors, this one needs no outside account. It reads your documentation's own [Analytics](/analytics/overview), so there is nothing to connect, only a switch to turn on.
 
@@ -12,7 +12,7 @@ Unlike other connectors, this one needs no outside account. It reads your docume
   **Before you begin**
 
   - You need the **Admin** role on the documentation to turn the connector on or off.
-  - Page ratings come from the feedback reactions on your published pages. AI confidence scores and answer ratings come from the [AI Assistant](/ai/ai-assistant). The agent can only read the signals your site collects.
+  - Page ratings come from the feedback reactions on your published pages and from [agent feedback](/ai/reader-mcp-server#agent-feedback) sent through your Reader MCP Server. AI confidence scores and answer ratings come from the [AI Assistant](/ai/ai-assistant). The agent can only read the signals your site collects.
 </Callout>
 
 ## How the agent uses feedback
@@ -78,7 +78,7 @@ The agent reads feedback for one period at a time: the last 7, 30, or 90 days.
 
 | Signal | What the agent gets |
 | --- | --- |
-| Page feedback | Total likes, dislikes, and satisfaction rate, and up to 20 of the lowest-rated pages that have dislikes. For the 10 lowest-rated, it also gets up to 5 reader comments each. |
+| Page feedback | Total likes, dislikes, and satisfaction rate, and up to 20 of the lowest-rated pages that have dislikes. For the 10 lowest-rated, it also gets up to 5 comments each, marked as left by a reader or by an AI agent through your [Reader MCP Server](/ai/reader-mcp-server#agent-feedback). |
 | AI Assistant confidence | How many questions scored high, medium, or low confidence, and up to 20 questions scored below 50%, each with the start of the answer and the page it was asked on. |
 | AI answer ratings | Total likes, dislikes, and satisfaction rate for AI Assistant answers, and up to 20 disliked answers, each with the question and the page it was asked on. |
 

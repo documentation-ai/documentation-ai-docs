@@ -17,7 +17,7 @@ The **Authoring MCP Server** is Documentation.AI's endpoint. Your documentation 
 | --- | --- | --- |
 | **Who connects** | Your readers, support teams, and internal users | Your documentation team |
 | **Endpoint** | Your docs domain, for example `docs.yourdomain.com/_mcp` (or `/_mcp/auth` for access-controlled sites) | `api.documentation.ai/mcp` |
-| **Access** | Read-only. Public content without authentication, gated content with OAuth 2.1 or machine-to-machine credentials | Read and write. Edits stay unpublished until you publish them |
+| **Access** | Reads your documentation and can't change it. Agents can send [agent feedback](/ai/reader-mcp-server#agent-feedback). Public content without authentication, gated content with OAuth 2.1 or machine-to-machine credentials | Read and write. Edits stay unpublished until you publish them |
 | **Setup** | None for public sites. For access-controlled sites, connect with OAuth 2.1 or use machine-to-machine credentials. | In Claude, add the [Documentation.AI connector](https://claude.ai/directory/connectors/documentation-ai) from the connectors directory. In ChatGPT, install the [Documentation.AI plugin](https://chatgpt.com/plugins/plugin_asdk_app_6adb3cc1852881918af40a4c81a9c271). In other clients, add the endpoint. Then sign in with OAuth 2.1 |
 | **Permissions** | Public content, or gated content scoped by access roles on MCP credentials | Your role in the Documentation.AI organization |
 
@@ -31,7 +31,7 @@ If you are choosing between them, ask who is connecting. If the answer is "someo
 
 <Columns cols={2}>
   <Card title="Reader MCP Server" href="/ai/reader-mcp-server" icon="book-open">
-    Give AI agents read-only access to your published documentation.
+    Let AI agents search and read your published documentation, without changing it.
   </Card>
   <Card title="Authoring MCP Server" href="/ai/authoring-mcp-server" icon="square-pen">
     Edit docs, manage branches, and publish from an MCP-compatible AI client.

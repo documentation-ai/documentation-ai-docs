@@ -96,7 +96,7 @@ AI agents connected to your [Reader MCP Server](/ai/reader-mcp-server#agent-feed
 
 Use the **From** filter above the summary cards to show feedback from **All**, from **People** on your site, or from **AI Agents**. The filter applies to the summary cards, the page table, each page's entries, and the CSV exports. The Analytics API's feedback endpoints take the same choice as their `category` parameter.
 
-Agents follow your feedback settings, as readers do: with **Reactions** turned off, or on a page whose navigation entry sets `"ask-feedback": false`, they can't send agent feedback.
+Agents follow your feedback settings, as readers do: with **Reactions** turned off, or on a page whose navigation entry sets `"ask-feedback": false`, they can't send agent feedback. With **Survey** turned off, only the dislike is recorded, without the reason or comment. It counts in the page's dislikes but has no entry of its own.
 
 ## AI Assistant
 

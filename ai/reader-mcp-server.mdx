@@ -1,13 +1,13 @@
 ---
 title: Reader MCP Server
 description: >-
-  Give AI agents read-only MCP access to your published documentation, including
+  Give AI agents MCP access to read your published documentation, including
   private and gated sites, so readers can search, browse, and read your docs from
   ChatGPT, Claude, Cursor, and other MCP clients.
 ---
 ## Serve your documentation to AI agents
 
-The Reader MCP Server is your own MCP endpoint, served from your documentation domain. It gives MCP-compatible agents read-only access to your published documentation so they can search it, read full pages, and follow your site's navigation, without any ability to change it. Public documentation is available without authentication. Private, partial, and password-protected documentation is accessible through two authentication types: OAuth 2.1 for interactive client connections, and machine-to-machine credentials for automated access without a browser.
+The Reader MCP Server is your own MCP endpoint, served from your documentation domain. It lets MCP-compatible agents search your published documentation, read full pages, and follow your site's navigation, without any ability to change it. The only thing they can send is [agent feedback](#agent-feedback) on a page. Public documentation is available without authentication. Private, partial, and password-protected documentation is accessible through two authentication types: OAuth 2.1 for interactive client connections, and machine-to-machine credentials for automated access without a browser.
 
 This is the server your **readers** connect to: customers, support teams, solution engineers, and internal users, along with the AI agents they work in. If you are looking for the server your documentation team connects to in order to _write_ docs, see the [Authoring MCP Server](/ai/authoring-mcp-server).
 
@@ -16,7 +16,7 @@ This is the server your **readers** connect to: customers, support teams, soluti
 </Callout>
 
 <Callout kind="info" collapsed="false">
-  The Reader MCP Server is read-only. It does not create, update, delete, or reorganize content, and it does not expose branch management, deployments, or dashboard actions. For those workflows, use the [Authoring MCP Server](/ai/authoring-mcp-server).
+  The Reader MCP Server can't change your documentation. It does not create, update, delete, or reorganize content, and it does not expose branch management, deployments, or dashboard actions. For those workflows, use the [Authoring MCP Server](/ai/authoring-mcp-server).
 </Callout>
 
 ## Find your endpoint
@@ -48,7 +48,7 @@ For **private, partial, or password-protected** documentation, the `/_mcp/auth` 
 
 Both types produce a token the client uses for subsequent requests. Access is scoped by the roles assigned to the credential or OAuth session.
 
-Because the server is read-only, it works well when you want grounded answers from trusted documentation while keeping editing controls entirely separate.
+Because the server can't change your documentation, it works well when you want grounded answers from trusted documentation while keeping editing controls entirely separate.
 
 <Callout kind="tip" collapsed="false">
   The Reader MCP Server is not connected to Documentation.AI workspace roles. The **Viewer** role on the [Authoring MCP Server](/ai/authoring-mcp-server) is unrelated: that role governs your team's access to the project, while the Reader MCP Server serves what your site publishes.
@@ -308,13 +308,13 @@ All tools read your last deployment. Changes that are still on a branch, or not 
     One of the reasons readers choose on your site: `Incorrect or out of date`, `Hard to understand`, `Missing the information I need`, `Needs better organization`, or `Something else`.
   </ParamField>
 
-  <ParamField body="detail" param-type="string" required="false" deprecated="false" show-location="false">
-    What exactly is wrong and what the agent expected instead, up to 2,000 characters. It appears as the comment.
+  <ParamField body="comment" param-type="string" required="false" deprecated="false" show-location="false">
+    What exactly is wrong and what the agent expected instead, up to 2,000 characters.
   </ParamField>
 
   An agent can report only pages the connection can read. A page it can't read is reported as not found, and nothing is recorded. The tool records feedback only: it never changes your documentation.
 
-  Agents follow your feedback settings, as readers do. If you turn off **Reactions** in your feedback settings, or a page's navigation entry sets `"ask-feedback": false` (see [Pages Configuration](/customize/site-configuration#pages-configuration)), the tool tells the agent that the page doesn't take feedback and records nothing.
+  Agents follow your feedback settings, as readers do. If you turn off **Reactions** in your feedback settings, or a page's navigation entry sets `"ask-feedback": false` (see [Pages Configuration](/customize/site-configuration#pages-configuration)), the tool tells the agent that the page doesn't take feedback and records nothing. If you turn off **Survey**, only the dislike is recorded, without the reason or comment. It counts in the page's dislikes but has no entry of its own.
 </Expandable>
 
 ### Versions, languages, and products

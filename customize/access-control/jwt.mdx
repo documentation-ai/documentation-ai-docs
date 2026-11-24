@@ -65,6 +65,7 @@ Build a JWT with the following claims:
   "host": "docs.example.com",
   "firstname": "Alice",
   "company": "Acme Inc",
+  "email": "alice@example.com",
   "accessRoles": ["engineering", "sre"],
   "iat": 1743523200,
   "exp": 1743523230
@@ -76,6 +77,7 @@ Build a JWT with the following claims:
 | `host` | No | The docs site hostname (for personalization) |
 | `firstname` | No | User's first name (for personalization) |
 | `company` | No | User's company name (for personalization) |
+| `email` | No | User's email address, recorded with the page feedback they send |
 | `accessRoles` | No | Array of role strings for [role-based access control](/customize/access-control/overview#role-based-access-control). Omit if not using scoped access. Use `["*"]` for full access. |
 | `iat` | Yes | Issued-at timestamp (standard JWT claim) |
 | `exp` | Yes | Expiration timestamp. Keep this short (30 seconds recommended) since this is a handshake token, not the session. |
@@ -95,6 +97,7 @@ const jwt = await new SignJWT({
   host: 'docs.example.com',
   firstname: 'Alice',
   company: 'Acme Inc',
+  email: 'alice@example.com',
   accessRoles: ['engineering', 'sre'],
 })
   .setProtectedHeader({ alg: 'EdDSA' })

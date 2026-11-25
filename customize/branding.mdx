@@ -111,7 +111,8 @@ Add your logo URLs to `documentation.json`:
   "logo-dark": "https://example.com/logo-dark.svg",
   "logo-light": "https://example.com/logo-light.svg", 
   "logo-small-dark": "https://example.com/favicon-dark.svg",
-  "logo-small-light": "https://example.com/favicon-light.svg"
+  "logo-small-light": "https://example.com/favicon-light.svg",
+  "logo-href": "https://acme.com"
 }
 ```
 
@@ -136,6 +137,12 @@ Add your logo URLs to `documentation.json`:
 <ParamField path="logo-small-light" param-type="string" required="false" deprecated="false">
 
   Small logo/favicon for light theme. Used in browser tabs and mobile view.
+
+</ParamField>
+
+<ParamField path="logo-href" param-type="string" required="false" deprecated="false">
+
+  Destination for the header logo. Accepts a full URL or a page path, including paths with anchors. Defaults to `/` (the documentation home) when unset or blank. Leading and trailing spaces are ignored.
 
 </ParamField>
 
@@ -231,6 +238,7 @@ If you are on an Enterprise plan and want to remove the footer branding, contact
   "logo-light": "https://cdn.example.com/logo-light.svg", 
   "logo-small-dark": "https://cdn.example.com/favicon-dark.png",
   "logo-small-light": "https://cdn.example.com/favicon-light.png",
+  "logo-href": "https://acme.com",
   "colors": {
     "light": {
       "brand": "#3143e3",

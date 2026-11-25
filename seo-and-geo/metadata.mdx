@@ -31,7 +31,7 @@ Open the web editor and select the page you want to edit from the navigation sid
 
 <Step title="Edit the SEO & Meta section" icon="settings">
 
-In the navigation sidebar, click the three-dot menu (⋮) next to the page, then select **Edit Page Settings**. Expand the **SEO & Meta** section to edit the meta title, meta description, canonical URL, OG image URL, and JSON-LD schema.
+In the navigation sidebar, click the three-dot menu (⋮) next to the page, then select **Edit Page Settings**. Expand the **SEO & Meta** section to edit the meta title, meta description, canonical URL, OG image URL, JSON-LD schema, and the **Hide from search engines** toggle.
 
 </Step>
 
@@ -100,6 +100,24 @@ Set `canonical` when the page should point search engines to a different URL. Us
 title: API authentication
 description: Authenticate requests to the Acme API.
 canonical: https://docs.example.com/latest/api/authentication
+```
+
+</CodeGroup>
+
+## Hide a page from search engines
+
+Turn on **Hide from search engines** in the **SEO & Meta** panel to keep a page out of search engine results. The page is also left out of the sitemap and `llms.txt`, and is not surfaced to AI agents through the Reader MCP Server. This setting applies only to the page and does not change site-wide indexing settings.
+
+The option does not change page access: a public page remains reachable by anyone with its link, and a protected page stays protected. Use it for pages that should remain accessible but not appear in search results, such as internal notes, draft policy pages, or thank-you pages.
+
+You can also set `noindex` in MDX frontmatter:
+
+<CodeGroup show-lines="true" tabs={[]}>
+
+```yaml
+title: Thank you
+description: Confirmation that your request was received.
+noindex: true
 ```
 
 </CodeGroup>

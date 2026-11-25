@@ -119,6 +119,10 @@ Configure logo variants for different themes and sizes. All logo fields are opti
   Small logo/favicon for light theme.
 </ParamField>
 
+<ParamField path="logo-href" param-type="string" required="false" deprecated="false" show-location="true">
+  Destination for the header logo. Accepts an internal path such as `/pricing` or a full external URL. When unset or blank, the logo links to the docs home.
+</ParamField>
+
 ### Brand Colors
 
 Customize your site's color scheme with automatic contrast optimization.
@@ -274,6 +278,34 @@ Render math written in LaTeX between dollar signs on your published site.
 <ParamField path="latex" param-type="boolean" required="false" deprecated="false" show-location="true">
   When `true`, `$…$` in text and `$$…$$` on their own lines render as inline math and block math, and a dollar sign that is not math is written `\$`. Pairs of prices, such as `$20/month and $50/month`, stay text. When `false` or omitted, dollar signs are plain text. Default: `false`. Also set under **Site Config** → **Brand & Theme** → **Math**. See [Math Components](/components/math) for the syntax.
 </ParamField>
+
+### Fonts Configuration
+
+Use the `fonts` object to set the site's heading, body, and code fonts. A font name not on the slot's list is ignored.
+
+```json
+{
+  "fonts": {
+    "heading": { "family": "Playfair Display" },
+    "body": { "family": "Poppins" },
+    "code": { "family": "Fira Code" }
+  }
+}
+```
+
+<ParamField path="fonts.heading.family" param-type="string" required="false" deprecated="false" show-location="true">
+  Heading font. Accepted values: `Inter`, `Roboto`, `Open Sans`, `Montserrat`, `Poppins`, `Source Sans 3`, `DM Sans`, `Playfair Display`, `Plus Jakarta Sans`, or `Geist`. Defaults to the body font.
+</ParamField>
+
+<ParamField path="fonts.body.family" param-type="string" required="false" deprecated="false" show-location="true">
+  Body font. Accepted values: `Inter`, `Roboto`, `Open Sans`, `Montserrat`, `Poppins`, `Source Sans 3`, `DM Sans`, `Playfair Display`, `Plus Jakarta Sans`, or `Geist`. Default: `Inter`.
+</ParamField>
+
+<ParamField path="fonts.code.family" param-type="string" required="false" deprecated="false" show-location="true">
+  Code font. Accepted values: `JetBrains Mono`, `Roboto Mono`, `Source Code Pro`, `Fira Code`, or `Geist Mono`. Default: `JetBrains Mono`.
+</ParamField>
+
+To configure fonts visually, use **Site Config** → **Brand & Theme** → **Fonts**. See [Customize Colors and Typography](/customize/colors-and-typography#customize-fonts).
 
 ### Footer Configuration
 

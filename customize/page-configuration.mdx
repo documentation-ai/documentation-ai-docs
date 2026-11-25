@@ -64,6 +64,10 @@ Front matter is a block of YAML configuration placed at the very top of an MDX f
   The canonical URL for the page to prevent duplicate content issues. Defaults to the page's own URL.
 </ParamField>
 
+<ParamField path="noindex" param-type="boolean" required="false" deprecated="false" show-location="false">
+  Set to `true` to hide the page from search engines and exclude it from the sitemap, `llms.txt`, and content surfaced to AI agents. Page access rules are unaffected. The site-wide `seo.robots:index` setting remains unchanged for other pages.
+</ParamField>
+
 <ParamField path="jsonLd" param-type="object | array" required="false" deprecated="false" show-location="false">
   Adds JSON-LD structured data for rich search results, conforming to [Schema.org](https://schema.org/) vocabulary. The key can also be `jsonld` (lowercase).
 

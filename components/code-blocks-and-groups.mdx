@@ -242,6 +242,94 @@ const longLine = "This line is highlighted, shows a line number, and wraps inste
 
 - Avoid `wrap` when alignment and spacing matter (for example, formatted logs, tables, or columns rendered in code), where wrapping can make structure harder to see.
 
+### Block header
+
+Use `title` to display a label above a code block and `icon` to show an icon before the label:
+
+```javascript title="src/server.js" icon="file-code"
+console.log("Server started");
+```
+
+````markdown
+```javascript title="src/server.js" icon="file-code"
+console.log("Server started");
+```
+````
+
+A title or an icon creates a header strip above the block.
+
+### Collapsible long blocks
+
+Use `expandable` to show the first 10 lines of a long block until the reader expands it:
+
+```javascript expandable
+const settings = {
+  name: "Documentation",
+  language: "en",
+  theme: "light",
+  navigation: {
+    search: true,
+    sidebar: true,
+    breadcrumbs: true
+  },
+  features: {
+    codeCopy: true,
+    lineNumbers: true
+  }
+};
+```
+
+````markdown
+```javascript expandable
+const settings = {
+  name: "Documentation",
+  language: "en",
+  theme: "light",
+  navigation: {
+    search: true,
+    sidebar: true,
+    breadcrumbs: true
+  },
+  features: {
+    codeCopy: true,
+    lineNumbers: true
+  }
+};
+```
+````
+
+### Hide the copy button
+
+Use `nocopy` to hide the copy button for content such as command output:
+
+```text nocopy
+Server started on port 3000
+```
+
+````markdown
+```text nocopy
+Server started on port 3000
+```
+````
+
+### Diff notation
+
+Add a trailing comment with `[!code ++]` or `[!code --]` to mark a line as added or removed. The markers are hidden when the block renders.
+
+```javascript
+const port = 3000; // [!code --]
+const port = 4000; // [!code ++]
+```
+
+````markdown
+```javascript
+const port = 3000; // [!code --]
+const port = 4000; // [!code ++]
+```
+````
+
+Use the comment syntax for the code block's language, such as `#` in Python or shell.
+
 ### CodeGroup options
 
 `<CodeGroup>` supports the same block-level props (for example, `highlight`, `focus`, `show-lines`) inside each tabbed code block.
@@ -439,3 +527,18 @@ Use these attributes on fenced code blocks or `<CodeGroup>`:
   Controls whether long lines wrap inside the code block. Defaults to `false` (no wrapping, horizontal scrolling). Set using `wrap`, `wrap="true"`, or `wrap={true}` to enable `white-space: pre-wrap` and `word-break: break-word` with vertical scrolling only.
 </ParamField>
 
+<ParamField path="title" param-type="string" required="false" deprecated="false">
+  Label shown in a header above the code block.
+</ParamField>
+
+<ParamField path="icon" param-type="string" required="false" deprecated="false">
+  Icon shown in the header before the title.
+</ParamField>
+
+<ParamField path="expandable" param-type="boolean | string" required="false" deprecated="false">
+  Shows the first 10 lines of a long block until the reader expands it.
+</ParamField>
+
+<ParamField path="nocopy" param-type="boolean | string" required="false" deprecated="false">
+  Hides the code block's copy button.
+</ParamField>

@@ -16,7 +16,7 @@ This is the server your **readers** connect to: customers, support teams, soluti
 </Callout>
 
 <Callout kind="info" collapsed="false">
-  The Reader MCP Server is read-only. It does not create, update, delete, or reorganize content, and it does not expose branch management, deployments, or dashboard actions. For those workflows, use the [Authoring MCP Server](/ai/authoring-mcp-server).
+  The Reader MCP Server provides read-only access to your documentation and lets agents submit feedback on pages. It does not create, update, delete, or reorganize content, and it does not expose branch management, deployments, or dashboard actions. For those workflows, use the [Authoring MCP Server](/ai/authoring-mcp-server).
 </Callout>
 
 ## Find your endpoint
@@ -48,7 +48,7 @@ For **private, partial, or password-protected** documentation, the `/_mcp/auth` 
 
 Both types produce a token the client uses for subsequent requests. Access is scoped by the roles assigned to the credential or OAuth session.
 
-Because the server is read-only, it works well when you want grounded answers from trusted documentation while keeping editing controls entirely separate.
+Because the server cannot edit documentation, it works well when you want grounded answers from trusted documentation while keeping editing controls entirely separate.
 
 <Callout kind="tip" collapsed="false">
   The Reader MCP Server is not connected to Documentation.AI workspace roles. The **Viewer** role on the [Authoring MCP Server](/ai/authoring-mcp-server) is unrelated: that role governs your team's access to the project, while the Reader MCP Server serves what your site publishes.
@@ -187,7 +187,7 @@ For Claude Desktop, add the configuration to `claude_desktop_config.json`. For C
 
 ## Tools reference
 
-The server provides read-only tools. Your MCP client discovers them and their parameters when it connects, so you don't need to configure anything beyond the endpoint.
+The server provides tools to read documentation and submit page feedback. Your MCP client discovers them and their parameters when it connects, so you don't need to configure anything beyond the endpoint.
 
 | Tool | What it does |
 | --- | --- |
@@ -195,6 +195,7 @@ The server provides read-only tools. Your MCP client discovers them and their pa
 | `read_pages` | Returns full pages, several in one call |
 | `get_navigation` | Shows how pages are grouped in your site's navigation |
 | `list_pages` | Lists the pages the connection can read, by folder. Offered only when your site's navigation can't be loaded, in place of `get_navigation` |
+| `submit_feedback` | Tells the site's owners about a problem with a documentation page |
 
 Agents usually search first, then read the full pages behind the results, then open a result's navigation group to find related pages. For example, asked how to rotate an API key, an agent searches for "rotate API key", reads `/guides/api-keys.mdx`, and opens that page's group to check the pages beside it.
 
@@ -292,6 +293,28 @@ All tools read your last deployment. Changes that are still on a branch, or not 
   </ParamField>
 
   The navigation shows only the pages the connection can read. On a site with access control, pointers count only those pages, so they can differ from the positions in your `documentation.json`.
+</Expandable>
+
+### Feedback
+
+<Expandable title="submit_feedback" default-open="false">
+  Tells the site's owners about a problem with a documentation page. Feedback is recorded as a thumbs-down, like feedback from the site's own feedback widget.
+
+  <ParamField body="path" param-type="string" required="true" deprecated="false" show-location="false">
+    The page's `.mdx` path, URL path, or full URL, as accepted by `read_pages`.
+  </ParamField>
+
+  <ParamField body="reason" param-type="string" required="true" deprecated="false" show-location="false">
+    The reason for the feedback: `Incorrect or out of date`, `Hard to understand`, `Missing the information I need`, `Needs better organization`, or `Something else`.
+  </ParamField>
+
+  <ParamField body="comment" param-type="string" required="false" deprecated="false" show-location="false">
+    What is wrong and what was expected instead, up to 2,000 characters.
+  </ParamField>
+
+  Make one call per page and problem. The tool records feedback but does not answer questions or change the page.
+
+  If feedback is turned off for the site or page, the tool does not accept it and says so in its reply.
 </Expandable>
 
 ### Versions, languages, and products

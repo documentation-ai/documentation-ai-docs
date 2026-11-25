@@ -2,6 +2,75 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-11-25" description="Sign-in options, math, migration, page indexing controls, branding, and platform fixes" tags={["feature","improvement","fix"]}>
+  ## Email verification sign-in
+
+  Readers can sign in to protected documentation sites using email verification. See [Email verification](/customize/access-control/email-verification).
+
+  ## Reader sign-out
+
+  Signed-in readers can sign out from the navbar or from their account. See [Signing out](/customize/access-control/overview#signing-out).
+
+  ## LaTeX math
+
+  Render LaTeX equations on documentation sites by enabling the `math.latex` site setting. See [Math](/components/math).
+
+  ## Site migration
+
+  Migrate a documentation site from its address. Migration preserves content inside unmapped components and reads Docusaurus theme components. See [Migrations](/migrations/overview).
+
+  ## Hide pages from search engines
+
+  Use **Hide from search engines** in page settings to exclude a page from search engines, the sitemap, and llms.txt without changing who can open it. The setting is stored in page frontmatter and works in both editors. See [Metadata](/seo-and-geo/metadata).
+
+  ## Logo link
+
+  Set the header logo to link to a site page or an external URL instead of the docs home. See [Branding](/customize/branding).
+
+  ## Fonts
+
+  Choose separate fonts for headings, body text, and code in Brand and Theme. See [Colors and typography](/customize/colors-and-typography).
+
+  ## Code block options
+
+  Add an icon before a code block's file name, make long blocks expandable, and control the copy button from the web editor. See [Code blocks and groups](/components/code-blocks-and-groups).
+
+  ## Monorepo setup
+
+  Configure the documentation root for a monorepo during onboarding or in source repository settings, including when connecting a GitLab project. See [Monorepo](/integrations/monorepo).
+
+  ## Improvements
+
+  - **Reader MCP feedback**: AI agents can report a page and a reason through the Reader MCP Server, with reports appearing in site feedback. See [Reader MCP Server](/ai/reader-mcp-server).
+  - **Feedback analytics**: Feedback entries show the reader's email or AI Agent, with a filter by source and CSV export for written comments.
+  - **Assistant API keys**: Manage Assistant API keys from Settings. See [Assistant API](/ai/assistant-api).
+  - **API Playground requests**: Choose how playground requests are sent in the playground settings. See [Interactive Playground Setup](/api-documentation-and-playground/interactive-playground-setup).
+  - **Intercom Messenger**: Dashboard users receive signed Messenger tokens, and stale organization attributes are cleared. See [Intercom](/integrations/intercom).
+  - **Search indexing**: The deployment list shows search status and pages a sync did not update, with a Reindex action for a live deployment whose search failed.
+  - **Members and permissions**: Manage members in the dashboard, with settings and editing actions reflecting each person's permissions. See [Team management](/account-and-billing/team-management).
+  - **AI question analytics**: See where an AI question was asked. See [Analytics overview](/analytics/overview).
+  - **Reader names**: OAuth and JWT sign-in now read names from standard claims, and email readers appear by username with their account in a tooltip.
+  - **Editor navigation**: More options shows the page path for copying and a branch's preview address once its build finishes. Site Config is now the last sidebar tab.
+  - **GitHub branches**: Branch selection now lists every branch, including those beyond the first 100.
+  - **Math components**: The editor consistently names the components Inline math and Block math.
+
+  ## Fixes
+
+  - **Dollar signs**: A lone dollar sign typed as text now saves as text instead of being interpreted as math, and prices render as before.
+  - **Math in PDFs**: Equations now fit an A4 page.
+  - **Code block icons**: Empty icon slots now show a placeholder. See [Code blocks and groups](/components/code-blocks-and-groups).
+  - **HTML blocks**: Markdown headings, lists, and paragraphs render correctly, and text survives loading and saving.
+  - **Code groups and API examples**: Code groups, Request, and Response no longer save empty tabs attributes. Code group tabs use language labels when the tabs list is empty.
+  - **Feedback**: Malformed entries no longer crash the feedback table, exported cells no longer run as spreadsheet formulas, and Load more follows the current filter.
+  - **Subpath settings**: A refused subpath save no longer reports that the subpath was configured.
+  - **Page addresses**: Pages with spaces or accented letters in their addresses now open, and sitemap and canonical addresses are percent-encoded.
+  - **Redirects**: Redirects now match source addresses containing spaces or accented letters. See [Redirects and rewrites](/customize/redirects-and-rewrites).
+  - **Heading text**: HTML and component tags no longer appear in table of contents heading text.
+  - **Reader names**: Session cookies now decode accented names correctly.
+  - **OpenAPI pages**: Pages now generate for specifications with self-referencing schemas.
+  - **Publishing**: A page listed twice no longer causes publishing to be refused.
+</Update>
+
 <Update label="2026-10-29" description="Announcement banners, multilingual footers, expanded agent context, Reader MCP tools, checkout referrals, embed sizing, and platform fixes" tags={["feature","improvement","fix"]}>
   ## Announcement banners
 
@@ -699,4 +768,3 @@ description: 'Changes, fixes, and improvements across versions'
   - Use structured page and API metadata to give agents more grounded and context‑aware responses
   - Help product teams deliver LLM‑native support and troubleshooting experiences directly inside their apps
 </Update>
-

@@ -161,6 +161,30 @@ Add complementary colors for dark mode that maintain brand consistency:
 
 5. Verify brand colors maintain visual hierarchy
 
+## Customize fonts
+
+Configure site-wide fonts in the **Fonts** setting under **Brand & Theme** in Site Config. Choose a font for each slot:
+
+- **Heading**: Used for headings and titles.
+- **Body**: Used for body text.
+- **Code**: Used for code.
+
+Heading and body fonts are Inter, Roboto, Open Sans, Montserrat, Poppins, Source Sans 3, DM Sans, Playfair Display, Plus Jakarta Sans, and Geist. Code fonts are JetBrains Mono, Roboto Mono, Source Code Pro, Fira Code, and Geist Mono.
+
+You can also configure these slots in `documentation.json`:
+
+```json
+{
+  "fonts": {
+    "heading": { "family": "Playfair Display" },
+    "body": { "family": "Poppins" },
+    "code": { "family": "Fira Code" }
+  }
+}
+```
+
+Font family names must match the available names exactly, including capitalization. An unset slot keeps the site default: the heading follows the body font, body text uses Inter, and code uses JetBrains Mono. A name that is not on the list for its slot is ignored.
+
 ## Typography Best Practices
 
 The Documentation.AI platform automatically handles typography optimization, but consider these guidelines when choosing colors:

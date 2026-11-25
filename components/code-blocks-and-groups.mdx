@@ -1,8 +1,8 @@
 ---
 title: Code blocks and groups
 description: >-
-  Display inline code and code blocks with syntax highlighting, line
-  highlighting, focus effects, and tabbed interfaces for multiple examples.
+  Display code blocks with syntax highlighting, titles, icons, line
+  highlighting, diff lines, and tabs for multiple examples.
 type: reference
 ---
 ## Overview
@@ -37,11 +37,11 @@ In the Web Editor, use the slash menu to insert and manage code blocks and group
 
 2. Type <kbd>/</kbd> and select **Code Block**.
 
-3. A code block appears with the placeholder *"Add your code here…"*. Paste or type your code into the block.
+3. An empty code block appears. Paste or type your code into it.
 
-Use the language dropdown on the top-right of the block to pick the correct language. This controls **syntax highlighting** and the copy behavior.
+Hover over the block and use the language dropdown on the top-right to pick the correct language.
 
-<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1767254413848-dj42wgaz18u-pasted-image-1767254412456.png?q=85&fm=auto&auto=compress%2Cformat" width="600" height="135" alt="Code block in Web Editor" caption="Code block in Web Editor" style="width: 600px; height: auto; cursor: pointer; margin: 0 auto;" />
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795512655497-301mxdfjo8b-code-block-in-web-editor.png?fm=auto&auto=compress%2Cformat" width="1408" height="1068" alt="A code block in the Web Editor, with an icon, the title src/lib/client.ts, and the header buttons" caption="A code block and its options in the Web Editor" style="width: 704px; height: auto; margin: 0 auto;" />
 
 ### Insert a code group
 
@@ -64,6 +64,23 @@ Inside a code group you can:
 - **Pick a language per tab**: Use the language dropdown on each tab's code block.
 
 The group toolbar also lets you **duplicate** or **delete** the entire group.
+
+### Set code block options
+
+Hover over a code block, or edit it, to set its options from the header. In the Code Editor, write them as attributes after the language (see [Advanced options](#advanced-options)).
+
+| Option                                                                                            | In the Web Editor                                                          |
+| ------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| [Icon](#title-and-icon)                                                                           | Click the icon slot before the title. Hover to see **Add an icon**.        |
+| [Title](#title-and-icon)                                                                          | Type it in the field after the icon. It shows the language until you type. |
+| Language                                                                                          | Pick it from the language dropdown.                                        |
+| [Line numbers](#line-numbers), [Line highlighting](#line-highlighting), [Line focus](#line-focus) | Open the **Lines** menu.                                                   |
+| [Wrap long lines](#wrap-long-lines)                                                               | Click **Wrap long lines**.                                                 |
+| [Expandable](#expandable-code-blocks), [Copy button](#copy-button)                                | Open **Code block settings**.                                              |
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795512659586-ddlg3b81ihl-code-block-settings.png?fm=auto&auto=compress%2Cformat" width="1408" height="1068" alt="The Code block settings menu open on a code block, with Expandable off and Copy button on" caption="Code block settings" style="width: 704px; height: auto; margin: 0 auto;" />
+
+Inside a code group, the tab label names each block, so a block's header has no title or icon. Each tab has its own **Code block settings**.
 
 <Callout kind="info" collapsed="false">
   Prefer writing in code?
@@ -136,13 +153,127 @@ Notes:
 
 ## Advanced options
 
-Use these attributes and patterns to fine-tune how code blocks and groups render.
+Use these options and patterns to fine-tune how code blocks and groups render. Write each option as an attribute after the language, separated by spaces, as in `typescript title="src/lib/client.ts"`.
+
+### Title and icon
+
+Add `title` to show text in a bar above the code, such as a file name. Add `icon` to draw an [icon](/customize/icons) before it:
+
+```typescript title="src/lib/client.ts" icon="file-code"
+export const client = createClient({
+  apiKey: process.env.DOCS_API_KEY,
+  timeout: 5000,
+});
+```
+
+````markdown
+```typescript title="src/lib/client.ts" icon="file-code"
+export const client = createClient({
+  apiKey: process.env.DOCS_API_KEY,
+  timeout: 5000,
+});
+```
+````
+
+You can also write the title right after the language, for example `typescript src/lib/client.ts`.
+
+Inside a code group, the title and icon are not shown. The tab label names the block.
+
+### Diff lines
+
+Diff lines show a change to existing code in one block. End a line with a comment that holds `[!code ++]` to show it as added, or `[!code --]` to show it as removed:
+
+```javascript title="config.js"
+export const config = {
+  retries: 3,
+  timeout: 5000, // [!code --]
+  timeout: 10000, // [!code ++]
+};
+```
+
+````text
+```javascript title="config.js"
+export const config = {
+  retries: 3,
+  timeout: 5000, // [!code --]
+  timeout: 10000, // [!code ++]
+};
+```
+````
+
+- The comment is hidden, and the line is tinted and marked with a + or - sign.
+
+- Write the comment in the style of the language: `# [!code ++]` in Python, YAML, or shell, `/* [!code ++] */` in CSS, and `<!-- [!code ++] -->` in HTML.
+
+- `[!code ++:3]` marks that line and the two after it.
+
+- The copy button copies the code after the change. Removed lines and the comments are left out.
+
+- The block needs a language with syntax highlighting. Use `dotenv` instead of `env`, and `bash` instead of `terminal`. In a plain `text` block, the comment shows as written.
+
+In the Web Editor, type the comments into the code. They stay visible while you edit.
+
+### Expandable code blocks
+
+Add `expandable` to collapse a long block. Readers see the first 10 lines and a button, such as **Show all 14 lines**. A block of 10 lines or fewer is always shown in full.
+
+```yaml title=".github/workflows/docs.yml" expandable
+name: Check docs
+on:
+  pull_request:
+    paths:
+      - "docs/**"
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm run check-docs
+```
+
+````markdown
+```yaml title=".github/workflows/docs.yml" expandable
+name: Check docs
+on:
+  pull_request:
+    paths:
+      - "docs/**"
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm run check-docs
+```
+````
+
+### Copy button
+
+Every code block has a copy button. Add `nocopy` to hide it, for example on command output that readers shouldn't run:
+
+```text title="Output" nocopy
+Checked 42 pages
+0 broken links
+```
+
+````markdown
+```text title="Output" nocopy
+Checked 42 pages
+0 broken links
+```
+````
 
 ### Line highlighting
 
-Use the `highlight` prop on a fenced code block to emphasize specific lines:
+Add `highlight` to a fenced code block to emphasize specific lines:
 
-```javascript
+```javascript highlight="1-2,5"
 const greeting = "Hello, World!";
 function sayHello() {
   console.log(greeting);
@@ -162,9 +293,9 @@ sayHello();
 
 ### Line focus
 
-Use the `focus` prop to dim non-focused lines and draw attention to a subset of the code:
+Add `focus` to dim non-focused lines and draw attention to a subset of the code:
 
-```javascript
+```javascript focus="2,4-5"
 const greeting = "Hello, World!";
 function sayHello() {
   console.log(greeting);
@@ -184,9 +315,9 @@ sayHello();
 
 ### Line numbers
 
-Combine highlighting or focus with line numbers using `show-lines={true}`:
+Add `show-lines="true"` to show line numbers. Combine it with `highlight` or `focus`:
 
-```typescript "
+```typescript highlight="1,3" show-lines="true"
 interface User {
   name: string;
   age: number;
@@ -194,7 +325,7 @@ interface User {
 ```
 
 ````markdown
-```typescript highlight="1,3" show-lines={true}
+```typescript highlight="1,3" show-lines="true"
 interface User {
   name: string;
   age: number;
@@ -204,7 +335,7 @@ interface User {
 
 ### Wrap long lines
 
-Use the `wrap` parameter to control whether long lines stay on a single row with horizontal scrolling or automatically wrap onto the next visual line inside the code block.
+Add `wrap` to control whether long lines stay on a single row with horizontal scrolling or automatically wrap onto the next visual line inside the code block.
 
 You can enable wrapping in several equivalent ways on a fenced block: `wrap`, `wrap="true"`, `wrap=true`.
 
@@ -216,9 +347,9 @@ const longLine = "This is a very long line of code that would normally require h
 const longLine = "This is a very long line of code that would normally require horizontal scrolling, but with wrap enabled it will wrap to the width of the container instead of overflowing.";
 ```
 
-You can also combine `wrap` with other parameters like `highlight` and `show-lines`:
+You can also combine `wrap` with other options like `highlight` and `show-lines`:
 
-```typescript wrap="true" "  "
+```typescript highlight="1" show-lines="true" wrap="true"
 const longLine = "This line is highlighted, shows a line number, and wraps instead of scrolling horizontally across the viewport.";
 ```
 
@@ -231,7 +362,7 @@ const longLine = "This is a very long line of code that would normally require h
 const longLine = "This is a very long line of code that would normally require horizontal scrolling, but with wrap enabled it will wrap to the width of the container instead of overflowing.";
 ```
 
-```typescript wrap="true" highlight="1" show-lines={true}
+```typescript highlight="1" show-lines="true" wrap="true"
 const longLine = "This line is highlighted, shows a line number, and wraps instead of scrolling horizontally across the viewport.";
 ```
 ````
@@ -244,7 +375,7 @@ const longLine = "This line is highlighted, shows a line number, and wraps inste
 
 ### CodeGroup options
 
-`<CodeGroup>` supports the same block-level props (for example, `highlight`, `focus`, `show-lines`) inside each tabbed code block.
+Each code block inside a `<CodeGroup>` takes the same code block options, such as `highlight`, `focus`, `show-lines`, `expandable`, and `nocopy`.
 
 ````typescript
 <CodeGroup tabs="TypeScript,Python,Bash">
@@ -301,10 +432,10 @@ You can also control tabs explicitly:
 
 - `tabs`: Comma-separated list of tab labels, for example `tabs="TypeScript,Python,Bash"`.
 
-- `show-lines`: Set on the component (for example, `show-lines={true}`) to show line numbers for all blocks in the group.
+- `show-lines`: Set on the component (`show-lines="true"`) to show line numbers for all blocks in the group.
 
 ````jsx
-<CodeGroup show-lines={true} tabs="Highlighted,Focused">
+<CodeGroup show-lines="true" tabs="Highlighted,Focused">
 ```javascript highlight="2-3"
 const greeting = "Hello, World!";
 function sayHello() {
@@ -363,19 +494,19 @@ example = "This tab shows: python"
 </CodeGroup>
 ````
 
-### CodeGroup with highlighting and focus
+### CodeGroup with line highlighting and line focus
 
-Line highlighting and focus effects work within CodeGroup tabs:
+Line highlighting and line focus work within CodeGroup tabs:
 
-<CodeGroup show-lines="true" tabs={["Javascript","Javascript"]}>
-  ```jsx Javascript
+<CodeGroup show-lines="true" tabs={["Highlighted","Focused"]}>
+  ```javascript highlight="2-3"
   const greeting = "Hello, World!";
   function sayHello() {
     console.log(greeting);
   }
   ```
 
-  ```jsx Javascript
+  ```javascript focus="1,3"
   const greeting = "Hello, World!";
   function sayHello() {
     console.log(greeting);
@@ -384,15 +515,15 @@ Line highlighting and focus effects work within CodeGroup tabs:
 </CodeGroup>
 
 ````markdown
-<CodeGroup tabs="Highlighted,Focused">
-```javascript
+<CodeGroup show-lines="true" tabs="Highlighted,Focused">
+```javascript highlight="2-3"
 const greeting = "Hello, World!";
 function sayHello() {
   console.log(greeting);
 }
 ```
 
-```javascript
+```javascript focus="1,3"
 const greeting = "Hello, World!";
 function sayHello() {
   console.log(greeting);
@@ -417,18 +548,34 @@ function calculateTotal(price: number, tax: number): number {
 
 ### Attribute reference
 
-Use these attributes on fenced code blocks or `<CodeGroup>`:
+Use these attributes on fenced code blocks, including each one in a code group. `tabs` goes on `<CodeGroup>`, and `show-lines` works on both.
+
+<ParamField path="title" param-type="string" required="false" deprecated="false">
+  Text shown in a bar above the code, such as a file name. Not shown inside a code group. Example: `"src/lib/client.ts"`.
+</ParamField>
+
+<ParamField path="icon" param-type="string" required="false" deprecated="false">
+  Icon drawn before the title. Takes any [icon name](/customize/icons). Not shown inside a code group.
+</ParamField>
+
+<ParamField path="expandable" param-type="boolean" required="false" deprecated="false">
+  Collapses a block longer than 10 lines to its first 10 until the reader expands it. Defaults to `false`.
+</ParamField>
+
+<ParamField path="nocopy" param-type="boolean" required="false" deprecated="false">
+  Hides the copy button. Defaults to `false`.
+</ParamField>
 
 <ParamField path="highlight" param-type="string" required="false" deprecated="false">
   Line numbers or ranges to highlight. Examples: `"1"`, `"1-3"`, `"1,3,5-7"`.
 </ParamField>
 
 <ParamField path="focus" param-type="string" required="false" deprecated="false">
-  Line numbers or ranges to focus on (blurs other lines). Examples: `"2"`, `"2-4"`, `"1,4-6"`.
+  Line numbers or ranges to focus on (dims every other line). Examples: `"2"`, `"2-4"`, `"1,4-6"`.
 </ParamField>
 
 <ParamField path="show-lines" param-type="boolean | string" required="false" deprecated="false">
-  Set to `{true}` to show line numbers for a block or an entire group.
+  Set to `"true"` to show line numbers for a block or an entire group.
 </ParamField>
 
 <ParamField path="tabs" param-type="string" required="false" deprecated="false">

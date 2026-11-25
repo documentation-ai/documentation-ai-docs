@@ -1317,7 +1317,8 @@
             "description": "Sort direction",
             "required": false,
             "schema": { "type": "string", "enum": ["asc", "desc"], "default": "desc" }
-          }
+          },
+          { "$ref": "#/components/parameters/FeedbackCategory" }
         ],
         "responses": {
           "200": {
@@ -1386,7 +1387,8 @@
           { "$ref": "#/components/parameters/StartDate" },
           { "$ref": "#/components/parameters/EndDate" },
           { "$ref": "#/components/parameters/Limit" },
-          { "$ref": "#/components/parameters/Offset" }
+          { "$ref": "#/components/parameters/Offset" },
+          { "$ref": "#/components/parameters/FeedbackCategory" }
         ],
         "responses": {
           "200": {
@@ -1407,8 +1409,9 @@
                           "id": { "type": "string" },
                           "type": { "type": "string", "enum": ["like", "dislike"] },
                           "text": { "type": "string" },
-                          "sessionId": { "type": "string", "description": "Anonymous browser session identifier" },
-                          "submittedAt": { "type": "string", "format": "date-time" }
+                          "sessionId": { "type": "string", "description": "Anonymous session identifier. Feedback from AI agents has one starting with `agent:`." },
+                          "submittedAt": { "type": "string", "format": "date-time" },
+                          "category": { "type": "string", "enum": ["human", "agent"], "description": "Who left the feedback: a person on your docs site (`human`) or an AI agent through your Reader MCP Server (`agent`)" }
                         }
                       }
                     },
@@ -1918,6 +1921,13 @@
         "description": "Number of rows to skip. Combined with `total`, this is how you page through results.",
         "required": false,
         "schema": { "type": "integer", "minimum": 0, "default": 0 }
+      },
+      "FeedbackCategory": {
+        "name": "category",
+        "in": "query",
+        "description": "Include only feedback from people on your docs site (`human`) or from AI agents through your Reader MCP Server (`agent`). Omit it for both.",
+        "required": false,
+        "schema": { "type": "string", "enum": ["human", "agent"] }
       },
       "MediaId": {
         "name": "mediaId",

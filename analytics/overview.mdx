@@ -76,7 +76,7 @@ You can monitor:
 
 - Which pages receive the most positive or negative reactions
 
-- Individual feedback entries for a specific page, including the feedback type, reason, comment, and timestamp
+- Individual feedback entries for a specific page, including the feedback type, reason, comment, who it is from, and timestamp
 
 Feedback analytics also supports **CSV export** for both page-level feedback data and page-specific feedback details, making it easier to review trends outside the dashboard or share findings with your team.
 
@@ -89,6 +89,18 @@ After a thumbs up or thumbs down reaction, you can optionally prompt readers for
 <Callout kind="tip" collapsed="false">
   User feedback is a powerful signal for prioritizing updates, refining unclear topics, and validating whether recent changes are helping readers.
 </Callout>
+
+### Agent feedback
+
+AI agents connected to your [Reader MCP Server](/ai/reader-mcp-server#agent-feedback) can report a problem with a page they read, for example a command that no longer works or a page that contradicts another one. Agent feedback counts as a dislike on that page and appears in the page's feedback entries with the reason the agent chose, its comment, and **AI Agent** in the **From** column. For a reader's entry, **From** shows the email the reader signed in with or typed in the survey, when there is one.
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795523510824-1z5kxso93hbj-feedback-entries-from-column.png?fm=auto&auto=compress%2Cformat" width="2392" height="1054" alt="Feedback entries for a page, with AI Agent in the From column for two entries and a reader's email for two others" caption="Each entry shows who left it: AI Agent, the reader's email, or a dash when there is no email." />
+
+Use the **From** filter above the summary cards to show feedback from **All**, from **People** on your site, or from **AI Agents**. The filter applies to the summary cards, the page table, each page's entries, and the CSV exports. The Analytics API's feedback endpoints take the same choice as their `category` parameter.
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795523515627-ku24faqvl7q-feedback-from-filter.png?fm=auto&auto=compress%2Cformat" width="2392" height="1320" alt="The From filter open above the feedback summary cards, with the choices All, People, and AI Agents" caption="Choose All, People, or AI Agents to filter the cards, the page table, and the exports." />
+
+Agents follow your feedback settings, as readers do: with **Reactions** turned off, or on a page whose navigation entry sets `"ask-feedback": false`, they can't send agent feedback. With **Survey** turned off, only the dislike is recorded, without the reason or comment. It counts in the page's dislikes but has no entry of its own.
 
 ## AI Assistant
 

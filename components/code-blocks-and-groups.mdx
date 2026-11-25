@@ -2,7 +2,7 @@
 title: Code blocks and groups
 description: >-
   Display code blocks with syntax highlighting, titles, icons, line
-  highlighting, added and removed lines, and tabs for multiple examples.
+  highlighting, diff lines, and tabs for multiple examples.
 type: reference
 ---
 ## Overview
@@ -41,7 +41,7 @@ In the Web Editor, use the slash menu to insert and manage code blocks and group
 
 Hover over the block and use the language dropdown on the top-right to pick the correct language.
 
-<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795512655497-301mxdfjo8b-code-block-in-web-editor.png?fm=auto&auto=compress%2Cformat" width="1408" height="1068" alt="A code block in the Web Editor, with an icon, the file name src/lib/client.ts, and its controls in the header" caption="A code block and its controls in the Web Editor" style="width: 704px; height: auto; margin: 0 auto;" />
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795512655497-301mxdfjo8b-code-block-in-web-editor.png?fm=auto&auto=compress%2Cformat" width="1408" height="1068" alt="A code block in the Web Editor, with an icon, the title src/lib/client.ts, and the header buttons" caption="A code block and its options in the Web Editor" style="width: 704px; height: auto; margin: 0 auto;" />
 
 ### Insert a code group
 
@@ -65,23 +65,22 @@ Inside a code group you can:
 
 The group toolbar also lets you **duplicate** or **delete** the entire group.
 
-### Code block controls
+### Set code block options
 
-Hover over a code block, or edit it, to see the controls in its header. In the Code Editor, write the same options as attributes after the language.
+Hover over a code block, or edit it, to set its options from the header. In the Code Editor, write them as attributes after the language (see [Advanced options](#advanced-options)).
 
-| Control                 | What it does                                                                                    | Attribute                          |
-| ----------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------- |
-| Icon slot               | Draws an icon before the file name. Hover to see **Add an icon**.                               | `icon`                             |
-| File name field         | Shows a file name or a short label above the code. The field shows the language until you type. | `title`                            |
-| Language dropdown       | Sets the language for syntax highlighting.                                                      | The word after the backticks       |
-| **Lines**               | Turns on **Line numbers**, and sets the lines to **Highlight** and **Focus**.                   | `show-lines`, `highlight`, `focus` |
-| **Wrap long lines**     | Wraps long lines instead of scrolling sideways.                                                 | `wrap`                             |
-| **Code block settings** | Turns on **Expandable**, or turns off the **Copy button**.                                      | `expandable`, `nocopy`             |
-| **Copy code**           | Copies the code while you edit.                                                                 | None                               |
+| Option                                                                                            | In the Web Editor                                                          |
+| ------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| [Icon](#title-and-icon)                                                                           | Click the icon slot before the title. Hover to see **Add an icon**.        |
+| [Title](#title-and-icon)                                                                          | Type it in the field after the icon. It shows the language until you type. |
+| Language                                                                                          | Pick it from the language dropdown.                                        |
+| [Line numbers](#line-numbers), [Line highlighting](#line-highlighting), [Line focus](#line-focus) | Open the **Lines** menu.                                                   |
+| [Wrap long lines](#wrap-long-lines)                                                               | Click **Wrap long lines**.                                                 |
+| [Expandable](#expandable-code-blocks), [Copy button](#copy-button)                                | Open **Code block settings**.                                              |
 
 <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795512659586-ddlg3b81ihl-code-block-settings.png?fm=auto&auto=compress%2Cformat" width="1408" height="1068" alt="The Code block settings menu open on a code block, with Expandable off and Copy button on" caption="Code block settings" style="width: 704px; height: auto; margin: 0 auto;" />
 
-Inside a code group, the tabs name the blocks, so there is no icon or file name in a block's header. Each tab has its own **Code block settings**.
+Inside a code group, the tab label names each block, so a block's header has no title or icon. Each tab has its own **Code block settings**.
 
 <Callout kind="info" collapsed="false">
   Prefer writing in code?
@@ -154,11 +153,11 @@ Notes:
 
 ## Advanced options
 
-Use these attributes and patterns to fine-tune how code blocks and groups render. Attributes go after the language, separated by spaces.
+Use these options and patterns to fine-tune how code blocks and groups render. Write each option as an attribute after the language, separated by spaces, as in `typescript title="src/lib/client.ts"`.
 
 ### Title and icon
 
-Add `title` to show a file name or a short label in a bar above the code. Add `icon` to draw an [icon](/customize/icons) before it:
+Add `title` to show text in a bar above the code, such as a file name. Add `icon` to draw an [icon](/customize/icons) before it:
 
 ```typescript title="src/lib/client.ts" icon="file-code"
 export const client = createClient({
@@ -176,13 +175,13 @@ export const client = createClient({
 ```
 ````
 
-You can also write the file name right after the language, for example `typescript src/lib/client.ts`.
+You can also write the title right after the language, for example `typescript src/lib/client.ts`.
 
 Inside a code group, the title and icon are not shown. The tab label names the block.
 
-### Added and removed lines
+### Diff lines
 
-Show a change to existing code in one block. End a line with a comment that holds `[!code ++]` for an added line, or `[!code --]` for a removed line:
+Diff lines show a change to existing code in one block. End a line with a comment that holds `[!code ++]` to show it as added, or `[!code --]` to show it as removed:
 
 ```javascript title="config.js"
 export const config = {
@@ -272,7 +271,7 @@ Checked 42 pages
 
 ### Line highlighting
 
-Use the `highlight` prop on a fenced code block to emphasize specific lines:
+Add `highlight` to a fenced code block to emphasize specific lines:
 
 ```javascript highlight="1-2,5"
 const greeting = "Hello, World!";
@@ -294,7 +293,7 @@ sayHello();
 
 ### Line focus
 
-Use the `focus` prop to dim non-focused lines and draw attention to a subset of the code:
+Add `focus` to dim non-focused lines and draw attention to a subset of the code:
 
 ```javascript focus="2,4-5"
 const greeting = "Hello, World!";
@@ -336,7 +335,7 @@ interface User {
 
 ### Wrap long lines
 
-Use the `wrap` parameter to control whether long lines stay on a single row with horizontal scrolling or automatically wrap onto the next visual line inside the code block.
+Add `wrap` to control whether long lines stay on a single row with horizontal scrolling or automatically wrap onto the next visual line inside the code block.
 
 You can enable wrapping in several equivalent ways on a fenced block: `wrap`, `wrap="true"`, `wrap=true`.
 
@@ -348,7 +347,7 @@ const longLine = "This is a very long line of code that would normally require h
 const longLine = "This is a very long line of code that would normally require horizontal scrolling, but with wrap enabled it will wrap to the width of the container instead of overflowing.";
 ```
 
-You can also combine `wrap` with other parameters like `highlight` and `show-lines`:
+You can also combine `wrap` with other options like `highlight` and `show-lines`:
 
 ```typescript highlight="1" show-lines="true" wrap="true"
 const longLine = "This line is highlighted, shows a line number, and wraps instead of scrolling horizontally across the viewport.";
@@ -376,7 +375,7 @@ const longLine = "This line is highlighted, shows a line number, and wraps inste
 
 ### CodeGroup options
 
-Each code block inside a `<CodeGroup>` takes attributes such as `highlight`, `focus`, `show-lines`, `expandable`, and `nocopy`.
+Each code block inside a `<CodeGroup>` takes the same code block options, such as `highlight`, `focus`, `show-lines`, `expandable`, and `nocopy`.
 
 ````typescript
 <CodeGroup tabs="TypeScript,Python,Bash">
@@ -495,9 +494,9 @@ example = "This tab shows: python"
 </CodeGroup>
 ````
 
-### CodeGroup with highlighting and focus
+### CodeGroup with line highlighting and line focus
 
-Line highlighting and focus effects work within CodeGroup tabs:
+Line highlighting and line focus work within CodeGroup tabs:
 
 <CodeGroup show-lines="true" tabs={["Highlighted","Focused"]}>
   ```javascript highlight="2-3"
@@ -552,7 +551,7 @@ function calculateTotal(price: number, tax: number): number {
 Use these attributes on fenced code blocks, including each one in a code group. `tabs` goes on `<CodeGroup>`, and `show-lines` works on both.
 
 <ParamField path="title" param-type="string" required="false" deprecated="false">
-  File name or short label shown in a bar above the code. Not shown inside a code group. Example: `"src/lib/client.ts"`.
+  Text shown in a bar above the code, such as a file name. Not shown inside a code group. Example: `"src/lib/client.ts"`.
 </ParamField>
 
 <ParamField path="icon" param-type="string" required="false" deprecated="false">
@@ -572,7 +571,7 @@ Use these attributes on fenced code blocks, including each one in a code group. 
 </ParamField>
 
 <ParamField path="focus" param-type="string" required="false" deprecated="false">
-  Line numbers or ranges to focus on (blurs other lines). Examples: `"2"`, `"2-4"`, `"1,4-6"`.
+  Line numbers or ranges to focus on (dims every other line). Examples: `"2"`, `"2-4"`, `"1,4-6"`.
 </ParamField>
 
 <ParamField path="show-lines" param-type="boolean | string" required="false" deprecated="false">

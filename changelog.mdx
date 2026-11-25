@@ -2,6 +2,130 @@
 title: Release Notes
 description: 'Changes, fixes, and improvements across versions'
 ---
+<Update label="2026-11-25" description="Documentation roles, monorepo support, site migrations, LaTeX math, editor updates, reader feedback, and fixes" tags={["feature","improvement","fix"]}>
+  ## Organization and documentation roles
+
+  Assign organization and per-documentation roles to control access across the dashboard, collaboration, API, and AI Documentation Agent. Invitations can include documentation access and be resent, and members can manage or leave individual documentations. Some roles require a Pro upgrade. See [Organizations and projects](/account-and-billing/organizations-and-projects).
+
+  ## Documentation roots for monorepos
+
+  Connect a GitHub or GitLab repository with documentation in a subfolder. Deployments, collaboration, Git operations, and the agent use the selected documentation root. See [GitHub Integration](/connectors/github) and [GitLab Integration](/integrations/gitlab).
+
+  ## Migration from existing documentation
+
+  Start a migration from a live site address or an uploaded file, and choose which pages to include or exclude. Migrations provide live progress, a completion report, and an email when finished, with platform-aware handling for Mintlify, GitBook, ReadMe, Fern, Docusaurus, Nextra 4, and Confluence. See [AI Documentation Agent](/ai/ai-documentation-agent).
+
+  ## LaTeX math
+
+  Enable LaTeX math for your site and add inline or block equations in the editor, with a live preview for inline equations. Equations also render in PDF exports, while prices and lone dollar signs remain text. See [Site Configuration](/customize/site-configuration).
+
+  ## Editor and dashboard redesign
+
+  The dashboard now opens with the editor in an icon rail, and the editor has a collapsible navigation tree with improved drag-and-drop. Pages open immediately while saving in the background, and onboarding includes a setup checklist and migration status. See [Navigation and Sidebar](/customize/navigation-and-sidebar).
+
+  ## Reader and agent feedback
+
+  Readers and AI agents can report problems with documentation pages. Feedback shows the reader's email or an AI Agent label, with a source filter and email included in details and CSV exports. See [Analytics overview](/analytics/overview#feedback) and [Reader MCP Server](/ai/reader-mcp-server).
+
+  ## Improvements
+
+  - **Code blocks**: Added titles with icons, expandable blocks, copy-button controls, and diff line highlighting. The editor preserves these options on save.
+  - **Typography**: Choose heading, body, and code fonts in Brand & Theme. Source Sans 3 replaces Lato as the default body font.
+  - **Page indexing**: Hide individual pages from search engines, the sitemap, and llms.txt without changing site-wide indexing. See [Page Configuration](/customize/page-configuration).
+  - **Header logo link**: Choose where the header logo links from the logo settings. See [Site Configuration](/customize/site-configuration).
+  - **Reader sign-in**: Added email verification sign-in and a configurable sign-out button. Reader names and email addresses are available from OAuth and JWT claims. See [Access Control](/customize/access-control/overview).
+  - **Assistant API**: Manage Assistant API Keys under API Keys in settings and call the API at `api.documentation.ai`; the previous settings address redirects.
+  - **Search indexing status**: Deployments now show indexing status, pages not updated, and a retry action. Search also indexes tab and expandable content more precisely.
+  - **AI Documentation Agent**: Page-writing progress now shows the page being written, and code analysis has more time to complete. See [AI Documentation Agent](/ai/ai-documentation-agent).
+  - **API Playground requests**: Configure the playground to send requests from the browser without the proxy. See [Interactive Playground Setup](/api-documentation-and-playground/interactive-playground-setup).
+  - **External source results**: Search panels now show external source results with relevance information. See [External Sources](/ai/external-sources).
+
+  ## Fixes
+
+  - **Page addresses**: Fixed pages and redirects containing spaces or accented characters, and corrected their sitemap, canonical, and llms.txt addresses.
+  - **Agent attachments**: Attaching a file before the first chat message no longer causes an error.
+  - **GitHub branches**: Branch selection now lists all GitHub branches, not only the first 100.
+  - **HTML blocks**: Markdown inside HTML blocks now survives loading and saving.
+  - **OpenAPI schemas**: API pages now generate for self-referencing schemas.
+  - **Self-hosted GitLab security**: Connections to self-hosted GitLab hosts inside the platform's network are refused.
+  - **CSV export security**: Text cells in CSV exports no longer run as spreadsheet formulas.
+  - **AI credit billing**: Cached tokens are now charged once.
+  - **Billing portal**: The billing portal now opens for the correct organization.
+  - **Browser translation**: A translated dashboard page no longer crashes on its next update.
+  - **Publishing**: Publishing no longer rejects a page listed twice in navigation.
+</Update>
+
+<Update label="2026-11-25" description="Documentation roles, monorepo support, site migrations, LaTeX math, PDF export options and templates, republishing, reader sign-in names, editor updates, reader feedback, and fixes" tags={["feature","improvement","fix"]}>
+  ## Organization and documentation project roles
+
+  Assign organization and per-documentation project roles to control access across the dashboard, collaboration, API, and AI Documentation Agent. See [Organizations and projects](/account-and-billing/organizations-and-projects).
+
+  ## Monorepo support
+
+  Host your documentation in a subfolder with in your repo instead a seperate repo for documentation. Deployments, collaboration, Git operations, and the agent use the selected documentation root. See [GitHub Integration](/connectors/github) and [GitLab Integration](/integrations/gitlab).
+
+  ## Migration from existing documentation
+
+  Start a migration from a live documentation site or an uploaded file, and choose which pages to include or exclude. Currently we support Mintlify, GitBook, ReadMe, Fern, Docusaurus, Nextra 4, and Confluence. See [AI Documentation Agent](/ai/ai-documentation-agent).
+
+  ## LaTeX math
+
+  Enable LaTeX math for your site and add inline or block equations in the editor, with a live preview for inline equations. Equations also render in PDF exports, while prices and lone dollar signs remain text. See [Site Configuration](/customize/site-configuration).
+
+  ## Editor and dashboard redesign
+
+  The dashboard now opens with the editor in an icon rail, and the editor has a collapsible navigation tree with improved drag-and-drop. Pages open immediately while saving in the background, and onboarding includes a setup checklist and migration status. See [Navigation and Sidebar](/customize/navigation-and-sidebar).
+
+  ## Reader and agent feedback
+
+  Readers and AI agents can report problems with documentation pages. Feedback shows the reader's email or an AI Agent label, with a source filter and email included in details and CSV exports. See [Analytics overview](/analytics/overview#feedback) and [Reader MCP Server](/ai/reader-mcp-server).
+
+  ## PDF export options and templates
+
+  Name PDF exports, select pages from a searchable page tree, and choose a template. Configure the paper format, scale, and footer, or use the template editor in documentation settings to customize the cover page, header image, footer text, watermark, page numbers, layout, and colors with a live preview.
+
+  ## Republish an unpublished site
+
+  Republish an unpublished site from the Overview deployment card, Settings under Danger zone, or the editor navbar.
+
+  ## Inactive account deletion
+
+  Workspaces inactive for one year receive 90 days' notice before deletion. Deleted workspaces remain recoverable for 21 days before they are purged.
+
+  ## Improvements
+
+  - **Code blocks**: Added titles with icons, expandable blocks, copy-button controls, and diff line highlighting. The editor preserves these options on save.
+  - **Typography**: Choose heading, body, and code fonts in Brand & Theme. Source Sans 3 replaces Lato as the default body font.
+  - **Page indexing**: Hide individual pages from search engines, the sitemap, and llms.txt without changing site-wide indexing. See [Page Configuration](/customize/page-configuration).
+  - **Header logo link**: Choose where the header logo links from the logo settings. See [Site Configuration](/customize/site-configuration).
+  - **Reader sign-in**: Added email verification sign-in and a configurable sign-out button. Reader names and email addresses are available from OAuth and JWT claims. See [Access Control](/customize/access-control/overview).
+  - **Assistant API**: Manage Assistant API Keys under API Keys in settings and call the API at `api.documentation.ai`; the previous settings address redirects.
+  - **Search indexing status**: Deployments now show indexing status, pages not updated, and a retry action. Search also indexes tab and expandable content more precisely.
+  - **AI Documentation Agent**: Page-writing progress now shows the page being written, and code analysis has more time to complete. See [AI Documentation Agent](/ai/ai-documentation-agent).
+  - **API Playground requests**: Configure the playground to send requests from the browser without the proxy. See [Interactive Playground Setup](/api-documentation-and-playground/interactive-playground-setup).
+  - **External source results**: Search panels now show external source results with relevance information. See [External Sources](/ai/external-sources).
+  - **AI agent edits**: The agent now patches edits instead of rewriting entire pages, speeding up small changes to large pages. Writes containing too much source material are refused before they run.
+  - **Agent progress**: Running steps now show their activity and elapsed time, while analyses identify the repository and dates being checked.
+  - **Reader names**: Standard OAuth and JWT claims now supply names for Azure AD, Google, Okta, and Microsoft Graph sign-ins. Email sign-in shows the reader's username with their account in a tooltip, and accented names are decoded correctly.
+  - **Code block header**: An empty icon slot now shows a placeholder, and file names have consistent spacing after the icon.
+  - **Onboarding**: Company names are now prefilled only from work email addresses, not personal mailbox providers.
+
+  ## Fixes
+
+  - **Page addresses**: Fixed pages and redirects containing spaces or accented characters, and corrected their sitemap, canonical, and llms.txt addresses.
+  - **Agent attachments**: Attaching a file before the first chat message no longer causes an error.
+  - **GitHub branches**: Branch selection now lists all GitHub branches, not only the first 100.
+  - **HTML blocks**: Markdown inside HTML blocks now survives loading and saving.
+  - **OpenAPI schemas**: API pages now generate for self-referencing schemas.
+  - **Self-hosted GitLab security**: Connections to self-hosted GitLab hosts inside the platform's network are refused.
+  - **CSV export security**: Text cells in CSV exports no longer run as spreadsheet formulas.
+  - **AI credit billing**: Cached tokens are now charged once.
+  - **Billing portal**: The billing portal now opens for the correct organization.
+  - **Browser translation**: A translated dashboard page no longer crashes on its next update.
+  - **Publishing**: Publishing no longer rejects a page listed twice in navigation.
+  - **Connector analysis**: An analysis that times out or fails now reports an error instead of returning an empty result.
+</Update>
+
 <Update label="2026-10-29" description="Announcement banners, multilingual footers, expanded agent context, Reader MCP tools, checkout referrals, embed sizing, and platform fixes" tags={["feature","improvement","fix"]}>
   ## Announcement banners
 

@@ -512,39 +512,6 @@ Parameter badges show after **Required** and **Deprecated**.
   Whether the badge sits before or after the title or name. Defaults to `after`.
 </ParamField>
 
-### Show OpenAPI fields as parameter badges
-
-Your spec may already mark fields with `nullable`, `x-internal` or an extension of your own. To show such a field as a parameter badge on every parameter that sets it, list it in `api.params.badges`. You do not have to edit the spec.
-
-In the editor, click **Site Config** at the bottom of the sidebar, then select **API Playground**. Type the fields in **Parameter Badges**, separated by commas, then click **Publish**.
-
-Or set it in `documentation.json`:
-
-```json
-{
-  "api": {
-    "params": {
-      "badges": ["nullable", "x-internal"]
-    }
-  }
-}
-```
-
-<ParamField path="api.params.badges" param-type="string[]" required="false">
-  OpenAPI fields shown as a parameter badge on every parameter, request body field and response field that sets them.
-</ParamField>
-
-What the badge says depends on the field's value:
-
-| Value in the spec | Badge |
-|---|---|
-| `true` | The field's name, for example `nullable` |
-| A string, for example `x-tier: Enterprise` | The string, `Enterprise` |
-| A list, for example `x-plans: [Pro, Enterprise]` | One badge per item |
-| `false`, empty or an object | No badge |
-
-These badges are grey and show after the ones the spec declares with `x-badges`.
-
 ## Common Patterns
 
 ### API Versioning

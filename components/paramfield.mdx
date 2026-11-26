@@ -57,6 +57,8 @@ To change the badges and tags:
 - **Type:** Enter the data type (for example, `string`, `integer`, `boolean`).
 - **Required:** Toggle on to mark the parameter as required.
 - **Deprecated:** Toggle on to show the Deprecated badge.
+- **Badges:** Parameter badges shown after the name, separated by commas. Add a color as `Name:color`, for example `Beta:orange, Internal`.
+- **Badges Before Name:** Parameter badges shown before the name.
 
 Click **Save** to apply your changes.
 
@@ -110,6 +112,20 @@ Use `show-location="false"` to hide the location badge:
   Authentication token without location badge.
 </ParamField>
 
+### Parameter badges
+
+A parameter badge is a short label beside the parameter's name, such as **Beta** or **Internal**. Use `badges` for labels after the name and `badges-before` for labels before it. Separate labels with commas, and add a color with `Name:color`:
+
+```mdx
+<ParamField body="email" param-type="string" required="true" badges="Beta:orange, Internal" badges-before="PII:red">
+  The customer's email address.
+</ParamField>
+```
+
+The colors are `red`, `orange`, `green`, `blue` and `grey`, or a hex value such as `#7c3aed`. A badge without a color is grey. A colon followed by anything else stays part of the label, so `Scope:admin` shows as written.
+
+On pages generated from an OpenAPI spec, parameter badges come from the spec. See [API reference badges](/api-documentation-and-playground/openapi-import#api-reference-badges).
+
 ## Advanced options
 
 ### Attributes
@@ -144,6 +160,14 @@ Use `show-location="false"` to hide the location badge:
 
 <ParamField query="show-location" param-type="string" required="false" deprecated="false">
   Set to `"false"` to hide the location badge (default: `"true"`).
+</ParamField>
+
+<ParamField query="badges" param-type="string" required="false" deprecated="false">
+  Parameter badges shown after the name: labels separated by commas. Add a color with `Name:color`, for example `badges="Beta:orange, Internal"`.
+</ParamField>
+
+<ParamField query="badges-before" param-type="string" required="false" deprecated="false">
+  Parameter badges shown before the name, written the same way.
 </ParamField>
 
 <Callout kind="alert" collapsed="false">

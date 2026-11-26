@@ -433,6 +433,118 @@ Multiple response formats automatically generate tabbed examples:
 
 - **Error responses**: Detailed error schema documentation
 
+## API reference badges
+
+Badges are short labels, such as **Beta** or **Internal**, on the pages generated from your OpenAPI spec. Your spec declares them with the `x-badges` extension, the same one Redocly and Scalar read, so a spec that already has them needs no change.
+
+There are two kinds:
+
+- An **endpoint badge** sits beside the endpoint's title on its page. For endpoints generated from a group's spec, the first one also shows beside the endpoint in the sidebar.
+- A **parameter badge** sits beside the name of a parameter, a request body field or a response field.
+
+### Endpoint badge
+
+Add `x-badges` to an operation:
+
+```yaml
+paths:
+  /customers:
+    get:
+      summary: List customers
+      x-badges:
+        - name: Beta
+          color: orange
+        - name: v2
+          position: before
+```
+
+An operation with `deprecated: true` shows a **Deprecated** endpoint badge on its own. You do not need `x-badges` for it.
+
+On a page you [connect to an endpoint](#page-level-openapi-connection), the endpoint badges come from the spec too. To set your own, add `badges` to the page's frontmatter, and `badgesBefore` for badges before the title:
+
+```mdx
+---
+title: List customers
+badges: "Beta:orange, Internal"
+---
+```
+
+The sidebar badge of a connected page is the page's own `badge` in `documentation.json`.
+
+### Parameter badge
+
+Add `x-badges` to a parameter or to a schema property. It works for path, query and header parameters, request body fields and response fields, at any depth:
+
+```yaml
+parameters:
+  - name: cursor
+    in: query
+    x-badges:
+      - name: Internal
+    schema:
+      type: string
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        email:
+          type: string
+          x-badges:
+            - name: PII
+              color: red
+              position: before
+```
+
+Parameter badges show after **Required** and **Deprecated**.
+
+### Badge fields
+
+<ParamField body="name" param-type="string" required="true" show-location="false">
+  The text of the badge.
+</ParamField>
+
+<ParamField body="color" param-type="string" required="false" show-location="false">
+  `red`, `orange`, `green`, `blue` or `grey`, or a hex value such as `#7c3aed`. Redocly's color names work too, for example `carrot` and `sky`. Defaults to `grey`. A color we do not know shows as grey.
+</ParamField>
+
+<ParamField body="position" param-type="string" required="false" show-location="false" enum="before,after">
+  Whether the badge sits before or after the title or name. Defaults to `after`.
+</ParamField>
+
+### Show OpenAPI fields as parameter badges
+
+Your spec may already mark fields with `nullable`, `x-internal` or an extension of your own. To show such a field as a parameter badge on every parameter that sets it, list it in `api.params.badges`. You do not have to edit the spec.
+
+In the editor, click **Site Config** at the bottom of the sidebar, then select **API Playground**. Type the fields in **Parameter Badges**, separated by commas, then click **Publish**.
+
+Or set it in `documentation.json`:
+
+```json
+{
+  "api": {
+    "params": {
+      "badges": ["nullable", "x-internal"]
+    }
+  }
+}
+```
+
+<ParamField path="api.params.badges" param-type="string[]" required="false">
+  OpenAPI fields shown as a parameter badge on every parameter, request body field and response field that sets them.
+</ParamField>
+
+What the badge says depends on the field's value:
+
+| Value in the spec | Badge |
+|---|---|
+| `true` | The field's name, for example `nullable` |
+| A string, for example `x-tier: Enterprise` | The string, `Enterprise` |
+| A list, for example `x-plans: [Pro, Enterprise]` | One badge per item |
+| `false`, empty or an object | No badge |
+
+These badges are grey and show after the ones the spec declares with `x-badges`.
+
 ## Common Patterns
 
 ### API Versioning

@@ -55,6 +55,7 @@ To change the label and status:
 - **Type:** The data type of the field (for example, `string`, `integer`, `boolean`, `object`, `array`).
 - **Required:** Toggle on to mark the field as required in the response.
 - **Deprecated:** Toggle on to show that the field is deprecated.
+- **Badges:** Parameter badges, separated by commas. Type them in **Before Field** or **After Field** for where they show. Add a color as `Name:color`, for example `Enterprise:blue`.
 
 Click **Save** to apply your changes.
 
@@ -122,6 +123,20 @@ Use the `<ResponseField>` component to document API response fields with their t
   User object containing profile information and preferences.
 </ResponseField>
 
+### Parameter badges
+
+A parameter badge marks the field as **Beta**, **Internal** and the like, beside its name. Use `badges` for the badges after the name and `badges-before` for those before it. Separate badges with commas, and add a color with `Name:color`:
+
+```mdx
+<ResponseField name="plan" field-type="string" badges="Enterprise:blue" badges-before="v2">
+  The customer's plan.
+</ResponseField>
+```
+
+The colors are `red`, `orange`, `green`, `blue` and `grey`, or a hex value such as `#7c3aed`. A badge without a color is grey. A colon followed by anything else stays part of the name, so `Scope:admin` shows as written.
+
+On pages generated from an OpenAPI spec, parameter badges come from the spec. See [API reference badges](/api-documentation-and-playground/openapi-import#api-reference-badges).
+
 ## Advanced options
 
 ### Attributes
@@ -140,4 +155,12 @@ Use the `<ResponseField>` component to document API response fields with their t
 
 <ParamField path="deprecated" param-type="string" required="false" deprecated="false">
   Set to `"true"` to mark as deprecated (default: `"false"`).
+</ParamField>
+
+<ParamField path="badges" param-type="string" required="false" deprecated="false">
+  Parameter badges shown after the name, separated by commas. Add a color with `Name:color`, for example `badges="Enterprise:blue"`.
+</ParamField>
+
+<ParamField path="badges-before" param-type="string" required="false" deprecated="false">
+  Parameter badges shown before the name, written the same way.
 </ParamField>

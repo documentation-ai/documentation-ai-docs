@@ -61,14 +61,14 @@ Every API key carries a role that determines which endpoints are accessible.
 | Role       | Read endpoints                                              | Write endpoints                                                        |
 | ---------- | ----------------------------------------------------------- | ---------------------------------------------------------------------- |
 | **Viewer** | All read endpoints, including analytics, media, and storage | None                                                                   |
-| **Editor** | All read endpoints                                          | Push, branches, merge, deploy, PDF exports, and media except deletion  |
-| **Admin**  | All read endpoints                                          | All write endpoints, including deleting media                          |
+| **Editor** | All read endpoints                                          | Push, branches, merge, deploy, and media except deletion               |
+| **Admin**  | All read endpoints                                          | All write endpoints, including PDF exports and deleting media          |
 
 Write endpoints return `403 Forbidden` if the API key role does not have sufficient permissions.
 
 Deploying sits behind **editor** because it publishes to your live site. Analytics is read-only, so a **viewer** key is enough.
 
-Starting a PDF export needs **editor**. Reading the current export, and the link it carries, needs only **viewer**.
+PDF exports need an **admin** key: starting one, reading the current export and the link it carries, and listing the PDF templates.
 
 ## Rate Limiting
 
@@ -241,7 +241,7 @@ curl https://api.documentationai.app/api/v1/storage \
 
 Export your live site as a single PDF, for offline reading, compliance archives, or sharing outside your docs. Pages are rendered in navigation order. PDF export is available on the Professional and Enterprise plans.
 
-By default an export holds every page, printed on A4 at 100% with page numbers. You can narrow it to a product, version, and language, or to the pages you list, and change how it prints. See [Choose what to export](#choose-what-to-export).
+By default an export holds every page, printed with your site's default [PDF template](/write-and-publish/pdf-export#pdf-templates). You can print with another template, or narrow the export to the pages you list. See [Choose what to export](#choose-what-to-export).
 
 Start an export:
 
@@ -261,7 +261,9 @@ The response is `202 Accepted` with an export to poll:
   "downloadUrl": null,
   "downloadUrlExpiresAt": null,
   "deploymentId": "64e41663-5ac8-422e-a941-00aff79963ed",
-  "options": { "pageSize": "A4", "scale": 100, "showPageNumbers": true },
+  "options": {
+    "template": { "id": "0b7c4f1e-52a9-4d3b-8e6f-1a2b3c4d5e6f", "name": "Standard" }
+  },
   "source": "api",
   "errorMessage": null,
   "createdAt": "2026-09-17T13:04:12.000Z",
@@ -290,37 +292,48 @@ The link points straight at our storage, so the file never passes through the AP
 
 ### Choose what to export
 
-Send your choices as JSON. Every field is optional:
+A PDF template sets how the PDF looks: its paper, cover page, header image, page numbers, footer text, watermark, fonts, and colours. Templates are designed in the dashboard, in the export dialog under **Settings → Exports**. List them to get their ids:
+
+```bash
+curl https://api.documentationai.app/api/v1/exports/pdf/templates \
+  -H "Authorization: Bearer dai_your_api_key"
+```
+
+```json
+{
+  "templates": [
+    { "id": "0b7c4f1e-52a9-4d3b-8e6f-1a2b3c4d5e6f", "name": "Standard", "isDefault": true },
+    { "id": "9d2e6a70-3c1b-4f58-a7e4-6b5c4d3e2f1a", "name": "Customer handover", "isDefault": false }
+  ]
+}
+```
+
+Then send your choices as JSON. Every field is optional:
 
 ```bash
 curl -X POST https://api.documentationai.app/api/v1/exports/pdf \
   -H "Authorization: Bearer dai_your_api_key" \
   -H "Content-Type: application/json" \
   -d '{
-    "product": "Cloud Platform",
-    "version": "v2",
-    "language": "en",
-    "pageSize": "Letter",
-    "scale": 90
+    "template": "9d2e6a70-3c1b-4f58-a7e4-6b5c4d3e2f1a",
+    "pages": ["guides/overview", "guides/installation"]
   }'
 ```
 
-| Field                            | What it does                                                                                                       | Default                                                 |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------- |
-| `pageSize`                       | Paper size: `A4`, `Letter`, `Legal`, `A3`, or `A5`                                                                 | `A4`                                                    |
-| `scale`                          | Print scale in percent, a whole number from 50 to 200                                                              | `100`                                                   |
-| `showPageNumbers`                | Print "Page X of Y" at the bottom centre of every page                                                             | `true`                                                  |
-| `product`, `version`, `language` | Export only the pages of this product, version, or language, named as in your navigation                           | Every product, version, and language                    |
-| `pages`                          | Export only these pages, by navigation path, such as `guides/overview`. They print in navigation order, whatever order you list them in | Every page of the chosen product, version, and language |
+| Field      | What it does                                                                                                                            | Default                          |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| `template` | Print with this PDF template, by its id from `GET /exports/pdf/templates`                                                               | Your site's default PDF template |
+| `pages`    | Export only these pages, by navigation path, such as `guides/overview`. They print in navigation order, whatever order you list them in | Every page of the live site      |
 
-- Leave out `product`, `version`, and `language` to export every product, version, and language in one PDF. The dashboard exports one of each at a time.
-- A path in `pages` that is not on the live site, or not in the chosen product, version, or language, returns `400` naming it.
-- A product, version, or language with no pages on the live site returns `422`.
-- Every export carries the `options` it was printed with, in both `POST` and `GET` responses.
+- A `template` id that is not one of your site's templates returns `400`.
+- A path in `pages` that is not on the live site returns `400` naming it.
+- A live site with no pages to export returns `422`.
+- Every export carries its `options` in both `POST` and `GET` responses: the template it was printed with, by `id` and `name`, and its `pages` when it was narrowed to some.
+- Templates cannot be created or changed through the API.
 
 ### Reusing an export
 
-If your live site has not changed since the last completed export, and you ask for the same options, `POST /exports/pdf` returns that export with `200 OK` instead of rendering again. This makes it safe to call on every CI run. To render again anyway, pass `force`:
+If your live site and the template have not changed since the last completed export, and you ask for the same template and pages, `POST /exports/pdf` returns that export with `200 OK` instead of rendering again. This makes it safe to call on every CI run. To render again anyway, pass `force`:
 
 ```bash
 curl -X POST https://api.documentationai.app/api/v1/exports/pdf \

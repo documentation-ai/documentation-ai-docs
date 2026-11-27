@@ -1,16 +1,16 @@
 ---
 title: PDF Export
 description: >-
-  Export your live documentation, or the pages you choose, as one PDF with the
-  page size, scale, and page numbers you need.
+  Export your live documentation, or the pages you choose, as one PDF, printed
+  with a PDF template that sets its paper, cover, header, footer, and fonts.
 ---
-Export your live site as a single PDF for offline reading, a compliance submission, a printed handover, or a customer deliverable. Choose the product, version, and language, pick the pages, and set the page size, scale, and page numbers. The PDF holds the pages in navigation order, with a clickable outline you can jump around in.
+Export your live site as a single PDF for offline reading, a compliance submission, a printed handover, or a customer deliverable. Pick the pages, and pick a PDF template that sets how the PDF looks: its paper, cover page, header image, page numbers, footer text, watermark, fonts, and colours. The PDF holds the pages in navigation order, with a clickable outline you can jump around in.
 
 <Callout kind="info" collapsed="false">
   **Before you begin**
 
   - PDF export is available on the **Professional** and **Enterprise** plans.
-  - You need the **Editor** or **Admin** role to start an export.
+  - You need the **Admin** role on the documentation to start or download an export, or to change PDF templates.
   - The export reads your live site. Publish the changes you want in the PDF first. Unpublished edits and working versions are not exported.
 </Callout>
 
@@ -22,19 +22,23 @@ Export your live site as a single PDF for offline reading, a compliance submissi
   </Step>
 
   <Step title="Open the export dialog" icon="file-text" title-type="p">
-    Click **Export PDF**. If your site already has a PDF, the button reads **Export Again**, and the dialog opens on that export's choices.
+    Click **Export PDF**. If your site already has a PDF, the button reads **Export Again**, and the dialog opens on that export's file name, template, and pages.
   </Step>
 
-  <Step title="Choose the product, version, and language" icon="layers" title-type="p">
-    If your site has [products, versions, or languages](/organize/dimensions), pick one of each. **Version** lists the versions of the chosen product, and **Language** the languages of the chosen version. When the chosen product has no versions or languages, those fields read **No versions** or **No languages**.
+  <Step title="Name the PDF" icon="file-pen" title-type="p">
+    **File name** is the name the PDF downloads under, with `.pdf` added for you. It starts as your site's name. Change it to say what this PDF holds, such as "Onboarding pack" for a few chosen pages. A name can be up to 100 characters and cannot contain `\ / : * ? " < > |`.
+  </Step>
+
+  <Step title="Choose a PDF template" icon="layout-template" title-type="p">
+    **PDF template** shows the template the PDF prints with. It starts on your default template, tagged **Default**. Click it to pick another. To add, edit, or delete templates, see [PDF templates](#pdf-templates).
+
+    <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795444293997-6me4u738pku-pdf-template-list-framed.png?fm=auto&auto=compress%2Cformat" width="1352" height="1700" alt="The PDF template list, with Standard tagged Default, three more templates, and New template at the bottom" caption="The template list. The pencil beside a template edits it." />
   </Step>
 
   <Step title="Choose the pages" icon="list-checks" title-type="p">
-    Every page of that product, version, and language starts ticked. Untick a page to leave it out, or untick a tab or group to leave out every page in it. The count above the list shows how many pages the PDF will hold.
-  </Step>
+    An export holds every page of your site unless you narrow it. Open **Pages** to see them as they sit in your navigation, with your [products, versions, and languages](/organize/dimensions) as the top groups. Untick a page to leave it out, or untick a group to leave out every page in it. Use **Search pages** to find a page by name. The line beside **Pages** shows how many pages the PDF will hold, such as "12 of 42 pages".
 
-  <Step title="Set how it prints" icon="printer" title-type="p">
-    Choose the **Page size** and **Scale**, and whether to print **Page numbers**. See [Print options](#print-options).
+    <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795444280778-idadkpdv5hn-pdf-export-dialog-framed.png?fm=auto&auto=compress%2Cformat" width="1352" height="1700" alt="The export dialog with a file name, the Customer handover template, and the page list with one page unticked" caption="Untick a page or a group to leave it out of the PDF." />
   </Step>
 
   <Step title="Start the export" icon="play" title-type="p">
@@ -42,36 +46,100 @@ Export your live site as a single PDF for offline reading, a compliance submissi
   </Step>
 
   <Step title="Download the PDF" icon="file-down" title-type="p">
-    Click **Download PDF**. The line under the button says what the PDF holds, such as "A4 · 100% · Cloud Platform · v1 · en · 3 pages".
+    Click **Download PDF**. The PDF downloads under the name you gave it, which shows under the button, such as "Onboarding pack.pdf".
   </Step>
 </Steps>
 
-## Print options
+## PDF templates
 
-| Option       | Choices                                          | Default |
-| ------------ | ------------------------------------------------ | ------- |
-| Page size    | A4, Letter, Legal, A3, A5                        | A4      |
-| Scale        | 50% to 200%                                      | 100%    |
-| Page numbers | "Page X of Y" at the bottom centre of every page | On      |
+A PDF template is a saved design for your exports. Every site starts with one template, **Standard**: A4, portrait, page numbers at the bottom centre, Inter, and your site's colours. Add your own for each kind of PDF you send out, such as a customer handover with a cover page or a draft with a watermark. A site can have up to 20 templates.
 
-- **Scale** shrinks or enlarges the content on each page. In the dashboard it offers 50%, 75%, 90%, 100%, 110%, 125%, 150%, 175%, and 200%. The API takes any whole number from 50 to 200.
-- **Page numbers** count across the whole PDF and read in English, such as "Page 3 of 42", whatever the language of the export.
+Templates live in the export dialog: you add, edit, and delete them from the **PDF template** list.
+
+### Create or edit a template
+
+<Steps>
+  <Step title="Open the template list" icon="download" title-type="p">
+    Open **Settings**, select **Exports**, click **Export PDF**, and click **PDF template** in the export dialog.
+  </Step>
+
+  <Step title="Open a template" icon="pencil" title-type="p">
+    Click **New template** at the bottom of the list, or the pencil beside a template to edit it. **Edit** beside the list edits the template that is picked. The template opens in place of the export dialog.
+  </Step>
+
+  <Step title="Name it and set how it prints" icon="sliders-horizontal" title-type="p">
+    Give the template a name your team will recognise in the export dialog, then work through the sections. Click a section to open or fold it. A section with a switch prints only while its switch is on. See [Template settings](#template-settings).
+
+    <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795444289245-az634bsvrjq-pdf-template-editor-framed.png?fm=auto&auto=compress%2Cformat" width="2344" height="2104" alt="The template editor, with its settings sections on the left and a preview of a printed page on the right" caption="The settings sections beside the preview of a page." />
+  </Step>
+
+  <Step title="Make it the default, if you want" icon="star" title-type="p">
+    Turn on **Default template** to have exports use this template unless another one is picked, API exports included. See [Set the default template](#set-the-default-template).
+  </Step>
+
+  <Step title="Check the preview" icon="eye" title-type="p">
+    The preview beside the settings follows every change. When the template has a cover page, switch between **Cover** and **Page**. Use the zoom buttons to look closer, or **Fit** to see the whole sheet.
+  </Step>
+
+  <Step title="Save" icon="check" title-type="p">
+    Click **Create template**, or **Save changes** on a template you are editing. The export dialog comes back with the template picked, and your file name and pages as you left them. **Back**, or **Export PDF** at the top, returns to the export dialog without saving.
+  </Step>
+</Steps>
+
+### Template settings
+
+| Section          | What you set                                                                                                                      |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **Layout**       | **Page size**: A4, Letter, Legal, A3, or A5. **Orientation**: portrait or landscape. **Margins**: normal, narrow, or wide. |
+| **Text styles**  | For headings: **Heading font**, **Heading size**, and **Heading colour**. For paragraphs: **Paragraph font**, **Paragraph size**, and **Paragraph colour**. Then **Link colour**. |
+| **Page numbers** | "Page 1 of 10", "Page 1", or "1" at the bottom of every page, on the left, centre, or right.                                      |
+| **Footer text**  | One line of up to 120 characters, such as a copyright or confidentiality notice, with its size and colour.                        |
+| **Cover page**   | A first page with a **Title**, a **Description**, the export date if you want it, a **Logo** (your site's logo, another image, or none), and an **Accent colour** for the bar at the top of the cover and the line under the title. |
+| **Header image** | Your site's logo or another image at the top of every page, in one of three sizes, on the left, centre, or right.                 |
+| **Watermark**    | Text of up to 30 characters, or an image, printed faintly across every page. Set its angle (diagonal or straight) and opacity.    |
+
+- **Heading size** sets how large each page's title prints, from 20 to 40 px. Smaller headings scale with it, so a page keeps its proportions. It starts at 28 px, the size titles print at on A4 paper.
+- **Paragraph size** sets how large paragraphs and lists print, from 12 to 24 px. It starts at 15 px.
+- **The cover's title** starts as your site's name. Change it, or leave it empty to keep printing the site's name. The title and description print in the fonts and colours of **Text styles**, at the cover's own sizes.
+- **Show export date** prints the day of the export under the cover's description, such as "November 23, 2026".
+- **The header image, page numbers, footer text, and watermark** print on every page after the cover. The cover counts as page 1, so the page after it reads "Page 2".
+- **Footer text** prints on the line above the page numbers, on the same side. A line too long for the page is cut short.
+- **Page numbers** read in English, whatever the language of the pages.
+- **Images** come from your [media library](/write-and-publish/media-library). Click **Choose image** to pick one or upload a new one. A template prints PNG, JPEG, SVG, and WebP images.
+- **Site logo** is the logo of your live site. On a site without a logo, the cover and the header image take an image of their own instead.
+- **Fonts** are Inter, Roboto, Open Sans, Lato, Montserrat, Source Sans 3, Noto Sans, IBM Plex Sans, Merriweather, Lora, Noto Serif, and Source Serif 4.
+- **Colours** left empty print with your site's own colours.
+
+### Set the default template
+
+The default template is the one the export dialog picks first, and the one the API prints with when a request names none. It carries a **Default** tag in the template list. To change it, open another template, turn on **Default template**, and save. The current default's switch stays on: to stop a template being the default, make another one the default.
+
+### Delete a template
+
+In the template list, click the delete icon beside a template and confirm. A PDF already exported with it stays as it is. The default template can't be deleted, so make another template the default first.
 
 ## What the PDF contains
 
+- The cover page, when the template has one.
 - The pages you ticked, in navigation order.
 - A clickable outline in your PDF reader's sidebar, built from each page's headings.
 - The content of your live site at the moment the export starts.
 - A page that cannot be rendered, for example because its MDX does not compile, is left out rather than failing the export.
 
+<Columns cols="2">
+  <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795444276004-x7miofc77q8-pdf-export-cover-framed.png?fm=auto&auto=compress%2Cformat" width="1822" height="2480" alt="A PDF cover page with a logo, the title Customer handover over an accent line, a description, and the export date" caption="A cover page." />
+
+  <Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795444285027-qw25ejpg4ug-pdf-export-page-framed.png?fm=auto&auto=compress%2Cformat" width="1822" height="2480" alt="A printed page with a logo at the top, a DRAFT watermark, and footer text above Page 3 of 4" caption="A page with a header image, watermark, footer text, and page numbers." />
+</Columns>
+
 ## Things to know
 
 - **One PDF is kept.** A new export replaces the current PDF once it finishes, so download the PDF you need before you start the next one.
-- **One product, version, and language per export.** To get another language or version, export again.
 - **One export at a time.** Wait for the running export to finish, or cancel it, before starting another.
+- **Template changes apply to the next export.** Editing or deleting a template does not change a PDF you already exported.
 - **Up to 8,000 pages.** Large sites can take several minutes to export.
 - **A single page** can be saved by readers from the docs site with [Download as PDF](/ai/page-actions#download-as-pdf-pdf).
 
 ## Export with the API
 
-To export from a script or a CI pipeline, use the REST API. It takes the same choices as the dialog. See [PDF Exports](/api-reference/overview#pdf-exports).
+To export from a script or a CI pipeline, use the REST API. It takes a template and a list of pages, as the dialog does. A PDF exported with the API downloads as `documentation-export.pdf`. See [PDF Exports](/api-reference/overview#pdf-exports).

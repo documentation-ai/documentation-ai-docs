@@ -29,6 +29,42 @@ Choose one of two modes under **Who gets access**:
 
 With **Automatic access**, choose how long access lasts in **Access expires**: **Never** (the default), **1 day**, **7 days**, **14 days** or **1 month**. When it runs out, the reader verifies their email again and gets in for another period.
 
+## Who can sign in
+
+Choose which email addresses can sign in under **Who can sign in**. It works with both **Request access** and **Automatic access**.
+
+| Rule                              | Who can sign in                                                |
+| --------------------------------- | -------------------------------------------------------------- |
+| **Any email**                     | Every verified email. This is the default.                     |
+| **Only these domains**            | Only emails at the domains you list. Everyone else is blocked. |
+| **Everyone except these domains** | Every email except those at the domains you list.              |
+
+Type a domain such as `acme.com` and press **Enter**, or paste several at once separated by commas, spaces or new lines. A sentence under the list says who can sign in with the rule you chose.
+
+- A domain also covers its subdomains: `acme.com` covers `eu.acme.com`.
+- Each domain is matched as written. `gmail.com` doesn't cover `googlemail.com`, so list both if you need them.
+- Domains shared by many organizations, such as `github.io` or `co.uk`, can't be listed. List your own, such as `acme.github.io`.
+- **Only these domains** needs at least one domain. You can list up to 500.
+- Switching between **Only these domains** and **Everyone except these domains** clears the list, because the two rules work in opposite ways.
+
+A blocked reader sees "This email can't be used to sign in here. Try a different email." and gets no code. The rule is also checked when they verify a code, when they request access again, and when an admin accepts a request. Readers who are already signed in with an email you block lose access within 5 minutes.
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795753839889-v9jmbj9r86p-email-verification-domain-rule.png?fm=auto&auto=compress%2Cformat" width="2400" height="1516" alt="Who can sign in set to Only these domains with acme.com and partner.io listed. A reader at acme.com is sent a code, and a reader at globex.com is told the email can't be used to sign in here." />
+
+## Reader emails
+
+We send readers two emails: their sign-in code, and, with **Request access**, a note when an admin accepts them. Under **Reader emails**, make them come from your documentation instead of Documentation.AI.
+
+| Setting         | What it does                                                                                                                                                          |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Sender name** | The name readers see the email from. Leave it blank to use your documentation's name. Up to 60 characters.                                                           |
+| **Reply-to**    | Where replies go, such as `support@acme.com`. Leave it blank and readers can't reply.                                                                                |
+| **Logo**        | Shown at the top of the email. Choose a PNG, JPG or GIF from your media, upload one, or paste a public `https` link. Without a logo, the sender name is shown instead. |
+
+Emails are always sent from `noreply@mail.documentation.ai`. The sender name can't contain `@`, `<`, `>`, `"` or a link, so it can't pass for another address.
+
+<Image src="https://blob-cdn.documentation.ai/org-53a37986-2c9e-4094-b9e8-1e1ffae9e9ee/doc-b389b141-ae58-4fd5-91f9-6702fae9ac58/1795753843717-17tdz9mv1v1-email-verification-reader-emails.png?fm=auto&auto=compress%2Cformat" width="2400" height="1516" alt="Reader emails set to send as Acme Docs, with replies to support@acme.com and the Acme logo. Beside it, the sign-in code email from Acme Docs with the Acme logo at the top." />
+
 ## Set up
 
 <Steps>
@@ -44,14 +80,24 @@ With **Automatic access**, choose how long access lasts in **Access expires**: *
     Select **Request access** or **Automatic access**. For **Automatic access**, also choose how long access lasts.
   </Step>
 
+  <Step title="Choose who can sign in (optional)" icon="at-sign" title-type="p">
+    Under **Who can sign in**, keep **Any email**, or choose **Only these domains** or **Everyone except these domains** and list the domains. See [Who can sign in](#who-can-sign-in).
+  </Step>
+
   <Step title="Require consent (optional)" icon="check-square" title-type="p">
     Turn on **Require consent** to show a checkbox that readers must tick before they can request a code, for example to accept your privacy policy.
 
     Write the checkbox label in the field below the switch. It supports links in the form `[Privacy Policy](https://example.com/privacy)`, and can be up to 500 characters.
   </Step>
 
+  <Step title="Brand reader emails (optional)" icon="palette" title-type="p">
+    Open **Reader emails** and set a sender name, a reply-to address and a logo. See [Reader emails](#reader-emails).
+  </Step>
+
   <Step title="Save and re-publish" icon="upload" title-type="p">
     Click **Save**, then re-publish your documentation so the deployed site uses the updated configuration.
+
+    Changes to **Who can sign in** and **Reader emails** apply as soon as you save, without re-publishing.
   </Step>
 </Steps>
 
@@ -108,6 +154,8 @@ A reader whose request was declined, whose access was removed or whose access ex
 - With **Request access**, they can click **Request again**, and the request goes back to your admins.
 - With **Automatic access**, a reader whose access expired gets in again by verifying their email. A reader whose access you removed stays out until an admin gives them access again.
 
+A reader whose email is blocked by [Who can sign in](#who-can-sign-in) can't sign in or request access, whatever their status. They see "This email can't be used to sign in here" and can try a different email.
+
 ## Role-based access
 
 With **Request access**, you can give each reader roles that decide which pages they see. Turn on **Enable role-based access** in **Settings > Access Control**, define your roles, and assign them to pages and groups with the `access-roles` property, as described in [Role-based access control](/customize/access-control/overview#role-based-access-control).
@@ -119,7 +167,7 @@ With **Automatic access**, every verified reader sees all protected pages, and `
 ## Sessions
 
 - Readers stay signed in for **14 days**, or until their access expires if that comes sooner. After that, they verify their email again.
-- Access is checked again every 5 minutes while someone reads, so changes you make under **Readers** take effect within 5 minutes.
+- Access is checked again every 5 minutes while someone reads, so changes you make under **Readers** or **Who can sign in** take effect within 5 minutes.
 
 ## AI tools and embedded docs
 
@@ -129,4 +177,4 @@ With **Automatic access**, every verified reader sees all protected pages, and `
 
 ## Example
 
-You publish partner documentation at `partners.example.com`. Partners don't have accounts in your systems, and you want to approve each company's people yourself. Choose **Private** mode with **Email verification** and **Request access**. When a request arrives, accept it with a 1-month expiry and the `partner` role, so the reader sees your partner pages but not your internal runbooks.
+You publish partner documentation at `partners.example.com`. Partners don't have accounts in your systems, and you want to approve each company's people yourself. Choose **Private** mode with **Email verification** and **Request access**. Under **Who can sign in**, choose **Only these domains** and list your partners' domains, so nobody else can even request access. Under **Reader emails**, set the sender name to `Example Partners` and the reply-to to `partners@example.com`, and add your logo. When a request arrives, accept it with a 1-month expiry and the `partner` role, so the reader sees your partner pages but not your internal runbooks.

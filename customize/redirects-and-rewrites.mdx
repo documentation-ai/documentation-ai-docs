@@ -49,7 +49,7 @@ Common use cases for redirects include:
   </Step>
 </Steps>
 
-The form refuses a rule that can never work: a source with two `*`, a destination that uses a parameter its source doesn't have, or a destination inside its own source, which would [redirect visitors forever](#avoid-redirect-loops). It warns you, without stopping you, when the source also matches pages in your navigation, because visitors are then sent away from those pages.
+Hover the info icon next to **Source** for a reminder of the pattern syntax. The form refuses a rule written in a way the site can't use: a source with two `*`, a `?` or `#` in a source, or a destination that uses a parameter its source doesn't have. It doesn't check where a rule sends visitors, so watch for [redirect loops](#avoid-redirect-loops) and [patterns that match existing pages](#patterns-and-existing-pages).
 
 ## Add redirects in documentation.json
 
@@ -377,11 +377,11 @@ A destination that its own source matches again sends visitors around forever. `
 
 Two redirects that send visitors back and forth loop too, such as `/docs/:slug*` to `/help/:slug*` together with `/help/:slug*` to `/docs/:slug*`.
 
-The Editor refuses a destination inside its own source. The **Broken Link Audit** [automation](/ai/automations) reports links on your pages that lead into a redirect chain that never ends.
+The Editor doesn't check for loops. The **Broken Link Audit** [automation](/ai/automations) reports links on your pages that lead into a redirect chain that never ends.
 
 ### Patterns and existing pages
 
-A pattern matches every address it describes, including pages that still exist. `/api/:slug*` sends visitors away from `/api/overview` even while that page is in your navigation. Keep a dynamic redirect's source to addresses that no longer have pages. The Editor warns you when a source matches pages in your navigation.
+A pattern matches every address it describes, including pages that still exist. `/api/:slug*` sends visitors away from `/api/overview` even while that page is in your navigation. Keep a dynamic redirect's source to addresses that no longer have pages.
 
 ## Subpath deployments
 

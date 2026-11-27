@@ -1,17 +1,10 @@
 ---
 title: Redirects
 description: >-
-  Configure URL redirects to manage page moves, URL changes, and legacy paths in
-  your documentation site.
+  Send visitors from old or moved addresses to new ones, one page at a time or a
+  whole section with one rule, from the Editor or in documentation.json.
 ---
-## Overview
-
-Redirects allow you to automatically send visitors from one URL to another. This is essential when you reorganize your documentation structure, rename pages, or need to maintain backward compatibility with old URLs.
-
-<Callout kind="info" collapsed="false">
-  Redirects are processed at the middleware level before any page rendering
-  occurs. The first matching redirect in your configuration takes precedence.
-</Callout>
+Redirects send visitors from one address on your documentation site to another. Use them when you rename or move pages, so old links, bookmarks and search results keep working. A dynamic redirect moves many addresses with one rule, such as a whole section after a migration or a version change.
 
 ## When to use redirects
 
@@ -27,7 +20,38 @@ Common use cases for redirects include:
 
 - **Version migrations**: Redirect users from deprecated API versions to current ones
 
-## Configuration
+- **Platform migrations**: Send every address of your old documentation site to its new place with a few [dynamic redirects](#dynamic-redirects)
+
+## Add a redirect from the Editor
+
+<Steps>
+  <Step title="Open the Redirects settings" icon="settings">
+
+  In the Editor, click **Site Config** in the top toolbar, then select **Redirects** from the left sidebar.
+
+  </Step>
+  <Step title="Add a rule" icon="plus">
+
+  Under **Redirect Rules**, click **Add Redirect**. Enter the old address as the **Source** and the new one as the **Destination**. Both start with `/`.
+
+  To move a whole section, use a [wildcard](#wildcards): `/beta/:slug*` as the source and `/v2/:slug*` as the destination.
+
+  </Step>
+  <Step title="Choose a status code" icon="list">
+
+  Keep **Status code** at `308` for a permanent move, or pick another [status code](#status-codes). Then click **Add Redirect**.
+
+  </Step>
+  <Step title="Publish" icon="rocket">
+
+  Click **Publish**. The redirect works on your live site once it deploys.
+
+  </Step>
+</Steps>
+
+The form refuses a rule that can never work: a source with two `*`, a destination that uses a parameter its source doesn't have, or a destination inside its own source, which would [redirect visitors forever](#avoid-redirect-loops). It warns you, without stopping you, when the source also matches pages in your navigation, because visitors are then sent away from those pages.
+
+## Add redirects in documentation.json
 
 Redirects are configured in your `documentation.json` file under the `redirects` property:
 
@@ -44,11 +68,11 @@ Redirects are configured in your `documentation.json` file under the `redirects`
 
 ## Redirect properties
 
-| Property      | Type                       | Required | Description                                                                             |
-| ------------- | -------------------------- | -------- | --------------------------------------------------------------------------------------- |
-| `source`      | `string`                   | Yes      | The incoming path pattern to match. Supports dynamic segments with `:paramName` syntax. |
-| `destination` | `string`                   | Yes      | The target path to redirect to. Can include dynamic parameters from the source.         |
-| `statusCode`  | `301 \| 302 \| 307 \| 308` | No       | HTTP status code for the redirect. Defaults to `308`.                                   |
+| Property      | Type                       | Required | Description                                                                                                                                       |
+| ------------- | -------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `source`      | `string`                   | Yes      | The address to match, starting with `/`. Can use a [parameter, a wildcard or a partial wildcard](#dynamic-redirects) to match many addresses.     |
+| `destination` | `string`                   | Yes      | Where visitors go: a path on your site or a full URL. Can reuse what the source's parameters and wildcards matched, and can end in a query or anchor. |
+| `statusCode`  | `301 \| 302 \| 307 \| 308` | No       | HTTP status code for the redirect. Defaults to `308`.                                                                                             |
 
 ## Status codes
 
@@ -130,11 +154,19 @@ Specify a status code for temporary or specific redirect behaviors:
 
 ## Dynamic redirects
 
-Dynamic redirects use path parameters to match patterns and transfer values to the destination URL.
+A dynamic redirect matches many addresses with one rule. Its source uses a parameter, a wildcard or a partial wildcard, and its destination can reuse what they matched.
 
-### Parameter syntax
+| Pattern          | Written as        | Matches                                         | Example source         |
+| ---------------- | ----------------- | ----------------------------------------------- | ---------------------- |
+| Parameter        | `:name`           | Exactly one segment                             | `/docs/:slug`          |
+| Wildcard         | `:name*`          | Any number of segments, including none          | `/beta/:slug*`         |
+| Partial wildcard | `*` in a segment  | Any text in that one segment                    | `/articles/concepts-*` |
 
-Use `:paramName` syntax to define dynamic segments:
+A segment is the part of an address between two slashes: `/docs/api/users` has three.
+
+### Parameters
+
+A parameter, written `:name`, matches exactly one segment. Use the same name in the destination to carry its value over:
 
 ```json
 {
@@ -153,11 +185,9 @@ This redirect matches:
 
 - `/docs/api-reference` → `/documentation/api-reference`
 
-- `/docs/getting-started` → `/documentation/getting-started`
+It doesn't match `/docs/api/users`, which has two segments after `/docs/`. Use a [wildcard](#wildcards) for that.
 
-### Multiple parameters
-
-You can use multiple parameters in a single redirect:
+A source can have several parameters, and the destination can use them in any order or leave some out:
 
 ```json
 {
@@ -165,24 +195,7 @@ You can use multiple parameters in a single redirect:
     {
       "source": "/api/:version/:endpoint",
       "destination": "/reference/:version/:endpoint"
-    }
-  ]
-}
-```
-
-This redirect matches:
-
-- `/api/v1/users` → `/reference/v1/users`
-
-- `/api/v2/products` → `/reference/v2/products`
-
-### Reorganizing parameters
-
-Parameters can be reordered or selectively used in the destination:
-
-```json
-{
-  "redirects": [
+    },
     {
       "source": "/blog/:year/:month/:slug",
       "destination": "/articles/:slug"
@@ -191,15 +204,87 @@ Parameters can be reordered or selectively used in the destination:
 }
 ```
 
-This redirect matches:
+- `/api/v1/users` → `/reference/v1/users`
 
 - `/blog/2024/01/my-post` → `/articles/my-post`
 
-<Callout kind="alert" collapsed="false">
-  Dynamic parameters only match single path segments. The pattern `/docs/:slug`
-  will match `/docs/quickstart` but will **not** match `/docs/api/users` (which
-  has two segments after `/docs/`).
-</Callout>
+### Wildcards
+
+A wildcard, written `:name*`, matches any number of segments, including none. Use it to move a whole section with one rule:
+
+```json
+{
+  "redirects": [
+    {
+      "source": "/beta/:slug*",
+      "destination": "/v2/:slug*"
+    }
+  ]
+}
+```
+
+This redirect matches:
+
+- `/beta/introduction` → `/v2/introduction`
+
+- `/beta/api/users/create` → `/v2/api/users/create`
+
+- `/beta` → `/v2`
+
+The wildcard can also sit between fixed segments. `/docs/:path*/edit` matches `/docs/guides/setup/edit` and passes `guides/setup` on as `:path*`.
+
+To send every address of an old site to a new one, start the source with the wildcard:
+
+```json
+{
+  "redirects": [
+    {
+      "source": "/:slug*",
+      "destination": "https://docs.example.com/:slug*"
+    }
+  ]
+}
+```
+
+### Partial wildcards
+
+A partial wildcard, written `*` inside a segment, matches any text where the `*` is, within that one segment. Use it for a family of pages whose names share a beginning:
+
+```json
+{
+  "redirects": [
+    {
+      "source": "/articles/concepts-*",
+      "destination": "/collections/overview"
+    }
+  ]
+}
+```
+
+This sends `/articles/concepts-getting-started` and `/articles/concepts-overview` to `/collections/overview`.
+
+Put `*` in the destination to carry the matched text over:
+
+```json
+{
+  "redirects": [
+    {
+      "source": "/old/article-*",
+      "destination": "/new/article-*"
+    }
+  ]
+}
+```
+
+This redirects `/old/article-123` to `/new/article-123`. It doesn't match `/old/article-123/details`, because a partial wildcard stays within one segment.
+
+### Rules for dynamic redirects
+
+- A source has at most one `*`, so one wildcard or one partial wildcard. A source with more is skipped. Parameters don't count toward this.
+
+- A source can't include a query (`?tab=api`) or an anchor (`#setup`). A destination can end in either.
+
+- Every parameter, wildcard and `*` in the destination must be in the source. The Editor refuses a destination that uses one the source doesn't have.
 
 ## Pattern matching behavior
 
@@ -245,44 +330,36 @@ Path matching is **case-sensitive**. `/Docs` will not match a source of `/docs`:
 
 - `/Docs` → No match ✗
 
-### Segment count matching
+### Segment count
 
-The number of path segments must match exactly. A pattern with two segments won't match a path with three segments:
+Without a wildcard, a source and an address must have the same number of segments. A [wildcard](#wildcards) matches any number:
 
-```json
-{
-  "redirects": [
-    {
-      "source": "/docs/:slug",
-      "destination": "/documentation/:slug"
-    }
-  ]
-}
-```
+- `/docs/:slug` matches `/docs/quickstart`, but not `/docs/api/users`
 
-- `/docs/quickstart` → `/documentation/quickstart` ✓ (2 segments)
-
-- `/docs/api/users` → No match ✗ (3 segments)
+- `/docs/:slug*` matches both
 
 ## Processing order
 
-Redirects are processed in the order they appear in your configuration array. The **first matching redirect wins**.
+When several redirects match one address, the site picks one in this order:
 
-<Callout kind="info" collapsed="false">
-  Place more specific redirects before general ones to ensure they take
-  precedence.
-</Callout>
+1. Redirects with an exact source, without a parameter or `*`
+
+2. Redirects with a partial wildcard
+
+3. Redirects with a parameter or a wildcard
+
+Within each group, the first matching redirect in the list wins, so put a narrower pattern before a broader one.
 
 ```json
 {
   "redirects": [
     {
-      "source": "/docs/api/deprecated",
-      "destination": "/docs/api/v2"
+      "source": "/docs/:slug*",
+      "destination": "/documentation/:slug*"
     },
     {
-      "source": "/docs/:slug",
-      "destination": "/documentation/:slug"
+      "source": "/docs/api/deprecated",
+      "destination": "/docs/api/v2"
     }
   ]
 }
@@ -290,9 +367,21 @@ Redirects are processed in the order they appear in your configuration array. Th
 
 In this example:
 
-- `/docs/api/deprecated` matches the first rule (specific)
+- `/docs/api/deprecated` goes to `/docs/api/v2`, because an exact source is tried first, even though it's listed second
 
-- `/docs/quickstart` matches the second rule (general)
+- `/docs/quickstart` matches the wildcard and goes to `/documentation/quickstart`
+
+## Avoid redirect loops
+
+A destination that its own source matches again sends visitors around forever. `/docs/:slug*` to `/docs/v2/:slug*` turns `/docs/intro` into `/docs/v2/intro`, which the same rule turns into `/docs/v2/v2/intro`, and so on. Point the destination outside the source, for example `/v2/:slug*`.
+
+Two redirects that send visitors back and forth loop too, such as `/docs/:slug*` to `/help/:slug*` together with `/help/:slug*` to `/docs/:slug*`.
+
+The Editor refuses a destination inside its own source. The **Broken Link Audit** [automation](/ai/automations) reports links on your pages that lead into a redirect chain that never ends.
+
+### Patterns and existing pages
+
+A pattern matches every address it describes, including pages that still exist. `/api/:slug*` sends visitors away from `/api/overview` even while that page is in your navigation. Keep a dynamic redirect's source to addresses that no longer have pages. The Editor warns you when a source matches pages in your navigation.
 
 ## Subpath deployments
 
@@ -319,30 +408,24 @@ For a subpath deployment at `/docs`:
 
 - Request to `/docs/old-page` → Redirects to `/docs/new-page`
 
+Dynamic redirects work the same way: `/beta/:slug*` to `/v2/:slug*` redirects `/docs/beta/intro` to `/docs/v2/intro`.
+
 ## Examples
 
 ### Documentation restructure
 
-When reorganizing your documentation hierarchy:
+When a section moves, one wildcard covers every page in it. Add an exact redirect for any page that also got a new name, because exact sources are tried first:
 
 ```json
 {
   "redirects": [
     {
-      "source": "/guides/getting-started",
-      "destination": "/quickstart"
+      "source": "/integrations-and-workflows/:slug*",
+      "destination": "/integrations/:slug*"
     },
     {
-      "source": "/guides/installation",
-      "destination": "/getting-started/installation"
-    },
-    {
-      "source": "/guides/configuration",
-      "destination": "/getting-started/configuration"
-    },
-    {
-      "source": "/reference/api",
-      "destination": "/api-reference/overview"
+      "source": "/integrations-and-workflows/github-integration",
+      "destination": "/integrations/github"
     }
   ]
 }
@@ -356,14 +439,26 @@ When deprecating an API version:
 {
   "redirects": [
     {
-      "source": "/api/v1/:endpoint",
-      "destination": "/api/v2/:endpoint",
+      "source": "/api/v1/:slug*",
+      "destination": "/api/v2/:slug*",
       "statusCode": 301
-    },
+    }
+  ]
+}
+```
+
+This covers `/api/v1` itself and every page below it.
+
+### Migration from another platform
+
+When your old site kept its pages under a prefix, such as `/en/latest/`, send them to the same pages on your new site:
+
+```json
+{
+  "redirects": [
     {
-      "source": "/api/v1",
-      "destination": "/api/v2",
-      "statusCode": 301
+      "source": "/en/latest/:slug*",
+      "destination": "/:slug*"
     }
   ]
 }
@@ -377,11 +472,7 @@ When merging multiple pages into one:
 {
   "redirects": [
     {
-      "source": "/troubleshooting/errors",
-      "destination": "/support/troubleshooting"
-    },
-    {
-      "source": "/troubleshooting/faq",
+      "source": "/troubleshooting/*",
       "destination": "/support/troubleshooting"
     },
     {
@@ -421,6 +512,10 @@ When temporarily redirecting during maintenance:
     - Review and clean up outdated redirects periodically
   </Expandable>
 
+  <Expandable title="Use one wildcard instead of many redirects" default-open="false">
+    When a whole section moves, one [wildcard](#wildcards) replaces a redirect per page and also covers pages you didn't list, such as old deep links. Keep exact redirects only for pages that also got a new name.
+  </Expandable>
+
   <Expandable title="Use permanent redirects for SEO" default-open="false">
     When content has permanently moved, use status code `301` or `308` to transfer SEO value to the new URL. Search engines will update their indexes to point to the new location.
   </Expandable>
@@ -434,7 +529,7 @@ When temporarily redirecting during maintenance:
 
     3. Test with and without trailing slashes
 
-    4. Confirm dynamic parameters are captured correctly
+    4. For a wildcard, test an address one segment deep, one several segments deep, and the section's own address
   </Expandable>
 
   <Expandable title="Avoid redirect chains" default-open="false">
@@ -470,13 +565,19 @@ When temporarily redirecting during maintenance:
 
     - Verify the source path matches exactly (case-sensitive)
 
-    - Check that segment counts match for dynamic redirects
+    - A parameter matches one segment only. Use a [wildcard](#wildcards) for deeper addresses
 
-    - Ensure the redirect is placed before more general patterns
+    - Check that the source has at most one `*`
+
+    - Check whether a redirect earlier in the [processing order](#processing-order) matches first
 
     - Clear your browser cache and test in an incognito window
 
     - Re-publish your documentation after configuration changes
+  </Expandable>
+
+  <Expandable title="A page now redirects away" default-open="false">
+    A dynamic redirect matches pages that still exist. Narrow its source so it covers only the old addresses. See [Patterns and existing pages](#patterns-and-existing-pages).
   </Expandable>
 
   <Expandable title="Wrong destination URL" default-open="false">
@@ -484,7 +585,7 @@ When temporarily redirecting during maintenance:
 
     - Check for typos in the destination path
 
-    - Verify dynamic parameter names match between source and destination
+    - Verify parameter and wildcard names match between source and destination
 
     - Ensure subpath configuration is correct for your deployment type
   </Expandable>
@@ -492,21 +593,22 @@ When temporarily redirecting during maintenance:
   <Expandable title="Redirect loops" default-open="false">
     If you're experiencing infinite redirect loops:
 
+    - Check that the destination isn't inside its own source, such as `/docs/:slug*` to `/docs/v2/:slug*`
+
     - Check that the destination doesn't match another redirect's source
 
-    - Verify you haven't created circular redirect patterns
-
     - Review all redirects that involve the affected URLs
+
+    See [Avoid redirect loops](#avoid-redirect-loops).
   </Expandable>
 
   <Expandable title="Dynamic parameters not working" default-open="false">
     If parameter substitution fails:
 
-    - Ensure parameter names start with `:` in the source (e.g., `:slug`)
+    - Ensure parameter names start with `:` in the source (e.g., `:slug`), and wildcards end with `*` (e.g., `:slug*`)
 
-    - Use the exact same parameter name in the destination
+    - Use the exact same name in the destination
 
-    - Verify the source pattern has the correct number of segments
+    - Verify the source pattern has the correct number of segments, or use a wildcard
   </Expandable>
 </ExpandableGroup>
-

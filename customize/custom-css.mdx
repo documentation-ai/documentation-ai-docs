@@ -221,6 +221,36 @@ These classes style the site [footer](/customize/footer). Each social icon also 
 | `dai-api-request-preview` | API request preview |
 | `dai-api-response` | API response |
 
+### Sign-in screens
+
+These classes style the screens readers see before they can open a protected site: the [password](/customize/access-control/password) screen and the [email verification](/customize/access-control/email-verification) screen. Your custom CSS loads on these screens too, so one stylesheet covers both your docs and their sign-in.
+
+| Class | Component |
+|-------|-----------|
+| `dai-sign-in-gate` | Full-screen background behind the sign-in box |
+| `dai-sign-in-gate-password` | Password screen, on the same element as `dai-sign-in-gate` |
+| `dai-sign-in-gate-email-verification` | Email verification screen, on the same element as `dai-sign-in-gate` |
+| `dai-sign-in-gate-email-step` | Email verification step where readers enter their email |
+| `dai-sign-in-gate-code-step` | Email verification step where readers enter the code |
+| `dai-sign-in-gate-request-status-step` | Email verification step that shows the status of an access request |
+| `dai-sign-in-gate-card` | Sign-in box |
+| `dai-sign-in-gate-header` | Icon, title, and description at the top of the box |
+| `dai-sign-in-gate-icon` | Icon |
+| `dai-sign-in-gate-title` | Title |
+| `dai-sign-in-gate-description` | Line under the title |
+| `dai-sign-in-gate-form` | Fields and buttons |
+| `dai-sign-in-gate-input` | Password, email, or code field |
+| `dai-sign-in-gate-consent` | Consent checkbox and its label |
+| `dai-sign-in-gate-consent-checkbox` | Consent checkbox |
+| `dai-sign-in-gate-error` | Error message |
+| `dai-sign-in-gate-submit` | Main button |
+| `dai-sign-in-gate-actions` | Row of secondary actions, such as **Resend code** |
+| `dai-sign-in-gate-action` | One secondary action |
+| `dai-sign-in-gate-helper-text` | Helper text under the password field |
+| `dai-sign-in-gate-link` | Link in the helper text or consent label |
+
+The step classes sit on the same element as `dai-sign-in-gate-email-verification`. Sites styled before these classes existed can keep using `dai-password-gate`, which is on the same element as `dai-sign-in-gate` on both screens.
+
 ### Other
 
 | Class | Component |
@@ -229,7 +259,6 @@ These classes style the site [footer](/customize/footer). Each social icon also 
 | `dai-theme-toggle` | Theme toggle button |
 | `dai-theme-select` | Theme select dropdown |
 | `dai-access-denied` | Access denied page |
-| `dai-password-gate` | Password protection overlay |
 
 ## CSS variables
 
@@ -314,6 +343,26 @@ Start with a small, targeted rule and verify it on a published page before expan
   line-height: 1.6;
 }
 ```
+
+### Add a background image to the sign-in screen
+
+```css
+.dai-sign-in-gate {
+  background-image: url("https://cdn.example.com/sign-in-background.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.dai-sign-in-gate-card {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.dark .dai-sign-in-gate-card {
+  background-color: rgba(15, 15, 15, 0.9);
+}
+```
+
+Use a full image URL. A path to an image in your project does not load from a stylesheet. Upload the image to the [media library](/write-and-publish/media-library#how-to-get-a-files-url) and copy its URL.
 
 ## Loading order
 
